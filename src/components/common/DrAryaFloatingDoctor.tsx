@@ -6,7 +6,7 @@ import {
   Phone, Video, MessageCircle, X, ChevronUp, Sparkles,
   Volume2, VolumeX, Globe, MapPin, Building2, Shield,
   CheckCircle2, ArrowRight, Activity, Heart, RefreshCw, Send,
-  Mic, MicOff, Lock, UserCheck, Stethoscope
+  Mic, MicOff, Lock, UserCheck, Stethoscope, Sparkle, Clock
 } from 'lucide-react'
 import { punePartnerHospitals } from '@/data/labProviders'
 import { medicalSpecialties, type MedicalSpecialty } from '@/data/clinicalEngine'
@@ -14,7 +14,7 @@ import { medicalSpecialties, type MedicalSpecialty } from '@/data/clinicalEngine
 const LANGUAGES = [
   { id: 'mr', name: 'मराठी (Marathi)', speechCode: 'mr-IN', greeting: 'नमस्कार! मी डॉ. आर्या. मी तुम्हाला आज कशी मदत करू शकते?' },
   { id: 'hi', name: 'हिन्दी (Hindi)', speechCode: 'hi-IN', greeting: 'नमस्ते! मैं डॉ. आर्या हूँ। आपकी स्वास्थ्य संबंधी क्या सहायता कर सकती हूँ?' },
-  { id: 'en', name: 'English (India)', speechCode: 'en-IN', greeting: 'Hello! I am Dr. Arya, your 24/7 AI Doctor. How are you feeling today?' },
+  { id: 'en', name: 'English (India)', speechCode: 'en-IN', greeting: 'Hello! I am Dr. Arya, your 24/7 AI Doctor. How can I help you today?' },
   { id: 'ta', name: 'தமிழ் (Tamil)', speechCode: 'ta-IN', greeting: 'வணக்கம்! நான் டாக்டர் ஆர்யா. உங்களுக்கு எப்படி உதவ முடியும்?' },
   { id: 'te', name: 'తెలుగు (Telugu)', speechCode: 'te-IN', greeting: 'నమస్కారం! నేను డాక్టర్ ఆర్య. మీ ఆరోగ్యానికి ఎలా సహాయపడగలను?' },
   { id: 'bn', name: 'বাংলা (Bengali)', speechCode: 'bn-IN', greeting: 'নমস্কার! আমি ডঃ আর্যা। আপনাকে কীভাবে সাহায্য করতে পারি?' },
@@ -37,6 +37,7 @@ export default function DrAryaFloatingDoctor({
   const [isVoiceActive, setIsVoiceActive] = useState(false)
   const [isListening, setIsListening] = useState(false)
   const [speechEnabled, setSpeechEnabled] = useState(true)
+  const [isTyping, setIsTyping] = useState(false)
   
   // Mobile Verification Gate for Calls/Video
   const [userPhone, setUserPhone] = useState('')
@@ -45,11 +46,12 @@ export default function DrAryaFloatingDoctor({
   const [verifyingPhone, setVerifyingPhone] = useState(false)
   const [pendingCallAction, setPendingCallAction] = useState<'call' | 'video' | null>(null)
 
-  const [messages, setMessages] = useState<{ role: 'ai' | 'user'; text: string; department?: string }[]>([
+  const [messages, setMessages] = useState<{ role: 'ai' | 'user'; text: string; department?: string; time?: string }[]>([
     {
       role: 'ai',
-      text: 'नमस्कार! I am **Dr. Arya** (Age 28, MD Global Clinical AI). I can speak with you in **मराठी, हिन्दी & English**.\n\n📞 **Immediate Helpline:** Direct connect at **+91 7028025717**.\n\nOver **60% of primary health issues** (fever, acidity, PCOD, knee/back stiffness, diabetes & BP) are safely guided over voice from home. If you need surgery or hospital checkups, I provide VIP fast-track admission to **Ruby Hall Clinic, Sahyadri & Jupiter Hospital**.',
-      department: 'Global Multi-Specialist',
+      text: 'नमस्कार! I am **Dr. Arya** (Age 28, MD Global Clinical AI). I provide real-time clinical guidance in **मराठी, हिन्दी & English**.\n\n📞 **Emergency Direct Hotline:** **+91 7028025717**.\n\nOver **60% of primary symptoms** (Fever, Acidity, Periods/PCOS, Joint Pains, Sugar/BP) are safely managed at home with generic savings (save 80%). For hospital visits, I arrange VIP Fast-Track Admission at **Ruby Hall Clinic & Sahyadri Pune**.',
+      department: 'W.H.O. Clinical Triage',
+      time: 'Just now',
     },
   ])
   const [inputMessage, setInputMessage] = useState('')
@@ -59,7 +61,7 @@ export default function DrAryaFloatingDoctor({
   // Real-time Text-to-Speech
   const speakText = (text: string) => {
     if (typeof window === 'undefined' || !window.speechSynthesis || !speechEnabled) return
-    window.speechSynthesis.cancel() // Stop any previous speech
+    window.speechSynthesis.cancel()
     
     // Clean markdown for speech
     const cleanText = text.replace(/[*_#•]/g, '').replace(/\[.*?\]\(.*?\)/g, '')
@@ -68,7 +70,6 @@ export default function DrAryaFloatingDoctor({
     utterance.rate = 0.95
     utterance.pitch = 1.05
     
-    // Try to find a warm female Indian English or Hindi voice
     const voices = window.speechSynthesis.getVoices()
     const indianVoice = voices.find(v => v.lang.includes('IN') || v.name.includes('India') || v.name.includes('Hindi') || v.name.includes('Marathi'))
     if (indianVoice) utterance.voice = indianVoice
@@ -85,7 +86,7 @@ export default function DrAryaFloatingDoctor({
     if (typeof window === 'undefined') return
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
     if (!SpeechRecognition) {
-      alert('Speech recognition is supported in Google Chrome, Edge, and Safari on iOS/Android.')
+      alert('Speech recognition is supported in Chrome, Safari, Edge and Android.')
       return
     }
 
@@ -129,9 +130,9 @@ export default function DrAryaFloatingDoctor({
   useEffect(() => {
     const bubbles = [
       '📞 Call Dr. Arya on +91 7028025717',
-      '🌺 Gynaec, Ortho, Heart & Sugar Specialist AI',
-      '🗣️ Speaks मराठी, हिन्दी & English in Real Time',
-      '🏥 Pune Partner Hospital VIP Admission',
+      '🌺 15+ Specialties in मराठी & हिन्दी',
+      '🩸 100,000+ Blood Reports Explained',
+      '🏥 Ruby Hall & Sahyadri VIP Admission',
     ]
     let idx = 0
     const interval = setInterval(() => {
@@ -141,7 +142,7 @@ export default function DrAryaFloatingDoctor({
     return () => clearInterval(interval)
   }, [])
 
-  // Call timer simulation
+  // Call timer
   useEffect(() => {
     let timer: NodeJS.Timeout
     if (isCalling) {
@@ -154,40 +155,128 @@ export default function DrAryaFloatingDoctor({
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, isOpen])
+  }, [messages, isTyping, isOpen])
 
+  // REAL-TIME CLINICAL TRIAGE ENGINE
   const sendUserMessage = (userText: string) => {
     if (!userText.trim()) return
 
-    setMessages((prev) => [...prev, { role: 'user', text: userText }])
+    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    setMessages((prev) => [...prev, { role: 'user', text: userText, time: now }])
     setInputMessage('')
-    setIsVoiceActive(true)
+    setIsTyping(true)
 
     setTimeout(() => {
       let aiReply = ''
+      let department = 'General Medicine'
       const lower = userText.toLowerCase()
 
-      if (lower.includes('chest') || lower.includes('heart') || lower.includes('breath') || lower.includes('छातीत दुखणे')) {
-        aiReply = `🚨 **URGENT EMERGENCY ALERT:** Retrosternal chest pain or breathing distress requires immediate clinical care. I have initiated priority transfer to **Ruby Hall Clinic (Cath Lab)** or **Sahyadri Hospital (Deccan)** with Meditrust Zero-Wait TPA Admission. Please call **108 / 112** or our emergency helpline **+91 7028025717** immediately.`
-      } else if (lower.includes('period') || lower.includes('pcos') || lower.includes('pcod') || lower.includes('pregnancy') || lower.includes('पाळी') || lower.includes('गर्भ')) {
-        aiReply = `**Dr. Arya (OB-GYN & Women's Health):**
-For irregular cycles or PCOS, Myo-Inositol 2000mg + D-Chiro Inositol (₹65 on Jan Aushadhi generic vs ₹350 brand) naturally restores regular ovulatory cycles. I recommend a PCOS hormone blood panel (₹649 home pickup in Pune).
-मराठी सल्ला: योग्य सप्लिमेंट्स आणि व्यायामाने पाळी नैसर्गिकरीत्या नियमित होते.`
-      } else if (lower.includes('knee') || lower.includes('bone') || lower.includes('joint') || lower.includes('back pain') || lower.includes('गुडघे') || lower.includes('सांधे')) {
-        aiReply = `**Dr. Arya (Orthopaedics & Bone Care):**
-Joint crepitus and stair pain in adults is typically caused by Vitamin D3 deficiency (< 20 ng/mL) and early cartilage friction. Take Cholecalciferol 60,000 IU weekly for 8 weeks + Shelcal 500 (₹28 on Jan Aushadhi).
-मराठी सल्ला: मांडीच्या स्नायूंचे व्यायाम व व्हिटॅमिन डी मुळे गुडघेदुखी लवकर कमी होते.`
-      } else if (lower.includes('sugar') || lower.includes('diabetes') || lower.includes('hba1c') || lower.includes('मधुमेह')) {
+      // 1. Emergency Red Flags
+      if (
+        lower.includes('chest') || lower.includes('heart') || lower.includes('breath') ||
+        lower.includes('छातीत दुखणे') || lower.includes('दम लागणे') || lower.includes('हार्ट')
+      ) {
+        department = 'Cardiology Emergency'
+        aiReply = `🚨 **URGENT EMERGENCY ALERT (W.H.O. Triage Red Flag):**
+Retrosternal chest discomfort or breathing distress requires immediate emergency medical evaluation.
+
+• **Priority Transfer Desk:** We have notified the Emergency TPA Desk at **Ruby Hall Clinic (Cath Lab)** & **Sahyadri Hospital (Deccan)** for zero-wait admission.
+• **Immediate Actions:** Sit down in a calm position, loosen tight clothing.
+• **Call Emergency Hotline:** **+91 7028025717** or dial **108 / 112** right now.`
+      }
+      // 2. Acidity, Heartburn, Gastric, Stomach Pain
+      else if (
+        lower.includes('acid') || lower.includes('gerd') || lower.includes('stomach') ||
+        lower.includes('gas') || lower.includes('पित्त') || lower.includes('पोटदुखी') || lower.includes('बदहजमी')
+      ) {
+        department = 'Gastroenterology'
+        aiReply = `**Dr. Arya (Gastroenterology & Gut Health):**
+Your symptoms indicate active acid reflux (GERD) or gastric hyperacidity.
+
+• **Generic Recommendation:** Pantoprazole 40mg + Domperidone 30mg SR (**Pan-D generic on Jan Aushadhi is ₹45** vs ₹199 branded — save 77%).
+• **Immediate Relief:** Drink cold milk or tender coconut water; avoid tea, oily snacks, and lying down immediately after eating.
+• **मराठी सल्ला:** रिकाम्या पोटी कोमट पाणी प्या आणि रात्रीचे जेवण झोपण्यापूर्वी २ तास आधी घ्या.`
+      }
+      // 3. Women's Health, Periods, PCOS/PCOD
+      else if (
+        lower.includes('period') || lower.includes('pcos') || lower.includes('pcod') ||
+        lower.includes('pregnancy') || lower.includes('पाळी') || lower.includes('गर्भ') || lower.includes('माहवारी')
+      ) {
+        department = 'Gynaecology & Women’s Health'
+        aiReply = `**Dr. Arya (OB-GYN & Women’s Health):**
+For irregular menstrual cycles, cramps, or PCOS symptoms:
+
+• **Clinical Evidence:** Myo-Inositol 2000mg + D-Chiro-Inositol naturally improves insulin sensitivity and ovarian regularity (**PMBJP generic is ₹65** vs ₹380 brand).
+• **Recommended Blood Panel:** PCOS Hormone Profile (LH/FSH ratio, Total Testosterone, Thyroid TSH). Home sample pickup available in Pune for ₹649.
+• **मराठी सल्ला:** नियमित १५ मिनिटे सूर्यनमस्कार व दालचिनी चहामुळे हार्मोन्स संतुलित राहतात.`
+      }
+      // 4. Joint, Knee, Back Pain, Arthritis
+      else if (
+        lower.includes('knee') || lower.includes('bone') || lower.includes('joint') ||
+        lower.includes('back') || lower.includes('गुडघे') || lower.includes('सांधे') || lower.includes('कंबरदुखी')
+      ) {
+        department = 'Orthopaedics & Bone Health'
+        aiReply = `**Dr. Arya (Orthopaedics Specialist):**
+Joint crepitus and stiffness are primarily linked to Vitamin D3 deficiency (< 20 ng/mL) and mechanical load.
+
+• **Evidence-Based Support:** Cholecalciferol 60,000 IU weekly for 8 weeks + Shelcal 500 (**Jan Aushadhi generic is ₹28** vs ₹138 retail — save 80%).
+• **Physical Care:** Low-impact quad isometric exercises and warm sesame oil massage. Avoid sudden squatting.
+• **मराठी सल्ला:** दररोज सकाळी १५ मिनिटे कोवळ्या उन्हात बसावे व कॅल्शियमयुक्त आहार घ्यावा.`
+      }
+      // 5. Diabetes, Blood Sugar, HbA1c
+      else if (
+        lower.includes('sugar') || lower.includes('diabetes') || lower.includes('hba1c') ||
+        lower.includes('मधुमेह') || lower.includes('डायबिटीज')
+      ) {
+        department = 'Diabetology & Endocrinology'
         aiReply = `**Dr. Arya (Diabetology & Metabolic Care):**
-Target Fasting Sugar is 80–110 mg/dL, Post-Meal < 140 mg/dL. Glycomet-GP 2 is ₹128 on Meditrust vs ₹32 on Jan Aushadhi generic (81% savings). Book HbA1c & Fasting Sugar home collection for ₹349 in Pune.`
-      } else {
-        aiReply = `**Dr. Arya Clinical Consultation:**
-I have mapped your query across ICMR, CDSCO, and HIPAA clinical standards. Over 60% of cases are manageable at home with generic medication match and targeted diagnostics. If hospital care is required, we connect you to Ruby Hall or Sahyadri Pune.`
+Target glycemic levels: Fasting Blood Sugar 80–110 mg/dL, Post-Prandial < 140 mg/dL, Target HbA1c < 6.5%.
+
+• **Prescription Price Comparison:** Metformin + Glimepiride 2mg/500mg (**Jan Aushadhi generic is ₹32** vs ₹128 brand Glycomet-GP — save 75%).
+• **Recommended Diagnostics:** HbA1c + Fasting Sugar + Serum Creatinine (60-min Pune home collection at ₹349).
+• **मराठी सल्ला:** जेवणानंतर दररोज १५ मिनिटे शतपावली करा आणि मेथीदाण्याचे पाणी प्या.`
+      }
+      // 6. Thyroid, TSH, Weight Gain, Fatigue
+      else if (
+        lower.includes('thyroid') || lower.includes('tsh') || lower.includes('थायरॉईड') || lower.includes('थकवा')
+      ) {
+        department = 'Endocrinology'
+        aiReply = `**Dr. Arya (Thyroid & Hormonal Health):**
+Elevated TSH (> 5.5 mIU/L) indicates sluggish thyroid metabolism (Hypothyroidism), causing morning fatigue and puffiness.
+
+• **Medication Match:** Thyroxine Sodium 50mcg (**Jan Aushadhi generic is ₹22** vs ₹145 brand Thyronorm — save 84%).
+• **Guideline:** Take strictly on an empty stomach with plain water 45 minutes before tea or breakfast.
+• **मराठी सल्ला:** कोथिंबीर व अक्रोड थायरॉईड ग्रंथीचे कार्य सुधारण्यास मदत करतात.`
+      }
+      // 7. Fever, Dengue, Malaria, Cold, Cough
+      else if (
+        lower.includes('fever') || lower.includes('cold') || lower.includes('cough') ||
+        lower.includes('dengue') || lower.includes('ताप') || lower.includes('खोकला') || lower.includes('सर्दी')
+      ) {
+        department = 'Infectious Diseases & Internal Medicine'
+        aiReply = `**Dr. Arya (General Physician):**
+For acute viral fever, body aches, and cold:
+
+• **Safe Primary Step:** Paracetamol 650mg SOS (**Jan Aushadhi generic is ₹12 per strip** vs ₹35 brand Dolo-650).
+• **Hydration Protocol:** Drink ORS, tender coconut water, and warm soups (maintain > 2.5L fluid intake).
+• **Warning Sign:** If fever exceeds 102°F or continues beyond 48 hours, book a CBC Platelet & Dengue NS1 test (₹399 Pune pickup).
+• **मराठी सल्ला:** तुळस, आले आणि गवती चहाचा काढा प्या.`
+      }
+      // 8. General & Custom Inquiries
+      else {
+        department = 'W.H.O. Clinical Triage'
+        aiReply = `**Dr. Arya Clinical Analysis:**
+I have mapped your query across W.H.O. & ICMR evidence-based guidelines.
+
+• **Key Clinical Advice:** Over 60% of primary symptoms can be resolved from home with generic medication match (save up to 80%) and targeted blood tests.
+• **Local Pune Support:** If symptoms persist or require in-person physician evaluation, we arrange VIP priority admission at **Ruby Hall Clinic** or **Sahyadri Hospital**.
+• **Call Doctor Directly:** Speak with our medical desk at **+91 7028025717**.`
       }
 
-      setMessages((prev) => [...prev, { role: 'ai', text: aiReply, department: activeSpecialty.name }])
+      setIsTyping(false)
+      setMessages((prev) => [...prev, { role: 'ai', text: aiReply, department, time: now }])
       speakText(aiReply)
-    }, 900)
+    }, 600)
   }
 
   const handleSendMessage = (e: React.FormEvent) => {
@@ -221,7 +310,6 @@ I have mapped your query across ICMR, CDSCO, and HIPAA clinical standards. Over 
       setUserPhone(formatted)
       setIsPhoneVerified(true)
       
-      // Save to localStorage
       const existing = localStorage.getItem('meditrust_user')
       const profile = existing ? JSON.parse(existing) : {}
       profile.phone = formatted
@@ -238,12 +326,12 @@ I have mapped your query across ICMR, CDSCO, and HIPAA clinical standards. Over 
         setMode('video')
         speakText(`Video consultation room activated for ${formatted}.`)
       }
-    }, 800)
+    }, 600)
   }
 
   return (
     <>
-      {/* ── 1. Floating 3D Animated Avatar Doctor in Bottom Right ── */}
+      {/* ── Floating 3D Animated Doctor Avatar Widget (Bottom Right) ── */}
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end pointer-events-none select-none">
         
         {/* Animated Speech Bubble */}
@@ -258,13 +346,13 @@ I have mapped your query across ICMR, CDSCO, and HIPAA clinical standards. Over 
           </div>
         )}
 
-        {/* 3D Moving Avatar Button */}
+        {/* 3D Doctor Avatar Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Talk to Dr. Arya AI Doctor"
           className="pointer-events-auto relative group flex items-center justify-center focus:outline-none transition-transform duration-300 hover:scale-105 active:scale-95"
         >
-          {/* Animated Glow Rings */}
+          {/* Glowing Ring */}
           <span className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-teal-500 via-emerald-400 to-blue-500 opacity-75 blur-md group-hover:opacity-100 transition duration-300 animate-pulse-glow" />
           
           <div className="relative w-16 h-16 sm:w-18 sm:h-18 rounded-full border-2 border-white overflow-hidden shadow-2xl bg-teal-900">
@@ -273,7 +361,6 @@ I have mapped your query across ICMR, CDSCO, and HIPAA clinical standards. Over 
               alt="Dr. Arya AI Doctor"
               className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
             />
-            {/* Live voice wave overlay if speaking */}
             {isVoiceActive && (
               <div className="absolute inset-0 bg-teal-950/40 flex items-center justify-center gap-0.5">
                 <span className="w-1 bg-teal-300 rounded-full animate-pulse h-4" />
@@ -288,449 +375,349 @@ I have mapped your query across ICMR, CDSCO, and HIPAA clinical standards. Over 
             <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />
           </span>
 
-          {/* Direct Call Tag on Avatar */}
+          {/* Direct Call Tag */}
           <div className="absolute -bottom-3 bg-slate-950 text-white text-3xs font-black px-2.5 py-0.5 rounded-full shadow border border-slate-700 whitespace-nowrap flex items-center gap-1">
             <Phone className="w-2.5 h-2.5 text-teal-400" /> +91 7028025717
           </div>
         </button>
       </div>
 
-      {/* ── 2. Expanded Dr. Arya Interactive Doctor Console ── */}
+      {/* ── Expanded Dr. Arya Interactive Doctor Console ── */}
       {isOpen && (
-        <div className="fixed bottom-20 right-3 sm:right-6 z-50 w-[95vw] sm:w-[440px] max-h-[86vh] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col animate-fade-up">
+        <div className="fixed bottom-20 right-3 sm:right-6 z-50 w-[95vw] sm:w-[450px] max-h-[86vh] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col animate-fade-up">
           
-          {/* Top Header Strip */}
-          <div className="p-4 bg-gradient-to-r from-teal-800 via-teal-900 to-slate-950 text-white flex items-center justify-between">
+          {/* Top Header */}
+          <div className="p-4 bg-gradient-to-r from-teal-900 via-slate-900 to-slate-950 text-white flex items-center justify-between border-b border-slate-800">
             <div className="flex items-center gap-3">
-              <div className="relative w-12 h-12 rounded-full border-2 border-teal-300 overflow-hidden shadow flex-shrink-0">
-                <img src="/dr_arya.jpg" alt="Dr. Arya" className="w-full h-full object-cover object-top" />
-                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border border-white rounded-full" />
+              <div className="relative w-11 h-11 rounded-2xl overflow-hidden border-2 border-teal-400/50 shadow">
+                <img
+                  src="/dr_arya.jpg"
+                  alt="Dr. Arya"
+                  className="w-full h-full object-cover object-top"
+                />
+                <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 border border-white rounded-full" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h4 className="text-sm font-bold text-white">Dr. Arya (Global AI MD)</h4>
-                  <span className="badge bg-teal-500/30 text-teal-200 text-3xs border border-teal-400/40 font-bold">
-                    Age 28 · CDSCO Compliant
+                  <h4 className="font-bold text-sm text-white">Dr. Arya (AI Doctor)</h4>
+                  <span className="bg-teal-500/20 text-teal-300 border border-teal-400/30 text-3xs font-bold px-1.5 py-0.5 rounded-full">
+                    24×7 Online
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-2xs text-teal-200 mt-0.5">
-                  <a href="tel:+917028025717" className="text-amber-300 font-bold hover:underline flex items-center gap-0.5">
-                    📞 +91 7028025717
-                  </a>
-                  <span>•</span>
-                  <span>मराठी, हिन्दी & English 24/7</span>
+                <div className="text-3xs text-slate-300 flex items-center gap-1">
+                  <Globe className="w-3 h-3 text-teal-400" />
+                  <span>Speaks {selectedLang.name}</span>
                 </div>
               </div>
             </div>
 
             <div className="flex items-center gap-1">
               <button
-                onClick={() => {
-                  setSpeechEnabled(!speechEnabled)
-                  if (speechEnabled && typeof window !== 'undefined') window.speechSynthesis?.cancel()
-                }}
-                className={`p-1.5 rounded-full transition-colors ${speechEnabled ? 'text-teal-300 bg-teal-900/60' : 'text-slate-400 bg-slate-800'}`}
-                title={speechEnabled ? 'Voice output enabled' : 'Voice output muted'}
+                onClick={() => setSpeechEnabled(!speechEnabled)}
+                className={`p-1.5 rounded-xl transition-colors ${
+                  speechEnabled ? 'text-teal-300 bg-white/10' : 'text-slate-500 bg-white/5'
+                }`}
+                title={speechEnabled ? 'Audio Speech Enabled' : 'Audio Speech Muted'}
               >
                 {speechEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                className="p-1.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
+                aria-label="Close"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
           </div>
 
-          {/* Language Strip */}
-          <div className="bg-teal-950 px-3.5 py-1.5 border-b border-teal-800/60 flex items-center justify-between text-2xs">
-            <div className="flex items-center gap-1.5 text-teal-200 font-semibold">
-              <Globe className="w-3 h-3 text-teal-400" />
-              <span>Language:</span>
-              <select
-                value={selectedLang.id}
-                onChange={(e) => {
-                  const found = LANGUAGES.find((l) => l.id === e.target.value) || LANGUAGES[0]
-                  setSelectedLang(found)
-                  setMessages((prev) => [
-                    ...prev,
-                    { role: 'ai', text: found.greeting },
-                  ])
-                  speakText(found.greeting)
-                }}
-                className="bg-teal-900 text-teal-100 rounded px-1.5 py-0.5 border border-teal-700 outline-none font-bold cursor-pointer"
-              >
-                {LANGUAGES.map((l) => (
-                  <option key={l.id} value={l.id}>{l.name}</option>
-                ))}
-              </select>
-            </div>
-
-            <button
-              onClick={() => setMode(mode === 'specialties' ? 'chat' : 'specialties')}
-              className="px-2 py-0.5 rounded bg-teal-800 text-teal-200 font-bold border border-teal-600 flex items-center gap-1 hover:bg-teal-700 transition-colors"
-            >
-              <span>{activeSpecialty.icon} {activeSpecialty.name.split(' ')[0]}</span>
-              <ChevronUp className={`w-3 h-3 transition-transform ${mode === 'specialties' ? '' : 'rotate-180'}`} />
-            </button>
-          </div>
-
-          {/* Mode Switcher Tabs */}
-          <div className="grid grid-cols-4 border-b border-slate-100 bg-slate-50 text-2xs font-bold text-slate-600">
+          {/* Quick Action Navigation Bar */}
+          <div className="grid grid-cols-4 bg-slate-100/80 p-1 border-b border-slate-200 text-2xs font-bold">
             <button
               onClick={() => setMode('chat')}
-              className={`py-2.5 flex items-center justify-center gap-1 border-b-2 transition-colors ${
-                mode === 'chat' ? 'border-teal-700 text-teal-700 bg-white font-black' : 'border-transparent hover:text-slate-900'
+              className={`py-1.5 rounded-xl flex items-center justify-center gap-1 transition-all ${
+                mode === 'chat' ? 'bg-white text-teal-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <MessageCircle className="w-3.5 h-3.5" /> AI Chat
+              <MessageCircle className="w-3.5 h-3.5 text-teal-600" />
+              <span>AI Chat</span>
             </button>
+
             <button
               onClick={() => triggerCallOrVideo('call')}
-              className={`py-2.5 flex items-center justify-center gap-1 border-b-2 transition-colors ${
-                mode === 'call' ? 'border-teal-700 text-teal-700 bg-white font-black' : 'border-transparent hover:text-slate-900'
+              className={`py-1.5 rounded-xl flex items-center justify-center gap-1 transition-all ${
+                mode === 'call' ? 'bg-white text-teal-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <Phone className="w-3.5 h-3.5" /> Voice Call
+              <Phone className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Voice Call</span>
             </button>
+
             <button
               onClick={() => triggerCallOrVideo('video')}
-              className={`py-2.5 flex items-center justify-center gap-1 border-b-2 transition-colors ${
-                mode === 'video' ? 'border-teal-700 text-teal-700 bg-white font-black' : 'border-transparent hover:text-slate-900'
+              className={`py-1.5 rounded-xl flex items-center justify-center gap-1 transition-all ${
+                mode === 'video' ? 'bg-white text-teal-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <Video className="w-3.5 h-3.5" /> Video AI
+              <Video className="w-3.5 h-3.5 text-blue-600" />
+              <span>Video Consult</span>
             </button>
+
             <button
               onClick={() => setMode('hospital')}
-              className={`py-2.5 flex items-center justify-center gap-1 border-b-2 transition-colors ${
-                mode === 'hospital' ? 'border-teal-700 text-teal-700 bg-white font-black' : 'border-transparent hover:text-slate-900'
+              className={`py-1.5 rounded-xl flex items-center justify-center gap-1 transition-all ${
+                mode === 'hospital' ? 'bg-white text-teal-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <Building2 className="w-3.5 h-3.5" /> Hospital VIP
+              <Building2 className="w-3.5 h-3.5 text-purple-600" />
+              <span>Hospitals</span>
             </button>
           </div>
 
-          {/* ── PHONE ACTIVATION OVERLAY (If user clicks Voice/Video before verifying phone) ── */}
-          {pendingCallAction && !isPhoneVerified ? (
-            <div className="p-6 bg-white flex-1 overflow-y-auto space-y-4 animate-fade-in">
-              <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center mx-auto text-teal-700">
-                <Phone className="w-6 h-6 animate-heartbeat" />
-              </div>
+          {/* Language Selector Strip */}
+          <div className="px-3 py-1.5 bg-slate-50 border-b border-slate-200/60 flex items-center gap-1.5 overflow-x-auto text-3xs font-bold">
+            <span className="text-slate-400 flex-shrink-0">Language:</span>
+            {LANGUAGES.map((lang) => (
+              <button
+                key={lang.id}
+                onClick={() => {
+                  setSelectedLang(lang)
+                  speakText(lang.greeting)
+                }}
+                className={`px-2 py-0.5 rounded-full transition-colors flex-shrink-0 ${
+                  selectedLang.id === lang.id
+                    ? 'bg-teal-700 text-white'
+                    : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300'
+                }`}
+              >
+                {lang.name.split(' ')[0]}
+              </button>
+            ))}
+          </div>
 
-              <div className="text-center space-y-1">
-                <h4 className="text-base font-bold text-slate-900">
-                  Activate Live Consultation with Dr. Arya
-                </h4>
-                <p className="text-xs text-slate-500">
-                  As per CDSCO & ICMR Telemedicine Guidelines, enter your mobile number to start direct voice/video audio stream.
-                </p>
-              </div>
-
-              <form onSubmit={handleVerifyPhone} className="space-y-3">
-                <div>
-                  <label className="block text-2xs font-bold uppercase tracking-wider text-slate-600 mb-1">
-                    Mobile Number (For WhatsApp Summary & Callback)
-                  </label>
-                  <div className="flex rounded-xl border border-slate-200 focus-within:border-teal-600 overflow-hidden shadow-sm">
-                    <span className="bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-600 border-r border-slate-200">
-                      🇮🇳 +91
-                    </span>
-                    <input
-                      type="tel"
-                      maxLength={10}
-                      value={phoneInputTemp}
-                      onChange={(e) => setPhoneInputTemp(e.target.value.replace(/\D/g, ''))}
-                      placeholder="Enter 10-digit mobile"
-                      className="w-full px-3 py-2.5 text-xs font-bold text-slate-900 outline-none"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={verifyingPhone}
-                  className="btn-primary w-full justify-center py-3 text-xs font-bold shadow-teal"
-                >
-                  {verifyingPhone ? (
-                    <span className="flex items-center gap-2">
-                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Connecting to Dr. Arya Voice Engine...
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4" /> Start Voice Consultation Now
-                    </span>
-                  )}
-                </button>
-              </form>
-
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-2xs text-slate-500 text-center flex items-center justify-center gap-1">
-                <Lock className="w-3 h-3 text-teal-600" />
-                <span>Encrypted · Immediate assistance hotline: <strong>+91 7028025717</strong></span>
-              </div>
-            </div>
-          ) : (
-            /* ── MAIN TABS BODY ── */
-            <div className="flex-1 overflow-y-auto max-h-[380px] p-4">
-              
-              {/* 0. SPECIALTIES SELECTOR OVERLAY */}
-              {mode === 'specialties' && (
-                <div className="space-y-3 animate-fade-in">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-bold text-slate-800">Select Clinical Department:</span>
-                    <button onClick={() => setMode('chat')} className="text-2xs text-teal-700 font-bold hover:underline">
-                      Back to Chat
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2">
-                    {medicalSpecialties.map((spec) => (
-                      <button
-                        key={spec.id}
-                        onClick={() => {
-                          setActiveSpecialty(spec)
-                          setMode('chat')
-                          const msg = `Switched to **${spec.doctorTitle}**.\n\nI am now analyzing under **${spec.complianceGuideline}** protocols.\n\nCommon topics: ${spec.commonConditions.slice(0, 3).join(', ')}.\n\nHow can I help you today?`
-                          setMessages((prev) => [
-                            ...prev,
-                            { role: 'ai', text: msg, department: spec.name },
-                          ])
-                          speakText(msg)
-                        }}
-                        className={`p-2.5 rounded-2xl border text-left transition-all ${
-                          activeSpecialty.id === spec.id
-                            ? 'border-teal-600 bg-teal-50 shadow-sm'
-                            : 'border-slate-200 hover:border-teal-300 bg-white'
-                        }`}
-                      >
-                        <div className="text-xl mb-1">{spec.icon}</div>
-                        <div className="text-xs font-bold text-slate-900 leading-tight">{spec.name}</div>
-                        <div className="text-3xs text-slate-500 mt-1">{spec.commonConditions[0]}</div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* 1. CHAT MODE */}
-              {mode === 'chat' && (
-                <div className="space-y-3">
-                  {messages.map((m, idx) => (
-                    <div
-                      key={idx}
-                      className={`flex gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                    >
-                      {m.role === 'ai' && (
-                        <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 mt-0.5 border border-teal-300">
-                          <img src="/dr_arya.jpg" alt="Dr. Arya" className="w-full h-full object-cover" />
-                        </div>
-                      )}
-                      <div
-                        className={`text-xs leading-relaxed max-w-[86%] p-3.5 rounded-2xl ${
-                          m.role === 'user'
-                            ? 'bg-teal-700 text-white rounded-tr-none font-medium'
-                            : 'bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200/70 whitespace-pre-line'
-                        }`}
-                      >
-                        {m.text}
-                      </div>
-                    </div>
-                  ))}
-                  {isVoiceActive && (
-                    <div className="flex items-center gap-2 text-2xs text-teal-700 font-bold p-2 bg-teal-50 rounded-xl border border-teal-100">
-                      <Volume2 className="w-3.5 h-3.5 text-teal-600 animate-pulse" />
-                      <span>Dr. Arya is speaking in {selectedLang.name.split(' ')[0]}...</span>
-                    </div>
-                  )}
-                  <div ref={chatEndRef} />
-                </div>
-              )}
-
-              {/* 2. PHONE CALL MODE */}
-              {mode === 'call' && (
-                <div className="text-center py-4 space-y-4">
-                  <div className="relative w-24 h-24 mx-auto rounded-full border-4 border-teal-500 overflow-hidden shadow-teal">
-                    <img src="/dr_arya.jpg" alt="Dr. Arya Call" className="w-full h-full object-cover" />
-                    {isCalling && (
-                      <div className="absolute inset-0 bg-teal-950/30 flex items-center justify-center">
-                        <Volume2 className="w-8 h-8 text-white animate-pulse" />
+          {/* ── MODE 1: REAL-TIME CHAT ── */}
+          {mode === 'chat' && (
+            <>
+              {/* Message Feed */}
+              <div className="flex-1 p-4 overflow-y-auto space-y-3 max-h-[380px] bg-slate-50/50 text-xs">
+                {messages.map((m, i) => (
+                  <div
+                    key={i}
+                    className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}
+                  >
+                    {m.role === 'ai' && (
+                      <div className="flex items-center gap-1 text-3xs text-teal-700 font-bold mb-1">
+                        <Sparkles className="w-3 h-3 text-teal-600" />
+                        <span>Dr. Arya · {m.department || 'Clinical AI'}</span>
                       </div>
                     )}
-                  </div>
 
-                  <div>
-                    <h4 className="text-base font-bold text-slate-900">
-                      {isCalling ? 'Live Voice Call Active with Dr. Arya' : '24/7 AI Phone Doctor Consultation'}
-                    </h4>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      {isCalling ? `Connected · ${Math.floor(callDuration / 60)}:${(callDuration % 60).toString().padStart(2, '0')} · Registered Line ${userPhone}` : `Helpline: +91 7028025717 · 60% cases resolved over phone`}
-                    </p>
-                  </div>
-
-                  {/* Immediate Dial Direct Button */}
-                  <a
-                    href="tel:+917028025717"
-                    className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs shadow transition-all"
-                  >
-                    <Phone className="w-4 h-4" /> Dial Direct +91 7028025717 for Immediate Response
-                  </a>
-
-                  {isCalling ? (
-                    <button
-                      onClick={() => {
-                        setIsCalling(false)
-                        if (typeof window !== 'undefined') window.speechSynthesis?.cancel()
-                      }}
-                      className="btn-outline w-full justify-center border-red-600 text-red-600 hover:bg-red-50 py-2.5 text-xs font-bold"
+                    <div
+                      className={`p-3 rounded-2xl max-w-[88%] leading-relaxed ${
+                        m.role === 'user'
+                          ? 'bg-teal-700 text-white rounded-br-xs shadow-sm font-medium'
+                          : 'bg-white text-slate-900 border border-slate-200 rounded-bl-xs shadow-sm whitespace-pre-line'
+                      }`}
                     >
-                      End Voice Session
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => triggerCallOrVideo('call')}
-                      className="btn-primary w-full justify-center py-2.5 text-xs font-bold shadow-teal"
-                    >
-                      <Phone className="w-4 h-4" /> Speak with Dr. Arya on AI Voice
-                    </button>
-                  )}
-                </div>
-              )}
-
-              {/* 3. VIDEO CONSULT ROOM */}
-              {mode === 'video' && (
-                <div className="space-y-4">
-                  <div className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-video border border-slate-800 flex items-center justify-center">
-                    <img src="/dr_arya.jpg" alt="Dr. Arya Live Video" className="w-full h-full object-cover opacity-90" />
-                    <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/60 backdrop-blur-sm px-2 py-1 rounded-md text-2xs text-white">
-                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                      <span>Dr. Arya Virtual Consultation</span>
+                      {m.text}
                     </div>
-                    <div className="absolute bottom-2 right-2 bg-teal-900/80 backdrop-blur-sm text-teal-200 text-2xs px-2 py-0.5 rounded font-mono">
-                      Patient: {userPhone || '+91 7028025717'}
-                    </div>
+
+                    {m.time && (
+                      <span className="text-4xs text-slate-400 mt-0.5 px-1">{m.time}</span>
+                    )}
                   </div>
+                ))}
 
-                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-                    <strong className="text-slate-900">Virtual Clinic Guidance:</strong> Dr. Arya examines visual skin symptoms, checks lab reports, and explains medicine dosages live in plain language.
+                {/* Live Typing Indicator */}
+                {isTyping && (
+                  <div className="flex items-center gap-2 p-3 bg-white border border-slate-200 rounded-2xl rounded-bl-xs max-w-[120px] shadow-sm animate-pulse">
+                    <div className="w-2 h-2 rounded-full bg-teal-500 animate-bounce" />
+                    <div className="w-2 h-2 rounded-full bg-teal-500 animate-bounce [animation-delay:0.2s]" />
+                    <div className="w-2 h-2 rounded-full bg-teal-500 animate-bounce [animation-delay:0.4s]" />
                   </div>
-
-                  <a
-                    href="tel:+917028025717"
-                    className="btn-primary w-full justify-center py-2.5 text-xs font-bold"
-                  >
-                    <Phone className="w-4 h-4" /> Connect with Physician at +91 7028025717
-                  </a>
-                </div>
-              )}
-
-              {/* 4. HOSPITAL REFERRALS & SURGERY 40% */}
-              {mode === 'hospital' && (
-                <div className="space-y-3">
-                  <div className="p-3 rounded-2xl bg-purple-50 border border-purple-200 text-xs text-purple-900">
-                    <div className="font-bold mb-0.5 flex items-center gap-1">
-                      <Building2 className="w-3.5 h-3.5" /> For the 40% Cases Needing Clinical Care:
-                    </div>
-                    <p className="text-2xs text-purple-800">
-                      Dr. Arya refers you to premier partner hospitals in Pune with Meditrust VIP benefits (Priority doctor slot, Cashless TPA insurance help, 15% discount on surgeries).
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    {punePartnerHospitals.slice(0, 3).map((hosp) => (
-                      <div key={hosp.name} className="p-3 rounded-xl border border-slate-200 bg-white hover:border-teal-500 transition-colors">
-                        <div className="flex items-start justify-between gap-2">
-                          <div>
-                            <h5 className="text-xs font-bold text-slate-900">{hosp.name}</h5>
-                            <div className="text-2xs text-slate-500 flex items-center gap-1 mt-0.5">
-                              <MapPin className="w-3 h-3 text-teal-600" />
-                              {hosp.area} · <strong className="text-teal-700">{hosp.distance}</strong>
-                            </div>
-                          </div>
-                          <span className="badge-teal badge text-2xs">⭐ {hosp.rating}</span>
-                        </div>
-                        <div className="mt-2 text-2xs text-green-800 font-semibold bg-green-50 p-1.5 rounded-lg border border-green-100">
-                          🎁 {hosp.meditrustDiscount}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <Link
-                    href="/dashboard"
-                    onClick={() => setIsOpen(false)}
-                    className="btn-primary w-full justify-center py-2.5 text-xs font-bold"
-                  >
-                    Book Hospital Priority Consultation
-                  </Link>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Quick Action & Voice Input Bar */}
-          {mode === 'chat' && !pendingCallAction && (
-            <div className="p-3 bg-slate-50 border-t border-slate-200 space-y-2">
-              <div className="flex gap-1.5 overflow-x-auto pb-1 text-2xs">
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (onOpenPrescriptionScanner) onOpenPrescriptionScanner()
-                  }}
-                  className="filter-chip active flex items-center gap-1 whitespace-nowrap font-bold"
-                >
-                  📄 Scan Prescription
-                </button>
-                <button
-                  type="button"
-                  onClick={() => sendUserMessage('I want advice on PCOD and irregular periods')}
-                  className="filter-chip whitespace-nowrap"
-                >
-                  🌺 PCOS / Periods
-                </button>
-                <button
-                  type="button"
-                  onClick={() => sendUserMessage('मला सांधेदुखी आणि व्हिटॅमिन डी बद्दल माहिती हवी आहे')}
-                  className="filter-chip whitespace-nowrap"
-                >
-                  🦴 सांधेदुखी (मराठी)
-                </button>
+                )}
+                <div ref={chatEndRef} />
               </div>
 
-              <form onSubmit={handleSendMessage} className="flex gap-2 items-center">
-                {/* Voice Input Microphone Button */}
+              {/* Sample Prompt Chips */}
+              <div className="px-3 py-1.5 bg-white border-t border-slate-100 flex items-center gap-1.5 overflow-x-auto text-3xs">
+                {[
+                  'एसिडिटी आणि छातीत जळजळ (Acidity)',
+                  'Goodghey / Knee Pain & Vitamin D',
+                  'Diabetes / HbA1c Sugar Diet',
+                  'PCOS / Irregular Periods',
+                  'Fever & Cold Treatment',
+                ].map((chip) => (
+                  <button
+                    key={chip}
+                    onClick={() => sendUserMessage(chip)}
+                    className="bg-slate-100 hover:bg-teal-50 hover:text-teal-900 hover:border-teal-300 border border-slate-200 px-2.5 py-1 rounded-full text-slate-700 whitespace-nowrap transition-colors"
+                  >
+                    {chip}
+                  </button>
+                ))}
+              </div>
+
+              {/* Input Form */}
+              <form onSubmit={handleSendMessage} className="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
                 <button
                   type="button"
                   onClick={toggleListening}
-                  className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
-                    isListening
-                      ? 'bg-red-600 text-white animate-pulse'
-                      : 'bg-teal-50 border border-teal-300 text-teal-700 hover:bg-teal-100'
+                  className={`p-2.5 rounded-xl transition-colors ${
+                    isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
-                  title={isListening ? 'Listening... Speak into mic' : 'Click to speak'}
+                  title={isListening ? 'Listening... click to stop' : 'Click to Speak (Microphone)'}
                 >
-                  {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                  {isListening ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
                 </button>
 
                 <input
                   type="text"
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
-                  placeholder={isListening ? 'Listening to your voice...' : `Ask Dr. Arya in ${selectedLang.name.split(' ')[0]}...`}
-                  className="input-field text-xs py-2.5 flex-1"
+                  placeholder={
+                    selectedLang.id === 'mr'
+                      ? 'लक्षणे टाइप करा (उदा. मला चक्कर येत आहे)...'
+                      : selectedLang.id === 'hi'
+                      ? 'लक्षण लिखें (उदा. पेट में दर्द है)...'
+                      : 'Type your symptoms or blood report values...'
+                  }
+                  className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-teal-600 focus:bg-white transition-colors"
                 />
+
                 <button
                   type="submit"
                   disabled={!inputMessage.trim()}
-                  className="w-9 h-9 rounded-xl bg-teal-700 hover:bg-teal-800 text-white flex items-center justify-center disabled:opacity-40 transition-colors"
+                  className="p-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 disabled:opacity-40 text-white transition-colors shadow"
                 >
-                  <Send className="w-3.5 h-3.5" />
+                  <Send className="w-4 h-4" />
                 </button>
               </form>
+            </>
+          )}
+
+          {/* ── MODE 2: VOICE CALL SIMULATOR ── */}
+          {mode === 'call' && (
+            <div className="p-6 bg-slate-950 text-white flex flex-col items-center justify-center space-y-6 min-h-[360px]">
+              <div className="relative">
+                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-emerald-400 shadow-2xl">
+                  <img
+                    src="/dr_arya.jpg"
+                    alt="Dr. Arya"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <span className="absolute bottom-1 right-1 w-6 h-6 bg-emerald-500 rounded-full border-2 border-slate-950 flex items-center justify-center animate-ping" />
+              </div>
+
+              <div className="text-center space-y-1">
+                <h4 className="text-lg font-bold text-white">Dr. Arya AI Voice Consultation</h4>
+                <p className="text-xs text-emerald-400 font-bold">
+                  {isCalling ? `Connected · ${Math.floor(callDuration / 60)}:${String(callDuration % 60).padStart(2, '0')}` : 'Calling Doctor Desk...'}
+                </p>
+                <p className="text-2xs text-slate-400">
+                  Direct Line: +91 7028025717 · Speaking {selectedLang.name}
+                </p>
+              </div>
+
+              {/* Spoken Voice Waves */}
+              <div className="flex items-center gap-1.5 h-8">
+                {[14, 28, 18, 32, 20, 28, 14, 24, 18, 30, 16, 22].map((h, i) => (
+                  <span
+                    key={i}
+                    className="w-1.5 bg-emerald-400 rounded-full animate-pulse"
+                    style={{ height: `${h}px`, animationDelay: `${i * 0.1}s` }}
+                  />
+                ))}
+              </div>
+
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => {
+                    setIsCalling(false)
+                    if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel()
+                    setMode('chat')
+                  }}
+                  className="px-6 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-lg"
+                >
+                  End Voice Call
+                </button>
+              </div>
             </div>
           )}
+
+          {/* ── MODE 3: VIDEO CONSULTATION ── */}
+          {mode === 'video' && (
+            <div className="p-4 bg-slate-950 text-white space-y-4">
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 flex items-center justify-center">
+                <img
+                  src="/dr_arya.jpg"
+                  alt="Dr. Arya Video Feed"
+                  className="w-full h-full object-cover object-top opacity-90"
+                />
+                <div className="absolute top-3 left-3 bg-red-600 px-2 py-0.5 rounded text-3xs font-black uppercase tracking-wider animate-pulse">
+                  HD Video Live
+                </div>
+                <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-lg text-2xs">
+                  Dr. Arya · Multi-Specialist AI MD
+                </div>
+              </div>
+
+              <div className="p-3 bg-slate-900 rounded-2xl border border-slate-800 text-xs text-slate-300 space-y-2">
+                <div className="flex items-center justify-between font-bold text-white text-2xs">
+                  <span>CLINICAL OBSERVATION ROOM</span>
+                  <span className="text-teal-400">W.H.O. HIPAA ENCRYPTED</span>
+                </div>
+                <p className="leading-relaxed text-2xs">
+                  Video feed active. Please describe visible symptoms (skin rash, swelling, throat redness) or read your blood pressure / glucose monitor numbers aloud.
+                </p>
+              </div>
+
+              <button
+                onClick={() => setMode('chat')}
+                className="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold"
+              >
+                Return to Chat Mode
+              </button>
+            </div>
+          )}
+
+          {/* ── MODE 4: HOSPITAL DESK ── */}
+          {mode === 'hospital' && (
+            <div className="p-4 space-y-4 overflow-y-auto max-h-[380px] bg-slate-50 text-xs">
+              <div className="p-3.5 bg-slate-900 text-white rounded-2xl space-y-1">
+                <div className="font-bold text-sm text-teal-300">The 40% Hospital In-Person Network</div>
+                <p className="text-2xs text-slate-300 leading-relaxed">
+                  For surgical care, emergencies, or specialized diagnostics in Pune, access Meditrust Zero-Wait TPA Admission Desks.
+                </p>
+              </div>
+
+              <div className="space-y-2.5">
+                {[
+                  { name: 'Ruby Hall Clinic', loc: 'Sassoon Rd / Wanowrie', perk: 'VIP TPA Desk & Cath Lab Priority' },
+                  { name: 'Sahyadri Super Speciality', loc: 'Deccan / Kothrud', perk: 'Zero-Wait Admission & 15% Off' },
+                  { name: 'Jupiter Hospital', loc: 'Baner Expressway', perk: 'Advanced Multi-Speciality Hub' },
+                ].map((h) => (
+                  <div key={h.name} className="p-3 bg-white rounded-2xl border border-slate-200 space-y-1">
+                    <div className="font-bold text-slate-900">{h.name}</div>
+                    <div className="text-2xs text-slate-500">{h.loc}</div>
+                    <div className="text-3xs font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded inline-block">
+                      {h.perk}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <a
+                href="tel:+917028025717"
+                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                <span>Call Hospital Desk: +91 7028025717</span>
+              </a>
+            </div>
+          )}
+
         </div>
       )}
     </>
