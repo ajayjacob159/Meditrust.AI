@@ -12,7 +12,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://meditrustai.com'),
+  metadataBase: new URL('https://www.meditrustai.in'),
   title: {
     default: 'Meditrust AI — India\'s Leading 24/7 AI Health & Medicine Price Comparison Platform',
     template: '%s | Meditrust AI',
@@ -32,8 +32,8 @@ export const metadata: Metadata = {
     'HIPAA CDSCO ICMR AI Healthcare',
     'Free AI Symptom Checker India',
   ],
-  authors: [{ name: 'Meditrust AI Clinical & Engineering Team', url: 'https://meditrustai.com' }],
-  creator: 'Meditrust AI, Inc.',
+  authors: [{ name: 'Meditrust AI Clinical & Engineering Team', url: 'https://www.meditrustai.in' }],
+  creator: 'Meditrust Life Sciences Pvt. Ltd.',
   publisher: 'Meditrust AI',
   robots: {
     index: true,
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://meditrustai.com',
+    url: 'https://www.meditrustai.in',
     siteName: 'Meditrust AI India',
     title: 'Meditrust AI — 24/7 AI Doctor, Medicine & Blood Test Comparison',
     description:
@@ -65,13 +65,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    creator: '@meditrustai',
     title: 'Meditrust AI — 24/7 AI Health Companion & Price Comparator',
     description:
       'Consult Dr. Arya AI Doctor in Marathi, Hindi & English. Save up to 80% on medicines with Jan Aushadhi comparisons.',
     images: ['/dr_arya.jpg'],
-    creator: '@meditrustai',
   },
-  manifest: '/manifest.json',
   icons: {
     icon: '/logo.png',
     apple: '/logo.png',
@@ -83,87 +82,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebApplication',
-        '@id': 'https://meditrustai.com/#webapp',
-        name: 'Meditrust AI',
-        url: 'https://meditrustai.com',
-        description:
-          'AI-powered clinical health companion for symptom checking, Jan Aushadhi medicine price comparisons, and 13+ at-home blood test diagnostic comparisons.',
-        applicationCategory: 'HealthApplication',
-        operatingSystem: 'Any (Web, iOS, Android PWA)',
-        offers: {
-          '@type': 'Offer',
-          price: '0',
-          priceCurrency: 'INR',
-        },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.9',
-          reviewCount: '120000',
-          bestRating: '5',
-          worstRating: '1',
-        },
-      },
-      {
-        '@type': 'MedicalBusiness',
-        '@id': 'https://meditrustai.com/#medicalbusiness',
-        name: 'Meditrust AI Healthcare Services',
-        url: 'https://meditrustai.com',
-        logo: 'https://meditrustai.com/logo.png',
-        image: 'https://meditrustai.com/dr_arya.jpg',
-        telephone: '+91-1800-555-0199',
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: 'Senapati Bapat Road / Kothrud IT Corridor',
-          addressLocality: 'Pune',
-          addressRegion: 'Maharashtra',
-          postalCode: '411038',
-          addressCountry: 'IN',
-        },
-        geo: {
-          '@type': 'GeoCoordinates',
-          latitude: 18.5204,
-          longitude: 73.8567,
-        },
-        areaServed: [
-          'Pune',
-          'Pimpri-Chinchwad',
-          'Mumbai',
-          'Maharashtra',
-          'India',
-        ],
-        priceRange: '₹0 - ₹1899',
-      },
-      {
-        '@type': 'Physician',
-        '@id': 'https://meditrustai.com/#dr-arya',
-        name: 'Dr. Arya (Clinical AI Multi-Specialist)',
-        medicalSpecialty: [
-          'General Practice',
-          'Gynecology',
-          'Orthopedics',
-          'Cardiology',
-          'Endocrinology',
-          'Dermatology',
-        ],
-        availableService: [
-          {
-            '@type': 'MedicalTherapy',
-            name: '24/7 Digital Health Triage in Marathi, Hindi & English',
-          },
-          {
-            '@type': 'MedicalTherapy',
-            name: 'Prescription Analysis & Jan Aushadhi Generic Substitution',
-          },
-        ],
-      },
-    ],
-  }
-
   return (
     <html lang="en" className="scroll-smooth">
       <head>
@@ -176,7 +94,73 @@ export default function RootLayout({
         <link rel="icon" href="/logo.png" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'MedicalBusiness',
+                  '@id': 'https://www.meditrustai.in/#organization',
+                  name: 'Meditrust Life Sciences Pvt. Ltd.',
+                  alternateName: 'Meditrust AI',
+                  url: 'https://www.meditrustai.in',
+                  logo: 'https://www.meditrustai.in/logo.png',
+                  telephone: '+91 7028025717',
+                  email: 'care@meditrustlife.com',
+                  address: {
+                    '@type': 'PostalAddress',
+                    streetAddress: 'Senapati Bapat Road / Kothrud IT Corridor',
+                    addressLocality: 'Pune',
+                    addressRegion: 'Maharashtra',
+                    postalCode: '411038',
+                    addressCountry: 'IN',
+                  },
+                  areaServed: [
+                    { '@type': 'City', name: 'Pune' },
+                    { '@type': 'State', name: 'Maharashtra' },
+                    { '@type': 'Country', name: 'India' },
+                  ],
+                  sameAs: [
+                    'https://twitter.com/meditrustai',
+                    'https://linkedin.com/company/meditrust-life-sciences',
+                  ],
+                  medicalSpecialty: [
+                    'Cardiovascular',
+                    'Obstetric',
+                    'Gynecologic',
+                    'Oncologic',
+                    'Psychiatric',
+                    'Neurologic',
+                    'Endocrine',
+                  ],
+                },
+                {
+                  '@type': 'WebApplication',
+                  '@id': 'https://www.meditrustai.in/#webapp',
+                  name: 'Meditrust AI Health & Price Comparison Platform',
+                  url: 'https://www.meditrustai.in',
+                  applicationCategory: 'HealthApplication',
+                  operatingSystem: 'All',
+                  offers: {
+                    '@type': 'Offer',
+                    price: '0',
+                    priceCurrency: 'INR',
+                  },
+                },
+                {
+                  '@type': 'Physician',
+                  '@id': 'https://www.meditrustai.in/#dr_arya',
+                  name: 'Dr. Arya (AI Doctor)',
+                  jobTitle: 'Chief AI Medical Officer & Virtual Physician',
+                  medicalSpecialty: 'General Practice, Preventive Medicine, Multi-Specialty Triage',
+                  worksFor: {
+                    '@type': 'MedicalOrganization',
+                    name: 'Meditrust Life Sciences Pvt. Ltd.',
+                  },
+                },
+              ],
+            }),
+          }}
         />
       </head>
       <body className="bg-white antialiased text-slate-900 selection:bg-teal-100 selection:text-teal-900">
