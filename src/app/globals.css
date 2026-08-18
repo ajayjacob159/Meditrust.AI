@@ -10,13 +10,28 @@
   --medical-light-bg: #FFFFFF;
 }
 
-/* Enforce Strict Zero-Horizontal Overflow */
+/* Enforce Strict Zero-Horizontal Overflow & Native Mobile Touch Handling */
 html,
 body {
   overflow-x: hidden;
   max-width: 100vw;
   width: 100%;
   position: relative;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Native App-like Smooth Momentum Scrolling */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile Bottom Safe Area Spacing to Prevent Navigation Overlap */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 /* Custom Healthcare Animations */

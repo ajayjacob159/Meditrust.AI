@@ -1,15 +1,13 @@
 {
-  "name": "Meditrust AI",
-  "short_name": "MeditrustAI",
-  "description": "Your trusted AI health companion — check symptoms, compare medications, book home lab tests.",
+  "name": "Meditrust AI — 24/7 AI Doctor & Medicine Savings",
+  "short_name": "Meditrust AI",
+  "description": "India's #1 24/7 AI Doctor (Dr. Arya), Jan Aushadhi Generic Savings (Save 80%), and 60-Min Doorstep Blood Collection.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#090D16",
   "theme_color": "#0F766E",
-  "orientation": "portrait",
-  "scope": "/",
-  "lang": "en",
-  "categories": ["health", "medical", "lifestyle"],
+  "orientation": "portrait-primary",
+  "categories": ["medical", "health", "lifestyle"],
   "icons": [
     {
       "src": "/logo.png",
@@ -26,19 +24,24 @@
   ],
   "shortcuts": [
     {
-      "name": "Check Symptoms",
+      "name": "Consult Dr. Arya AI Doctor",
       "url": "/symptom-checker",
-      "description": "Start an AI symptom check"
+      "description": "Instant 24/7 clinical AI consultation in Marathi, Hindi & English"
     },
     {
-      "name": "Compare Medications",
+      "name": "Jan Aushadhi Generic Match",
       "url": "/medication-comparison",
-      "description": "Compare drugs side-by-side"
+      "description": "Save up to 80% on chronic prescription medicines"
     },
     {
-      "name": "Find Lab Tests",
+      "name": "Book 60-Min Blood Collection",
       "url": "/lab-test-comparison",
-      "description": "Compare home blood test providers"
+      "description": "Doorstep sample collection across 13+ Pune NABL labs"
+    },
+    {
+      "name": "Government Healthcare Schemes",
+      "url": "/government-schemes",
+      "description": "ABHA ID, PM-JAY ₹5L cover & eSanjeevani"
     }
   ]
 }

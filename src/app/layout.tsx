@@ -4,16 +4,20 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import EmergencyBanner from '@/components/layout/EmergencyBanner'
 import LeadDiscountModal from '@/components/common/LeadDiscountModal'
+import MobileBottomNavigation from '@/components/layout/MobileBottomNavigation'
+import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
 
 export const viewport: Viewport = {
   themeColor: '#0F766E',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
+  viewportFit: 'cover',
 }
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.meditrustai.in'),
+  manifest: '/manifest.json',
   title: {
     default: 'Meditrust AI — 24/7 AI Doctor & Medicine Price Savings (August 2026)',
     template: '%s | Meditrust AI',
@@ -209,6 +213,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-white antialiased text-slate-900 selection:bg-teal-100 selection:text-teal-900">
+        <PWAInstallPrompt />
         <EmergencyBanner />
         <Header />
         <main id="main-content" role="main">
@@ -216,6 +221,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <LeadDiscountModal />
+        <MobileBottomNavigation />
       </body>
     </html>
   )
