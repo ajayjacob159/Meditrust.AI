@@ -139,12 +139,23 @@ export default function LabReportExplainerModal({
     const textToSpeak = report.narrativeSpeech[lang] || report.narrativeSpeech.en
     const utterance = new SpeechSynthesisUtterance(textToSpeak)
     utterance.lang = lang === 'mr' ? 'mr-IN' : lang === 'hi' ? 'hi-IN' : 'en-IN'
-    utterance.rate = 0.95
-    utterance.pitch = 1.05
+    utterance.rate = 0.94 // Measured, empathetic pace
+    utterance.pitch = 1.22 // 28-year-old female doctor natural pitch
 
     const voices = window.speechSynthesis.getVoices()
-    const matchVoice = voices.find(v => v.lang.includes('IN') || v.name.includes('India') || v.name.includes('Hindi'))
-    if (matchVoice) utterance.voice = matchVoice
+    const femaleIndianVoice = voices.find(
+      (v) =>
+        (v.lang.includes('IN') || v.name.includes('India') || v.name.includes('Hindi') || v.name.includes('Marathi')) &&
+        (v.name.toLowerCase().includes('female') ||
+          v.name.toLowerCase().includes('lekha') ||
+          v.name.toLowerCase().includes('veena') ||
+          v.name.toLowerCase().includes('aditi') ||
+          v.name.toLowerCase().includes('neerja') ||
+          v.name.toLowerCase().includes('sangeeta') ||
+          v.name.toLowerCase().includes('google'))
+    ) || voices.find((v) => v.lang.includes('IN') || v.name.includes('India'))
+
+    if (femaleIndianVoice) utterance.voice = femaleIndianVoice
 
     utterance.onstart = () => {
       setIsSpeaking(true)

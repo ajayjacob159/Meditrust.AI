@@ -60,7 +60,7 @@ export default function SymptomCheckerPage() {
     scrollToBottom()
   }, [messages, isTyping])
 
-  // Real-time Text-to-Speech
+  // Real-time 28-Year-Old Female Doctor Text-to-Speech Engine
   const speakText = (text: string) => {
     if (typeof window === 'undefined' || !window.speechSynthesis || !speechEnabled) return
     window.speechSynthesis.cancel()
@@ -68,14 +68,23 @@ export default function SymptomCheckerPage() {
     const cleanText = text.replace(/[*_#•]/g, '').replace(/\[.*?\]\(.*?\)/g, '')
     const utterance = new SpeechSynthesisUtterance(cleanText)
     utterance.lang = selectedLanguage
-    utterance.rate = 0.95
-    utterance.pitch = 1.05
+    utterance.rate = 0.94 // Measured, compassionate cadence
+    utterance.pitch = 1.22 // 28-year-old female doctor natural pitch
 
     const voices = window.speechSynthesis.getVoices()
-    const indianVoice = voices.find(
-      (v) => v.lang.includes('IN') || v.name.includes('India') || v.name.includes('Hindi') || v.name.includes('Marathi')
-    )
-    if (indianVoice) utterance.voice = indianVoice
+    const femaleIndianVoice = voices.find(
+      (v) =>
+        (v.lang.includes('IN') || v.name.includes('India') || v.name.includes('Hindi') || v.name.includes('Marathi')) &&
+        (v.name.toLowerCase().includes('female') ||
+          v.name.toLowerCase().includes('lekha') ||
+          v.name.toLowerCase().includes('veena') ||
+          v.name.toLowerCase().includes('aditi') ||
+          v.name.toLowerCase().includes('neerja') ||
+          v.name.toLowerCase().includes('sangeeta') ||
+          v.name.toLowerCase().includes('google'))
+    ) || voices.find((v) => v.lang.includes('IN') || v.name.includes('India'))
+
+    if (femaleIndianVoice) utterance.voice = femaleIndianVoice
 
     window.speechSynthesis.speak(utterance)
   }
@@ -182,15 +191,21 @@ export default function SymptomCheckerPage() {
 
             {/* Top Quick Actions */}
             <div className="flex items-center gap-2">
-              {/* Language Selector */}
+              {/* Native Language Selector */}
               <select
                 value={selectedLanguage}
                 onChange={(e) => setSelectedLanguage(e.target.value as any)}
                 className="bg-teal-950/80 text-white text-3xs font-bold px-2 py-1.5 rounded-xl border border-teal-600/50 outline-hidden"
               >
-                <option value="mr-IN">🚩 मराठी</option>
-                <option value="hi-IN">🇮🇳 हिन्दी</option>
-                <option value="en-IN">🌐 English</option>
+                <option value="mr-IN">🚩 मराठी (Marathi)</option>
+                <option value="hi-IN">🇮🇳 हिन्दी (Hindi)</option>
+                <option value="en-IN">🌐 English (India)</option>
+                <option value="kn-IN">🟡 ಕನ್ನಡ (Kannada)</option>
+                <option value="te-IN">🟠 తెలుగు (Telugu)</option>
+                <option value="ta-IN">🟣 தமிழ் (Tamil)</option>
+                <option value="gu-IN">🟢 ગુજરાતી (Gujarati)</option>
+                <option value="bn-IN">🔵 বাংলা (Bengali)</option>
+                <option value="ml-IN">🟤 മലയാളം (Malayalam)</option>
               </select>
 
               {/* Voice Speak Toggle */}

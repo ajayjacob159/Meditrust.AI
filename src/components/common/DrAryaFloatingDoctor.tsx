@@ -6,20 +6,22 @@ import {
   Phone, Video, MessageCircle, X, ChevronUp, Sparkles,
   Volume2, VolumeX, Globe, MapPin, Building2, Shield,
   CheckCircle2, ArrowRight, Activity, Heart, RefreshCw, Send,
-  Mic, MicOff, Lock, UserCheck, Stethoscope, Sparkle, Clock
+  Mic, MicOff, Lock, UserCheck, Stethoscope, Sparkle, Clock, Play, Pause
 } from 'lucide-react'
 import { punePartnerHospitals } from '@/data/labProviders'
 import { medicalSpecialties, type MedicalSpecialty } from '@/data/clinicalEngine'
 import { evaluateClinicalQuery } from '@/data/clinicalReasoningEngine'
 
 const LANGUAGES = [
-  { id: 'mr', name: 'मराठी (Marathi)', speechCode: 'mr-IN', greeting: 'नमस्कार! मी डॉ. आर्या. मी तुम्हाला आज कशी मदत करू शकते?' },
-  { id: 'hi', name: 'हिन्दी (Hindi)', speechCode: 'hi-IN', greeting: 'नमस्ते! मैं डॉ. आर्या हूँ। आपकी स्वास्थ्य संबंधी क्या सहायता कर सकती हूँ?' },
-  { id: 'en', name: 'English (India)', speechCode: 'en-IN', greeting: 'Hello! I am Dr. Arya, your 24/7 AI Doctor. How can I help you today?' },
-  { id: 'ta', name: 'தமிழ் (Tamil)', speechCode: 'ta-IN', greeting: 'வணக்கம்! நான் டாக்டர் ஆர்யா. உங்களுக்கு எப்படி உதவ முடியும்?' },
-  { id: 'te', name: 'తెలుగు (Telugu)', speechCode: 'te-IN', greeting: 'నమస్కారం! నేను డాక్టర్ ఆర్య. మీ ఆరోగ్యానికి ఎలా సహాయపడగలను?' },
-  { id: 'bn', name: 'বাংলা (Bengali)', speechCode: 'bn-IN', greeting: 'নমস্কার! আমি ডঃ আর্যা। আপনাকে কীভাবে সাহায্য করতে পারি?' },
-  { id: 'gu', name: 'ગુજરાતી (Gujarati)', speechCode: 'gu-IN', greeting: 'નમસ્તે! હું ડૉ. આર્યા છું. હું તમને કેવી રીતે મદદ કરી શકું?' },
+  { id: 'mr', name: 'मराठी (Marathi)', speechCode: 'mr-IN', greeting: 'नमस्कार! मी डॉ. आर्या (वय २८, एमडी क्लिनिकल एआय). मी तुम्हाला तुमच्या मातृभाषेत संपूर्ण वैद्यकीय मार्गदर्शन करू शकते.' },
+  { id: 'hi', name: 'हिन्दी (Hindi)', speechCode: 'hi-IN', greeting: 'नमस्ते! मैं डॉ. आर्या (उम्र 28, एमडी क्लिनिकल एआई) हूँ। आपकी स्वास्थ्य संबंधी क्या सहायता कर सकती हूँ?' },
+  { id: 'en', name: 'English (India)', speechCode: 'en-IN', greeting: 'Hello! I am Dr. Arya (Age 28, MD Global Clinical AI). How can I assist with your health or blood tests today?' },
+  { id: 'kn', name: 'ಕನ್ನಡ (Kannada)', speechCode: 'kn-IN', greeting: 'ನಮಸ್ಕಾರ! ನಾನು ಡಾ. ಆರ್ಯ (ವಯಸ್ಸು 28). ನಿಮ್ಮ ಆರೋಗ್ಯಕ್ಕೆ ನಾನು ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?' },
+  { id: 'te', name: 'తెలుగు (Telugu)', speechCode: 'te-IN', greeting: 'నమస్కారం! నేను డాక్టర్ ఆర్య (వయస్సు 28). మీ ఆరోగ్యానికి నేను ఎలా సహాయపడగలను?' },
+  { id: 'ta', name: 'தமிழ் (Tamil)', speechCode: 'ta-IN', greeting: 'வணக்கம்! நான் டாக்டர் ஆர்யா (வயது 28). உங்கள் உடல்நலத்திற்கு நான் எவ்வாறு உதவ முடியும்?' },
+  { id: 'gu', name: 'ગુજરાતી (Gujarati)', speechCode: 'gu-IN', greeting: 'નમસ્તે! હું ડૉ. આર્યા (ઉંમર 28) છું. તમારા સ્વાસ્થ્ય માટે હું કેવી રીતે મદદ કરી શકું?' },
+  { id: 'bn', name: 'বাংলা (Bengali)', speechCode: 'bn-IN', greeting: 'নমস্কার! আমি ডঃ আর্যা (বয়স ২৮)। আপনার স্বাস্থ্যের বিষয়ে আমি কীভাবে সাহায্য করতে পারি?' },
+  { id: 'ml', name: 'മലയാളം (Malayalam)', speechCode: 'ml-IN', greeting: 'നമസ്കാരം! ഞാൻ ഡോ. ആര്യ (പ്രായം 28). നിങ്ങളുടെ ആരോഗ്യത്തിന് ഞാൻ എങ്ങനെ സഹായിക്കണം?' },
 ]
 
 export default function DrAryaFloatingDoctor({
@@ -29,7 +31,7 @@ export default function DrAryaFloatingDoctor({
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const [mode, setMode] = useState<'chat' | 'call' | 'video' | 'specialties' | 'hospital'>('chat')
-  const [selectedLang, setSelectedLang] = useState(LANGUAGES[0]) // Marathi default for Pune
+  const [selectedLang, setSelectedLang] = useState(LANGUAGES[0]) // Marathi default for Pune/PCMC
   const [activeSpecialty, setActiveSpecialty] = useState<MedicalSpecialty>(medicalSpecialties[0])
   
   // Voice & Call states
@@ -39,6 +41,7 @@ export default function DrAryaFloatingDoctor({
   const [isListening, setIsListening] = useState(false)
   const [speechEnabled, setSpeechEnabled] = useState(true)
   const [isTyping, setIsTyping] = useState(false)
+  const [videoSpeakingText, setVideoSpeakingText] = useState('नमस्कार! I am Dr. Arya. I explain your blood reports, suggest generic medicines to save 80%, and coordinate priority hospital care in Pune.')
   
   // Mobile Verification Gate for Calls/Video
   const [userPhone, setUserPhone] = useState('')
@@ -50,7 +53,7 @@ export default function DrAryaFloatingDoctor({
   const [messages, setMessages] = useState<{ role: 'ai' | 'user'; text: string; department?: string; time?: string }[]>([
     {
       role: 'ai',
-      text: 'नमस्कार! I am **Dr. Arya** (Age 28, MD Global Clinical AI). I provide real-time clinical guidance in **मराठी, हिन्दी & English**.\n\n📞 **24/7 Doctor Assistance Desk:** **+91 7028025717**.\n\nOver **60% of primary symptoms** (Fever, Acidity, Periods/PCOS, Joint Pains, Sugar/BP) are safely managed at home with generic savings (save 80%). For hospital visits, I arrange VIP Fast-Track Admission at **Ruby Hall Clinic & Sahyadri Pune**.',
+      text: 'नमस्कार! I am **Dr. Arya** (Age 28, MD Global Clinical AI). I provide real-time clinical consultations in **मराठी, हिन्दी & English**.\n\n📞 **24/7 Doctor Assistance Desk:** **+91 7028025717**.\n\nOver **60% of primary symptoms** (Fever, Acidity, Periods/PCOS, Joint Pains, Sugar/BP) are safely managed at home with generic savings (save 80%). For hospital visits, I arrange VIP Fast-Track Admission at **Ruby Hall Clinic & Sahyadri Pune**.',
       department: 'Clinical AI Triage',
       time: 'Just now',
     },
@@ -59,21 +62,34 @@ export default function DrAryaFloatingDoctor({
   const [bubbleText, setBubbleText] = useState('मराठी & Hindi 24/7 AI Doctor · Call +91 7028025717')
   const chatEndRef = useRef<HTMLDivElement>(null)
 
-  // Real-time Text-to-Speech
-  const speakText = (text: string) => {
+  // Real-time 28-Year-Old Female Doctor Text-to-Speech Engine
+  const speakText = (text: string, customLang?: string) => {
     if (typeof window === 'undefined' || !window.speechSynthesis || !speechEnabled) return
     window.speechSynthesis.cancel()
     
     // Clean markdown for speech
     const cleanText = text.replace(/[*_#•]/g, '').replace(/\[.*?\]\(.*?\)/g, '')
+    setVideoSpeakingText(cleanText)
     const utterance = new SpeechSynthesisUtterance(cleanText)
-    utterance.lang = selectedLang.speechCode || 'en-IN'
-    utterance.rate = 0.95
-    utterance.pitch = 1.05
+    utterance.lang = customLang || selectedLang.speechCode || 'mr-IN'
+    utterance.rate = 0.94 // Measured, compassionate cadence
+    utterance.pitch = 1.22 // 28-year-old female doctor natural pitch
     
     const voices = window.speechSynthesis.getVoices()
-    const indianVoice = voices.find(v => v.lang.includes('IN') || v.name.includes('India') || v.name.includes('Hindi') || v.name.includes('Marathi'))
-    if (indianVoice) utterance.voice = indianVoice
+    // Prioritize female Indian voices
+    const femaleIndianVoice = voices.find(
+      (v) =>
+        (v.lang.includes('IN') || v.name.includes('India') || v.name.includes('Hindi') || v.name.includes('Marathi')) &&
+        (v.name.toLowerCase().includes('female') ||
+          v.name.toLowerCase().includes('lekha') ||
+          v.name.toLowerCase().includes('veena') ||
+          v.name.toLowerCase().includes('aditi') ||
+          v.name.toLowerCase().includes('neerja') ||
+          v.name.toLowerCase().includes('sangeeta') ||
+          v.name.toLowerCase().includes('google'))
+    ) || voices.find((v) => v.lang.includes('IN') || v.name.includes('India'))
+
+    if (femaleIndianVoice) utterance.voice = femaleIndianVoice
 
     utterance.onstart = () => setIsVoiceActive(true)
     utterance.onend = () => setIsVoiceActive(false)
@@ -97,7 +113,7 @@ export default function DrAryaFloatingDoctor({
     }
 
     const recognition = new SpeechRecognition()
-    recognition.lang = selectedLang.speechCode || 'en-IN'
+    recognition.lang = selectedLang.speechCode || 'mr-IN'
     recognition.interimResults = false
     recognition.maxAlternatives = 1
 
@@ -132,7 +148,7 @@ export default function DrAryaFloatingDoctor({
     const bubbles = [
       '📞 Call Dr. Arya on +91 7028025717',
       '🌺 15+ Specialties in मराठी & हिन्दी',
-      '🩸 100,000+ Blood Reports Explained',
+      '🩸 120,000+ Consultations Triaged',
       '🏥 Ruby Hall & Sahyadri VIP Admission',
     ]
     let idx = 0
@@ -143,20 +159,64 @@ export default function DrAryaFloatingDoctor({
     return () => clearInterval(interval)
   }, [])
 
-  // Call timer
+  // Call timer simulation
   useEffect(() => {
     let timer: NodeJS.Timeout
     if (isCalling) {
-      timer = setInterval(() => setCallDuration((c) => c + 1), 1000)
+      timer = setInterval(() => {
+        setCallDuration((prev) => prev + 1)
+      }, 1000)
     } else {
       setCallDuration(0)
     }
     return () => clearInterval(timer)
   }, [isCalling])
 
+  // Scroll chat on updates
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, isTyping, isOpen])
+    if (mode === 'chat') {
+      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages, isTyping, mode])
+
+  // Phone Verification Handler
+  const handleVerifyPhone = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!phoneInputTemp || phoneInputTemp.length < 10) {
+      alert('Please enter a valid 10-digit mobile number')
+      return
+    }
+    setVerifyingPhone(true)
+    setTimeout(() => {
+      setUserPhone(phoneInputTemp)
+      setIsPhoneVerified(true)
+      setVerifyingPhone(false)
+      localStorage.setItem('meditrust_user', JSON.stringify({ phone: phoneInputTemp }))
+      
+      if (pendingCallAction) {
+        setMode(pendingCallAction)
+        if (pendingCallAction === 'call') {
+          setIsCalling(true)
+          speakText(selectedLang.greeting)
+        }
+        setPendingCallAction(null)
+      }
+    }, 800)
+  }
+
+  const triggerCallOrVideo = (targetMode: 'call' | 'video') => {
+    if (!isPhoneVerified) {
+      setPendingCallAction(targetMode)
+      return
+    }
+    setMode(targetMode)
+    if (targetMode === 'call') {
+      setIsCalling(true)
+      speakText(selectedLang.greeting)
+    } else if (targetMode === 'video') {
+      speakText(selectedLang.greeting)
+    }
+  }
 
   // REAL-TIME CLINICAL TRIAGE ENGINE
   const sendUserMessage = (userText: string) => {
@@ -189,142 +249,88 @@ export default function DrAryaFloatingDoctor({
     sendUserMessage(inputMessage)
   }
 
-  const triggerCallOrVideo = (actionType: 'call' | 'video') => {
-    if (!isPhoneVerified) {
-      setPendingCallAction(actionType)
-    } else {
-      if (actionType === 'call') {
-        setIsCalling(true)
-        setMode('call')
-        speakText(`Hello ${userPhone}! Dr. Arya is connected on live voice call. How are you feeling right now?`)
-      } else {
-        setMode('video')
-        speakText(`Live HD Video Room activated. Dr. Arya is observing your symptoms and clinical notes.`)
-      }
-    }
-  }
-
-  const handleVerifyPhone = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!phoneInputTemp || phoneInputTemp.length < 10) return
-    setVerifyingPhone(true)
-
-    setTimeout(() => {
-      setVerifyingPhone(false)
-      const formatted = `+91 ${phoneInputTemp.replace(/\D/g, '').slice(-10)}`
-      setUserPhone(formatted)
-      setIsPhoneVerified(true)
-      
-      const existing = localStorage.getItem('meditrust_user')
-      const profile = existing ? JSON.parse(existing) : {}
-      profile.phone = formatted
-      profile.isLoggedIn = true
-      localStorage.setItem('meditrust_user', JSON.stringify(profile))
-
-      const act = pendingCallAction || 'call'
-      setPendingCallAction(null)
-      if (act === 'call') {
-        setIsCalling(true)
-        setMode('call')
-        speakText(`Welcome! Voice consultation activated for ${formatted}. I am listening.`)
-      } else {
-        setMode('video')
-        speakText(`Video consultation room activated for ${formatted}.`)
-      }
-    }, 600)
-  }
-
   return (
     <>
-      {/* ── Floating 3D Animated Doctor Avatar Widget (Bottom Right) ── */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end pointer-events-none select-none">
-        
+      {/* ── 1. FLOATING DOCTOR TRIGGER BUTTON ── */}
+      <div className="fixed bottom-20 md:bottom-6 right-4 sm:right-6 z-40 flex items-center gap-3">
         {/* Animated Speech Bubble */}
         {!isOpen && (
           <div
             onClick={() => setIsOpen(true)}
-            className="pointer-events-auto cursor-pointer mb-2 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl rounded-br-sm shadow-2xl border border-teal-200 text-xs font-bold text-slate-900 flex items-center gap-2 animate-float-gentle max-w-[300px]"
-            style={{ boxShadow: '0 10px 30px rgba(15,118,110,0.25)' }}
+            className="hidden sm:flex items-center gap-2 bg-slate-950/95 text-white border border-teal-500/40 text-2xs font-bold px-3.5 py-2 rounded-full shadow-2xl backdrop-blur-md cursor-pointer hover:border-teal-400 transition-all active:scale-95"
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-teal-500 animate-heartbeat flex-shrink-0" />
-            <span className="truncate">{bubbleText}</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span className="text-teal-300">{bubbleText}</span>
           </div>
         )}
 
-        {/* 3D Doctor Avatar Button */}
+        {/* Doctor Avatar Trigger with Live Telemetry Ring */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Talk to Dr. Arya AI Doctor"
-          className="pointer-events-auto relative group flex items-center justify-center focus:outline-none transition-transform duration-300 hover:scale-105 active:scale-95"
+          className="relative group p-1 rounded-full focus:outline-none focus:ring-4 focus:ring-teal-500/30 transition-transform active:scale-90"
+          aria-label="Open Dr. Arya 24/7 AI Doctor"
         >
-          {/* Glowing Ring */}
-          <span className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-teal-500 via-emerald-400 to-blue-500 opacity-75 blur-md group-hover:opacity-100 transition duration-300 animate-pulse-glow" />
+          {/* Animated Glow Halo */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-teal-500 via-emerald-400 to-cyan-500 blur-sm opacity-80 group-hover:opacity-100 animate-pulse" />
           
-          <div className="relative w-16 h-16 sm:w-18 sm:h-18 rounded-full border-2 border-white overflow-hidden shadow-2xl bg-teal-900">
+          <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-white bg-slate-900 shadow-2xl flex items-center justify-center">
             <img
               src="/dr_arya.jpg"
               alt="Dr. Arya AI Doctor"
-              className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+              className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform"
             />
-            {isVoiceActive && (
-              <div className="absolute inset-0 bg-teal-950/40 flex items-center justify-center gap-0.5">
-                <span className="w-1 bg-teal-300 rounded-full animate-pulse h-4" />
-                <span className="w-1 bg-teal-300 rounded-full animate-pulse h-6" />
-                <span className="w-1 bg-teal-300 rounded-full animate-pulse h-3" />
-              </div>
-            )}
+            {/* Live Indicator */}
+            <span className="absolute bottom-1 right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center">
+              <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />
+            </span>
           </div>
 
-          {/* Online badge */}
-          <span className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full flex items-center justify-center shadow">
-            <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />
+          {/* Unread / Active Badge */}
+          <span className="absolute -top-1 -right-1 bg-amber-400 text-slate-950 text-[10px] font-black px-1.5 py-0.2 rounded-full shadow border border-white">
+            AI MD
           </span>
-
-          {/* Direct Call Tag */}
-          <div className="absolute -bottom-3 bg-slate-950 text-white text-3xs font-black px-2.5 py-0.5 rounded-full shadow border border-slate-700 whitespace-nowrap flex items-center gap-1">
-            <Phone className="w-2.5 h-2.5 text-teal-400" /> +91 7028025717
-          </div>
         </button>
       </div>
 
-      {/* ── Expanded Dr. Arya Interactive Doctor Console ── */}
+      {/* ── 2. EXPANDED DOCTOR CONSOLE MODAL ── */}
       {isOpen && (
-        <div className="fixed bottom-20 right-3 sm:right-6 z-50 w-[95vw] sm:w-[450px] max-h-[86vh] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col animate-fade-up">
+        <div className="fixed bottom-20 md:bottom-24 right-2 sm:right-6 z-50 w-[96vw] sm:w-[440px] max-h-[85vh] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col animate-fade-in">
           
-          {/* Top Header */}
-          <div className="p-4 bg-gradient-to-r from-teal-900 via-slate-900 to-slate-950 text-white flex items-center justify-between border-b border-slate-800">
+          {/* Doctor Header Banner */}
+          <div className="bg-gradient-to-r from-teal-900 via-teal-800 to-slate-950 text-white p-3.5 sm:p-4 flex items-center justify-between shadow-md flex-shrink-0">
             <div className="flex items-center gap-3">
-              <div className="relative w-11 h-11 rounded-2xl overflow-hidden border-2 border-teal-400/50 shadow">
+              <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-emerald-400 shadow flex-shrink-0 bg-slate-900">
                 <img
                   src="/dr_arya.jpg"
                   alt="Dr. Arya"
                   className="w-full h-full object-cover object-top"
                 />
-                <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 border border-white rounded-full" />
+                <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full" />
               </div>
+
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h4 className="font-bold text-sm text-white">Dr. Arya (AI Doctor)</h4>
-                  <span className="bg-teal-500/20 text-teal-300 border border-teal-400/30 text-3xs font-bold px-1.5 py-0.5 rounded-full">
-                    24×7 Online
-                  </span>
+                  <h3 className="font-bold text-sm sm:text-base text-white tracking-tight">
+                    Dr. Arya (Age 28, AI Physician)
+                  </h3>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 </div>
-                <div className="text-3xs text-slate-300 flex items-center gap-1">
-                  <Globe className="w-3 h-3 text-teal-400" />
-                  <span>Speaks {selectedLang.name}</span>
+                <div className="text-3xs text-teal-200 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                  <span>Online · Multilingual Native Audio</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setSpeechEnabled(!speechEnabled)}
-                className={`p-1.5 rounded-xl transition-colors ${
-                  speechEnabled ? 'text-teal-300 bg-white/10' : 'text-slate-500 bg-white/5'
+                className={`p-2 rounded-xl transition-colors ${
+                  speechEnabled ? 'bg-teal-700 text-white' : 'bg-slate-800 text-slate-400'
                 }`}
                 title={speechEnabled ? 'Audio Speech Enabled' : 'Audio Speech Muted'}
               >
-                {speechEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                {speechEnabled ? <Volume2 className="w-4 h-4 text-emerald-300" /> : <VolumeX className="w-4 h-4" />}
               </button>
               <button
                 onClick={() => setIsOpen(false)}
@@ -365,7 +371,7 @@ export default function DrAryaFloatingDoctor({
               }`}
             >
               <Video className="w-3.5 h-3.5 text-blue-600" />
-              <span>Video Consult</span>
+              <span>Animated Video</span>
             </button>
 
             <button
@@ -379,15 +385,15 @@ export default function DrAryaFloatingDoctor({
             </button>
           </div>
 
-          {/* Language Selector Strip */}
+          {/* Local Native Language Strip */}
           <div className="px-3 py-1.5 bg-slate-50 border-b border-slate-200/60 flex items-center gap-1.5 overflow-x-auto text-3xs font-bold">
-            <span className="text-slate-400 flex-shrink-0">Language:</span>
+            <span className="text-slate-400 flex-shrink-0">Speak in:</span>
             {LANGUAGES.map((lang) => (
               <button
                 key={lang.id}
                 onClick={() => {
                   setSelectedLang(lang)
-                  speakText(lang.greeting)
+                  speakText(lang.greeting, lang.speechCode)
                 }}
                 className={`px-2 py-0.5 rounded-full transition-colors flex-shrink-0 ${
                   selectedLang.id === lang.id
@@ -448,8 +454,8 @@ export default function DrAryaFloatingDoctor({
               <div className="px-3 py-1.5 bg-white border-t border-slate-100 flex items-center gap-1.5 overflow-x-auto text-3xs">
                 {[
                   'एसिडिटी आणि छातीत जळजळ (Acidity)',
-                  'Goodghey / Knee Pain & Vitamin D',
-                  'Diabetes / HbA1c Sugar Diet',
+                  'Knee Pain & Vitamin D (गुडघेदुखी)',
+                  'Diabetes / Sugar Diet (मधुमेह)',
                   'PCOS / Irregular Periods',
                   'Fever & Cold Treatment',
                 ].map((chip) => (
@@ -480,13 +486,7 @@ export default function DrAryaFloatingDoctor({
                   type="text"
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
-                  placeholder={
-                    selectedLang.id === 'mr'
-                      ? 'लक्षणे टाइप करा (उदा. मला चक्कर येत आहे)...'
-                      : selectedLang.id === 'hi'
-                      ? 'लक्षण लिखें (उदा. पेट में दर्द है)...'
-                      : 'Type your symptoms or blood report values...'
-                  }
+                  placeholder={`Type in ${selectedLang.name.split(' ')[0]} (e.g. मला ताप आला आहे)...`}
                   className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-teal-600 focus:bg-white transition-colors"
                 />
 
@@ -501,11 +501,14 @@ export default function DrAryaFloatingDoctor({
             </>
           )}
 
-          {/* ── MODE 2: VOICE CALL SIMULATOR ── */}
+          {/* ── MODE 2: 28-YEAR-OLD FEMALE DOCTOR VOICE CONSULTATION ── */}
           {mode === 'call' && (
             <div className="p-6 bg-slate-950 text-white flex flex-col items-center justify-center space-y-6 min-h-[360px]">
               <div className="relative">
-                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-emerald-400 shadow-2xl">
+                {/* Doctor Avatar with Speaking Pulse */}
+                <div className={`w-24 h-24 rounded-full overflow-hidden border-4 border-emerald-400 shadow-2xl transition-transform duration-500 ${
+                  isVoiceActive ? 'scale-105 ring-4 ring-emerald-500/40' : 'scale-100'
+                }`}>
                   <img
                     src="/dr_arya.jpg"
                     alt="Dr. Arya"
@@ -516,74 +519,121 @@ export default function DrAryaFloatingDoctor({
               </div>
 
               <div className="text-center space-y-1">
-                <h4 className="text-lg font-bold text-white">Dr. Arya AI Voice Consultation</h4>
+                <h4 className="text-lg font-bold text-white">Dr. Arya (Age 28, Clinical AI MD)</h4>
                 <p className="text-xs text-emerald-400 font-bold">
-                  {isCalling ? `Connected · ${Math.floor(callDuration / 60)}:${String(callDuration % 60).padStart(2, '0')}` : 'Calling Doctor Desk...'}
+                  {isCalling ? `Connected · Speaking ${selectedLang.name} · ${Math.floor(callDuration / 60)}:${String(callDuration % 60).padStart(2, '0')}` : 'Connecting with Dr. Arya...'}
                 </p>
                 <p className="text-2xs text-slate-400">
-                  Direct Line: +91 7028025717 · Speaking {selectedLang.name}
+                  Direct Line: +91 7028025717 · 28-Year-Old Female Clinical Tone
                 </p>
               </div>
 
-              {/* Spoken Voice Waves */}
+              {/* Dynamic Voice Waves */}
               <div className="flex items-center gap-1.5 h-8">
                 {[14, 28, 18, 32, 20, 28, 14, 24, 18, 30, 16, 22].map((h, i) => (
                   <span
                     key={i}
-                    className="w-1.5 bg-emerald-400 rounded-full animate-pulse"
-                    style={{ height: `${h}px`, animationDelay: `${i * 0.1}s` }}
+                    className={`w-1.5 bg-emerald-400 rounded-full transition-all ${
+                      isVoiceActive ? 'animate-pulse' : 'h-1.5 opacity-40'
+                    }`}
+                    style={{ height: isVoiceActive ? `${h}px` : '4px', animationDelay: `${i * 0.08}s` }}
                   />
                 ))}
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => speakText(selectedLang.greeting)}
+                  className="px-4 py-2 rounded-full bg-teal-800 hover:bg-teal-700 text-white text-xs font-bold flex items-center gap-1.5"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  <span>Replay Voice</span>
+                </button>
                 <button
                   onClick={() => {
                     setIsCalling(false)
                     if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel()
                     setMode('chat')
                   }}
-                  className="px-6 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-lg"
+                  className="px-5 py-2 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-lg"
                 >
-                  End Voice Call
+                  End Call
                 </button>
               </div>
             </div>
           )}
 
-          {/* ── MODE 3: VIDEO CONSULTATION ── */}
+          {/* ── MODE 3: ANIMATED DOCTOR VIDEO EXPLAINING SCREEN ── */}
           {mode === 'video' && (
             <div className="p-4 bg-slate-950 text-white space-y-4">
-              <div className="relative aspect-video rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 flex items-center justify-center">
-                <img
-                  src="/dr_arya.jpg"
-                  alt="Dr. Arya Video Feed"
-                  className="w-full h-full object-cover object-top opacity-90"
-                />
-                <div className="absolute top-3 left-3 bg-red-600 px-2 py-0.5 rounded text-3xs font-black uppercase tracking-wider animate-pulse">
-                  HD Video Live
+              <div className="relative aspect-video rounded-3xl overflow-hidden border border-teal-500/40 bg-slate-900 shadow-2xl flex flex-col justify-between p-3 group">
+                
+                {/* Doctor Visual Feed */}
+                <div className="absolute inset-0">
+                  <img
+                    src="/dr_arya.jpg"
+                    alt="Dr. Arya Video Feed"
+                    className={`w-full h-full object-cover object-top transition-transform duration-700 ${
+                      isVoiceActive ? 'scale-105 filter brightness-110' : 'scale-100'
+                    }`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
                 </div>
-                <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-lg text-2xs">
-                  Dr. Arya · Multi-Specialist AI MD
+
+                {/* Top Overlay Badge */}
+                <div className="relative z-10 flex items-center justify-between">
+                  <div className="bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-full text-3xs text-white border border-white/10 flex items-center gap-1.5 shadow">
+                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+                    <span className="font-bold uppercase tracking-wider">Animated Dr. Arya Explaining</span>
+                  </div>
+                  <span className="text-3xs bg-teal-900/80 text-teal-300 px-2 py-0.5 rounded-full border border-teal-500/30 font-mono">
+                    28 Yrs · MD AI
+                  </span>
                 </div>
+
+                {/* Bottom Subtitle / Captions Teleprompter */}
+                <div className="relative z-10 space-y-2">
+                  {/* Real-time Voice Equalizer */}
+                  <div className="flex items-center gap-1 h-4">
+                    {[8, 16, 10, 18, 12, 16, 8, 14].map((h, i) => (
+                      <span
+                        key={i}
+                        className={`w-1 bg-teal-400 rounded-full transition-all ${
+                          isVoiceActive ? 'animate-pulse' : 'h-1 opacity-30'
+                        }`}
+                        style={{ height: isVoiceActive ? `${h}px` : '3px' }}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Live Caption Box */}
+                  <div className="p-2.5 rounded-2xl bg-black/75 backdrop-blur-md border border-white/10 text-3xs text-slate-200 leading-relaxed font-medium">
+                    <strong className="text-teal-400 block font-bold mb-0.5">
+                      🗣️ Dr. Arya (Speaking in {selectedLang.name.split(' ')[0]}):
+                    </strong>
+                    <p className="line-clamp-3">{videoSpeakingText}</p>
+                  </div>
+                </div>
+
               </div>
 
-              <div className="p-3 bg-slate-900 rounded-2xl border border-slate-800 text-xs text-slate-300 space-y-2">
-                <div className="flex items-center justify-between font-bold text-white text-2xs">
-                  <span>CLINICAL OBSERVATION ROOM</span>
-                  <span className="text-teal-400">W.H.O. HIPAA ENCRYPTED</span>
-                </div>
-                <p className="leading-relaxed text-2xs">
-                  Video feed active. Please describe visible symptoms (skin rash, swelling, throat redness) or read your blood pressure / glucose monitor numbers aloud.
-                </p>
-              </div>
+              {/* Video Controls & Language Switch */}
+              <div className="flex items-center justify-between gap-2">
+                <button
+                  onClick={() => speakText(videoSpeakingText)}
+                  className="flex-1 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-600 text-white font-bold text-xs shadow flex items-center justify-center gap-1.5 transition-all"
+                >
+                  <Play className="w-3.5 h-3.5 fill-white" />
+                  <span>{isVoiceActive ? 'Speaking Now...' : 'Play Doctor Audio'}</span>
+                </button>
 
-              <button
-                onClick={() => setMode('chat')}
-                className="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold"
-              >
-                Return to Chat Mode
-              </button>
+                <button
+                  onClick={() => setMode('chat')}
+                  className="py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition-colors"
+                >
+                  Chat Mode
+                </button>
+              </div>
             </div>
           )}
 
