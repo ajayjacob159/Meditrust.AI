@@ -21,7 +21,7 @@ import { medications } from '@/data/medications'
 
 const LANGUAGES = [
   { id: 'mr', name: 'मराठी', speechCode: 'mr-IN', flag: '🚩', greeting: 'नमस्कार! मी डॉ. आर्या. ६०% आरोग्य समस्या आपण घरबसल्या सोडवू शकतो.', samplePrompt: 'माझे गुडघे दुखतात आणि चक्कर येते' },
-  { id: 'hi', name: 'हिन्दी', speechCode: 'hi-IN', flag: '🇮🇳', greeting: 'नमस्ते! मैं डॉ. आर्या हूँ। W.H.O. मानकों के अनुसार घर बैठे सही डॉक्टरी सलाह पाएं।', samplePrompt: 'मुझे एसिडिटी और सीने में जलन है' },
+  { id: 'hi', name: 'हिन्दी', speechCode: 'hi-IN', flag: '🇮🇳', greeting: 'नमस्ते! मैं डॉ. आर्या हूँ। 24/7 घर बैठे सही और सटीक डॉक्टरी सलाह पाएं।', samplePrompt: 'मुझे एसिडिटी और सीने में जलन है' },
   { id: 'en', name: 'English', speechCode: 'en-IN', flag: '🌐', greeting: 'Hello! I am Dr. Arya, your 24/7 AI Doctor. How can I help you today?', samplePrompt: 'Explain my high HbA1c (7.4%) report' },
   { id: 'ta', name: 'தமிழ்', speechCode: 'ta-IN', flag: '🌺', greeting: 'வணக்கம்! நான் டாக்டர் ஆர்யா. 24/7 உடனடி மருத்துவ ஆலோசனை.', samplePrompt: 'ரத்த பரிசோதனை விவரம்' },
   { id: 'te', name: 'తెలుగు', speechCode: 'te-IN', flag: '🪔', greeting: 'నమస్కారం! నేను డాక్టర్ ఆర్య. మీ ఆరోగ్య సలహాదారు.', samplePrompt: 'థైరాయిడ్ లక్షణాలు' },
@@ -62,15 +62,15 @@ export default function HomePage() {
   }
 
   return (
-    <div className="relative overflow-hidden bg-slate-50 min-h-screen">
+    <div className="relative overflow-x-hidden w-full max-w-full bg-slate-50 min-h-screen">
       {/* Background Animated SVG Waves */}
       <HealthcareBackgroundMotion />
 
       {/* ── 1. HERO SECTION: PICTORIAL & HIGH-ADRENALINE ── */}
-      <section className="relative pt-6 pb-12 sm:pt-10 sm:pb-16 overflow-hidden">
-        <div className="container-main">
+      <section className="relative pt-6 pb-12 sm:pt-10 sm:pb-16 overflow-x-hidden w-full max-w-full">
+        <div className="container-main w-full">
           
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
             
             {/* Left Column: Punchy Headline & Visual Triggers */}
             <div className="lg:col-span-7 space-y-6">
@@ -78,7 +78,7 @@ export default function HomePage() {
               {/* Trust Pill */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-100/80 border border-teal-200 text-teal-900 text-xs font-bold shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                <span>W.H.O. Standard AI Medical Triage · 15+ Specialties</span>
+                <span>24/7 AI Medical Triage · 15+ Specialties</span>
               </div>
 
               {/* High Impact Headline */}
@@ -118,119 +118,104 @@ export default function HomePage() {
                 </a>
               </div>
 
-              {/* Language Voice Selector Bar */}
-              <div className="pt-2">
-                <div className="flex items-center gap-2 text-xs font-bold text-slate-500 mb-2">
-                  <Globe className="w-4 h-4 text-teal-600" />
-                  <span>Listen to Dr. Arya Speak in Your Language:</span>
+              {/* Live Voice Selector Strips */}
+              <div className="p-4 rounded-2xl bg-white/90 border border-slate-200/90 shadow-sm space-y-2.5 backdrop-blur-xs">
+                <div className="flex items-center justify-between">
+                  <div className="text-2xs font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                    <Volume2 className="w-3.5 h-3.5 text-teal-600" />
+                    <span>Select Language to Hear Dr. Arya Speak</span>
+                  </div>
+                  {isPlayingAudio && (
+                    <span className="text-3xs font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full animate-pulse flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-teal-600" /> Speaking Now...
+                    </span>
+                  )}
                 </div>
+
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map((lang) => (
                     <button
                       key={lang.id}
                       onClick={() => handleLanguageSwitch(lang)}
-                      className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
                         selectedLang.id === lang.id
-                          ? 'bg-teal-700 text-white shadow-md scale-105'
-                          : 'bg-white text-slate-700 border border-slate-200 hover:border-teal-300'
+                          ? 'bg-teal-700 text-white shadow-xs scale-105'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                       }`}
                     >
                       <span>{lang.flag}</span>
                       <span>{lang.name}</span>
-                      {selectedLang.id === lang.id && isPlayingAudio && (
-                        <Volume2 className="w-3.5 h-3.5 text-teal-200 animate-pulse" />
-                      )}
                     </button>
                   ))}
                 </div>
-              </div>
 
-              {/* Visual Metric Proof Strip */}
-              <div className="grid grid-cols-3 gap-3 pt-4 border-t border-slate-200/80">
-                <div className="p-3 rounded-2xl bg-white border border-slate-100 shadow-2xs">
-                  <div className="text-xl sm:text-2xl font-black text-teal-800">60%</div>
-                  <div className="text-3xs sm:text-2xs text-slate-500 font-bold uppercase">Solved at Home</div>
-                </div>
-                <div className="p-3 rounded-2xl bg-white border border-slate-100 shadow-2xs">
-                  <div className="text-xl sm:text-2xl font-black text-rose-700">80%</div>
-                  <div className="text-3xs sm:text-2xs text-slate-500 font-bold uppercase">Medicine Savings</div>
-                </div>
-                <div className="p-3 rounded-2xl bg-white border border-slate-100 shadow-2xs">
-                  <div className="text-xl sm:text-2xl font-black text-purple-700">13+</div>
-                  <div className="text-3xs sm:text-2xs text-slate-500 font-bold uppercase">Diagnostic Labs</div>
-                </div>
+                <p className="text-xs text-teal-900 bg-teal-50/70 p-2.5 rounded-xl border border-teal-100 italic">
+                  "{selectedLang.greeting}"
+                </p>
               </div>
 
             </div>
 
-            {/* Right Column: Visual Dr. Arya Live Telemedicine Card */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-3xl bg-gradient-to-b from-slate-900 via-teal-950 to-slate-950 p-5 text-white shadow-2xl border border-teal-500/30 overflow-hidden group">
+            {/* Right Column: Visual 3D Doctor Studio Card */}
+            <div className="lg:col-span-5 relative">
+              <div className="relative rounded-3xl bg-gradient-to-b from-slate-900 via-slate-950 to-teal-950 p-2 shadow-2xl border border-teal-500/30 overflow-hidden group">
                 
-                {/* Visual Glow */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 rounded-full blur-3xl pointer-events-none" />
+                {/* Visual Glow Layer */}
+                <div className="absolute inset-0 bg-radial from-teal-500/20 via-transparent to-transparent opacity-60 pointer-events-none" />
 
-                {/* Card Top Status Bar */}
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-                    <span className="text-xs font-bold tracking-wide uppercase text-teal-300">Live AI Doctor Room</span>
-                  </div>
-                  <span className="bg-slate-800 px-2.5 py-1 rounded-full text-3xs font-bold text-slate-300 border border-slate-700">
-                    W.H.O. Certified
-                  </span>
-                </div>
-
-                {/* Doctor Portrait Visual Container */}
-                <div className="relative my-4 aspect-[4/3] rounded-2xl overflow-hidden border-2 border-teal-500/40 shadow-inner bg-slate-900">
+                {/* Dr. Arya Portrait Frame */}
+                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-slate-950">
                   <img
                     src="/dr_arya.jpg"
                     alt="Dr. Arya AI Doctor"
-                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover object-top filter brightness-105 group-hover:scale-103 transition-transform duration-500"
                   />
 
-                  {/* Audio Playing Visualizer Overlay */}
-                  {isPlayingAudio && (
-                    <div className="absolute bottom-3 left-3 right-3 bg-slate-950/80 backdrop-blur-md p-2.5 rounded-xl border border-teal-400/40 flex items-center justify-between">
+                  {/* Active Telemetry Overlay HUD */}
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-emerald-400 text-3xs font-black uppercase tracking-wider border border-emerald-500/30">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                      Live AI Triage Active
+                    </span>
+
+                    <span className="px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-slate-300 text-3xs font-bold border border-slate-700">
+                      24×7 Available
+                    </span>
+                  </div>
+
+                  {/* Real-time Voice Wave Visualizer Overlay */}
+                  <div className="absolute bottom-3 left-3 right-3 p-3.5 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-teal-500/30 text-white space-y-2">
+                    <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Volume2 className="w-4 h-4 text-teal-400 animate-bounce" />
-                        <span className="text-xs font-bold text-teal-200">Dr. Arya Speaking ({selectedLang.name})...</span>
+                        <div className="w-2.5 h-2.5 rounded-full bg-teal-400 animate-pulse" />
+                        <span className="text-xs font-black tracking-wide">Dr. Arya, AI Physician</span>
                       </div>
-                      <div className="flex items-end gap-0.5 h-4">
-                        {[10, 18, 12, 22, 14, 24, 16, 20].map((h, i) => (
-                          <span
-                            key={i}
-                            className="w-1 bg-teal-400 rounded-full animate-pulse"
-                            style={{ height: `${h}px`, animationDelay: `${i * 0.1}s` }}
-                          />
-                        ))}
-                      </div>
+                      <span className="text-3xs text-teal-300 font-bold bg-teal-950/80 px-2 py-0.5 rounded-full border border-teal-500/30">
+                        15+ Specialties
+                      </span>
                     </div>
-                  )}
-                </div>
 
-                {/* Spoken Greeting Quote */}
-                <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs text-slate-200 leading-relaxed italic">
-                  "{selectedLang.greeting}"
-                </div>
+                    <div className="flex items-center gap-1.5 h-6 px-1">
+                      {[40, 75, 100, 60, 90, 45, 80, 100, 65, 85, 50, 95, 70, 40].map((h, i) => (
+                        <div
+                          key={i}
+                          className="flex-1 bg-gradient-to-t from-teal-500 to-emerald-400 rounded-full transition-all duration-300"
+                          style={{
+                            height: isPlayingAudio ? `${h}%` : '20%',
+                            animation: isPlayingAudio ? `soundwave 0.8s infinite ease-in-out ${i * 0.05}s` : 'none'
+                          }}
+                        />
+                      ))}
+                    </div>
 
-                {/* 1-Tap Quick Action Row */}
-                <div className="grid grid-cols-2 gap-2.5 pt-3">
-                  <Link
-                    href="/symptom-checker"
-                    className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs shadow transition-colors"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    <span>Chat in Real Time</span>
-                  </Link>
-
-                  <button
-                    onClick={() => playDoctorVoice(selectedLang.greeting, selectedLang.speechCode)}
-                    className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-teal-300 font-bold text-xs border border-slate-700 transition-colors"
-                  >
-                    <Volume2 className="w-4 h-4 text-teal-400" />
-                    <span>Listen Voice</span>
-                  </button>
+                    <Link
+                      href="/symptom-checker"
+                      className="w-full py-2 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-black text-xs text-center flex items-center justify-center gap-1.5 shadow transition-all"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" />
+                      <span>Start Instant Consultation</span>
+                    </Link>
+                  </div>
                 </div>
 
               </div>
@@ -241,122 +226,145 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 2. PICTORIAL 4-PILLAR FEATURE MATRIX ── */}
-      <section className="py-12 bg-white border-y border-slate-200/80">
-        <div className="container-main space-y-8">
+      {/* ── 2. THE 4 HIGH-VISUAL PILLARS OF MEDITRUST AI ── */}
+      <section className="py-12 sm:py-16 bg-white border-y border-slate-200/80">
+        <div className="container-main space-y-10">
           
-          <div className="text-center max-w-3xl mx-auto space-y-2">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">
+              Complete Healthcare Navigation
+            </span>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight font-display">
-              Healthcare Made Visual, Simple & 80% Cheaper
+              Four High-Impact Solutions in One Platform
             </h2>
             <p className="text-sm sm:text-base text-slate-600 font-medium">
-              Four hospital-grade technologies built to eliminate medical confusion and heavy hospital bills.
+              From instant multilingual symptom triage to 80% generic medicine discounts and 60-min doorstep lab tests.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* 4 Pictorial Image Cards Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             
-            {/* Card 1: AI Symptom Checker */}
-            <div className="group rounded-3xl bg-teal-50/60 border border-teal-200/80 p-5 space-y-4 hover:shadow-xl hover:border-teal-400 transition-all flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-2xl bg-teal-700 text-white flex items-center justify-center shadow-md">
-                  <Stethoscope className="w-6 h-6" />
+            {/* Card 1: 24/7 AI Doctor Consultation */}
+            <div className="rounded-3xl bg-slate-900 border border-slate-800 overflow-hidden shadow-lg flex flex-col justify-between group hover:border-teal-500 transition-all">
+              <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
+                <img
+                  src="/dr_arya.jpg"
+                  alt="24/7 AI Doctor"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-3 left-3 bg-teal-800/90 text-white text-3xs font-black px-2.5 py-1 rounded-full backdrop-blur-xs">
+                  24×7 Available
                 </div>
-                <h3 className="text-lg font-bold text-slate-950">24/7 AI Doctor Triage</h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Instant evidence-based clinical insights in Marathi, Hindi & English. Type symptoms → receive clear next steps.
-                </p>
               </div>
-
-              <Link
-                href="/symptom-checker"
-                className="flex items-center justify-between p-2.5 rounded-xl bg-white text-teal-900 font-bold text-xs border border-teal-200 group-hover:bg-teal-700 group-hover:text-white transition-all"
-              >
-                <span>Check Symptoms</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              <div className="p-5 space-y-3 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-teal-400 transition-colors">
+                    24/7 Multilingual AI Doctor
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1">
+                    Consult Dr. Arya in Marathi, Hindi & English. Evaluates symptoms across 15+ specialties instantly.
+                  </p>
+                </div>
+                <Link
+                  href="/symptom-checker"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-400 group-hover:text-teal-300 pt-2 border-t border-slate-800"
+                >
+                  <span>Start Free Triage</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
             </div>
 
-            {/* Card 2: Report Explainer (HUD Image) */}
-            <div className="group rounded-3xl bg-blue-50/60 border border-blue-200/80 overflow-hidden hover:shadow-xl hover:border-blue-400 transition-all flex flex-col justify-between">
+            {/* Card 2: Report Scanner & Organ Vitality */}
+            <div className="rounded-3xl bg-slate-900 border border-slate-800 overflow-hidden shadow-lg flex flex-col justify-between group hover:border-blue-500 transition-all">
               <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
                 <img
                   src="/report_scanner_hud.jpg"
                   alt="Report Scanner HUD"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute top-2 right-2 bg-blue-900/90 text-white text-3xs font-bold px-2 py-0.5 rounded-full">
-                  100,000+ Decoded
+                <div className="absolute top-3 left-3 bg-blue-800/90 text-white text-3xs font-black px-2.5 py-1 rounded-full backdrop-blur-xs">
+                  100-Pt Vitality Score
                 </div>
               </div>
-
-              <div className="p-5 space-y-3">
-                <h3 className="text-lg font-bold text-slate-950">Report Explainer HUD</h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Upload CBC, Thyroid, HbA1c or Vitamin D reports. Dr. Arya translates medical numbers into plain words.
-                </p>
+              <div className="p-5 space-y-3 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">
+                    Plain-English Report Explainer
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1">
+                    Upload any blood test PDF or photo. Dr. Arya breaks down CBC, Thyroid, HbA1c & Vitamin D into plain language.
+                  </p>
+                </div>
                 <button
                   onClick={() => setReportModalOpen(true)}
-                  className="w-full flex items-center justify-between p-2.5 rounded-xl bg-white text-blue-900 font-bold text-xs border border-blue-200 group-hover:bg-blue-700 group-hover:text-white transition-all"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-400 group-hover:text-blue-300 pt-2 border-t border-slate-800 text-left"
                 >
-                  <span>Upload & Decode Report</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Upload & Scan PDF</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </div>
 
-            {/* Card 3: Generic Medicine Savings (3D Image) */}
-            <div className="group rounded-3xl bg-emerald-50/60 border border-emerald-200/80 overflow-hidden hover:shadow-xl hover:border-emerald-400 transition-all flex flex-col justify-between">
+            {/* Card 3: Generic Medicine Savings */}
+            <div className="rounded-3xl bg-slate-900 border border-slate-800 overflow-hidden shadow-lg flex flex-col justify-between group hover:border-emerald-500 transition-all">
               <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
                 <img
                   src="/medicine_generic_savings.jpg"
                   alt="Generic Medicine Savings"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute top-2 right-2 bg-emerald-700 text-white text-3xs font-black px-2 py-0.5 rounded-full shadow">
-                  Save Up to 80%
+                <div className="absolute top-3 left-3 bg-emerald-700/90 text-white text-3xs font-black px-2.5 py-1 rounded-full backdrop-blur-xs">
+                  Save up to 80%
                 </div>
               </div>
-
-              <div className="p-5 space-y-3">
-                <h3 className="text-lg font-bold text-slate-950">Generic Medicine Match</h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Compare Tata 1mg, PharmEasy & Apollo vs Jan Aushadhi (PMBJP) generic equivalents certified by CDSCO.
-                </p>
+              <div className="p-5 space-y-3 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors">
+                    Generic Medicine Price Match
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1">
+                    Compare Tata 1mg, PharmEasy & Apollo prices against government-certified Jan Aushadhi generic substitutes.
+                  </p>
+                </div>
                 <Link
                   href="/medication-comparison"
-                  className="flex items-center justify-between p-2.5 rounded-xl bg-white text-emerald-950 font-bold text-xs border border-emerald-200 group-hover:bg-emerald-700 group-hover:text-white transition-all"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 group-hover:text-emerald-300 pt-2 border-t border-slate-800"
                 >
                   <span>Compare Medicine Prices</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
             </div>
 
-            {/* Card 4: 60-Min Home Blood Collection (Phlebotomy Image) */}
-            <div className="group rounded-3xl bg-purple-50/60 border border-purple-200/80 overflow-hidden hover:shadow-xl hover:border-purple-400 transition-all flex flex-col justify-between">
+            {/* Card 4: 60-Minute At-Home Phlebotomy */}
+            <div className="rounded-3xl bg-slate-900 border border-slate-800 overflow-hidden shadow-lg flex flex-col justify-between group hover:border-purple-500 transition-all">
               <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
                 <img
                   src="/home_phlebotomy_pickup.jpg"
-                  alt="60-Min Home Blood Pickup"
+                  alt="Home Blood Collection"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute top-2 right-2 bg-purple-900/90 text-white text-3xs font-bold px-2 py-0.5 rounded-full">
-                  60-Min Pune Fleet
+                <div className="absolute top-3 left-3 bg-purple-800/90 text-white text-3xs font-black px-2.5 py-1 rounded-full backdrop-blur-xs">
+                  ⚡ 60-Min Pickup
                 </div>
               </div>
-
-              <div className="p-5 space-y-3">
-                <h3 className="text-lg font-bold text-slate-950">13+ Diagnostic Labs Matrix</h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Compare rates across Metropolis, Dr Lal, Thyrocare & Sahyadri with 60-min home sample collection.
-                </p>
+              <div className="p-5 space-y-3 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-purple-400 transition-colors">
+                    13+ Pune Diagnostic Labs
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1">
+                    Book doorstep blood collection across Metropolis, Thyrocare, Dr Lal & Sahyadri with 60-min phlebotomist dispatch.
+                  </p>
+                </div>
                 <Link
                   href="/lab-test-comparison"
-                  className="flex items-center justify-between p-2.5 rounded-xl bg-white text-purple-950 font-bold text-xs border border-purple-200 group-hover:bg-purple-700 group-hover:text-white transition-all"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-400 group-hover:text-purple-300 pt-2 border-t border-slate-800"
                 >
                   <span>Compare 13+ Labs</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
             </div>
@@ -366,87 +374,76 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 3. VISUAL BEFORE / AFTER BLOOD REPORT EXPLAINER ── */}
-      <section className="py-12 sm:py-16 bg-slate-900 text-white relative overflow-hidden">
-        <div className="container-main space-y-8 relative z-10">
+      {/* ── 3. VISUAL BEFORE/AFTER REPORT BRIEFING SHOWCASE ── */}
+      <section className="py-12 sm:py-16 bg-slate-900 text-white overflow-hidden">
+        <div className="container-main space-y-8">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-teal-400">
-                Visual Report Simplification Engine
+                Interactive Video Explainer
               </span>
               <h2 className="text-2xl sm:text-4xl font-black text-white mt-1 font-display">
-                "I Don’t Understand My Blood Report" — Solved.
+                How Dr. Arya Transforms Confusing Lab Reports
               </h2>
             </div>
-
             <button
               onClick={() => setReportModalOpen(true)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs sm:text-sm shadow transition-colors self-start sm:self-auto"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs shadow-md transition-all self-start md:self-auto"
             >
-              <Video className="w-4 h-4" />
-              <span>Watch Video Briefing Demo →</span>
+              <Play className="w-3.5 h-3.5 fill-white" />
+              <span>Watch Live Report Demo</span>
             </button>
           </div>
 
-          {/* Visual Comparison Grid */}
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid lg:grid-cols-2 gap-6 items-stretch">
             
-            {/* Left: Confusing Lab Jargon */}
-            <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                <span className="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <AlertTriangle className="w-4 h-4" />
-                  What Diagnostic Labs Give You (Raw Numbers)
+            {/* Left: Confusing Diagnostic PDF Card */}
+            <div className="p-6 rounded-3xl bg-slate-950 border border-rose-900/40 space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black uppercase text-rose-400 bg-rose-950/80 px-2.5 py-1 rounded-full border border-rose-800/50">
+                  ❌ Before: Confusing Lab Numbers
                 </span>
-                <span className="text-3xs text-slate-500 font-mono">PDF REPORT #8241</span>
+                <span className="text-2xs text-slate-500">Unexplained Biomarkers</span>
               </div>
 
-              <div className="space-y-3 font-mono text-xs">
-                <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex justify-between">
-                  <span className="text-slate-400">HbA1c (Glycated Hb)</span>
-                  <span className="text-rose-400 font-bold">7.4 % (HIGH) [4.0-5.6]</span>
+              <div className="space-y-3 font-mono text-xs bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                <div className="flex justify-between border-b border-slate-800 pb-2">
+                  <span className="text-slate-400">Glycated Hb (HbA1c):</span>
+                  <span className="font-bold text-rose-400">7.4 % (High)</span>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex justify-between">
-                  <span className="text-slate-400">Serum TSH (Thyroid)</span>
-                  <span className="text-amber-400 font-bold">6.8 mIU/L (ELEVATED) [0.4-4.5]</span>
+                <div className="flex justify-between border-b border-slate-800 pb-2">
+                  <span className="text-slate-400">TSH (Thyroid):</span>
+                  <span className="font-bold text-amber-400">6.8 mIU/L (High)</span>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex justify-between">
-                  <span className="text-slate-400">25-OH Vitamin D3</span>
-                  <span className="text-rose-400 font-bold">12.4 ng/mL (DEFICIENT) [30-100]</span>
-                </div>
-                <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex justify-between">
-                  <span className="text-slate-400">Hemoglobin (CBC)</span>
-                  <span className="text-amber-400 font-bold">10.2 g/dL (LOW) [12.0-15.5]</span>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Vitamin D3 (25-OH):</span>
+                  <span className="font-bold text-rose-400">12.1 ng/mL (Deficient)</span>
                 </div>
               </div>
 
-              <p className="text-2xs text-slate-400 italic">
-                ❌ Causes anxiety and confusion without actionable medical explanations.
+              <p className="text-2xs text-slate-400 leading-relaxed">
+                Patients often experience anxiety when confronted with complex reference ranges and red flags without practical context.
               </p>
             </div>
 
-            {/* Right: What Dr. Arya Gives You (Plain Words & Video) */}
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-teal-950 via-slate-900 to-slate-950 border border-teal-500/40 space-y-4 shadow-2xl">
-              <div className="flex items-center justify-between pb-3 border-b border-teal-500/30">
-                <span className="text-xs font-bold text-teal-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-teal-400" />
-                  What Meditrust AI Gives You (Plain Words)
+            {/* Right: Dr. Arya Plain Language & Video Briefing */}
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-teal-950 via-slate-950 to-slate-900 border border-teal-500/40 space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black uppercase text-teal-300 bg-teal-950 px-2.5 py-1 rounded-full border border-teal-500/50">
+                  ✅ After: Dr. Arya Video Breakdown
                 </span>
-                <span className="bg-teal-500/20 text-teal-300 text-3xs font-black px-2 py-0.5 rounded-full border border-teal-400/30">
-                  Organ Score: 78/100
-                </span>
+                <span className="text-2xs text-teal-400 font-bold">100-Point Organ Score: 78/100</span>
               </div>
 
-              <div className="space-y-2.5 text-xs text-slate-200">
-                <div className="p-3 rounded-xl bg-teal-900/30 border border-teal-500/20 space-y-1">
-                  <div className="font-bold text-teal-300">🩸 Sugar Balance:</div>
+              <div className="space-y-2.5 text-xs">
+                <div className="p-3 rounded-xl bg-teal-950/60 border border-teal-800/40 space-y-1">
+                  <div className="font-bold text-teal-300">🩺 Pancreas & Blood Sugar (HbA1c):</div>
                   <p className="text-2xs text-slate-300">
-                    Average 90-day blood sugar is mildly elevated. 30 mins walking + Jan Aushadhi Metformin generic (save 75%) stabilizes it.
+                    Pre-diabetic zone. Reversible with 45-min daily brisk walking and switching to Jan Aushadhi generic Metformin (₹18/strip).
                   </p>
                 </div>
-
-                <div className="p-3 rounded-xl bg-teal-900/30 border border-teal-500/20 space-y-1">
+                <div className="p-3 rounded-xl bg-teal-950/60 border border-teal-800/40 space-y-1">
                   <div className="font-bold text-teal-300">🦴 Bone & Fatigue (Vitamin D):</div>
                   <p className="text-2xs text-slate-300">
                     Deficient Vitamin D explains morning knee stiffness. Take weekly 60,000 IU generic supplement for 8 weeks.
@@ -468,7 +465,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 4. 15+ W.H.O. SPECIALTIES VISUAL SELECTOR ── */}
+      {/* ── 4. 15+ SPECIALTIES VISUAL SELECTOR ── */}
       <section id="specialties" className="py-12 sm:py-16 bg-slate-50">
         <div className="container-main space-y-8">
           
@@ -478,7 +475,7 @@ export default function HomePage() {
                 Clinical Expertise
               </span>
               <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 font-display">
-                15+ W.H.O.-Standard AI Specialty Doctors
+                15+ Dedicated AI Specialty Doctors
               </h2>
             </div>
             <Link
@@ -524,7 +521,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 5. ADRENALINE EMERGENCY TRIAGE & DIRECT CALL STRIP ── */}
+      {/* ── 5. EMERGENCY TRIAGE & DIRECT CALL STRIP ── */}
       <section className="py-10 bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950 text-white border-t border-amber-500/20">
         <div className="container-main flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-1 text-center md:text-left">
