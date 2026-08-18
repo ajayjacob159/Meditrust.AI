@@ -13,15 +13,15 @@ import { medicalSpecialties, type MedicalSpecialty } from '@/data/clinicalEngine
 import { evaluateClinicalQuery } from '@/data/clinicalReasoningEngine'
 
 const LANGUAGES = [
-  { id: 'mr', name: 'मराठी (Marathi)', speechCode: 'mr-IN', greeting: 'नमस्कार! मी डॉ. आर्या (वय २८, एमडी क्लिनिकल एआय). मी तुम्हाला तुमच्या मातृभाषेत संपूर्ण वैद्यकीय मार्गदर्शन करू शकते.' },
-  { id: 'hi', name: 'हिन्दी (Hindi)', speechCode: 'hi-IN', greeting: 'नमस्ते! मैं डॉ. आर्या (उम्र 28, एमडी क्लिनिकल एआई) हूँ। आपकी स्वास्थ्य संबंधी क्या सहायता कर सकती हूँ?' },
-  { id: 'en', name: 'English (India)', speechCode: 'en-IN', greeting: 'Hello! I am Dr. Arya (Age 28, MD Global Clinical AI). How can I assist with your health or blood tests today?' },
-  { id: 'kn', name: 'ಕನ್ನಡ (Kannada)', speechCode: 'kn-IN', greeting: 'ನಮಸ್ಕಾರ! ನಾನು ಡಾ. ಆರ್ಯ (ವಯಸ್ಸು 28). ನಿಮ್ಮ ಆರೋಗ್ಯಕ್ಕೆ ನಾನು ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?' },
-  { id: 'te', name: 'తెలుగు (Telugu)', speechCode: 'te-IN', greeting: 'నమస్కారం! నేను డాక్టర్ ఆర్య (వయస్సు 28). మీ ఆరోగ్యానికి నేను ఎలా సహాయపడగలను?' },
-  { id: 'ta', name: 'தமிழ் (Tamil)', speechCode: 'ta-IN', greeting: 'வணக்கம்! நான் டாக்டர் ஆர்யா (வயது 28). உங்கள் உடல்நலத்திற்கு நான் எவ்வாறு உதவ முடியும்?' },
-  { id: 'gu', name: 'ગુજરાતી (Gujarati)', speechCode: 'gu-IN', greeting: 'નમસ્તે! હું ડૉ. આર્યા (ઉંમર 28) છું. તમારા સ્વાસ્થ્ય માટે હું કેવી રીતે મદદ કરી શકું?' },
-  { id: 'bn', name: 'বাংলা (Bengali)', speechCode: 'bn-IN', greeting: 'নমস্কার! আমি ডঃ আর্যা (বয়স ২৮)। আপনার স্বাস্থ্যের বিষয়ে আমি কীভাবে সাহায্য করতে পারি?' },
-  { id: 'ml', name: 'മലയാളം (Malayalam)', speechCode: 'ml-IN', greeting: 'നമസ്കാരം! ഞാൻ ഡോ. ആര്യ (പ്രായം 28). നിങ്ങളുടെ ആരോഗ്യത്തിന് ഞാൻ എങ്ങനെ സഹായിക്കണം?' },
+  { id: 'mr', name: 'मराठी (Marathi)', speechCode: 'mr-IN', greeting: 'नमस्कार! मी डॉ. आर्या (एमडी क्लिनिकल एआय). मी तुम्हाला तुमच्या मातृभाषेत संपूर्ण वैद्यकीय मार्गदर्शन करू शकते.' },
+  { id: 'hi', name: 'हिन्दी (Hindi)', speechCode: 'hi-IN', greeting: 'नमस्ते! मैं डॉ. आर्या (एमडी क्लिनिकल एआई) हूँ। आपकी स्वास्थ्य संबंधी क्या सहायता कर सकती हूँ?' },
+  { id: 'en', name: 'English (India)', speechCode: 'en-IN', greeting: 'Hello! I am Dr. Arya (MD Global Clinical AI). How can I assist with your health or blood tests today?' },
+  { id: 'kn', name: 'ಕನ್ನಡ (Kannada)', speechCode: 'kn-IN', greeting: 'ನಮಸ್ಕಾರ! ನಾನು ಡಾ. ಆರ್ಯ. ನಿಮ್ಮ ಆರೋಗ್ಯಕ್ಕೆ ನಾನು ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?' },
+  { id: 'te', name: 'తెలుగు (Telugu)', speechCode: 'te-IN', greeting: 'నమస్కారం! నేను డాక్టర్ ఆర్య. మీ ఆరోగ్యానికి నేను ఎలా సహాయపడగలను?' },
+  { id: 'ta', name: 'தமிழ் (Tamil)', speechCode: 'ta-IN', greeting: 'வணக்கம்! நான் டாக்டர் ஆர்யா. உங்கள் உடல்நலத்திற்கு நான் எவ்வாறு உதவ முடியும்?' },
+  { id: 'gu', name: 'ગુજરાતી (Gujarati)', speechCode: 'gu-IN', greeting: 'નમસ્તે! હું ડૉ. આર્યા છું. તમારા સ્વાસ્થ્ય માટે હું કેવી રીતે મદદ કરી શકું?' },
+  { id: 'bn', name: 'বাংলা (Bengali)', speechCode: 'bn-IN', greeting: 'নমস্কার! আমি ডঃ আর্যা। আপনার স্বাস্থ্যের বিষয়ে আমি কীভাবে সাহায্য করতে পারি?' },
+  { id: 'ml', name: 'മലയാളം (Malayalam)', speechCode: 'ml-IN', greeting: 'നമസ്കാരം! ഞാൻ ഡോ. ആര്യ. നിങ്ങളുടെ ആരോഗ്യത്തിന് ഞാൻ എങ്ങനെ സഹായിക്കണം?' },
 ]
 
 export default function DrAryaFloatingDoctor({
@@ -53,7 +53,7 @@ export default function DrAryaFloatingDoctor({
   const [messages, setMessages] = useState<{ role: 'ai' | 'user'; text: string; department?: string; time?: string }[]>([
     {
       role: 'ai',
-      text: 'नमस्कार! I am **Dr. Arya** (Age 28, MD Global Clinical AI). I provide real-time clinical consultations in **मराठी, हिन्दी & English**.\n\n📞 **24/7 Doctor Assistance Desk:** **+91 7028025717**.\n\nOver **60% of primary symptoms** (Fever, Acidity, Periods/PCOS, Joint Pains, Sugar/BP) are safely managed at home with generic savings (save 80%). For hospital visits, I arrange VIP Fast-Track Admission at **Ruby Hall Clinic & Sahyadri Pune**.',
+      text: 'नमस्कार! I am **Dr. Arya** (MD Global Clinical AI). I provide real-time clinical consultations in **मराठी, हिन्दी & English**.\n\n📞 **24/7 Doctor Assistance Desk:** **+91 7028025717**.\n\nOver **60% of primary symptoms** (Fever, Acidity, Periods/PCOS, Joint Pains, Sugar/BP) are safely managed at home with generic savings (save 80%). For hospital visits, I arrange VIP Fast-Track Admission at **Ruby Hall Clinic & Sahyadri Pune**.',
       department: 'Clinical AI Triage',
       time: 'Just now',
     },
@@ -62,7 +62,7 @@ export default function DrAryaFloatingDoctor({
   const [bubbleText, setBubbleText] = useState('मराठी & Hindi 24/7 AI Doctor · Call +91 7028025717')
   const chatEndRef = useRef<HTMLDivElement>(null)
 
-  // Real-time 28-Year-Old Female Doctor Text-to-Speech Engine
+  // Real-time Female Doctor Text-to-Speech Engine
   const speakText = (text: string, customLang?: string) => {
     if (typeof window === 'undefined' || !window.speechSynthesis || !speechEnabled) return
     window.speechSynthesis.cancel()
@@ -311,7 +311,7 @@ export default function DrAryaFloatingDoctor({
               <div>
                 <div className="flex items-center gap-1.5">
                   <h3 className="font-bold text-sm sm:text-base text-white tracking-tight">
-                    Dr. Arya (Age 28, AI Physician)
+                    Dr. Arya (AI Physician)
                   </h3>
                   <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 </div>
@@ -501,7 +501,7 @@ export default function DrAryaFloatingDoctor({
             </>
           )}
 
-          {/* ── MODE 2: 28-YEAR-OLD FEMALE DOCTOR VOICE CONSULTATION ── */}
+          {/* ── MODE 2: DOCTOR VOICE CONSULTATION ── */}
           {mode === 'call' && (
             <div className="p-6 bg-slate-950 text-white flex flex-col items-center justify-center space-y-6 min-h-[360px]">
               <div className="relative">
@@ -519,12 +519,12 @@ export default function DrAryaFloatingDoctor({
               </div>
 
               <div className="text-center space-y-1">
-                <h4 className="text-lg font-bold text-white">Dr. Arya (Age 28, Clinical AI MD)</h4>
+                <h4 className="text-lg font-bold text-white">Dr. Arya (Clinical AI MD)</h4>
                 <p className="text-xs text-emerald-400 font-bold">
                   {isCalling ? `Connected · Speaking ${selectedLang.name} · ${Math.floor(callDuration / 60)}:${String(callDuration % 60).padStart(2, '0')}` : 'Connecting with Dr. Arya...'}
                 </p>
                 <p className="text-2xs text-slate-400">
-                  Direct Line: +91 7028025717 · 28-Year-Old Female Clinical Tone
+                  Direct Line: +91 7028025717 · Multilingual Clinical Voice
                 </p>
               </div>
 
@@ -587,7 +587,7 @@ export default function DrAryaFloatingDoctor({
                     <span className="font-bold uppercase tracking-wider">Animated Dr. Arya Explaining</span>
                   </div>
                   <span className="text-3xs bg-teal-900/80 text-teal-300 px-2 py-0.5 rounded-full border border-teal-500/30 font-mono">
-                    28 Yrs · MD AI
+                    Clinical AI MD
                   </span>
                 </div>
 

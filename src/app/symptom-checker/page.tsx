@@ -26,7 +26,7 @@ const INITIAL_MESSAGES: Message[] = [
   {
     id: '1',
     role: 'ai',
-    text: "नमस्कार! I am **Dr. Arya** (Age 28, MD Global Clinical AI) 👋\n\nI provide real-time clinical consultations across all major medical specialties in **मराठी, हिन्दी & English**.\n\n🩺 **Our 60/40 Care Model:**\n• **60% of primary health issues** (fever, acidity, PCOD, knee/back stiffness, diabetes & BP) are safely resolved from home with generic savings (save 80%).\n• **40% requiring in-person hospital care** are fast-tracked to **Ruby Hall Clinic & Sahyadri Pune** with zero-wait admission.\n\nWhat symptoms or health concern are you experiencing today?",
+    text: "नमस्कार! I am **Dr. Arya** (MD Global Clinical AI) 👋\n\nI provide real-time clinical consultations across all major medical specialties in **मराठी, हिन्दी & English**.\n\n🩺 **Our 60/40 Care Model:**\n• **60% of primary health issues** (fever, acidity, PCOD, knee/back stiffness, diabetes & BP) are safely resolved from home with generic savings (save 80%).\n• **40% requiring in-person hospital care** are fast-tracked to **Ruby Hall Clinic & Sahyadri Pune** with zero-wait admission.\n\nWhat symptoms or health concern are you experiencing today?",
     timestamp: 'Just now',
     department: 'Chief Clinical AI Triage',
     chips: [
