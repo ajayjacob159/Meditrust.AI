@@ -1,170 +1,126 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, BookOpen, Calendar, Clock, ChevronRight } from 'lucide-react'
+import { ArrowRight, BookOpen, Calendar, Clock, Sparkles, Tag, ShieldCheck } from 'lucide-react'
+import { blogArticles } from '@/data/blogArticles'
 
 export const metadata: Metadata = {
-  title: 'Health Library — Evidence-Based Articles',
-  description: 'Browse evidence-based health articles on symptoms, medications, lab tests, and health optimisation. Written by clinicians for everyday people.',
+  title: 'Health Library & Evidence-Based Medical Guides (August 2026)',
+  description:
+    'Comprehensive evidence-based guides by Dr. Arya MD on Jan Aushadhi generic savings, Pune diagnostic lab price comparisons, and plain-language blood report breakdowns.',
 }
 
-const articles = [
-  {
-    slug: 'metformin-vs-berberine',
-    title: 'Metformin vs Berberine for Blood Sugar — What the Research Really Says',
-    excerpt: 'Both metformin and berberine show promise for blood sugar regulation, but they work differently and suit different patients. A comprehensive comparison based on clinical evidence.',
-    category: 'Medication',
-    readTime: '8 min',
-    date: 'Aug 14, 2026',
-    author: 'Dr. Emily Chen, MD',
-    image: '💊',
-    tags: ['Diabetes', 'Metformin', 'Supplements'],
-    featured: true,
-  },
-  {
-    slug: 'home-blood-test-accuracy',
-    title: 'Are At-Home Blood Tests as Accurate as Clinical Labs? The Complete Guide',
-    excerpt: 'At-home testing has transformed preventive health — but how reliable is it? We dive into CLIA-certification, sample collection quality, and when to trust your results.',
-    category: 'Lab Tests',
-    readTime: '10 min',
-    date: 'Aug 12, 2026',
-    author: 'Dr. James Park, PhD',
-    image: '🧬',
-    tags: ['Lab Testing', 'At-Home Tests', 'CLIA'],
-    featured: true,
-  },
-  {
-    slug: 'best-thyroid-tests-2026',
-    title: 'Best At-Home Thyroid Tests 2026: Compared by Price, Panels & Accuracy',
-    excerpt: 'Hypothyroidism affects 1 in 20 adults. We tested and compared the top home thyroid test kits — from basic TSH to full T3/T4/antibody panels.',
-    category: 'Lab Tests',
-    readTime: '12 min',
-    date: 'Aug 10, 2026',
-    author: 'Sarah Mitchell, PA-C',
-    image: '🦋',
-    tags: ['Thyroid', 'TSH', 'Home Testing'],
-    featured: false,
-  },
-  {
-    slug: 'statin-comparison',
-    title: 'Comparing Statins: Atorvastatin vs Rosuvastatin vs Simvastatin',
-    excerpt: 'Statins are among the most prescribed drugs worldwide. Learn how the main types differ in potency, side effects, cost, and who each is best suited for.',
-    category: 'Medication',
-    readTime: '9 min',
-    date: 'Aug 8, 2026',
-    author: 'Dr. Karen Lee, PharmD',
-    image: '❤️',
-    tags: ['Cholesterol', 'Statins', 'Heart Health'],
-    featured: false,
-  },
-  {
-    slug: 'ai-symptom-checker-privacy',
-    title: 'AI Symptom Checkers That Respect Your Privacy in 2026',
-    excerpt: 'Not all AI health tools protect your data the same way. Here\'s how to evaluate health AI apps for HIPAA awareness, data retention, and privacy practices.',
-    category: 'AI Health',
-    readTime: '6 min',
-    date: 'Aug 6, 2026',
-    author: 'Meditrust AI Editorial',
-    image: '🔐',
-    tags: ['Privacy', 'AI', 'HIPAA'],
-    featured: false,
-  },
-  {
-    slug: 'hba1c-interpretation',
-    title: 'Understanding Your HbA1c Result: What the Numbers Really Mean',
-    excerpt: 'HbA1c is one of the most important tests for diabetes monitoring. Our AI plain-language guide explains ranges, trends, and what to discuss with your doctor.',
-    category: 'Lab Tests',
-    readTime: '7 min',
-    date: 'Aug 4, 2026',
-    author: 'Dr. Alex Nguyen, MD',
-    image: '📊',
-    tags: ['Diabetes', 'HbA1c', 'Lab Results'],
-    featured: false,
-  },
-]
-
-const categories = ['All', 'Medication', 'Lab Tests', 'AI Health', 'Symptoms', 'Nutrition', 'Mental Health']
-
 export default function BlogPage() {
-  const featured = articles.filter((a) => a.featured)
-  const rest = articles.filter((a) => !a.featured)
+  const featured = blogArticles.filter((a) => a.featured)
+  const rest = blogArticles.filter((a) => !a.featured)
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="section bg-white">
-        <div className="container-main text-center max-w-3xl">
-          <div className="section-tag mb-3">Health Library</div>
-          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
-            Evidence-based health articles
+    <div className="min-h-screen bg-slate-50 py-10 sm:py-14">
+      <div className="container-main space-y-10">
+        
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-100/80 border border-teal-200 text-teal-900 text-xs font-bold shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-teal-700" />
+            <span>Medically Verified by Dr. Arya (Chief Clinical AI)</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-black text-slate-950 tracking-tight font-display">
+            Evidence-Based Health & Medicine Guides
           </h1>
-          <p className="text-xl text-slate-600">
-            Written by clinicians for everyday people. SEO-optimised, E-E-A-T compliant, YMYL responsible.
+          <p className="text-sm sm:text-base text-slate-600 font-medium">
+            Explore verified medical research, Jan Aushadhi generic price lists, and diagnostic lab comparison benchmarks for August 2026.
           </p>
         </div>
-      </div>
 
-      <div className="container-main pb-16">
-        {/* Category filters */}
-        <div className="flex flex-wrap gap-2 mb-10 justify-center">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              className={`filter-chip ${cat === 'All' ? 'active' : ''}`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Featured articles */}
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
+        {/* Featured Grid */}
+        <div className="grid md:grid-cols-2 gap-6">
           {featured.map((article) => (
-            <Link key={article.slug} href={`/blog/${article.slug}`} className="card p-0 overflow-hidden group block">
-              <div className="h-48 flex items-center justify-center text-6xl"
-                style={{ background: 'linear-gradient(135deg, rgba(15,118,110,0.06) 0%, rgba(37,99,235,0.06) 100%)' }}>
-                {article.image}
+            <Link
+              key={article.slug}
+              href={`/blog/${article.slug}`}
+              className="group rounded-3xl bg-white border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-teal-400 transition-all flex flex-col justify-between"
+            >
+              <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
+                <img
+                  src={article.image}
+                  alt={article.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-3 left-3 bg-teal-800 text-white text-3xs font-black px-2.5 py-1 rounded-full shadow">
+                  {article.category}
+                </div>
               </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="badge-blue badge text-2xs">{article.category}</span>
-                  <span className="badge-teal badge text-2xs">Featured</span>
-                  <span className="text-2xs text-slate-400 ml-auto flex items-center gap-1">
-                    <Clock className="w-3 h-3" /> {article.readTime}
+
+              <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3 text-2xs text-slate-500 font-medium">
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                      {article.date}
+                    </span>
+                    <span>·</span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5 text-slate-400" />
+                      {article.readTime}
+                    </span>
+                  </div>
+
+                  <h2 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors leading-snug">
+                    {article.title}
+                  </h2>
+
+                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
+                    {article.excerpt}
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-teal-700">
+                  <span className="flex items-center gap-1.5">
+                    <img src={article.author.avatar} alt="Author" className="w-5 h-5 rounded-full object-cover" />
+                    <span>{article.author.name}</span>
+                  </span>
+                  <span className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                    Read Article <ArrowRight className="w-4 h-4" />
                   </span>
                 </div>
-                <h2 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-teal-700 transition-colors leading-tight">
-                  {article.title}
-                </h2>
-                <p className="text-sm text-slate-600 mb-4 leading-relaxed">{article.excerpt}</p>
-                <div className="flex items-center justify-between">
-                  <div className="text-xs text-slate-500">{article.author} · {article.date}</div>
-                  <ChevronRight className="w-4 h-4 text-teal-600 group-hover:translate-x-1 transition-transform" />
-                </div>
               </div>
             </Link>
           ))}
         </div>
 
-        {/* All articles */}
-        <h2 className="text-xl font-bold text-slate-900 mb-6">Latest Articles</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          {rest.map((article) => (
-            <Link key={article.slug} href={`/blog/${article.slug}`} className="card p-6 group block">
-              <div className="text-3xl mb-4">{article.image}</div>
-              <div className="flex items-center gap-2 mb-3">
-                <span className="badge-teal badge text-2xs">{article.category}</span>
-                <span className="text-2xs text-slate-400 ml-auto flex items-center gap-1">
-                  <Clock className="w-3 h-3" /> {article.readTime}
-                </span>
-              </div>
-              <h3 className="text-base font-bold text-slate-900 mb-2 group-hover:text-teal-700 transition-colors leading-tight">
-                {article.title}
-              </h3>
-              <p className="text-sm text-slate-500 mb-4 leading-relaxed line-clamp-2">{article.excerpt}</p>
-              <div className="text-xs text-slate-400">{article.author}</div>
-            </Link>
-          ))}
-        </div>
+        {/* Remaining Articles List */}
+        {rest.length > 0 && (
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-slate-900">Latest Medical Insights</h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {rest.map((article) => (
+                <Link
+                  key={article.slug}
+                  href={`/blog/${article.slug}`}
+                  className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-teal-400 hover:shadow-md transition-all space-y-3 flex flex-col justify-between"
+                >
+                  <div className="space-y-2">
+                    <span className="text-3xs font-black uppercase text-teal-800 bg-teal-50 px-2 py-0.5 rounded-full">
+                      {article.category}
+                    </span>
+                    <h4 className="font-bold text-slate-900 text-sm hover:text-teal-700 transition-colors">
+                      {article.title}
+                    </h4>
+                    <p className="text-2xs text-slate-500 line-clamp-2">
+                      {article.excerpt}
+                    </p>
+                  </div>
+                  <div className="text-3xs text-slate-400 flex items-center justify-between pt-2 border-t border-slate-100">
+                    <span>{article.date}</span>
+                    <span className="font-bold text-teal-700 flex items-center gap-0.5">
+                      Read →
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   )
