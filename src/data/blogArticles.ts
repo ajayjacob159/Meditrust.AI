@@ -43,6 +43,85 @@ export interface BlogArticle {
 
 export const blogArticles: BlogArticle[] = [
   {
+    slug: 'blood-sample-collection-at-home-pune-guide',
+    title: 'Blood Sample Collection at Home (Pune 2026): 60-Min Pickup, Fasting Rules & Lab Price Guide',
+    subtitle: 'Everything you need to know about certified doorstep blood sample collection across Pune & PCMC.',
+    excerpt: 'Complete guide on booking at-home blood sample pickup in Pune within 60 minutes. Learn about vacutainer cold-chain protocols (2°C–8°C), overnight fasting requirements, and transparent price comparisons across 13+ labs.',
+    category: 'Lab Tests & Diagnostics',
+    readTime: '9 min read',
+    date: '18 Aug 2026',
+    author: {
+      name: 'Dr. Arya, MD (AI Medical Officer)',
+      role: 'Chief Clinical AI & Pathology Reviewer',
+      avatar: '/dr_arya.jpg',
+    },
+    image: '/home_phlebotomy_pickup.jpg',
+    tags: ['Blood Sample Collection', 'Blood Test at Home Pune', 'Phlebotomy 60 Min', 'Full Body Checkup', 'NABL Labs'],
+    featured: true,
+    content: {
+      intro: 'Getting a diagnostic blood sample collected no longer requires waiting in morning queues at diagnostic centers. Meditrust AI offers guaranteed 60-minute doorstep blood sample pickup across Pune with barcode-scanned vacutainers and hospital-grade cold-chain transport.',
+      sections: [
+        {
+          heading: '1. How Doorstep Blood Sample Collection Works in Pune',
+          body: [
+            '• Step 1 — Instant Booking: Select your required blood test panel (Full Body Checkup, CBC, Thyroid, HbA1c, Vitamin D3 & B12) or scan your doctor’s prescription.',
+            '• Step 2 — 60-Minute Phlebotomist Dispatch: A certified, vaccinated phlebotomist equipped with sterile single-use vacutainers and a temperature-controlled cold-chain box arrives at your home in Kothrud, Baner, Hinjewadi, Viman Nagar, Wakad, or Camp.',
+            '• Step 3 — Painless Venipuncture & Barcode Tagging: Blood samples are drawn into color-coded vacuum tubes (EDTA, Gel Serum Separator, Sodium Fluoride) and sealed in front of you with unique patient barcodes.',
+            '• Step 4 — Same-Day WhatsApp Report + Dr. Arya Video Explainer: Lab reports are delivered within 6 to 8 hours with an AI video explanation in Marathi, Hindi, or English.',
+          ],
+          highlightBox: {
+            title: '❄️ Cold-Chain Integrity (2°C to 8°C)',
+            text: 'Blood samples for enzymes, glucose, and hormones degrade quickly if exposed to heat. Meditrust phlebotomists use digital temperature-monitored carrier kits ensuring zero sample hemolysis.',
+            type: 'tip',
+          },
+        },
+        {
+          heading: '2. Blood Sample Test Price Comparison in Pune (August 2026)',
+          body: [
+            'Compare transparent rates for doorstep blood sample collection across top diagnostic providers in Pune:',
+          ],
+          table: {
+            headers: ['Test / Panel Name', 'Meditrust Direct (60-Min Pickup)', 'Thyrocare', 'Dr Lal PathLabs', 'Metropolis', 'Sahyadri Hospital'],
+            rows: [
+              ['Complete Blood Count (CBC + ESR)', '₹199', '₹350', '₹450', '₹480', '₹420'],
+              ['Smart Diabetes Care (HbA1c + Fasting)', '₹349', '₹550', '₹750', '₹850', '₹680'],
+              ['Thyroid Profile Total (T3, T4, TSH)', '₹299', '₹450', '₹600', '₹650', '₹550'],
+              ['Vitamin D3 (25-OH) & B12 Combo', '₹599', '₹999', '₹1,400', '₹1,500', '₹1,250'],
+              ['Executive Full Body Health (86 Tests)', '₹999', '₹1,499', '₹2,200', '₹2,499', '₹2,100'],
+            ],
+          },
+        },
+        {
+          heading: '3. Essential Fasting & Preparation Rules Before Blood Sample Collection',
+          body: [
+            '• 10 to 12 Hours Overnight Fasting: Mandatory for Lipid Profile (Cholesterol), Fasting Blood Glucose, and Comprehensive Metabolic Panels. Plain water is permitted and encouraged.',
+            '• Morning Medication Timing: For Thyroid TSH blood samples, take your Thyroxine tablet ONLY AFTER your blood sample is collected.',
+            '• Hydration: Drink 1–2 glasses of plain water 30 minutes before the phlebotomist arrives to make your veins easily accessible for a painless prick.',
+          ],
+        },
+      ],
+      faq: [
+        {
+          question: 'How quickly can I get a blood sample collected at home in Pune?',
+          answer: 'You can get a certified phlebotomist at your doorstep within 60 minutes across Pune (Kothrud, Baner, Hinjewadi, Viman Nagar, Wakad, Pimple Saudagar, Hadapsar, and Camp). Call +91 7028025717 for immediate dispatch.',
+        },
+        {
+          question: 'Are home blood sample collection results as accurate as hospital labs?',
+          answer: 'Yes. All blood samples are analyzed in NABL and CAP-accredited central pathology laboratories following strict ISO 15189 standards, ensuring 100% clinical diagnostic accuracy.',
+        },
+        {
+          question: 'What is included in the ₹999 Full Body Blood Sample Checkup?',
+          answer: 'The ₹999 panel includes 86 key biomarkers covering CBC, Liver Function (SGPT, SGOT, Bilirubin), Kidney Function (Creatinine, BUN, Uric Acid), Lipid Profile, Thyroid TSH, HbA1c Diabetes, Vitamin D3, and Urine Routine.',
+        },
+      ],
+      cta: {
+        title: 'Book 60-Minute Doorstep Blood Sample Collection Now',
+        buttonText: 'Book Blood Sample Collection →',
+        link: '/lab-test-comparison',
+      },
+    },
+  },
+  {
     slug: 'jan-aushadhi-generic-medicine-price-list-2026',
     title: 'Jan Aushadhi (PMBJP) Generic Medicine Price List 2026: Save up to 83% on Chronic Prescriptions',
     subtitle: 'How government-certified generic medicines match Tata 1mg, PharmEasy & Apollo brands at a fraction of the cost.',
@@ -84,22 +163,11 @@ export const blogArticles: BlogArticle[] = [
             type: 'savings',
           },
         },
-        {
-          heading: '2. Are Generic Medicines as Safe and Effective as Branded?',
-          body: [
-            'Yes. Generic drugs undergo mandatory In-Vitro Dissolution and Bioavailability / Bioequivalence (BA/BE) studies certified by NABL-accredited testing laboratories before receiving CDSCO batch approval.',
-            'The active molecule works identically in the bloodstream to regulate blood glucose, lower arterial pressure, and stabilize thyroid hormones.',
-          ],
-        },
       ],
       faq: [
         {
           question: 'Do I need a doctor’s prescription to buy Jan Aushadhi generic medicines?',
           answer: 'Yes, all Schedule H and H1 medications require a valid prescription from a Registered Medical Practitioner (RMP). Meditrust AI allows you to scan your prescription and automatically matches generic equivalents.',
-        },
-        {
-          question: 'Where can I find Jan Aushadhi stores in Pune?',
-          answer: 'There are over 120+ PMBJP Jan Aushadhi Kendras across Pune including Kothrud, Baner, Shivajinagar, Hinjewadi, Wakad, and Hadapsar, with doorstep delivery available via Meditrust.',
         },
       ],
       cta: {
@@ -145,21 +213,12 @@ export const blogArticles: BlogArticle[] = [
               ['Healthians', '₹1,299 (Smart Panel)', '₹299', '2 to 4 Hours', 'NABL Accredited'],
             ],
           },
-          highlightBox: {
-            title: '⏱️ Cold-Chain Discipline in Pune',
-            text: 'Ensure your phlebotomist uses vacuum-sealed vacutainers stored in temperature-controlled cooler boxes (2°C–8°C) to prevent blood sample hemolysis during Pune summers/monsoons.',
-            type: 'warning',
-          },
         },
       ],
       faq: [
         {
           question: 'How fast can I get a blood test sample collected at home in Pune?',
           answer: 'Meditrust Direct Labs provides guaranteed 60-minute doorstep phlebotomist dispatch across Kothrud, Baner, Wakad, Hinjewadi, Viman Nagar, and Camp.',
-        },
-        {
-          question: 'Is fasting mandatory for full body blood tests?',
-          answer: 'Yes, a 10 to 12-hour overnight fasting window is required for accurate Fasting Blood Sugar and Lipid Profile (Cholesterol) measurements.',
         },
       ],
       cta: {
@@ -194,21 +253,6 @@ export const blogArticles: BlogArticle[] = [
             '• Hemoglobin (12.0 – 15.5 g/dL for women, 13.5 – 17.5 g/dL for men): Measures oxygen-carrying protein. Low values indicate iron deficiency anemia.',
             '• Platelet Count (1.5 – 4.5 Lakhs/mcL): Crucial for blood clotting. Drops during acute viral fevers like Dengue or Malaria.',
             '• MCV (Mean Corpuscular Volume 80 – 100 fL): Size of red blood cells. Low MCV means microcytic iron deficiency.',
-          ],
-        },
-        {
-          heading: '2. Glycated Hemoglobin (HbA1c) & Diabetes Ranges',
-          body: [
-            '• Below 5.7%: Normal (Non-diabetic).',
-            '• 5.7% to 6.4%: Pre-diabetes (100% reversible with low-carb diet & daily walking).',
-            '• 6.5% and Above: Diabetic range (Requires generic Metformin management).',
-          ],
-        },
-        {
-          heading: '3. Serum TSH (Thyroid Stimulating Hormone)',
-          body: [
-            '• Optimal Range: 0.4 – 4.5 mIU/L.',
-            '• High TSH (> 5.5 mIU/L): Underactive thyroid (Hypothyroidism), causing unexplained weight gain, puffiness, and morning lethargy.',
           ],
         },
       ],
