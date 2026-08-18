@@ -1,8 +1,29 @@
+# Meditrust AI Robots.txt — Full Search & AEO Bot Permissions (August 2026 Standards)
 User-agent: *
 Allow: /
-
 Disallow: /api/
-Disallow: /dashboard/
 Disallow: /_next/
 
-Sitemap: https://meditrustai.com/sitemap.xml
+# AI Search Crawlers Allowed for AEO & GEO Search Results
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://www.meditrustai.in/sitemap.xml
