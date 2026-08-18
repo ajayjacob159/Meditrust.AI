@@ -101,11 +101,11 @@ export default function ContactPage() {
               <div className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200">
                 <Building2 className="w-5 h-5 text-teal-700 mt-0.5 flex-shrink-0" />
                 <div>
-                  <strong className="text-slate-900 block font-bold">Registered Office</strong>
-                  <p className="text-slate-600 mt-0.5 leading-relaxed">
-                    Meditrust Life Sciences Pvt. Ltd.<br />
-                    CIN: U85110PN2026PTC214589<br />
-                    Senapati Bapat Road / Kothrud Corridor, Pune, Maharashtra 411038
+                  <strong className="text-slate-900 block font-bold">Registered Corporate Office</strong>
+                  <p className="text-slate-600 mt-0.5 leading-relaxed text-2xs">
+                    <strong>Meditrust Life Sciences Pvt. Ltd.</strong><br />
+                    <strong>CIN:</strong> U86905PN2026PTC258730<br />
+                    Walhekar Heights, Morya Colony, Walhekarwadi, Bhondvewasti, Nigdi, Pimpri-Chinchwad, Pune, Maharashtra 411033, India.
                   </p>
                 </div>
               </div>

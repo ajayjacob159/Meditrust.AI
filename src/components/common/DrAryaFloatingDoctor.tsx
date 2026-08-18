@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { punePartnerHospitals } from '@/data/labProviders'
 import { medicalSpecialties, type MedicalSpecialty } from '@/data/clinicalEngine'
+import { evaluateClinicalQuery } from '@/data/clinicalReasoningEngine'
 
 const LANGUAGES = [
   { id: 'mr', name: 'मराठी (Marathi)', speechCode: 'mr-IN', greeting: 'नमस्कार! मी डॉ. आर्या. मी तुम्हाला आज कशी मदत करू शकते?' },
@@ -167,116 +168,20 @@ export default function DrAryaFloatingDoctor({
     setIsTyping(true)
 
     setTimeout(() => {
-      let aiReply = ''
-      let department = 'General Medicine'
-      const lower = userText.toLowerCase()
-
-      // 1. Emergency Red Flags
-      if (
-        lower.includes('chest') || lower.includes('heart') || lower.includes('breath') ||
-        lower.includes('छातीत दुखणे') || lower.includes('दम लागणे') || lower.includes('हार्ट')
-      ) {
-        department = 'Cardiology Emergency'
-        aiReply = `🚨 **URGENT EMERGENCY ALERT (Immediate Care Required):**
-Retrosternal chest discomfort or breathing distress requires immediate emergency medical evaluation.
-
-• **Priority Transfer Desk:** We have notified the Emergency TPA Desk at **Ruby Hall Clinic (Cath Lab)** & **Sahyadri Hospital (Deccan)** for zero-wait admission.
-• **Immediate Actions:** Sit down in a calm position, loosen tight clothing.
-• **Call Emergency Hotline:** Dial **108 (Ambulance)** or **112 (National Emergency)** or call our medical desk at **+91 7028025717** right now.`
-      }
-      // 2. Acidity, Heartburn, Gastric, Stomach Pain
-      else if (
-        lower.includes('acid') || lower.includes('gerd') || lower.includes('stomach') ||
-        lower.includes('gas') || lower.includes('पित्त') || lower.includes('पोटदुखी') || lower.includes('बदहजमी')
-      ) {
-        department = 'Gastroenterology'
-        aiReply = `**Dr. Arya (Gastroenterology & Gut Health):**
-Your symptoms indicate active acid reflux (GERD) or gastric hyperacidity.
-
-• **Generic Recommendation:** Pantoprazole 40mg + Domperidone 30mg SR (**Pan-D generic on Jan Aushadhi is ₹45** vs ₹199 branded — save 77%).
-• **Immediate Relief:** Drink cold milk or tender coconut water; avoid tea, oily snacks, and lying down immediately after eating.
-• **मराठी सल्ला:** रिकाम्या पोटी कोमट पाणी प्या आणि रात्रीचे जेवण झोपण्यापूर्वी २ तास आधी घ्या.`
-      }
-      // 3. Women's Health, Periods, PCOS/PCOD
-      else if (
-        lower.includes('period') || lower.includes('pcos') || lower.includes('pcod') ||
-        lower.includes('pregnancy') || lower.includes('पाळी') || lower.includes('गर्भ') || lower.includes('माहवारी')
-      ) {
-        department = 'Gynaecology & Women’s Health'
-        aiReply = `**Dr. Arya (OB-GYN & Women’s Health):**
-For irregular menstrual cycles, cramps, or PCOS symptoms:
-
-• **Clinical Evidence:** Myo-Inositol 2000mg + D-Chiro-Inositol naturally improves insulin sensitivity and ovarian regularity (**PMBJP generic is ₹65** vs ₹380 brand).
-• **Recommended Blood Panel:** PCOS Hormone Profile (LH/FSH ratio, Total Testosterone, Thyroid TSH). Home sample pickup available in Pune for ₹649.
-• **मराठी सल्ला:** नियमित १५ मिनिटे सूर्यनमस्कार व दालचिनी चहामुळे हार्मोन्स संतुलित राहतात.`
-      }
-      // 4. Joint, Knee, Back Pain, Arthritis
-      else if (
-        lower.includes('knee') || lower.includes('bone') || lower.includes('joint') ||
-        lower.includes('back') || lower.includes('गुडघे') || lower.includes('सांधे') || lower.includes('कंबरदुखी')
-      ) {
-        department = 'Orthopaedics & Bone Health'
-        aiReply = `**Dr. Arya (Orthopaedics Specialist):**
-Joint crepitus and stiffness are primarily linked to Vitamin D3 deficiency (< 20 ng/mL) and mechanical load.
-
-• **Evidence-Based Support:** Cholecalciferol 60,000 IU weekly for 8 weeks + Shelcal 500 (**Jan Aushadhi generic is ₹28** vs ₹138 retail — save 80%).
-• **Physical Care:** Low-impact quad isometric exercises and warm sesame oil massage. Avoid sudden squatting.
-• **मराठी सल्ला:** दररोज सकाळी १५ मिनिटे कोवळ्या उन्हात बसावे व कॅल्शियमयुक्त आहार घ्यावा.`
-      }
-      // 5. Diabetes, Blood Sugar, HbA1c
-      else if (
-        lower.includes('sugar') || lower.includes('diabetes') || lower.includes('hba1c') ||
-        lower.includes('मधुमेह') || lower.includes('डायबिटीज')
-      ) {
-        department = 'Diabetology & Endocrinology'
-        aiReply = `**Dr. Arya (Diabetology & Metabolic Care):**
-Target glycemic levels: Fasting Blood Sugar 80–110 mg/dL, Post-Prandial < 140 mg/dL, Target HbA1c < 6.5%.
-
-• **Prescription Price Comparison:** Metformin + Glimepiride 2mg/500mg (**Jan Aushadhi generic is ₹32** vs ₹128 brand Glycomet-GP — save 75%).
-• **Recommended Diagnostics:** HbA1c + Fasting Sugar + Serum Creatinine (60-min Pune home collection at ₹349).
-• **मराठी सल्ला:** जेवणानंतर दररोज १५ मिनिटे शतपावली करा आणि मेथीदाण्याचे पाणी प्या.`
-      }
-      // 6. Thyroid, TSH, Weight Gain, Fatigue
-      else if (
-        lower.includes('thyroid') || lower.includes('tsh') || lower.includes('थायरॉईड') || lower.includes('थकवा')
-      ) {
-        department = 'Endocrinology'
-        aiReply = `**Dr. Arya (Thyroid & Hormonal Health):**
-Elevated TSH (> 5.5 mIU/L) indicates sluggish thyroid metabolism (Hypothyroidism), causing morning fatigue and puffiness.
-
-• **Medication Match:** Thyroxine Sodium 50mcg (**Jan Aushadhi generic is ₹22** vs ₹145 brand Thyronorm — save 84%).
-• **Guideline:** Take strictly on an empty stomach with plain water 45 minutes before tea or breakfast.
-• **मराठी सल्ला:** कोथिंबीर व अक्रोड थायरॉईड ग्रंथीचे कार्य सुधारण्यास मदत करतात.`
-      }
-      // 7. Fever, Dengue, Malaria, Cold, Cough
-      else if (
-        lower.includes('fever') || lower.includes('cold') || lower.includes('cough') ||
-        lower.includes('dengue') || lower.includes('ताप') || lower.includes('खोकला') || lower.includes('सर्दी')
-      ) {
-        department = 'Infectious Diseases & Internal Medicine'
-        aiReply = `**Dr. Arya (General Physician):**
-For acute viral fever, body aches, and cold:
-
-• **Safe Primary Step:** Paracetamol 650mg SOS (**Jan Aushadhi generic is ₹12 per strip** vs ₹35 brand Dolo-650).
-• **Hydration Protocol:** Drink ORS, tender coconut water, and warm soups (maintain > 2.5L fluid intake).
-• **Warning Sign:** If fever exceeds 102°F or continues beyond 48 hours, book a CBC Platelet & Dengue NS1 test (₹399 Pune pickup).
-• **मराठी सल्ला:** तुळस, आले आणि गवती चहाचा काढा प्या.`
-      }
-      // 8. General & Custom Inquiries
-      else {
-        department = 'Clinical AI Triage'
-        aiReply = `**Dr. Arya Clinical Analysis:**
-I have mapped your query across evidence-based clinical and diagnostic protocols.
-
-• **Key Clinical Advice:** Over 60% of primary symptoms can be resolved from home with generic medication match (save up to 80%) and targeted blood tests.
-• **Local Pune Support:** If symptoms persist or require in-person physician evaluation, we arrange VIP priority admission at **Ruby Hall Clinic** or **Sahyadri Hospital**.
-• **Call Doctor Directly:** Speak with our medical desk at **+91 7028025717**.`
-      }
+      const response = evaluateClinicalQuery(userText, selectedLang.speechCode)
 
       setIsTyping(false)
-      setMessages((prev) => [...prev, { role: 'ai', text: aiReply, department, time: now }])
-      speakText(aiReply)
-    }, 600)
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'ai',
+          text: response.text,
+          department: response.department,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        },
+      ])
+      speakText(response.text)
+    }, 450)
   }
 
   const handleSendMessage = (e: React.FormEvent) => {

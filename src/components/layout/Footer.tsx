@@ -1,109 +1,123 @@
 import Link from 'next/link'
 import {
   Shield, Heart, Activity, FlaskConical, Lock, Phone, Mail,
-  MapPin, ExternalLink, Award, CheckCircle2, Building2, Sparkles
+  MapPin, ExternalLink, Award, CheckCircle2, Building2, Sparkles,
+  Zap, Stethoscope, FileText
 } from 'lucide-react'
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-950 text-white border-t border-slate-800 relative overflow-hidden" role="contentinfo">
+    <footer className="bg-slate-950 text-white border-t border-slate-800 relative overflow-hidden select-none" role="contentinfo">
       
-      {/* ── Real-Time Animated ECG Heartbeat Rhythm Banner ── */}
-      <div className="relative h-12 bg-slate-900 border-b border-slate-800 overflow-hidden flex items-center justify-between px-4 sm:px-8">
+      {/* ── 1. Real-Time Animated HealthTech Telemetry & ECG Banner ── */}
+      <div className="relative h-14 bg-gradient-to-r from-slate-950 via-teal-950/60 to-slate-950 border-b border-teal-900/40 overflow-hidden flex items-center justify-between px-4 sm:px-8">
         
-        {/* ECG Motion Line */}
+        {/* ECG Motion Pulse Line */}
         <div className="absolute inset-0 opacity-40 pointer-events-none">
           <svg className="w-full h-full" viewBox="0 0 1200 60" preserveAspectRatio="none" fill="none">
             <path
-              d="M0,30 L200,30 L210,20 L220,40 L230,5 L245,55 L260,25 L275,35 L290,30 L600,30 L610,20 L620,40 L630,5 L645,55 L660,25 L675,35 L690,30 L1000,30 L1010,20 L1020,40 L1030,5 L1045,55 L1060,25 L1075,35 L1090,30 L1200,30"
+              d="M0,30 L200,30 L210,18 L220,42 L230,5 L245,55 L260,25 L275,35 L290,30 L600,30 L610,18 L620,42 L630,5 L645,55 L660,25 L675,35 L690,30 L1000,30 L1010,18 L1020,42 L1030,5 L1045,55 L1060,25 L1075,35 L1090,30 L1200,30"
               stroke="#14B8A6"
-              strokeWidth="2"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
+              className="ecg-line"
             />
           </svg>
         </div>
 
-        {/* Live Clinical Status Indicator */}
-        <div className="relative z-10 flex items-center gap-2 text-2xs font-bold text-teal-300">
-          <span className="w-2.5 h-2.5 rounded-full bg-teal-400 animate-heartbeat flex-shrink-0" />
-          <span>MEDITRUST LIFE SCIENCES CLINICAL NETWORK · ACTIVE 24/7</span>
+        {/* Live Network Status */}
+        <div className="relative z-10 flex items-center gap-2.5 text-xs font-bold text-teal-300">
+          <span className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-teal-500" />
+          </span>
+          <span className="tracking-wider uppercase font-mono text-2xs sm:text-xs">
+            MEDITRUST AI CLINICAL NETWORK · 24×7 ACTIVE
+          </span>
         </div>
 
-        <div className="relative z-10 hidden sm:flex items-center gap-4 text-2xs text-slate-400">
-          <span className="flex items-center gap-1 text-slate-300">
-            <MapPin className="w-3 h-3 text-teal-400" />
-            Pune Hubs (Kothrud, Baner, Hinjewadi, Viman Nagar)
+        {/* Real-time Stats Ticker */}
+        <div className="relative z-10 hidden md:flex items-center gap-6 text-2xs text-slate-300 font-medium">
+          <span className="flex items-center gap-1.5 text-emerald-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <strong>₹4.28+ Cr</strong> Patient Savings
           </span>
-          <span className="text-slate-600">|</span>
-          <span className="text-amber-300 font-semibold">
-            ⚡ 60-Min Sample Dispatch
+          <span className="text-slate-700">|</span>
+          <span className="flex items-center gap-1.5 text-teal-300">
+            <MapPin className="w-3.5 h-3.5 text-teal-400" />
+            Nigdi, PCMC & Pune 60-Min Phlebotomy
+          </span>
+          <span className="text-slate-700">|</span>
+          <span className="text-amber-300 font-bold flex items-center gap-1">
+            <Phone className="w-3 h-3 animate-pulse" />
+            +91 7028025717
           </span>
         </div>
       </div>
 
-      {/* ── Top Trust Metrics Bar ── */}
-      <div className="border-b border-slate-800/80 bg-slate-900/40 py-6">
+      {/* ── 2. Top Trust Metrics Bar ── */}
+      <div className="border-b border-slate-800/80 bg-slate-900/30 py-6">
         <div className="container-main">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black">
+            <div className="flex items-center gap-3 p-2 rounded-2xl bg-slate-900/60 border border-slate-800">
+              <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-black text-sm">
                 80%
               </div>
               <div>
-                <strong className="text-white block font-bold">Jan Aushadhi Generic Savings</strong>
-                <span className="text-slate-400 text-2xs">PMBJP & CDSCO certified bioequivalence</span>
+                <strong className="text-white block font-bold">Jan Aushadhi Generics</strong>
+                <span className="text-slate-400 text-3xs">PMBJP bioequivalent match</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 font-black">
+            <div className="flex items-center gap-3 p-2 rounded-2xl bg-slate-900/60 border border-slate-800">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 font-black text-sm">
                 60m
               </div>
               <div>
-                <strong className="text-white block font-bold">Pune Doorstep Blood Pickup</strong>
-                <span className="text-slate-400 text-2xs">13+ NABL & CAP certified labs</span>
+                <strong className="text-white block font-bold">Doorstep Blood Pickup</strong>
+                <span className="text-slate-400 text-3xs">13+ NABL/CAP Pune labs</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 font-black">
+            <div className="flex items-center gap-3 p-2 rounded-2xl bg-slate-900/60 border border-slate-800">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 font-black text-sm">
                 24/7
               </div>
               <div>
                 <strong className="text-white block font-bold">Dr. Arya AI Doctor</strong>
-                <span className="text-slate-400 text-2xs">मराठी, हिन्दी & English clinical triage</span>
+                <span className="text-slate-400 text-3xs">मराठी, हिन्दी & English triage</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-black">
+            <div className="flex items-center gap-3 p-2 rounded-2xl bg-slate-900/60 border border-slate-800">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-black text-sm">
                 ₹5L
               </div>
               <div>
-                <strong className="text-white block font-bold">Govt Health Schemes Desk</strong>
-                <span className="text-slate-400 text-2xs">ABHA, PM-JAY & MJPJAY cashless guidance</span>
+                <strong className="text-white block font-bold">Govt Schemes Desk</strong>
+                <span className="text-slate-400 text-3xs">ABHA & PM-JAY hospital cover</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Main Footer Columns ── */}
+      {/* ── 3. Main Footer Columns ── */}
       <div className="container-main py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           
-          {/* Col 1 & 2: Corporate Entity: Meditrust Life Sciences Pvt. Ltd. */}
+          {/* Col 1 & 2: Corporate Registration Details */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="relative w-9 h-9">
-                <img src="/logo.png" alt="Meditrust Life Sciences" className="w-9 h-9 object-contain" />
+              <div className="relative w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center p-1.5">
+                <img src="/logo.png" alt="Meditrust Life Sciences" className="w-full h-full object-contain" />
               </div>
               <div>
-                <span className="text-xl font-black tracking-tight">
-                  <span className="text-blue-400">Medi</span>
-                  <span style={{ color: '#14B8A6' }}>trust</span>
-                  <span className="text-blue-400"> AI</span>
+                <span className="text-2xl font-black tracking-tight font-display">
+                  <span className="text-white">Medi</span>
+                  <span className="text-teal-400">trust</span>
+                  <span className="text-emerald-400"> AI</span>
                 </span>
                 <span className="block text-3xs text-teal-300 font-bold uppercase tracking-wider">
                   A Unit of Meditrust Life Sciences Pvt. Ltd.
@@ -111,22 +125,23 @@ export default function Footer() {
               </div>
             </Link>
 
-            <p className="text-sm text-slate-300 leading-relaxed">
-              <strong>Meditrust Life Sciences Pvt. Ltd.</strong> is India’s pioneering healthcare technology & clinical diagnostics enterprise. Headquartered in Pune, Maharashtra, we empower patients with <strong>Dr. Arya (24/7 Multilingual AI Doctor)</strong>, real-time medicine price comparison across <strong>Tata 1mg, PharmEasy & Apollo</strong> with <strong>Jan Aushadhi generics (saving up to 80%)</strong>, and 60-minute at-home blood collection across <strong>13+ NABL-accredited diagnostic labs</strong>.
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <strong>Meditrust Life Sciences Pvt. Ltd.</strong> is India’s premier health-tech & clinical AI enterprise. Headquartered in Pimpri-Chinchwad (Pune), Maharashtra, we empower over 120,000+ families with <strong>Dr. Arya (24/7 Multilingual AI Doctor)</strong>, real-time medicine price comparison across <strong>Tata 1mg, PharmEasy & Apollo</strong> vs <strong>Jan Aushadhi generics (saving up to 80%)</strong>, and 60-minute at-home blood collection across <strong>13+ NABL-accredited diagnostic labs</strong>.
             </p>
 
-            <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-xs text-slate-300 space-y-1">
-              <div className="flex items-center gap-1.5 font-bold text-white">
+            {/* Official Registered Corporate Address Box */}
+            <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 space-y-2 shadow-xs">
+              <div className="flex items-center gap-2 font-bold text-white">
                 <Building2 className="w-4 h-4 text-teal-400" />
                 <span>Corporate Registration & Office:</span>
               </div>
-              <p className="text-2xs text-slate-400 font-mono">
-                <strong>CIN:</strong> U85110PN2026PTC214589 · <strong>Reg. Office:</strong> Meditrust Life Sciences Towers, Senapati Bapat Road / Kothrud IT Corridor, Pune, Maharashtra 411038, India.
+              <p className="text-2xs text-slate-300 font-medium leading-relaxed">
+                <strong className="text-white">Registered Office:</strong> Walhekar Heights, Morya Colony, Walhekarwadi, Bhondvewasti, Nigdi, Pimpri-Chinchwad, Pune, Maharashtra 411033, India.
               </p>
-              <div className="text-2xs text-teal-300 flex items-center gap-2 pt-1">
-                <span>📞 Hotline: +91 7028025717</span>
-                <span>•</span>
-                <span>✉️ care@meditrustlife.com</span>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-2xs text-teal-300 font-mono pt-1 border-t border-slate-800">
+                <span><strong>CIN:</strong> U86905PN2026PTC258730</span>
+                <span><strong>Hotline:</strong> +91 7028025717</span>
+                <span><strong>Email:</strong> care@meditrustlife.com</span>
               </div>
             </div>
 
@@ -158,52 +173,57 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/symptom-checker" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  🤖 Dr. Arya AI Doctor (24/7)
+                <Link href="/symptom-checker" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <Stethoscope className="w-3.5 h-3.5 text-teal-500" />
+                  <span>Dr. Arya AI Doctor (24/7)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/medication-comparison" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  💊 Generic Medicine Match (80%)
+                <Link href="/medication-comparison" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <Heart className="w-3.5 h-3.5 text-rose-500" />
+                  <span>Generic Medicine Match (80%)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/lab-test-comparison" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  🩸 13+ Blood Test Labs in Pune
+                <Link href="/lab-test-comparison" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <FlaskConical className="w-3.5 h-3.5 text-purple-500" />
+                  <span>13+ Blood Test Labs (Pune)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  📊 Report Scanner & 100-Pt Score
+                <Link href="/dashboard" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-blue-500" />
+                  <span>Report Scanner & Organ Score</span>
                 </Link>
               </li>
               <li>
-                <Link href="/government-schemes" className="text-amber-400 hover:text-amber-300 font-bold transition-colors">
-                  🏛️ Govt Healthcare Schemes (ABHA / PM-JAY)
+                <Link href="/government-schemes" className="text-amber-400 hover:text-amber-300 font-bold transition-colors flex items-center gap-1.5">
+                  <Shield className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Govt Schemes (ABHA / PM-JAY)</span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Clinical Specialties */}
+          {/* Col 4: 15+ Clinical Specialties */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-4">
-              Clinical Specialties
+              15+ Specialties
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li>
+                <Link href="/symptom-checker?specialty=cardiology" className="hover:text-teal-400 transition-colors">
+                  ❤️ Cardiology (Lipids & BP)
+                </Link>
+              </li>
+              <li>
                 <Link href="/symptom-checker?specialty=gynaecology" className="hover:text-teal-400 transition-colors">
-                  🌺 Gynaecology (PCOS / Periods)
+                  🌺 Gynaecology (PCOS & Periods)
                 </Link>
               </li>
               <li>
                 <Link href="/symptom-checker?specialty=orthopedics" className="hover:text-teal-400 transition-colors">
                   🦴 Orthopaedics (Knee & Spine)
-                </Link>
-              </li>
-              <li>
-                <Link href="/symptom-checker?specialty=cardiology" className="hover:text-teal-400 transition-colors">
-                  ❤️ Cardiology (Lipids & BP)
                 </Link>
               </li>
               <li>
@@ -214,6 +234,11 @@ export default function Footer() {
               <li>
                 <Link href="/symptom-checker?specialty=endocrinology" className="hover:text-teal-400 transition-colors">
                   🩺 Diabetology & Thyroid
+                </Link>
+              </li>
+              <li>
+                <Link href="/#specialties" className="text-teal-400 font-bold hover:underline">
+                  View All 15+ Specialties →
                 </Link>
               </li>
             </ul>
@@ -227,7 +252,7 @@ export default function Footer() {
             <ul className="space-y-2.5 text-xs">
               <li>
                 <Link href="/government-schemes" className="text-amber-400 hover:text-amber-300 transition-colors font-bold flex items-center gap-1">
-                  <span>🏛️ Govt Schemes Guide</span>
+                  <span>🏛️ Govt Schemes Hub</span>
                   <span className="text-3xs bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">PM-JAY</span>
                 </Link>
               </li>
@@ -267,8 +292,22 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ── Bottom Legal Disclaimer & Copyright ── */}
-      <div className="border-t border-slate-900 bg-slate-950 py-6">
+      {/* ── 4. GIANT TRENDING "MEDITRUST AI" DISPLAY WATERMARK ── */}
+      <div className="border-t border-slate-900 bg-slate-950/80 pt-8 pb-4 overflow-hidden relative">
+        <div className="absolute inset-0 bg-radial from-teal-500/10 via-transparent to-transparent pointer-events-none" />
+        
+        <div className="container-main text-center relative z-10">
+          <div className="text-[14vw] sm:text-[13vw] lg:text-[11.5vw] font-black tracking-tighter leading-none select-none uppercase font-display bg-gradient-to-b from-slate-700/60 via-slate-800/40 to-transparent bg-clip-text text-transparent opacity-80 hover:opacity-100 transition-opacity">
+            MEDITRUST AI
+          </div>
+          <div className="text-3xs sm:text-2xs uppercase tracking-widest text-teal-400/80 font-bold -mt-2 sm:-mt-4">
+            India's Leading 24/7 AI Healthcare Companion & Medicine Savings Engine
+          </div>
+        </div>
+      </div>
+
+      {/* ── 5. Bottom Legal Disclaimer & Copyright ── */}
+      <div className="border-t border-slate-900 bg-black py-6">
         <div className="container-main space-y-4">
           <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-400 text-xs leading-relaxed">
             <strong className="text-slate-200">⚕️ Clinical & Emergency Notice:</strong> Meditrust Life Sciences Pvt. Ltd. provides evidence-based health triage and price comparison tools. In acute medical emergencies (severe chest pain, breathing difficulty, acute trauma), immediately call <strong>108 (National Ambulance)</strong> or <strong>112 (National Emergency)</strong> or proceed to the nearest emergency room at Ruby Hall Clinic or Sahyadri Hospital. All drug comparisons reflect CDSCO registered formulations and PMBJP published schedules.
@@ -276,7 +315,7 @@ export default function Footer() {
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
             <div>
-              © 2026 <strong>Meditrust Life Sciences Pvt. Ltd.</strong> (CIN: U85110PN2026PTC214589). All rights reserved. Registered in Pune, Maharashtra, India.
+              © 2026 <strong>Meditrust Life Sciences Pvt. Ltd.</strong> (CIN: <strong>U86905PN2026PTC258730</strong>). All rights reserved. Registered at Walhekar Heights, Nigdi, Pimpri-Chinchwad, Pune, Maharashtra 411033, India.
             </div>
             <div className="flex items-center gap-4 text-2xs">
               <Link href="/government-schemes" className="hover:text-amber-400">Govt Schemes</Link>

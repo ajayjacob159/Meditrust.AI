@@ -276,6 +276,21 @@ export default function AboutPage() {
             ))}
           </div>
 
+          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-left text-xs text-slate-700 space-y-2 max-w-2xl mx-auto shadow-2xs">
+            <div className="flex items-center gap-2 font-bold text-slate-950">
+              <Building2 className="w-4 h-4 text-teal-700" />
+              <span>Corporate Identity & Registered Office</span>
+            </div>
+            <p className="text-2xs text-slate-600 leading-relaxed">
+              <strong>Meditrust Life Sciences Pvt. Ltd.</strong> · <strong>CIN:</strong> U86905PN2026PTC258730<br />
+              <strong>Registered Office:</strong> Walhekar Heights, Morya Colony, Walhekarwadi, Bhondvewasti, Nigdi, Pimpri-Chinchwad, Pune, Maharashtra 411033, India.
+            </p>
+            <div className="flex flex-wrap gap-4 text-2xs text-teal-800 font-bold pt-1 border-t border-slate-200">
+              <span>📞 Hotline: +91 7028025717</span>
+              <span>✉️ Email: care@meditrustlife.com</span>
+            </div>
+          </div>
+
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Meditrust AI never sells patient health data. All consultations, prescription scans, and lab records are encrypted end-to-end using AES-256 at rest and TLS 1.3 in transit.
           </p>

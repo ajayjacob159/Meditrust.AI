@@ -374,6 +374,117 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── 2.5 WHY CHOOSE MEDITRUST AI: THE UNMATCHED MARKET LEADER ── */}
+      <section className="py-16 sm:py-20 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 text-white relative overflow-hidden border-b border-teal-900/30">
+        {/* Ambient Glows */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="container-main space-y-12 relative z-10">
+          
+          <div className="text-center max-w-3xl mx-auto space-y-4">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-black uppercase tracking-widest shadow-2xs">
+              <Sparkles className="w-4 h-4 text-teal-400" />
+              <span>Thinking Ahead of the Market · The #1 Healthcare Platform</span>
+            </div>
+
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight font-display leading-tight">
+              Why India Chooses <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-300 to-cyan-400">MEDITRUST AI</span>
+            </h2>
+
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-medium">
+              We engineered India's first hybrid healthcare architecture: resolving 60% of primary health concerns from home, saving families 80% on lifelong prescriptions, and providing VIP fast-track access to premier hospitals.
+            </p>
+          </div>
+
+          {/* 4 Pillars of Unmatched Superiority */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div className="p-6 rounded-3xl bg-slate-900/90 border border-slate-800 hover:border-teal-500 transition-all space-y-4 shadow-xl group">
+              <div className="w-12 h-12 rounded-2xl bg-teal-500/20 text-teal-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                ⚡
+              </div>
+              <h3 className="text-lg font-bold text-white group-hover:text-teal-300 transition-colors">
+                Instant 24/7 AI Doctor
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Consult <strong>Dr. Arya</strong> in Marathi, Hindi & English. Real-time clinical guidance across 15+ specialties in 500ms — zero waiting queues, zero clinic consultation fees.
+              </p>
+              <div className="text-3xs text-teal-400 font-bold uppercase tracking-wider">
+                ✓ 60% Home Resolution
+              </div>
+            </div>
+
+            <div className="p-6 rounded-3xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500 transition-all space-y-4 shadow-xl group">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                💰
+              </div>
+              <h3 className="text-lg font-bold text-white group-hover:text-emerald-300 transition-colors">
+                80% Generic Medicine Savings
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Live price comparator matching branded prescriptions against CDSCO-certified <strong>Jan Aushadhi (PMBJP)</strong> generic substitutes, saving families over ₹27,000 every year.
+              </p>
+              <div className="text-3xs text-emerald-400 font-bold uppercase tracking-wider">
+                ✓ ₹4.28+ Cr Patient Savings
+              </div>
+            </div>
+
+            <div className="p-6 rounded-3xl bg-slate-900/90 border border-slate-800 hover:border-blue-500 transition-all space-y-4 shadow-xl group">
+              <div className="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                🩸
+              </div>
+              <h3 className="text-lg font-bold text-white group-hover:text-blue-300 transition-colors">
+                60-Min Doorstep Blood Pickup
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Certified phlebotomists dispatch to your doorstep across <strong>Pune & PCMC (Nigdi, Kothrud, Baner, Wakad, Hinjewadi)</strong> with cold-chain vacutainers and same-day digital reports.
+              </p>
+              <div className="text-3xs text-blue-400 font-bold uppercase tracking-wider">
+                ✓ 13+ NABL Diagnostic Labs
+              </div>
+            </div>
+
+            <div className="p-6 rounded-3xl bg-slate-900/90 border border-slate-800 hover:border-amber-500 transition-all space-y-4 shadow-xl group">
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                🏥
+              </div>
+              <h3 className="text-lg font-bold text-white group-hover:text-amber-300 transition-colors">
+                VIP Hospital Fast-Track
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Priority admission desks at <strong>Ruby Hall Clinic & Sahyadri Hospital</strong> with dedicated cashless insurance and government scheme (PM-JAY & MJPJAY) assistance.
+              </p>
+              <div className="text-3xs text-amber-400 font-bold uppercase tracking-wider">
+                ✓ 24/7 Hotline: +91 7028025717
+              </div>
+            </div>
+
+          </div>
+
+          {/* Real-time Proof Numbers Grid */}
+          <div className="p-6 rounded-3xl bg-gradient-to-r from-teal-950/80 via-slate-900 to-teal-950/80 border border-teal-500/30 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+              <div className="text-3xl sm:text-4xl font-black text-white font-display">120,000+</div>
+              <div className="text-2xs sm:text-xs text-teal-300 font-bold mt-1">Patients Served in Maharashtra</div>
+            </div>
+            <div>
+              <div className="text-3xl sm:text-4xl font-black text-emerald-400 font-display">₹4.28+ Cr</div>
+              <div className="text-2xs sm:text-xs text-emerald-300 font-bold mt-1">Medicine Bills Saved</div>
+            </div>
+            <div>
+              <div className="text-3xl sm:text-4xl font-black text-cyan-400 font-display">60 Mins</div>
+              <div className="text-2xs sm:text-xs text-cyan-300 font-bold mt-1">Avg. Doorstep Sample Pickup</div>
+            </div>
+            <div>
+              <div className="text-3xl sm:text-4xl font-black text-amber-400 font-display">15+</div>
+              <div className="text-2xs sm:text-xs text-amber-300 font-bold mt-1">Medical Specialties Triaged</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* ── 3. VISUAL BEFORE/AFTER REPORT BRIEFING SHOWCASE ── */}
       <section className="py-12 sm:py-16 bg-slate-900 text-white overflow-hidden">
         <div className="container-main space-y-8">

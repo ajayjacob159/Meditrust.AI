@@ -114,10 +114,10 @@ export default function RootLayout({
                   email: 'care@meditrustlife.com',
                   address: {
                     '@type': 'PostalAddress',
-                    streetAddress: 'Senapati Bapat Road / Kothrud IT Corridor',
-                    addressLocality: 'Pune',
+                    streetAddress: 'Walhekar Heights, Morya Colony, Walhekarwadi, Bhondvewasti, Nigdi',
+                    addressLocality: 'Pimpri-Chinchwad, Pune',
                     addressRegion: 'Maharashtra',
-                    postalCode: '411038',
+                    postalCode: '411033',
                     addressCountry: 'IN',
                   },
                   areaServed: [

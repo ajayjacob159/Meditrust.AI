@@ -9,7 +9,7 @@ import {
   Volume2, VolumeX, Mic, MicOff, Check, CheckCheck, Paperclip, Sparkle
 } from 'lucide-react'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
-import { medicalSpecialties, type MedicalSpecialty } from '@/data/clinicalEngine'
+import { evaluateClinicalQuery } from '@/data/clinicalReasoningEngine'
 
 interface Message {
   id: string
@@ -21,12 +21,6 @@ interface Message {
   isEmergency?: boolean
   audioAvailable?: boolean
 }
-
-const EMERGENCY_KEYWORDS = [
-  'chest pain', 'heart attack', 'can\'t breathe', 'stroke', 'unconscious',
-  'suicidal', 'overdose', 'severe bleeding', 'choking', 'seizure', 'anaphylaxis',
-  'छातीत दुखणे', 'श्वास घेण्यास त्रास', 'सीने में दर्द'
-]
 
 const INITIAL_MESSAGES: Message[] = [
   {
@@ -117,87 +111,6 @@ export default function SymptomCheckerPage() {
     recognition.start()
   }
 
-  const getDoctorAIResponse = (userMessage: string): { text: string; chips?: string[]; isEmergency?: boolean; department: string } => {
-    const lower = userMessage.toLowerCase()
-
-    // 1. Emergency check
-    const isEmergency = EMERGENCY_KEYWORDS.some((kw) => lower.includes(kw))
-    if (isEmergency) {
-      return {
-        isEmergency: true,
-        department: 'Cardiology & Trauma Emergency',
-        text: `🚨 **URGENT EMERGENCY ALERT (Immediate Action Required):**\n\nBased on your symptoms (acute chest pain / breathing distress / severe sudden pain), please **call 108 (Ambulance)** or **112 (National Emergency)** immediately.\n\n• **Priority Hospital Transfer:** Emergency TPA Desks are on standby at **Ruby Hall Clinic (Sassoon Road)** & **Sahyadri Super Speciality Hospital (Deccan)**.\n• **Immediate Helpline:** Call **+91 7028025717** right now for rapid coordination.`,
-        chips: ['Call 108 Ambulance Now', 'Ruby Hall Emergency Desk', 'Sahyadri Deccan Emergency'],
-      }
-    }
-
-    // 2. Acidity, Heartburn, Gastric, GERD
-    if (lower.includes('acid') || lower.includes('gerd') || lower.includes('gas') || lower.includes('stomach') || lower.includes('पित्त') || lower.includes('पोट') || lower.includes('सीने में जलन')) {
-      return {
-        department: 'Gastroenterology & Gut Health',
-        text: `**Dr. Arya (Gastroenterology AI):**\nYour symptoms indicate active acid reflux (GERD) or gastric hyperacidity.\n\n• **Generic Prescription Match:** Pantoprazole 40mg + Domperidone 30mg SR (**Pan-D generic is ₹45 on Jan Aushadhi** vs ₹199 branded — save 77%).\n• **Immediate Home Care:** Drink cold milk or coconut water; avoid oily snacks, smoking, and lying down within 2 hours after meals.\n• **मराठी सल्ला:** सकाळी रिकाम्या पोटी कोमट पाणी प्या आणि रात्रीचे जेवण हलके ठेवा.`,
-        chips: ['Compare Pan-D Generic (₹45)', 'Book H. Pylori & Stomach Test', 'Diet for Acid Reflux', 'Order Generic Medicine (80% OFF)'],
-      }
-    }
-
-    // 3. Gynaecology, PCOS, Periods, Pregnancy
-    if (lower.includes('pcos') || lower.includes('pcod') || lower.includes('period') || lower.includes('pregnancy') || lower.includes('पाळी') || lower.includes('गर्भ') || lower.includes('uterus') || lower.includes('माहवारी')) {
-      return {
-        department: 'Gynaecology & Women\'s Health',
-        text: `**Dr. Arya (OB-GYN AI):**\nFor irregular cycles, period cramps, or PCOS symptoms:\n\n• **Evidence-Based Molecule:** Myo-Inositol 2000mg + D-Chiro Inositol 50mg (**PMBJP generic is ₹65** vs ₹380 brand) improves ovulatory regularity by 65%.\n• **Diagnostic Blood Panel:** PCOS Hormone Profile (LH/FSH ratio, Total Testosterone, Thyroid TSH) — ₹649 with 60-min home collection in Pune.\n• **मराठी सल्ला:** दररोज १५ मिनिटे सूर्यनमस्कार आणि दालचिनी चहामुळे हार्मोन्स संतुलित राहतात.`,
-        chips: ['Book PCOS Hormone Panel (₹649)', 'Compare Myo-Inositol Generics', 'Period Delay Calculator', 'Consult Gynaecologist at Ruby Hall'],
-      }
-    }
-
-    // 4. Orthopaedics, Bone, Knee, Back Pain
-    if (lower.includes('bone') || lower.includes('knee') || lower.includes('joint') || lower.includes('back') || lower.includes('सांधे') || lower.includes('गुडघे') || lower.includes('कंबरदुखी') || lower.includes('जोड़ों')) {
-      return {
-        department: 'Orthopaedics & Spine Care',
-        text: `**Dr. Arya (Orthopaedics AI):**\nJoint stiffness, knee clicking, and back pain are commonly caused by severe Vitamin D3 deficiency (< 20 ng/mL) and joint cartilage friction.\n\n• **Evidence-Based Support:**\n  - Cholecalciferol 60,000 IU weekly for 8 weeks (₹25 on Jan Aushadhi).\n  - Shelcal 500 (Calcium + D3) 1 tab daily (₹28 on Jan Aushadhi vs ₹140 brand).\n  - Quad isometric exercises (15 mins twice daily).\n• **Recommended Test:** Vitamin D3 + Serum Calcium + Uric Acid (₹599 via Meditrust Direct in Pune).`,
-        chips: ['Book Vitamin D & Bone Panel (₹599)', 'Compare Shelcal Generics', 'Knee Strengthening Guide', 'Orthopaedic Doctor at Sahyadri'],
-      }
-    }
-
-    // 5. Diabetology & Blood Sugar
-    if (lower.includes('sugar') || lower.includes('diabetes') || lower.includes('hba1c') || lower.includes('glucose') || lower.includes('मधुमेह') || lower.includes('डायबिटीज')) {
-      return {
-        department: 'Diabetology & Metabolic Care',
-        text: `**Dr. Arya (Diabetology AI):**\nTarget levels: Fasting Blood Glucose 80–110 mg/dL | Post-Meal < 140 mg/dL | HbA1c < 6.5%.\n\n• **Prescription Price Comparison:** Metformin + Glimepiride 2mg/500mg (**Jan Aushadhi generic is ₹32** vs ₹128 brand Glycomet-GP — save 75%).\n• **Recommended Test:** HbA1c (Gold Standard) + Fasting Sugar (₹349 with 60-min home collection in Pune).\n• **मराठी सल्ला:** जेवणानंतर दररोज १५ मिनिटे चालणे आणि मेथीदाण्याचे पाणी साखर नियंत्रणात ठेवते.`,
-        chips: ['Book HbA1c Diabetes Panel (₹349)', 'Compare Metformin Generics', 'Diabetes Reversal Diet', 'Jan Aushadhi Online Order'],
-      }
-    }
-
-    // 6. Thyroid, TSH, Fatigue
-    if (lower.includes('thyroid') || lower.includes('tsh') || lower.includes('थायरॉईड') || lower.includes('थकवा') || lower.includes('थायराइड')) {
-      return {
-        department: 'Endocrinology & Thyroid Health',
-        text: `**Dr. Arya (Endocrinology AI):**\nHigh TSH (> 5.5 mIU/L) indicates Hypothyroidism, leading to weight gain, dry skin, and morning fatigue.\n\n• **Medication Match:** Thyroxine Sodium 50mcg / 100mcg (**Jan Aushadhi generic is ₹22** vs ₹145 brand Thyronorm — save 84%).\n• **Rule:** Take strictly empty stomach with plain water 45 minutes before morning tea or food.\n• **Recommended Test:** Complete Thyroid Profile (T3, T4, TSH Ultrasensitive) for ₹299.`,
-        chips: ['Book Thyroid Profile (₹299)', 'Compare Thyroxine Generics', 'Hypothyroidism Diet Plan', 'Consult Endocrinologist'],
-      }
-    }
-
-    // 7. Viral Fever, Cold, Cough, Dengue
-    if (lower.includes('fever') || lower.includes('cold') || lower.includes('cough') || lower.includes('dengue') || lower.includes('ताप') || lower.includes('खोकला') || lower.includes('सर्दी') || lower.includes('बुखार')) {
-      return {
-        department: 'General Internal Medicine',
-        text: `**Dr. Arya (General Physician AI):**\nFor acute fever, body ache, and viral infection:\n\n• **Safe Primary Step:** Paracetamol 650mg SOS (**Jan Aushadhi generic is ₹12/strip** vs ₹35 brand Dolo-650).\n• **Hydration Protocol:** Drink ORS, coconut water, and warm soups (maintain > 2.5L fluid intake).\n• **Critical Warning:** If fever exceeds 102°F or lasts > 48 hours, book a Complete Blood Count (CBC + Platelets) for ₹199 to rule out Dengue/Malaria.\n• **मराठी सल्ला:** पुरेशी विश्रांती घ्या आणि तुळस-आल्याचा काढा प्या.`,
-        chips: ['Book CBC & Platelet Test (₹199)', 'Compare Paracetamol Generics', 'Dengue Warning Checklist', 'Call 24/7 Helpline (+91 7028025717)'],
-      }
-    }
-
-    // 8. General Clinical Response
-    return {
-      department: 'Multi-Specialty Clinical AI',
-      text: `**Dr. Arya Clinical Assessment:**\nI have evaluated your symptoms against clinical pharmacology and diagnostic protocols.\n\n• **Primary Care:** Over 60% of primary health symptoms can be safely managed from home with verified generic medicines (saving up to 80%) and doorstep diagnostic testing.\n• **60-Minute Pune Blood Collection:** If you need a blood test, our certified phlebotomist arrives at your home within 60 minutes.\n• **Speak Directly with Us:** Call our 24/7 Doctor Assistance Desk at **+91 7028025717**.`,
-      chips: [
-        'Book Full Body Blood Test (₹999)',
-        'Compare My Prescription (Save 80%)',
-        'Upload Blood Report PDF',
-        'Call Hotline: +91 7028025717',
-      ],
-    }
-  }
-
   const handleSendMessage = (textToSend?: string) => {
     const messageContent = (textToSend || input).trim()
     if (!messageContent) return
@@ -215,7 +128,7 @@ export default function SymptomCheckerPage() {
     setIsTyping(true)
 
     setTimeout(() => {
-      const response = getDoctorAIResponse(messageContent)
+      const response = evaluateClinicalQuery(messageContent, selectedLanguage)
       const aiMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: 'ai',
@@ -230,7 +143,7 @@ export default function SymptomCheckerPage() {
       setMessages((prev) => [...prev, aiMsg])
       setIsTyping(false)
       speakText(response.text)
-    }, 500)
+    }, 450)
   }
 
   return (
