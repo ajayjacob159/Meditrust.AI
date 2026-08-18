@@ -49,8 +49,8 @@ export default function DrAryaFloatingDoctor({
   const [messages, setMessages] = useState<{ role: 'ai' | 'user'; text: string; department?: string; time?: string }[]>([
     {
       role: 'ai',
-      text: 'नमस्कार! I am **Dr. Arya** (Age 28, MD Global Clinical AI). I provide real-time clinical guidance in **मराठी, हिन्दी & English**.\n\n📞 **Emergency Direct Hotline:** **+91 7028025717**.\n\nOver **60% of primary symptoms** (Fever, Acidity, Periods/PCOS, Joint Pains, Sugar/BP) are safely managed at home with generic savings (save 80%). For hospital visits, I arrange VIP Fast-Track Admission at **Ruby Hall Clinic & Sahyadri Pune**.',
-      department: 'W.H.O. Clinical Triage',
+      text: 'नमस्कार! I am **Dr. Arya** (Age 28, MD Global Clinical AI). I provide real-time clinical guidance in **मराठी, हिन्दी & English**.\n\n📞 **24/7 Doctor Assistance Desk:** **+91 7028025717**.\n\nOver **60% of primary symptoms** (Fever, Acidity, Periods/PCOS, Joint Pains, Sugar/BP) are safely managed at home with generic savings (save 80%). For hospital visits, I arrange VIP Fast-Track Admission at **Ruby Hall Clinic & Sahyadri Pune**.',
+      department: 'Clinical AI Triage',
       time: 'Just now',
     },
   ])
@@ -177,12 +177,12 @@ export default function DrAryaFloatingDoctor({
         lower.includes('छातीत दुखणे') || lower.includes('दम लागणे') || lower.includes('हार्ट')
       ) {
         department = 'Cardiology Emergency'
-        aiReply = `🚨 **URGENT EMERGENCY ALERT (W.H.O. Triage Red Flag):**
+        aiReply = `🚨 **URGENT EMERGENCY ALERT (Immediate Care Required):**
 Retrosternal chest discomfort or breathing distress requires immediate emergency medical evaluation.
 
 • **Priority Transfer Desk:** We have notified the Emergency TPA Desk at **Ruby Hall Clinic (Cath Lab)** & **Sahyadri Hospital (Deccan)** for zero-wait admission.
 • **Immediate Actions:** Sit down in a calm position, loosen tight clothing.
-• **Call Emergency Hotline:** **+91 7028025717** or dial **108 / 112** right now.`
+• **Call Emergency Hotline:** Dial **108 (Ambulance)** or **112 (National Emergency)** or call our medical desk at **+91 7028025717** right now.`
       }
       // 2. Acidity, Heartburn, Gastric, Stomach Pain
       else if (
@@ -264,9 +264,9 @@ For acute viral fever, body aches, and cold:
       }
       // 8. General & Custom Inquiries
       else {
-        department = 'W.H.O. Clinical Triage'
+        department = 'Clinical AI Triage'
         aiReply = `**Dr. Arya Clinical Analysis:**
-I have mapped your query across W.H.O. & ICMR evidence-based guidelines.
+I have mapped your query across evidence-based clinical and diagnostic protocols.
 
 • **Key Clinical Advice:** Over 60% of primary symptoms can be resolved from home with generic medication match (save up to 80%) and targeted blood tests.
 • **Local Pune Support:** If symptoms persist or require in-person physician evaluation, we arrange VIP priority admission at **Ruby Hall Clinic** or **Sahyadri Hospital**.

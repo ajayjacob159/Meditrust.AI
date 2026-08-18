@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     { url: '/', changeFrequency: 'daily' as const, priority: 1.0 },
     { url: '/symptom-checker', changeFrequency: 'daily' as const, priority: 0.95 },
+    { url: '/government-schemes', changeFrequency: 'daily' as const, priority: 0.95 },
     { url: '/lab-test-comparison', changeFrequency: 'daily' as const, priority: 0.95 },
     { url: '/medication-comparison', changeFrequency: 'daily' as const, priority: 0.95 },
     { url: '/dashboard', changeFrequency: 'weekly' as const, priority: 0.85 },
@@ -14,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: '/about', changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: '/contact', changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: '/blog', changeFrequency: 'daily' as const, priority: 0.85 },
+    { url: '/blog/abha-card-registration-and-ayushman-bharat-guide-2026', changeFrequency: 'daily' as const, priority: 0.9 },
     { url: '/blog/blood-sample-collection-at-home-pune-guide', changeFrequency: 'daily' as const, priority: 0.9 },
     { url: '/blog/jan-aushadhi-generic-medicine-price-list-2026', changeFrequency: 'weekly' as const, priority: 0.85 },
     { url: '/blog/pune-blood-test-labs-comparison-2026', changeFrequency: 'weekly' as const, priority: 0.85 },
@@ -25,14 +27,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ]
 
   const diagnosticKeywords = [
+    'abha-card-registration-online-benefits',
+    'pm-jay-ayushman-bharat-pune-hospitals',
+    'esanjeevani-online-doctor-consultation',
+    'mjpjay-maharashtra-cashless-hospital-list',
     'blood-sample-collection-at-home-pune',
     'doorstep-blood-sample-pickup-60-minutes',
     'thyrocare-vs-metropolis-pune',
     'dr-lal-pathlabs-cbc-test-cost',
     'sahyadri-hospital-blood-test-price',
     'krsnaa-diagnostics-full-body-checkup',
-    'healthians-vs-redcliffe-labs-review',
-    'lupin-diagnostics-pune-home-pickup',
     'jan-aushadhi-generic-medicine-savings',
   ]
 

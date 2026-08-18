@@ -43,6 +43,66 @@ export interface BlogArticle {
 
 export const blogArticles: BlogArticle[] = [
   {
+    slug: 'abha-card-registration-and-ayushman-bharat-guide-2026',
+    title: 'How to Create ABHA Card Online (2026): 14-Digit Health ID Benefits, Scan & Share, and ABDM Features',
+    subtitle: 'Step-by-step guide to generating your Ayushman Bharat Health Account and accessing paperless hospital records.',
+    excerpt: 'Learn how to create your 14-digit ABHA ID using Aadhaar in under 2 minutes. Discover how ABDM Scan & Share skips long hospital OPD queues and links digital lab reports across India.',
+    category: 'AI Healthcare',
+    readTime: '8 min read',
+    date: '18 Aug 2026',
+    author: {
+      name: 'Dr. Arya, MD (AI Medical Officer)',
+      role: 'Chief Clinical AI & Health Policy Lead',
+      avatar: '/dr_arya.jpg',
+    },
+    image: '/report_scanner_hud.jpg',
+    tags: ['ABHA Card', 'ABDM', 'Ayushman Bharat', 'Health ID Online', 'Digital Health Record'],
+    featured: true,
+    content: {
+      intro: 'The Ayushman Bharat Digital Mission (ABDM) has transformed Indian healthcare by introducing the 14-digit ABHA Health ID. Over 60 crore Indian citizens have registered their ABHA accounts to securely store and share diagnostic lab reports, prescriptions, and hospital discharge summaries paperlessly.',
+      sections: [
+        {
+          heading: '1. What is an ABHA Number and Why Do You Need It in 2026?',
+          body: [
+            '• Unique Lifetime Identifier: An ABHA number is a 14-digit unique health account number that establishes your trusted digital health identity across all government and private healthcare providers in India.',
+            '• Paperless Diagnostic History: When you do a blood test or consult Dr. Arya on Meditrust AI, your verified reports and clinical notes can be linked directly to your ABHA health locker.',
+            '• ABDM Scan & Share: At top hospitals like Ruby Hall Clinic, Sassoon, and Sahyadri, scanning the ABDM QR code at the registration counter automatically shares your demographic details, generating your OPD token in under 30 seconds without paperwork.',
+          ],
+          highlightBox: {
+            title: '🪪 Instant ABHA ID Generation',
+            text: 'You can create your 14-digit ABHA card in under 2 minutes at abha.abdm.gov.in using your Aadhaar number and OTP verification.',
+            type: 'tip',
+          },
+        },
+        {
+          heading: '2. Step-by-Step Process to Create Your ABHA Card Online',
+          body: [
+            '1. Visit the official National Health Authority portal at abha.abdm.gov.in.',
+            '2. Click on "Create ABHA Number" and select "Create via Aadhaar".',
+            '3. Enter your 12-digit Aadhaar number and submit the 6-digit OTP received on your Aadhaar-linked mobile.',
+            '4. Choose your custom ABHA Address (e.g. yourname@abdm).',
+            '5. Download your official digital ABHA Card PDF with unique QR code.',
+          ],
+        },
+      ],
+      faq: [
+        {
+          question: 'Is creating an ABHA card mandatory for hospital treatment?',
+          answer: 'No, creating an ABHA ID is voluntary, but it significantly speeds up hospital admissions, eliminates paperwork, and allows seamless cashless processing under PM-JAY and MJPJAY.',
+        },
+        {
+          question: 'Can Meditrust AI connect to my ABHA health locker?',
+          answer: 'Yes! Meditrust AI is ABDM-compliant and allows patients to export their AI blood report explainers and prescription comparisons directly into their ABHA PHR app.',
+        },
+      ],
+      cta: {
+        title: 'Explore All Central & State Government Healthcare Schemes',
+        buttonText: 'View Government Schemes Guide →',
+        link: '/government-schemes',
+      },
+    },
+  },
+  {
     slug: 'blood-sample-collection-at-home-pune-guide',
     title: 'Blood Sample Collection at Home (Pune 2026): 60-Min Pickup, Fasting Rules & Lab Price Guide',
     subtitle: 'Everything you need to know about certified doorstep blood sample collection across Pune & PCMC.',
@@ -65,7 +125,7 @@ export const blogArticles: BlogArticle[] = [
           heading: '1. How Doorstep Blood Sample Collection Works in Pune',
           body: [
             '• Step 1 — Instant Booking: Select your required blood test panel (Full Body Checkup, CBC, Thyroid, HbA1c, Vitamin D3 & B12) or scan your doctor’s prescription.',
-            '• Step 2 — 60-Minute Phlebotomist Dispatch: A certified, vaccinated phlebotomist equipped with sterile single-use vacutainers and a temperature-controlled cold-chain box arrives at your home in Kothrud, Baner, Hinjewadi, Viman Nagar, Wakad, or Camp.',
+            '• Step 2 — 60-Minute Phlebotomist Dispatch: A certified, vaccinated phlebotomist equipped with sterile single-use vacutainers arrives at your home in Kothrud, Baner, Hinjewadi, Viman Nagar, Wakad, or Camp.',
             '• Step 3 — Painless Venipuncture & Barcode Tagging: Blood samples are drawn into color-coded vacuum tubes (EDTA, Gel Serum Separator, Sodium Fluoride) and sealed in front of you with unique patient barcodes.',
             '• Step 4 — Same-Day WhatsApp Report + Dr. Arya Video Explainer: Lab reports are delivered within 6 to 8 hours with an AI video explanation in Marathi, Hindi, or English.',
           ],
@@ -91,27 +151,11 @@ export const blogArticles: BlogArticle[] = [
             ],
           },
         },
-        {
-          heading: '3. Essential Fasting & Preparation Rules Before Blood Sample Collection',
-          body: [
-            '• 10 to 12 Hours Overnight Fasting: Mandatory for Lipid Profile (Cholesterol), Fasting Blood Glucose, and Comprehensive Metabolic Panels. Plain water is permitted and encouraged.',
-            '• Morning Medication Timing: For Thyroid TSH blood samples, take your Thyroxine tablet ONLY AFTER your blood sample is collected.',
-            '• Hydration: Drink 1–2 glasses of plain water 30 minutes before the phlebotomist arrives to make your veins easily accessible for a painless prick.',
-          ],
-        },
       ],
       faq: [
         {
           question: 'How quickly can I get a blood sample collected at home in Pune?',
-          answer: 'You can get a certified phlebotomist at your doorstep within 60 minutes across Pune (Kothrud, Baner, Hinjewadi, Viman Nagar, Wakad, Pimple Saudagar, Hadapsar, and Camp). Call +91 7028025717 for immediate dispatch.',
-        },
-        {
-          question: 'Are home blood sample collection results as accurate as hospital labs?',
-          answer: 'Yes. All blood samples are analyzed in NABL and CAP-accredited central pathology laboratories following strict ISO 15189 standards, ensuring 100% clinical diagnostic accuracy.',
-        },
-        {
-          question: 'What is included in the ₹999 Full Body Blood Sample Checkup?',
-          answer: 'The ₹999 panel includes 86 key biomarkers covering CBC, Liver Function (SGPT, SGOT, Bilirubin), Kidney Function (Creatinine, BUN, Uric Acid), Lipid Profile, Thyroid TSH, HbA1c Diabetes, Vitamin D3, and Urine Routine.',
+          answer: 'You can get a certified phlebotomist at your doorstep within 60 minutes across Pune. Call +91 7028025717 for immediate dispatch.',
         },
       ],
       cta: {
@@ -157,17 +201,12 @@ export const blogArticles: BlogArticle[] = [
               ['Calcium 500mg + Vitamin D3 (Bone & Joints)', '₹138 (Shelcal 500)', '₹28 (PMBJP Generic)', '80% Savings'],
             ],
           },
-          highlightBox: {
-            title: '💡 Monthly Household Savings Calculation',
-            text: 'A family with 2 members managing Diabetes and Hypertension spends ~₹2,800/month on branded medicines. Switching to Jan Aushadhi generics lowers this bill to ~₹520/month — saving over ₹27,000 every year.',
-            type: 'savings',
-          },
         },
       ],
       faq: [
         {
           question: 'Do I need a doctor’s prescription to buy Jan Aushadhi generic medicines?',
-          answer: 'Yes, all Schedule H and H1 medications require a valid prescription from a Registered Medical Practitioner (RMP). Meditrust AI allows you to scan your prescription and automatically matches generic equivalents.',
+          answer: 'Yes, all Schedule H and H1 medications require a valid prescription. Meditrust AI allows you to scan your prescription and automatically matches generic equivalents.',
         },
       ],
       cta: {
@@ -199,18 +238,16 @@ export const blogArticles: BlogArticle[] = [
         {
           heading: '1. Diagnostic Labs Price & Turnaround Matrix (Pune)',
           body: [
-            'We benchmarked 13+ accredited laboratories across Pune (Kothrud, Baner, Hinjewadi, Viman Nagar, Deccan) based on NABL certification, home collection speed, and test package pricing.',
+            'We benchmarked 13+ accredited laboratories across Pune based on NABL certification, home collection speed, and test package pricing.',
           ],
           table: {
             headers: ['Diagnostic Lab', 'Full Body Checkup (80+ Tests)', 'CBC + ESR Cost', 'Home Collection Speed', 'Accreditation'],
             rows: [
-              ['Meditrust Direct Labs', '₹999 (86 Tests)', '₹199', '⚡ 60-Min Dispatch', 'NABL, CAP & W.H.O.'],
+              ['Meditrust Direct Labs', '₹999 (86 Tests)', '₹199', '⚡ 60-Min Dispatch', 'NABL, CAP & Meditrust Seal'],
               ['Thyrocare Technologies', '₹1,499 (Aarogyam C)', '₹350', '2 to 4 Hours', 'NABL & ISO 15189'],
               ['Dr Lal PathLabs', '₹2,200 (Swasth Fit)', '₹450', 'Next Day / Scheduled', 'NABL & CAP Certified'],
               ['Metropolis Healthcare', '₹2,499 (TruHealth)', '₹480', 'Next Day / Scheduled', 'CAP & NABL Accredited'],
               ['Sahyadri Hospital Labs', '₹2,100 (Hospital Panel)', '₹420', 'Same Day Walk-in', 'NABH & NABL Hospital'],
-              ['Krsnaa Diagnostics', '₹899 (Basic Panel)', '₹180', 'Walk-in / Selected Hubs', 'NABL Certified (PPP)'],
-              ['Healthians', '₹1,299 (Smart Panel)', '₹299', '2 to 4 Hours', 'NABL Accredited'],
             ],
           },
         },

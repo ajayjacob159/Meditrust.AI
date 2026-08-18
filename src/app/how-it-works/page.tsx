@@ -59,7 +59,7 @@ const steps = [
 ]
 
 const principles = [
-  { icon: Shield, title: 'Safety First', desc: 'Emergency detection routes users to 911 before providing any AI response. We never delay critical care.' },
+  { icon: Shield, title: 'Safety First', desc: 'Emergency triage detection routes users to 108 / 112 emergency response before providing any AI triage. We never delay critical care.' },
   { icon: Brain, title: 'Evidence-Based', desc: 'All information is grounded in peer-reviewed research and FDA-approved clinical data — not opinion.' },
   { icon: Heart, title: 'Clinician-Reviewed', desc: 'Our medical advisory board reviews AI response frameworks and data sources quarterly.' },
   { icon: Shield, title: 'HIPAA-Aware', desc: 'Health data is encrypted, never sold, and subject to the highest privacy standards we can implement.' },

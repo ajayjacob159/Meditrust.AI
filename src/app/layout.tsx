@@ -3,6 +3,7 @@ import './globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import EmergencyBanner from '@/components/layout/EmergencyBanner'
+import LeadDiscountModal from '@/components/common/LeadDiscountModal'
 
 export const viewport: Viewport = {
   themeColor: '#0F766E',
@@ -214,6 +215,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <LeadDiscountModal />
       </body>
     </html>
   )

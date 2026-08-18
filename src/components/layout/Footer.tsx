@@ -20,7 +20,6 @@ export default function Footer() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="ecg-line"
             />
           </svg>
         </div>
@@ -79,11 +78,11 @@ export default function Footer() {
 
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-black">
-                VIP
+                ₹5L
               </div>
               <div>
-                <strong className="text-white block font-bold">Pune Hospital Fast-Track</strong>
-                <span className="text-slate-400 text-2xs">Ruby Hall, Sahyadri & Jupiter desks</span>
+                <strong className="text-white block font-bold">Govt Health Schemes Desk</strong>
+                <span className="text-slate-400 text-2xs">ABHA, PM-JAY & MJPJAY cashless guidance</span>
               </div>
             </div>
           </div>
@@ -113,7 +112,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-slate-300 leading-relaxed">
-              <strong>Meditrust Life Sciences Pvt. Ltd.</strong> is India’s pioneering healthcare technology & clinical diagnostics enterprise. Headquartered in Pune, Maharashtra, we empower over 120,000+ patients across India with <strong>Dr. Arya (24/7 Multilingual AI Doctor)</strong>, real-time medicine price comparison across <strong>Tata 1mg, PharmEasy & Apollo Pharmacy</strong> with <strong>Jan Aushadhi generics (saving up to 80%)</strong>, and 60-minute at-home blood collection across <strong>13+ NABL-accredited diagnostic labs</strong>.
+              <strong>Meditrust Life Sciences Pvt. Ltd.</strong> is India’s pioneering healthcare technology & clinical diagnostics enterprise. Headquartered in Pune, Maharashtra, we empower patients with <strong>Dr. Arya (24/7 Multilingual AI Doctor)</strong>, real-time medicine price comparison across <strong>Tata 1mg, PharmEasy & Apollo</strong> with <strong>Jan Aushadhi generics (saving up to 80%)</strong>, and 60-minute at-home blood collection across <strong>13+ NABL-accredited diagnostic labs</strong>.
             </p>
 
             <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-xs text-slate-300 space-y-1">
@@ -125,7 +124,7 @@ export default function Footer() {
                 <strong>CIN:</strong> U85110PN2026PTC214589 · <strong>Reg. Office:</strong> Meditrust Life Sciences Towers, Senapati Bapat Road / Kothrud IT Corridor, Pune, Maharashtra 411038, India.
               </p>
               <div className="text-2xs text-teal-300 flex items-center gap-2 pt-1">
-                <span>📞 1800-555-0199</span>
+                <span>📞 Hotline: +91 7028025717</span>
                 <span>•</span>
                 <span>✉️ care@meditrustlife.com</span>
               </div>
@@ -160,12 +159,12 @@ export default function Footer() {
             <ul className="space-y-2.5 text-xs">
               <li>
                 <Link href="/symptom-checker" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  🤖 Dr. Arya AI Symptom Checker (24/7)
+                  🤖 Dr. Arya AI Doctor (24/7)
                 </Link>
               </li>
               <li>
                 <Link href="/medication-comparison" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  💊 Real-Time Medicine Comparator
+                  💊 Generic Medicine Match (80%)
                 </Link>
               </li>
               <li>
@@ -175,12 +174,12 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/dashboard" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  📊 Personal Health Score (0–100)
+                  📊 Report Scanner & 100-Pt Score
                 </Link>
               </li>
               <li>
-                <Link href="/how-it-works" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  ⚙️ 60% Home / 40% Hospital Model
+                <Link href="/government-schemes" className="text-amber-400 hover:text-amber-300 font-bold transition-colors">
+                  🏛️ Govt Healthcare Schemes (ABHA / PM-JAY)
                 </Link>
               </li>
             </ul>
@@ -193,52 +192,53 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400 transition-colors">
+                <Link href="/symptom-checker?specialty=gynaecology" className="hover:text-teal-400 transition-colors">
                   🌺 Gynaecology (PCOS / Periods)
                 </Link>
               </li>
               <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400 transition-colors">
+                <Link href="/symptom-checker?specialty=orthopedics" className="hover:text-teal-400 transition-colors">
                   🦴 Orthopaedics (Knee & Spine)
                 </Link>
               </li>
               <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400 transition-colors">
+                <Link href="/symptom-checker?specialty=cardiology" className="hover:text-teal-400 transition-colors">
                   ❤️ Cardiology (Lipids & BP)
                 </Link>
               </li>
               <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400 transition-colors">
-                  🩺 Diabetology (Sugar & HbA1c)
+                <Link href="/symptom-checker?specialty=gastroenterology" className="hover:text-teal-400 transition-colors">
+                  🍎 Gastroenterology (Acidity & Gut)
                 </Link>
               </li>
               <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400 transition-colors">
-                  ✨ Dermatology (Hair & Skin)
+                <Link href="/symptom-checker?specialty=endocrinology" className="hover:text-teal-400 transition-colors">
+                  🩺 Diabetology & Thyroid
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 5: Company & Hospital Network */}
+          {/* Col 5: Company & Government Schemes */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-4">
-              Company & Legal
+              Company & Schemes
             </h4>
             <ul className="space-y-2.5 text-xs">
+              <li>
+                <Link href="/government-schemes" className="text-amber-400 hover:text-amber-300 transition-colors font-bold flex items-center gap-1">
+                  <span>🏛️ Govt Schemes Guide</span>
+                  <span className="text-3xs bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">PM-JAY</span>
+                </Link>
+              </li>
               <li>
                 <Link href="/about" className="text-slate-400 hover:text-teal-400 transition-colors font-semibold">
                   ℹ️ About Meditrust Life Sciences
                 </Link>
               </li>
               <li>
-                <Link href="/about#advisory" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  👨‍⚕️ Medical Advisory Board
-                </Link>
-              </li>
-              <li>
                 <Link href="/pricing" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  💰 Pricing & Plans
+                  💰 Pricing & Plans (20% OFF)
                 </Link>
               </li>
               <li>
@@ -248,7 +248,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/contact" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  📞 Contact & Support (1800-555-0199)
+                  📞 Contact (+91 7028025717)
                 </Link>
               </li>
               <li>
@@ -258,7 +258,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/privacy" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  🔐 Privacy Policy (HIPAA / GDPR)
+                  🔐 Privacy Policy (HIPAA / ABDM)
                 </Link>
               </li>
             </ul>
@@ -271,7 +271,7 @@ export default function Footer() {
       <div className="border-t border-slate-900 bg-slate-950 py-6">
         <div className="container-main space-y-4">
           <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-400 text-xs leading-relaxed">
-            <strong className="text-slate-200">⚕️ Clinical & Legal Notice:</strong> Meditrust Life Sciences Pvt. Ltd. provides evidence-based health triage and price comparison tools for educational and healthcare facilitation purposes. In acute medical emergencies (severe chest pain, breathing difficulty, acute trauma), immediately call <strong>108 / 112</strong> or proceed to the nearest emergency room at Ruby Hall Clinic or Sahyadri Hospital. All drug comparisons reflect CDSCO registered formulations and PMBJP published schedules.
+            <strong className="text-slate-200">⚕️ Clinical & Emergency Notice:</strong> Meditrust Life Sciences Pvt. Ltd. provides evidence-based health triage and price comparison tools. In acute medical emergencies (severe chest pain, breathing difficulty, acute trauma), immediately call <strong>108 (National Ambulance)</strong> or <strong>112 (National Emergency)</strong> or proceed to the nearest emergency room at Ruby Hall Clinic or Sahyadri Hospital. All drug comparisons reflect CDSCO registered formulations and PMBJP published schedules.
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
@@ -279,6 +279,7 @@ export default function Footer() {
               © 2026 <strong>Meditrust Life Sciences Pvt. Ltd.</strong> (CIN: U85110PN2026PTC214589). All rights reserved. Registered in Pune, Maharashtra, India.
             </div>
             <div className="flex items-center gap-4 text-2xs">
+              <Link href="/government-schemes" className="hover:text-amber-400">Govt Schemes</Link>
               <Link href="/privacy" className="hover:text-teal-400">Privacy</Link>
               <Link href="/terms" className="hover:text-teal-400">Terms</Link>
               <Link href="/hipaa" className="hover:text-teal-400">HIPAA Notice</Link>

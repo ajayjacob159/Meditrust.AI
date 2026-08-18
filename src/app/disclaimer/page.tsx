@@ -44,8 +44,8 @@ export default function DisclaimerPage() {
         </Section>
 
         <Section title="Emergency Medical Situations">
-          <p>If you believe you are experiencing a medical emergency, call 911 (or your local emergency number) immediately. Do not use Meditrust AI in an emergency situation.</p>
-          <p>If you have thoughts of suicide or self-harm, please contact the 988 Suicide & Crisis Lifeline by calling or texting 988.</p>
+          <p>If you believe you are experiencing an acute medical emergency (severe chest pain, difficulty breathing, acute trauma, stroke symptoms), call <strong>108 (National Ambulance Service)</strong> or <strong>112 (National Emergency Helpline)</strong> immediately. Do not use Meditrust AI in an emergency situation.</p>
+          <p>If you are experiencing acute emotional distress or mental health crisis, contact the National Tele-MANAS Helpline by dialing <strong>14416</strong> or <strong>1800-891-4416</strong> (24×7 toll-free government service).</p>
         </Section>
 
         <Section title="Medication Information">
