@@ -1,47 +1,93 @@
 {
+  "id": "/?source=pwa",
   "name": "Meditrust AI — 24/7 AI Doctor & Medicine Savings",
   "short_name": "Meditrust AI",
   "description": "India's #1 24/7 AI Doctor (Dr. Arya), Jan Aushadhi Generic Savings (Save 80%), and 60-Min Doorstep Blood Collection.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "window-controls-overlay", "minimal-ui"],
   "background_color": "#090D16",
   "theme_color": "#0F766E",
   "orientation": "portrait-primary",
+  "lang": "en-IN",
+  "dir": "ltr",
   "categories": ["medical", "health", "lifestyle"],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=in.meditrustai.app",
+      "id": "in.meditrustai.app"
+    }
+  ],
   "icons": [
     {
-      "src": "/logo.png",
+      "src": "/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "/logo.png",
+      "src": "/maskable-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Dr. Arya 24/7 Clinical AI Report Briefing"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "60-Minute Doorstep Blood Collection & Generic Match"
     }
   ],
   "shortcuts": [
     {
       "name": "Consult Dr. Arya AI Doctor",
       "url": "/symptom-checker",
-      "description": "Instant 24/7 clinical AI consultation in Marathi, Hindi & English"
+      "description": "Instant 24/7 clinical AI consultation in Marathi, Hindi & English",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Jan Aushadhi Generic Match",
       "url": "/medication-comparison",
-      "description": "Save up to 80% on chronic prescription medicines"
+      "description": "Save up to 80% on chronic prescription medicines",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Book 60-Min Blood Collection",
       "url": "/lab-test-comparison",
-      "description": "Doorstep sample collection across 13+ Pune NABL labs"
+      "description": "Doorstep sample collection across 13+ Pune NABL labs",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Government Healthcare Schemes",
       "url": "/government-schemes",
-      "description": "ABHA ID, PM-JAY ₹5L cover & eSanjeevani"
+      "description": "ABHA ID, PM-JAY ₹5L cover & eSanjeevani",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]
 }
