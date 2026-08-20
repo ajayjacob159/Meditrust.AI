@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "in.meditrustai.app",
+      "sha256_cert_fingerprints": [
+        "14:6D:E9:44:C5:9F:65:D6:D2:A6:4E:79:1E:55:0C:6D:77:24:D3:5F:9F:57:3E:99:A5:A8:1B:32:0A:48:42:01"
+      ]
+    }
+  }
+]
