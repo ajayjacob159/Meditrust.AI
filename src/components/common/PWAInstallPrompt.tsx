@@ -9,6 +9,13 @@ export default function PWAInstallPrompt() {
   const [isInstalled, setIsInstalled] = useState(false)
 
   useEffect(() => {
+    // Register Service Worker for PWA Offline Caching & Google Play TWA
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .catch((err) => console.log('Service Worker error:', err))
+    }
+
     // Check if already in standalone PWA mode
     if (window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone) {
       setIsInstalled(true)
