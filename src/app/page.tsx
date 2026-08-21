@@ -90,7 +90,7 @@ export default function HomePage() {
                 Consult <strong>Dr. Arya</strong> in Marathi, Hindi & English. Get instant plain-language blood report breakdowns, save up to <strong>80% on medicines</strong> with Jan Aushadhi generic equivalents, and compare <strong>13+ diagnostic labs</strong> in Pune.
               </p>
 
-              {/* 3 Visual Trigger Action Buttons */}
+              {/* 4 Visual Trigger Action Buttons */}
               <div className="flex flex-wrap gap-3 pt-2">
                 <Link
                   href="/symptom-checker"
@@ -100,6 +100,16 @@ export default function HomePage() {
                   <span>Consult Dr. Arya Now</span>
                   <ArrowRight className="w-4 h-4 ml-1" />
                 </Link>
+
+                <a
+                  href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm sm:text-base shadow-lg transition-all hover:scale-102 active:scale-98"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  <span>Chat on WhatsApp</span>
+                </a>
 
                 <button
                   onClick={() => setReportModalOpen(true)}
@@ -371,6 +381,220 @@ export default function HomePage() {
 
           </div>
 
+        </div>
+      </section>
+
+      {/* ── 2.3 VAIDYA-STYLE PROBLEM CAROUSEL: SOLVING HEALTH SURPRISES & ANXIETY ── */}
+      <section className="py-10 bg-slate-900 text-white overflow-hidden border-y border-slate-800">
+        <div className="container-main space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span className="text-2xs font-bold text-teal-400 uppercase tracking-wider">
+                Continuous Personal Health Intelligence
+              </span>
+              <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-white mt-0.5">
+                Understand Changes, Be Consistent When Life Gets <span className="text-teal-400">Busy</span>
+              </h2>
+            </div>
+            <Link
+              href="/health-score"
+              className="text-xs font-bold text-teal-300 hover:text-white flex items-center gap-1 self-start sm:self-auto"
+            >
+              <span>Explore Health Score &amp; Streaks</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2 hover:border-teal-500/50 transition-colors">
+              <div className="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-base">
+                🧘
+              </div>
+              <h3 className="font-bold text-sm text-white">Clarity, Not Health Anxiety</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Clear plain-language explanations from Dr. Arya so you never panic over complex blood test values or online medical jargon.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2 hover:border-teal-500/50 transition-colors">
+              <div className="w-8 h-8 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold text-base">
+                🛡️
+              </div>
+              <h3 className="font-bold text-sm text-white">Fewer Health Surprises</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Track HbA1c, Cholesterol, Vitamin D and blood pressure trends over time in MediVault™ to catch silent metabolic shifts early.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2 hover:border-teal-500/50 transition-colors">
+              <div className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-base">
+                👨‍👩‍👧‍👦
+              </div>
+              <h3 className="font-bold text-sm text-white">Care for Parents &amp; Family</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Centralize health records for parents and kids. Set smart WhatsApp medicine reminders so they never skip doses.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2 hover:border-teal-500/50 transition-colors">
+              <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-base">
+                💊
+              </div>
+              <h3 className="font-bold text-sm text-white">Managing Chronic Conditions</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Save 80% every month on lifelong prescriptions with Jan Aushadhi generic substitution and 60-min doorstep lab pickups.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 2.4 VAIDYA-EQUIVALENT HEALTHCARE INTELLIGENCE ECOSYSTEM (6 CORE APPS) ── */}
+      <section className="py-12 sm:py-16 bg-slate-50 border-b border-slate-200">
+        <div className="container-main space-y-8">
+          <div className="text-center max-w-3xl mx-auto space-y-2">
+            <span className="text-2xs font-bold uppercase tracking-widest text-teal-800 bg-teal-100 px-3 py-1 rounded-full border border-teal-200">
+              Integrated Health Intelligence Suite
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight font-display">
+              Everything Your Family Needs for Lifelong Vitality
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 font-medium">
+              A comprehensive personal health ecosystem combining AI clinical triage, secure record vaults, habit tracking, and local medical directories.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            {/* App 1: MediVault */}
+            <Link
+              href="/medivault"
+              className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-teal-500 hover:shadow-md transition-all space-y-4 group"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
+                🗄️
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="font-bold text-base text-slate-900 group-hover:text-teal-700 transition-colors">
+                  MediVault™ Health Locker
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Store prescriptions, lab reports, X-rays, and vaccine records in an ABDM-compliant 256-bit encrypted vault with automatic biomarker graphing.
+                </p>
+              </div>
+              <span className="text-xs font-bold text-blue-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+                Open MediVault Locker →
+              </span>
+            </Link>
+
+            {/* App 2: Health Score */}
+            <Link
+              href="/health-score"
+              className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-teal-500 hover:shadow-md transition-all space-y-4 group"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
+                ⚡
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="font-bold text-base text-slate-900 group-hover:text-teal-700 transition-colors">
+                  Dynamic Health Score &amp; Streaks
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Calculate your holistic 0-100 vitality score across metabolic, cardio, lifestyle, and adherence pillars with daily hydration and step trackers.
+                </p>
+              </div>
+              <span className="text-xs font-bold text-emerald-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+                View Your Health Score →
+              </span>
+            </Link>
+
+            {/* App 3: Reminders */}
+            <Link
+              href="/reminders"
+              className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-teal-500 hover:shadow-md transition-all space-y-4 group"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
+                ⏰
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="font-bold text-base text-slate-900 group-hover:text-teal-700 transition-colors">
+                  Smart Reminders &amp; WhatsApp Bot
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Never miss morning/night medicine doses, doctor appointments, or repeat fasting blood tests with instant WhatsApp alert nudges.
+                </p>
+              </div>
+              <span className="text-xs font-bold text-amber-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+                Set Care Reminders →
+              </span>
+            </Link>
+
+            {/* App 4: Find Healthcare Nearby */}
+            <Link
+              href="/find-healthcare"
+              className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-teal-500 hover:shadow-md transition-all space-y-4 group"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
+                📍
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="font-bold text-base text-slate-900 group-hover:text-teal-700 transition-colors">
+                  Find Healthcare Nearby
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Locate 24/7 hospitals (Ruby Hall, Sahyadri), NABL diagnostic labs, Jan Aushadhi Kendras, and 24-hr pharmacies across Pune and PCMC.
+                </p>
+              </div>
+              <span className="text-xs font-bold text-purple-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+                Search Local Centers →
+              </span>
+            </Link>
+
+            {/* App 5: Models & Benchmarks */}
+            <Link
+              href="/models-overview"
+              className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-teal-500 hover:shadow-md transition-all space-y-4 group"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
+                🧠
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="font-bold text-base text-slate-900 group-hover:text-teal-700 transition-colors">
+                  Clinical Models &amp; HealthBench
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Explore Dr. Arya&apos;s multi-LLM reasoning architecture, 91.4% HealthBench clinical accuracy, and physician-in-the-loop safety audit logs.
+                </p>
+              </div>
+              <span className="text-xs font-bold text-teal-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+                View Clinical Architecture →
+              </span>
+            </Link>
+
+            {/* App 6: WhatsApp Bot */}
+            <a
+              href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-gradient-to-br from-emerald-800 to-teal-950 p-6 rounded-3xl text-white shadow-sm hover:shadow-md transition-all space-y-4 group"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
+                💬
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="font-bold text-base text-white group-hover:text-emerald-300 transition-colors">
+                  Chat with Dr. Arya on WhatsApp
+                </h3>
+                <p className="text-xs text-emerald-100/80 leading-relaxed">
+                  Start instant clinical chats on WhatsApp (+91 7028025717) in Marathi, Hindi &amp; English with 1-tap voice audio notes.
+                </p>
+              </div>
+              <span className="text-xs font-bold text-emerald-300 flex items-center gap-1 pt-2 border-t border-emerald-700/50">
+                Launch WhatsApp Bot (+91 7028025717) →
+              </span>
+            </a>
+
+          </div>
         </div>
       </section>
 

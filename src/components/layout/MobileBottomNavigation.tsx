@@ -25,22 +25,22 @@ export default function MobileBottomNavigation() {
       isDoctor: true,
     },
     {
+      label: 'MediVault',
+      href: '/medivault',
+      icon: FlaskConical,
+      badge: 'VAULT',
+    },
+    {
+      label: 'Health Score',
+      href: '/health-score',
+      icon: Activity,
+      badge: '88/100',
+    },
+    {
       label: 'Generics',
       href: '/medication-comparison',
       icon: Pill,
       badge: '-80%',
-    },
-    {
-      label: 'Blood Tests',
-      href: '/lab-test-comparison',
-      icon: FlaskConical,
-      badge: '60m',
-    },
-    {
-      label: 'Govt Schemes',
-      href: '/government-schemes',
-      icon: Shield,
-      badge: '₹5L',
     },
   ]
 

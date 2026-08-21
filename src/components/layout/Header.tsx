@@ -138,11 +138,27 @@ export default function Header() {
               </div>
 
               <Link
-                href="/dashboard"
+                href="/medivault"
                 className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors flex items-center gap-1.5 whitespace-nowrap"
               >
                 <LayoutDashboard className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                <span>Explain Reports</span>
+                <span>MediVault™</span>
+              </Link>
+
+              <Link
+                href="/health-score"
+                className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+              >
+                <Activity className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                <span>Health Score</span>
+              </Link>
+
+              <Link
+                href="/reminders"
+                className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+              >
+                <Sparkles className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                <span>Reminders</span>
               </Link>
 
               <Link
@@ -154,23 +170,34 @@ export default function Header() {
               </Link>
 
               <Link
-                href="/lab-test-comparison"
+                href="/find-healthcare"
                 className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors flex items-center gap-1.5 whitespace-nowrap"
               >
                 <FlaskConical className="w-4 h-4 text-purple-600 flex-shrink-0" />
-                <span>13+ Labs</span>
+                <span>Find Care</span>
               </Link>
 
               <Link
-                href="/pricing"
+                href="/models-overview"
                 className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors whitespace-nowrap"
               >
-                Pricing
+                Models
               </Link>
             </nav>
 
             {/* 3. Right Action Buttons in Single Line */}
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 whitespace-nowrap">
+              <a
+                href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden xl:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 transition-colors text-xs font-bold whitespace-nowrap shadow-2xs"
+                title="Chat on WhatsApp"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                <span>WhatsApp AI</span>
+              </a>
+
               <a
                 href="tel:+917028025717"
                 className="flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-200 transition-colors text-xs font-bold whitespace-nowrap shadow-2xs"
@@ -243,7 +270,7 @@ export default function Header() {
               </div>
 
               <Link
-                href="/dashboard"
+                href="/medivault"
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center justify-between p-3 rounded-2xl hover:bg-blue-50 text-slate-900 font-bold text-sm"
               >
@@ -252,8 +279,42 @@ export default function Header() {
                     <LayoutDashboard className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-slate-900">Explain Blood Reports</div>
-                    <div className="text-2xs text-slate-500 font-normal">CBC, Thyroid, Vitamin D in plain language</div>
+                    <div className="text-slate-900">MediVault™ Health Locker</div>
+                    <div className="text-2xs text-slate-500 font-normal">ABDM records &amp; biomarker trends</div>
+                  </div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-slate-400" />
+              </Link>
+
+              <Link
+                href="/health-score"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between p-3 rounded-2xl hover:bg-emerald-50 text-slate-900 font-bold text-sm"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                    <Activity className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-slate-900">Health Score &amp; Habit Streaks</div>
+                    <div className="text-2xs text-slate-500 font-normal">Vitality score, hydration, steps &amp; sleep</div>
+                  </div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-slate-400" />
+              </Link>
+
+              <Link
+                href="/reminders"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between p-3 rounded-2xl hover:bg-amber-50 text-slate-900 font-bold text-sm"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-slate-900">Smart Health Reminders</div>
+                    <div className="text-2xs text-slate-500 font-normal">Pill alarms &amp; WhatsApp alerts</div>
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400" />
@@ -277,7 +338,7 @@ export default function Header() {
               </Link>
 
               <Link
-                href="/lab-test-comparison"
+                href="/find-healthcare"
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center justify-between p-3 rounded-2xl hover:bg-purple-50 text-slate-900 font-bold text-sm"
               >
@@ -286,8 +347,8 @@ export default function Header() {
                     <FlaskConical className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-slate-900">13+ Diagnostic Labs</div>
-                    <div className="text-2xs text-slate-500 font-normal">Metropolis, Thyrocare & Sahyadri</div>
+                    <div className="text-slate-900">Find Healthcare Nearby</div>
+                    <div className="text-2xs text-slate-500 font-normal">Hospitals, NABL Labs &amp; Jan Aushadhi</div>
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400" />
