@@ -2,12 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,800,900&display=swap');
+
 :root {
-  --primary-teal: #0F766E;
-  --primary-teal-light: #14B8A6;
-  --medical-blue: #2563EB;
-  --medical-dark: #0F172A;
-  --medical-light-bg: #FFFFFF;
+  --primary-blue: #1D6FF5;
+  --primary-hover: #1557CC;
+  --accent-yellow: #fbbf24;
+  --bg-light: #f8fafc;
+  --bg-card: #ffffff;
+  --text-dark: #0f172a;
+  --text-gray: #64748b;
+  --border-color: #e2e8f0;
 }
 
 /* Enforce Strict Zero-Horizontal Overflow & Native Mobile Touch Handling */
@@ -17,6 +22,9 @@ body {
   max-width: 100vw;
   width: 100%;
   position: relative;
+  font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: var(--text-dark);
+  background-color: #ffffff;
   -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -34,43 +42,102 @@ body {
   }
 }
 
-/* Custom Healthcare Animations */
-@keyframes heartbeat {
-  0% { transform: scale(1); }
-  14% { transform: scale(1.12); }
-  28% { transform: scale(1); }
-  42% { transform: scale(1.08); }
-  70% { transform: scale(1); }
+/* Animations */
+@keyframes slideCarousel {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-@keyframes laserScan {
-  0% { top: 5%; opacity: 0.8; }
-  50% { top: 92%; opacity: 1; }
-  100% { top: 5%; opacity: 0.8; }
+@keyframes floatBadge {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
 }
 
-@keyframes soundwave {
-  0%, 100% { height: 6px; }
-  50% { height: 26px; }
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
 }
 
-.animate-heartbeat {
-  animation: heartbeat 2.2s infinite ease-in-out;
+.animate-carousel {
+  display: flex;
+  animation: slideCarousel 28s linear infinite;
+  width: max-content;
 }
 
-.animate-laser-scan {
-  animation: laserScan 2.4s infinite ease-in-out;
+.animate-carousel:hover {
+  animation-play-state: paused;
 }
 
-.soundwave-bar {
-  animation: soundwave 1s infinite ease-in-out;
+.animate-float-1 {
+  animation: floatBadge 4s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: floatBadge 5s ease-in-out infinite 1s;
+}
+
+.animate-float-3 {
+  animation: floatBadge 4.5s ease-in-out infinite 2s;
 }
 
 /* Typography and Container Utilities */
 .container-main {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full;
+  @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 w-full;
 }
 
 .font-display {
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+/* Vaidya-style Clean Glass Capsule Navbar */
+.glass-nav-pill {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+}
+
+/* Custom button styles matching Vaidya */
+.vaidya-btn-primary {
+  background-color: var(--primary-blue);
+  color: #ffffff;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(29, 111, 245, 0.28);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.vaidya-btn-primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(29, 111, 245, 0.35);
+}
+
+.vaidya-btn-secondary {
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1.5px solid #e2e8f0;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.vaidya-btn-secondary:hover {
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
 }

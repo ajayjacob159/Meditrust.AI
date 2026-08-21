@@ -1,224 +1,145 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Menu, X, Heart, Activity, FlaskConical,
-  LayoutDashboard, Phone, Upload, Stethoscope, ChevronDown,
-  ArrowRight, Sparkles, User, Shield
+  LayoutDashboard, Phone, Upload, Stethoscope, ChevronRight,
+  Sparkles, MessageCircle, ShieldCheck
 } from 'lucide-react'
-import AuthModal, { type UserProfile } from '@/components/common/AuthModal'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
-import { aiSpecialtyDoctors } from '@/data/specialties'
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [specialtiesDropdownOpen, setSpecialtiesDropdownOpen] = useState(false)
-  const [authModalOpen, setAuthModalOpen] = useState(false)
   const [rxScannerOpen, setRxScannerOpen] = useState(false)
-  const [user, setUser] = useState<UserProfile | null>(null)
-  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10)
+    const handleScroll = () => setScrolled(window.scrollY > 15)
     window.addEventListener('scroll', handleScroll, { passive: true })
-    
-    // Close dropdown on outside click
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setSpecialtiesDropdownOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-
-    const savedUser = localStorage.getItem('meditrust_user')
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser))
-      } catch (e) {}
-    }
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
     <>
       <header
-        className={`sticky top-0 z-40 w-full transition-all duration-200 ${
-          scrolled
-            ? 'bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs'
-            : 'bg-white border-b border-slate-100'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-3 sm:py-4 px-3 sm:px-6`}
         role="banner"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="flex items-center justify-between h-16 sm:h-18 gap-2">
+        <div className="max-w-[1400px] mx-auto w-full">
+          <div
+            className={`flex items-center justify-between transition-all duration-300 px-4 sm:px-6 py-2.5 rounded-full ${
+              scrolled
+                ? 'bg-white/95 backdrop-blur-xl border border-slate-200/90 shadow-md'
+                : 'bg-white/80 backdrop-blur-md border border-slate-200/60 shadow-xs'
+            }`}
+          >
             
-            {/* 1. Clean Logo Only on Left (No Word Wrapping) */}
-            <Link href="/" className="flex items-center gap-2 flex-shrink-0 group" aria-label="Home">
-              <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center p-1.5 shadow-2xs transition-transform duration-200 group-hover:scale-105">
+            {/* 1. Left Logo Pill */}
+            <Link
+              href="/"
+              className="flex items-center gap-2.5 flex-shrink-0 group"
+              aria-label="Meditrust AI Home"
+            >
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
                 <img
                   src="/logo.png"
-                  alt="AI Health"
+                  alt="Meditrust AI"
                   className="w-full h-full object-contain"
                 />
               </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-sm sm:text-base text-slate-900 tracking-tight flex items-center gap-1.5">
+                  <span>Meditrust AI</span>
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
+                </span>
+                <span className="text-[10px] text-slate-400 font-medium hidden sm:block -mt-1">
+                  Healthcare Companion
+                </span>
+              </div>
             </Link>
 
-            {/* 2. Desktop Navigation with 15+ Specialties Dropdown */}
-            <nav className="hidden lg:flex items-center gap-1 xl:gap-2 text-xs xl:text-sm font-bold text-slate-700 whitespace-nowrap">
+            {/* 2. Center Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center gap-1 xl:gap-2 text-xs xl:text-sm font-semibold text-slate-600">
               <Link
                 href="/symptom-checker"
-                className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
               >
-                <Stethoscope className="w-4 h-4 text-teal-600 flex-shrink-0" />
-                <span>AI Doctor</span>
+                <Stethoscope className="w-4 h-4 text-blue-600" />
+                <span>Dr. Arya AI</span>
               </Link>
-
-              {/* 15+ Specialties Interactive Dropdown */}
-              <div className="relative" ref={dropdownRef}>
-                <button
-                  type="button"
-                  onClick={() => setSpecialtiesDropdownOpen(!specialtiesDropdownOpen)}
-                  onMouseEnter={() => setSpecialtiesDropdownOpen(true)}
-                  className={`px-3 py-2 rounded-xl transition-colors flex items-center gap-1.5 whitespace-nowrap ${
-                    specialtiesDropdownOpen ? 'bg-teal-50 text-teal-800' : 'hover:text-teal-700 hover:bg-teal-50/70'
-                  }`}
-                  aria-expanded={specialtiesDropdownOpen}
-                >
-                  <Activity className="w-4 h-4 text-teal-600 flex-shrink-0" />
-                  <span>15+ Specialties</span>
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${specialtiesDropdownOpen ? 'rotate-180 text-teal-700' : 'text-slate-400'}`} />
-                </button>
-
-                {/* Dropdown Menu (3-Column Grid of all 15 Specialties) */}
-                {specialtiesDropdownOpen && (
-                  <div
-                    onMouseLeave={() => setSpecialtiesDropdownOpen(false)}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[680px] bg-white rounded-3xl shadow-2xl border border-slate-200 p-4 grid grid-cols-3 gap-2 z-50 animate-fade-down"
-                  >
-                    <div className="col-span-3 pb-2 mb-1 border-b border-slate-100 flex items-center justify-between">
-                      <span className="text-xs font-black uppercase tracking-wider text-teal-800 flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-teal-600" />
-                        15+ Dedicated AI Specialty Doctors
-                      </span>
-                      <Link
-                        href="/symptom-checker"
-                        onClick={() => setSpecialtiesDropdownOpen(false)}
-                        className="text-3xs font-bold text-teal-700 hover:underline"
-                      >
-                        Open Triage Room →
-                      </Link>
-                    </div>
-
-                    {aiSpecialtyDoctors.map((spec) => (
-                      <Link
-                        key={spec.id}
-                        href={`/symptom-checker?specialty=${spec.id}`}
-                        onClick={() => setSpecialtiesDropdownOpen(false)}
-                        className="p-2.5 rounded-xl hover:bg-teal-50/80 transition-colors flex items-start gap-2.5 group/item"
-                      >
-                        <span className="text-xl flex-shrink-0">{spec.icon}</span>
-                        <div className="overflow-hidden">
-                          <div className="text-xs font-bold text-slate-900 group-hover/item:text-teal-700 transition-colors truncate">
-                            {spec.title}
-                          </div>
-                          <div className="text-3xs text-slate-500 truncate">
-                            {spec.specialty}
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
 
               <Link
                 href="/medivault"
-                className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
               >
-                <LayoutDashboard className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                <LayoutDashboard className="w-4 h-4 text-slate-500" />
                 <span>MediVault™</span>
               </Link>
 
               <Link
                 href="/health-score"
-                className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
               >
-                <Activity className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                <Activity className="w-4 h-4 text-slate-500" />
                 <span>Health Score</span>
               </Link>
 
               <Link
                 href="/reminders"
-                className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
               >
-                <Sparkles className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                <Sparkles className="w-4 h-4 text-slate-500" />
                 <span>Reminders</span>
               </Link>
 
               <Link
                 href="/medication-comparison"
-                className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
               >
-                <Heart className="w-4 h-4 text-rose-500 flex-shrink-0" />
-                <span>Generic Savings (80%)</span>
+                <Heart className="w-4 h-4 text-slate-500" />
+                <span>Generic Savings</span>
               </Link>
 
               <Link
                 href="/find-healthcare"
-                className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
               >
-                <FlaskConical className="w-4 h-4 text-purple-600 flex-shrink-0" />
+                <FlaskConical className="w-4 h-4 text-slate-500" />
                 <span>Find Care</span>
               </Link>
 
               <Link
                 href="/models-overview"
-                className="px-3 py-2 rounded-xl hover:text-teal-700 hover:bg-teal-50/70 transition-colors whitespace-nowrap"
+                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors"
               >
                 Models
               </Link>
             </nav>
 
-            {/* 3. Right Action Buttons in Single Line */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 whitespace-nowrap">
+            {/* 3. Right Action Buttons */}
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               <a
                 href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden xl:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 transition-colors text-xs font-bold whitespace-nowrap shadow-2xs"
-                title="Chat on WhatsApp"
+                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-emerald-300 bg-white hover:bg-emerald-50 text-emerald-800 text-xs font-semibold shadow-2xs transition-all hover:-translate-y-0.5"
               >
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                <MessageCircle className="w-4 h-4 text-emerald-600" />
                 <span>WhatsApp AI</span>
-              </a>
-
-              <a
-                href="tel:+917028025717"
-                className="flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-200 transition-colors text-xs font-bold whitespace-nowrap shadow-2xs"
-                title="Call 24/7 Helpline"
-              >
-                <Phone className="w-3.5 h-3.5 text-amber-600 animate-pulse flex-shrink-0" />
-                <span className="hidden sm:inline whitespace-nowrap">+91 7028025717</span>
-                <span className="sm:hidden font-black">Call</span>
               </a>
 
               <Link
                 href="/symptom-checker"
-                className="flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs sm:text-sm shadow-sm transition-all active:scale-95 whitespace-nowrap"
+                className="vaidya-btn-primary text-xs sm:text-sm py-2 px-4 sm:px-5"
               >
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping hidden sm:block flex-shrink-0" />
-                <span className="whitespace-nowrap">Consult Dr. Arya</span>
+                <Stethoscope className="w-4 h-4" />
+                <span>Ask Dr. Arya</span>
               </Link>
 
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors flex-shrink-0"
+                className="lg:hidden p-2 rounded-full text-slate-700 hover:bg-slate-100 transition-colors"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -228,166 +149,137 @@ export default function Header() {
           </div>
         </div>
 
-        {/* ── Mobile Navigation Drawer ── */}
+        {/* ── MOBILE SLIDE-OUT MENU OVERLAY ── */}
         {mobileOpen && (
-          <div className="lg:hidden border-t border-slate-200 bg-white px-4 py-5 space-y-4 shadow-xl max-h-[80vh] overflow-y-auto animate-fade-down">
-            <div className="space-y-1">
-              <Link
-                href="/symptom-checker"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-between p-3 rounded-2xl hover:bg-teal-50 text-slate-900 font-bold text-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center">
-                    <Stethoscope className="w-5 h-5" />
+          <div className="lg:hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex justify-end">
+            <div className="w-[300px] h-full bg-white shadow-2xl p-6 flex flex-col justify-between overflow-y-auto animate-fade-left">
+              
+              <div className="space-y-6">
+                <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                  <div className="flex items-center gap-2">
+                    <img src="/logo.png" alt="Meditrust" className="w-7 h-7 object-contain" />
+                    <span className="font-bold text-slate-900 text-sm">Meditrust AI</span>
                   </div>
-                  <div>
-                    <div className="text-slate-900">Dr. Arya (24/7 AI Doctor)</div>
-                    <div className="text-2xs text-slate-500 font-normal">Marathi, Hindi & English Consultation</div>
-                  </div>
+                  <button
+                    onClick={() => setMobileOpen(false)}
+                    className="p-1.5 rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-400" />
-              </Link>
 
-              {/* Mobile 15+ Specialties List */}
-              <div className="p-3 bg-slate-50 rounded-2xl space-y-2">
-                <div className="text-xs font-black uppercase tracking-wider text-teal-800">
-                  15+ Medical Specialties
-                </div>
-                <div className="grid grid-cols-2 gap-1.5">
-                  {aiSpecialtyDoctors.map((spec) => (
-                    <Link
-                      key={spec.id}
-                      href={`/symptom-checker?specialty=${spec.id}`}
-                      onClick={() => setMobileOpen(false)}
-                      className="p-2 rounded-xl bg-white border border-slate-200 hover:border-teal-400 text-xs font-bold text-slate-800 flex items-center gap-1.5 truncate"
-                    >
-                      <span>{spec.icon}</span>
-                      <span className="truncate">{spec.specialty}</span>
-                    </Link>
-                  ))}
+                <div className="flex flex-col gap-1 text-sm font-semibold text-slate-700">
+                  <Link
+                    href="/symptom-checker"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Stethoscope className="w-4 h-4 text-blue-600" />
+                      <span>Dr. Arya AI Doctor</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </Link>
+
+                  <Link
+                    href="/medivault"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <LayoutDashboard className="w-4 h-4 text-slate-500" />
+                      <span>MediVault™ Records</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </Link>
+
+                  <Link
+                    href="/health-score"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Activity className="w-4 h-4 text-slate-500" />
+                      <span>Health Score &amp; Streaks</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </Link>
+
+                  <Link
+                    href="/reminders"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Sparkles className="w-4 h-4 text-slate-500" />
+                      <span>Smart Reminders</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </Link>
+
+                  <Link
+                    href="/medication-comparison"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Heart className="w-4 h-4 text-slate-500" />
+                      <span>Generic Medicine Savings</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </Link>
+
+                  <Link
+                    href="/find-healthcare"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <FlaskConical className="w-4 h-4 text-slate-500" />
+                      <span>Find Healthcare Nearby</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </Link>
+
+                  <Link
+                    href="/models-overview"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <ShieldCheck className="w-4 h-4 text-slate-500" />
+                      <span>Models Overview</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </Link>
                 </div>
               </div>
 
-              <Link
-                href="/medivault"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-between p-3 rounded-2xl hover:bg-blue-50 text-slate-900 font-bold text-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center">
-                    <LayoutDashboard className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-slate-900">MediVault™ Health Locker</div>
-                    <div className="text-2xs text-slate-500 font-normal">ABDM records &amp; biomarker trends</div>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-slate-400" />
-              </Link>
+              <div className="space-y-3 pt-6 border-t border-slate-100">
+                <a
+                  href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-emerald-600 text-white font-semibold text-xs shadow-sm"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Chat on WhatsApp</span>
+                </a>
 
-              <Link
-                href="/health-score"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-between p-3 rounded-2xl hover:bg-emerald-50 text-slate-900 font-bold text-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center">
-                    <Activity className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-slate-900">Health Score &amp; Habit Streaks</div>
-                    <div className="text-2xs text-slate-500 font-normal">Vitality score, hydration, steps &amp; sleep</div>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-slate-400" />
-              </Link>
+                <a
+                  href="tel:+917028025717"
+                  className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-amber-50 text-amber-950 font-semibold text-xs border border-amber-200"
+                >
+                  <Phone className="w-4 h-4 text-amber-700" />
+                  <span>Call Helpline: +91 7028025717</span>
+                </a>
+              </div>
 
-              <Link
-                href="/reminders"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-between p-3 rounded-2xl hover:bg-amber-50 text-slate-900 font-bold text-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
-                    <Sparkles className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-slate-900">Smart Health Reminders</div>
-                    <div className="text-2xs text-slate-500 font-normal">Pill alarms &amp; WhatsApp alerts</div>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-slate-400" />
-              </Link>
-
-              <Link
-                href="/medication-comparison"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-between p-3 rounded-2xl hover:bg-rose-50 text-slate-900 font-bold text-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center">
-                    <Heart className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-slate-900">Generic Savings (Save 80%)</div>
-                    <div className="text-2xs text-slate-500 font-normal">Jan Aushadhi generic substitutes</div>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-slate-400" />
-              </Link>
-
-              <Link
-                href="/find-healthcare"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-between p-3 rounded-2xl hover:bg-purple-50 text-slate-900 font-bold text-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center">
-                    <FlaskConical className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-slate-900">Find Healthcare Nearby</div>
-                    <div className="text-2xs text-slate-500 font-normal">Hospitals, NABL Labs &amp; Jan Aushadhi</div>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-slate-400" />
-              </Link>
-            </div>
-
-            <div className="border-t border-slate-100 pt-3 flex flex-col gap-2.5">
-              <a
-                href="tel:+917028025717"
-                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-amber-100 text-amber-950 font-bold text-sm"
-              >
-                <Phone className="w-4 h-4 text-amber-700" />
-                <span>Call Helpline: +91 7028025717</span>
-              </a>
-
-              <button
-                onClick={() => {
-                  setMobileOpen(false)
-                  setRxScannerOpen(true)
-                }}
-                className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-slate-900 text-white font-bold text-sm"
-              >
-                <Upload className="w-4 h-4" />
-                <span>Upload Prescription</span>
-              </button>
             </div>
           </div>
         )}
       </header>
 
-      {/* Modals */}
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        onLoginSuccess={(u) => {
-          setUser(u)
-          setAuthModalOpen(false)
-        }}
-      />
       <PrescriptionScannerModal isOpen={rxScannerOpen} onClose={() => setRxScannerOpen(false)} />
     </>
   )

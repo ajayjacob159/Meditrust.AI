@@ -2,7 +2,7 @@ import Link from 'next/link'
 import {
   Shield, Heart, Activity, FlaskConical, Lock, Phone, Mail,
   MapPin, ExternalLink, Award, CheckCircle2, Building2, Sparkles,
-  Zap, Stethoscope, FileText
+  Zap, Stethoscope, FileText, LayoutDashboard
 } from 'lucide-react'
 
 export default function Footer() {
@@ -179,27 +179,39 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/medivault" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <LayoutDashboard className="w-3.5 h-3.5 text-blue-500" />
+                  <span>MediVault™ Health Locker</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/health-score" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-emerald-500" />
+                  <span>Health Score &amp; Streaks</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/reminders" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  <span>Smart Reminders &amp; WhatsApp</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/medication-comparison" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
                   <Heart className="w-3.5 h-3.5 text-rose-500" />
                   <span>Generic Medicine Match (80%)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/lab-test-comparison" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                <Link href="/find-healthcare" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
                   <FlaskConical className="w-3.5 h-3.5 text-purple-500" />
-                  <span>13+ Blood Test Labs (Pune)</span>
+                  <span>Find Healthcare Nearby</span>
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <Activity className="w-3.5 h-3.5 text-blue-500" />
-                  <span>Report Scanner & Organ Score</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/government-schemes" className="text-amber-400 hover:text-amber-300 font-bold transition-colors flex items-center gap-1.5">
-                  <Shield className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Govt Schemes (ABHA / PM-JAY)</span>
+                <Link href="/models-overview" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <Shield className="w-3.5 h-3.5 text-teal-400" />
+                  <span>Models &amp; Benchmarks</span>
                 </Link>
               </li>
             </ul>
