@@ -22,6 +22,7 @@ interface Message {
   isEmergency?: boolean
   audioAvailable?: boolean
   stageDetected?: string
+  provider?: string
 }
 
 const QUICK_SUGGESTIONS = [
@@ -51,6 +52,7 @@ Everything we discuss is strictly private between us.`,
     timestamp: '10:42 am',
     department: 'Dr. Arya Women’s Health Companion',
     stageDetected: 'Ready for Triage',
+    provider: 'Free LLM Plugin Gateway',
     chips: [
       '🌸 PCOS / PCOD Assessment',
       '🩸 Is My Period Normal? (Teen)',
@@ -71,6 +73,7 @@ export default function SymptomCheckerPage() {
   const [speechEnabled, setSpeechEnabled] = useState(false)
   const [isListening, setIsListening] = useState(false)
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'hi' | 'mr'>('en')
+  const [preferredPlugin, setPreferredPlugin] = useState<'auto' | 'gemini' | 'groq' | 'openrouter' | 'clinical'>('auto')
   const [rxScannerOpen, setRxScannerOpen] = useState(false)
   const [lmpModalOpen, setLmpModalOpen] = useState(false)
   const [attachMenuOpen, setAttachMenuOpen] = useState(false)
@@ -187,7 +190,7 @@ export default function SymptomCheckerPage() {
     setIsTyping(true)
 
     try {
-      // Call Real-Time LLM API Route (/api/chat)
+      // Call Real-Time Multi-Provider LLM Plugin API Route (/api/chat)
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -195,6 +198,7 @@ export default function SymptomCheckerPage() {
           message: messageContent,
           userGraph,
           language: selectedLanguage,
+          preferredPlugin,
           history: messages.slice(-6).map((m) => ({ role: m.role, text: m.text })),
         }),
       })
@@ -224,6 +228,7 @@ export default function SymptomCheckerPage() {
         isEmergency: responseData.isEmergency,
         audioAvailable: true,
         stageDetected: responseData.stageDetected,
+        provider: responseData.provider || 'Meditrust Clinical Engine',
       }
 
       setMessages((prev) => [...prev, aiMsg])
@@ -242,6 +247,7 @@ export default function SymptomCheckerPage() {
         isEmergency: fallback.isEmergency,
         audioAvailable: true,
         stageDetected: fallback.stageDetected,
+        provider: 'Meditrust Clinical Engine (Offline)',
       }
       setMessages((prev) => [...prev, aiMsg])
       setIsTyping(false)
@@ -298,9 +304,23 @@ export default function SymptomCheckerPage() {
             </div>
           </div>
 
-          {/* Right: WhatsApp Actions (Call, WhatsApp App, Audio, Lang) */}
+          {/* Right: WhatsApp Actions (LLM Plugin, Call, WhatsApp App, Audio, Lang) */}
           <div className="flex items-center gap-1 sm:gap-2">
             
+            {/* Free LLM Plugin Selector */}
+            <select
+              value={preferredPlugin}
+              onChange={(e) => setPreferredPlugin(e.target.value as any)}
+              className="hidden md:inline-block bg-[#006e5a] text-white text-[11px] font-semibold px-2 py-1.5 rounded-lg border-0 focus:outline-none cursor-pointer"
+              title="Select Free LLM Engine Plugin"
+            >
+              <option value="auto">🤖 Auto Free LLM</option>
+              <option value="gemini">✨ Gemini 1.5/2.0 Flash</option>
+              <option value="groq">⚡ Groq Llama 3.3 70B</option>
+              <option value="openrouter">🧠 DeepSeek R1 (Free)</option>
+              <option value="clinical">🩺 Meditrust Clinical AI</option>
+            </select>
+
             {/* Language Selector Dropdown */}
             <select
               value={selectedLanguage}
@@ -409,11 +429,18 @@ export default function SymptomCheckerPage() {
                           ({msg.department || "Women's Health AI"})
                         </span>
                       </div>
-                      {msg.stageDetected && (
-                        <span className="text-[9px] bg-rose-50 text-rose-700 font-bold px-2 py-0.5 rounded-full border border-rose-200 flex-shrink-0">
-                          {msg.stageDetected}
-                        </span>
-                      )}
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                        {msg.provider && (
+                          <span className="hidden sm:inline-block text-[8px] bg-slate-100 text-slate-500 font-mono px-1.5 py-0.5 rounded border border-slate-200">
+                            {msg.provider}
+                          </span>
+                        )}
+                        {msg.stageDetected && (
+                          <span className="text-[9px] bg-rose-50 text-rose-700 font-bold px-2 py-0.5 rounded-full border border-rose-200">
+                            {msg.stageDetected}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   )}
 

@@ -31,7 +31,7 @@ SAFETY & COMPLIANCE (NON-NEGOTIABLE):
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { message, userGraph, language, history } = body
+    const { message, userGraph, language, history, preferredPlugin } = body
 
     if (!message || typeof message !== 'string') {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 })
@@ -40,25 +40,23 @@ export async function POST(req: NextRequest) {
     const query = message.trim()
     const detectedLang = language || 'en'
 
-    // ── 1. CHECK IF GEMINI API KEY IS CONFIGURED (Google AI Studio Free Tier) ──
+    // ── 1. PLUGIN: GOOGLE GEMINI FREE TIER (Google AI Studio) ──
     const geminiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY
-    if (geminiKey) {
+    if (geminiKey && (preferredPlugin === 'gemini' || preferredPlugin === 'auto' || !preferredPlugin)) {
       try {
         const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`
         
-        const contents = []
-        
-        // System instruction
-        contents.push({
-          role: 'user',
-          parts: [{ text: `SYSTEM INSTRUCTION:\n${DR_ARYA_SYSTEM_PROMPT}\n\nUSER HEALTH CONTEXT:\n${JSON.stringify(userGraph || {})}` }],
-        })
-        contents.push({
-          role: 'model',
-          parts: [{ text: 'Understood. I will respond as Dr. Arya adhering strictly to the 11-stage playbook, empathy guidelines, and clinical safety protocols.' }],
-        })
+        const contents = [
+          {
+            role: 'user',
+            parts: [{ text: `SYSTEM INSTRUCTION:\n${DR_ARYA_SYSTEM_PROMPT}\n\nUSER HEALTH CONTEXT:\n${JSON.stringify(userGraph || {})}` }],
+          },
+          {
+            role: 'model',
+            parts: [{ text: 'Understood. I will respond as Dr. Arya adhering strictly to the 11-stage playbook, empathy guidelines, and clinical safety protocols.' }],
+          },
+        ]
 
-        // Add chat history if available
         if (Array.isArray(history)) {
           for (const msg of history.slice(-6)) {
             contents.push({
@@ -68,7 +66,6 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        // Current query
         contents.push({
           role: 'user',
           parts: [{ text: query }],
@@ -80,7 +77,7 @@ export async function POST(req: NextRequest) {
           body: JSON.stringify({
             contents,
             generationConfig: {
-              temperature: 0.4,
+              temperature: 0.35,
               maxOutputTokens: 500,
             },
           }),
@@ -91,27 +88,25 @@ export async function POST(req: NextRequest) {
           const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text
 
           if (aiText) {
-            // Get action chips from clinical reasoning
             const clinicalTriage = evaluateClinicalQuery(query, userGraph, detectedLang)
-
             return NextResponse.json({
               text: aiText,
               department: clinicalTriage.department,
               chips: clinicalTriage.chips,
               isEmergency: clinicalTriage.isEmergency,
               stageDetected: clinicalTriage.stageDetected,
-              provider: 'gemini-1.5-flash',
+              provider: '✨ Gemini 1.5/2.0 Flash (Free AI Studio)',
             })
           }
         }
       } catch (err) {
-        console.warn('Gemini API call failed, falling back to clinical engine:', err)
+        console.warn('Gemini API call failed, attempting next plugin:', err)
       }
     }
 
-    // ── 2. CHECK IF GROQ API KEY IS CONFIGURED (Free Tier Llama 3.3 / Mixtral) ──
+    // ── 2. PLUGIN: GROQ CLOUD FREE INFERENCE (Llama 3.3 70B / Mixtral) ──
     const groqKey = process.env.GROQ_API_KEY
-    if (groqKey) {
+    if (groqKey && (preferredPlugin === 'groq' || preferredPlugin === 'auto' || !preferredPlugin)) {
       try {
         const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
           method: 'POST',
@@ -126,7 +121,7 @@ export async function POST(req: NextRequest) {
               ...(Array.isArray(history) ? history.slice(-6).map((m: any) => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text })) : []),
               { role: 'user', content: query },
             ],
-            temperature: 0.4,
+            temperature: 0.35,
             max_tokens: 500,
           }),
         })
@@ -143,16 +138,100 @@ export async function POST(req: NextRequest) {
               chips: clinicalTriage.chips,
               isEmergency: clinicalTriage.isEmergency,
               stageDetected: clinicalTriage.stageDetected,
-              provider: 'groq-llama-3.3',
+              provider: '⚡ Groq Llama 3.3 70B (Ultra-Fast)',
             })
           }
         }
       } catch (err) {
-        console.warn('Groq API call failed, falling back to clinical engine:', err)
+        console.warn('Groq API call failed, attempting next plugin:', err)
       }
     }
 
-    // ── 3. EMBEDDED HIGH-SPEED CLINICAL REASONING ENGINE (Zero-Latency Fallback) ──
+    // ── 3. PLUGIN: OPENROUTER FREE MODELS (DeepSeek R1 / Gemini Exp / Llama 3.2 Free) ──
+    const openrouterKey = process.env.OPENROUTER_API_KEY
+    if (openrouterKey && (preferredPlugin === 'openrouter' || preferredPlugin === 'auto' || !preferredPlugin)) {
+      try {
+        const orRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${openrouterKey}`,
+            'HTTP-Referer': 'https://www.meditrustai.in',
+            'X-Title': 'Meditrust AI Dr. Arya',
+          },
+          body: JSON.stringify({
+            model: 'deepseek/deepseek-r1:free',
+            messages: [
+              { role: 'system', content: `${DR_ARYA_SYSTEM_PROMPT}\nUser Context: ${JSON.stringify(userGraph || {})}` },
+              ...(Array.isArray(history) ? history.slice(-6).map((m: any) => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text })) : []),
+              { role: 'user', content: query },
+            ],
+            max_tokens: 500,
+          }),
+        })
+
+        if (orRes.ok) {
+          const data = await orRes.json()
+          const aiText = data.choices?.[0]?.message?.content
+
+          if (aiText) {
+            const clinicalTriage = evaluateClinicalQuery(query, userGraph, detectedLang)
+            return NextResponse.json({
+              text: aiText,
+              department: clinicalTriage.department,
+              chips: clinicalTriage.chips,
+              isEmergency: clinicalTriage.isEmergency,
+              stageDetected: clinicalTriage.stageDetected,
+              provider: '🧠 DeepSeek R1 / OpenRouter (Free)',
+            })
+          }
+        }
+      } catch (err) {
+        console.warn('OpenRouter API call failed, falling back:', err)
+      }
+    }
+
+    // ── 4. PLUGIN: HUGGINGFACE SERVERLESS INFERENCE (Free Qwen 2.5 / Llama 3) ──
+    const hfToken = process.env.HF_TOKEN || process.env.HUGGINGFACE_API_KEY
+    if (hfToken) {
+      try {
+        const hfRes = await fetch('https://api-inference.huggingface.co/models/Qwen/Qwen2.5-72B-Instruct/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${hfToken}`,
+          },
+          body: JSON.stringify({
+            model: 'Qwen/Qwen2.5-72B-Instruct',
+            messages: [
+              { role: 'system', content: `${DR_ARYA_SYSTEM_PROMPT}\nUser Context: ${JSON.stringify(userGraph || {})}` },
+              { role: 'user', content: query },
+            ],
+            max_tokens: 500,
+          }),
+        })
+
+        if (hfRes.ok) {
+          const data = await hfRes.json()
+          const aiText = data.choices?.[0]?.message?.content
+          if (aiText) {
+            const clinicalTriage = evaluateClinicalQuery(query, userGraph, detectedLang)
+            return NextResponse.json({
+              text: aiText,
+              department: clinicalTriage.department,
+              chips: clinicalTriage.chips,
+              isEmergency: clinicalTriage.isEmergency,
+              stageDetected: clinicalTriage.stageDetected,
+              provider: '🤗 HuggingFace Qwen 2.5 72B (Free)',
+            })
+          }
+        }
+      } catch (err) {
+        console.warn('HuggingFace inference failed:', err)
+      }
+    }
+
+    // ── 5. DEFAULT ENGINE: MEDITRUST CLINICAL REASONING ENGINE (Zero Latency & 100% Reliable) ──
     const fallbackResponse = evaluateClinicalQuery(query, userGraph, detectedLang)
 
     return NextResponse.json({
@@ -161,10 +240,10 @@ export async function POST(req: NextRequest) {
       chips: fallbackResponse.chips,
       isEmergency: fallbackResponse.isEmergency,
       stageDetected: fallbackResponse.stageDetected,
-      provider: 'meditrust-clinical-engine-v2',
+      provider: '🩺 Meditrust Clinical Engine (Instant)',
     })
   } catch (error: any) {
-    console.error('Error in Dr. Arya Chat API:', error)
+    console.error('Error in Dr. Arya Free LLM Plugin Gateway:', error)
     return NextResponse.json(
       { error: 'Internal clinical reasoning error', details: error?.message },
       { status: 500 }
