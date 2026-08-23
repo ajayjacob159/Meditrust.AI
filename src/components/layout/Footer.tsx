@@ -299,6 +299,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/reports/womens-health-india-2026" className="text-rose-300 hover:text-rose-200 font-bold transition-colors flex items-center gap-1">
+                  <span>📊 Women&apos;s Health in India (2026–30 Report)</span>
+                  <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded font-black">NEW</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/blog" className="text-slate-400 hover:text-teal-400 transition-colors">
                   📚 Evidence-Based Health Library
                 </Link>

@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: '/', changeFrequency: 'daily' as const, priority: 1.0 },
     { url: '/womens-health', changeFrequency: 'daily' as const, priority: 0.98 },
     { url: '/womens-health/health-library', changeFrequency: 'daily' as const, priority: 0.95 },
+    { url: '/reports/womens-health-india-2026', changeFrequency: 'monthly' as const, priority: 0.95 },
     { url: '/symptom-checker', changeFrequency: 'daily' as const, priority: 0.95 },
     { url: '/medivault', changeFrequency: 'daily' as const, priority: 0.92 },
     { url: '/health-score', changeFrequency: 'daily' as const, priority: 0.92 },
