@@ -3,14 +3,14 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import {
-  Send, AlertTriangle, Shield, ChevronRight,
-  RefreshCw, MessageCircle, Activity, Pill, X, CheckCircle2, Phone,
-  Upload, Sparkles, Heart, Stethoscope,
-  Volume2, VolumeX, Mic, MicOff, Check, CheckCheck, Paperclip, Lock,
-  Calendar, Baby, HeartPulse, FileText, UserCheck
+  Send, Shield, RefreshCw, MessageCircle, Activity, Pill, X, Check,
+  CheckCheck, Phone, Video, MoreVertical, Paperclip, Smile, Mic, MicOff,
+  Calendar, Baby, HeartPulse, FileText, UserCheck, Stethoscope, Lock,
+  ChevronLeft, Info, ExternalLink, Image as ImageIcon, FileUp, Sparkles,
+  Volume2, VolumeX, AlertCircle, Heart
 } from 'lucide-react'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
-import { evaluateClinicalQuery, UserHealthGraph, ClinicalResponse } from '@/data/clinicalReasoningEngine'
+import { evaluateClinicalQuery, UserHealthGraph } from '@/data/clinicalReasoningEngine'
 
 interface Message {
   id: string
@@ -37,7 +37,7 @@ To help me personalize our conversation and understand your health needs:
 • If comfortable, share your **approximate age** and the date of your **last menstrual period (LMP)**.
 
 Everything we discuss is strictly private between us.`,
-    timestamp: 'Just now',
+    timestamp: '10:42 am',
     department: 'Dr. Arya Women’s Health Companion',
     stageDetected: 'Ready for Triage',
     chips: [
@@ -62,6 +62,7 @@ export default function SymptomCheckerPage() {
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'hi' | 'mr'>('en')
   const [rxScannerOpen, setRxScannerOpen] = useState(false)
   const [lmpModalOpen, setLmpModalOpen] = useState(false)
+  const [attachMenuOpen, setAttachMenuOpen] = useState(false)
   const [inputLmp, setInputLmp] = useState('')
   const [inputAge, setInputAge] = useState<number | undefined>(undefined)
 
@@ -94,8 +95,8 @@ export default function SymptomCheckerPage() {
     const cleanText = text.replace(/[*_#•]/g, '').replace(/\[.*?\]\(.*?\)/g, '')
     const utterance = new SpeechSynthesisUtterance(cleanText)
     utterance.lang = selectedLanguage === 'mr' ? 'mr-IN' : selectedLanguage === 'hi' ? 'hi-IN' : 'en-IN'
-    utterance.rate = 0.95
-    utterance.pitch = 1.2
+    utterance.rate = 0.96
+    utterance.pitch = 1.18
 
     const voices = window.speechSynthesis.getVoices()
     const femaleIndianVoice = voices.find(
@@ -161,7 +162,7 @@ export default function SymptomCheckerPage() {
     const messageContent = (textToSend || input).trim()
     if (!messageContent) return
 
-    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase()
     const userMsg: Message = {
       id: Date.now().toString(),
       role: 'user',
@@ -171,6 +172,7 @@ export default function SymptomCheckerPage() {
 
     setMessages((prev) => [...prev, userMsg])
     setInput('')
+    setAttachMenuOpen(false)
     setIsTyping(true)
 
     setTimeout(() => {
@@ -189,7 +191,7 @@ export default function SymptomCheckerPage() {
         id: (Date.now() + 1).toString(),
         role: 'ai',
         text: response.text,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase(),
         department: response.department,
         chips: response.chips,
         isEmergency: response.isEmergency,
@@ -200,240 +202,369 @@ export default function SymptomCheckerPage() {
       setMessages((prev) => [...prev, aiMsg])
       setIsTyping(false)
       if (speechEnabled) speakText(response.text)
-    }, 400)
+    }, 450)
   }
 
   return (
-    <div className="min-h-screen bg-slate-100/70 pt-20 sm:pt-24 pb-16">
-      <div className="max-w-4xl mx-auto px-3 sm:px-6 space-y-4">
+    <div className="min-h-screen bg-[#d1d7db] sm:py-6 flex flex-col justify-center items-center">
+      
+      {/* ── WHATSAPP WEB SHELL CONTAINER ── */}
+      <div className="w-full max-w-4xl bg-[#efeae2] sm:rounded-3xl shadow-2xl border border-slate-300 overflow-hidden flex flex-col h-[100dvh] sm:h-[88vh] relative">
         
-        {/* ── TOP HEADER STATUS BAR ── */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="w-11 h-11 rounded-full bg-rose-50 border-2 border-rose-200 flex items-center justify-center text-xl shadow-2xs">
+        {/* ── 1. AUTHENTIC WHATSAPP TOP APP BAR ── */}
+        <header className="bg-[#008069] text-white px-3 sm:px-4 py-2.5 flex items-center justify-between shadow-md z-20 flex-shrink-0">
+          
+          {/* Left: Back & Doctor Avatar + Status */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link
+              href="/womens-health"
+              className="p-1 hover:bg-[#006e5a] rounded-full transition-colors"
+              title="Back to Women's Health Portal"
+            >
+              <ChevronLeft className="w-5 h-5 text-white" />
+            </Link>
+
+            <div className="relative cursor-pointer" onClick={() => setLmpModalOpen(true)}>
+              <div className="w-10 h-10 rounded-full bg-white/15 border-2 border-white/40 flex items-center justify-center text-xl overflow-hidden shadow-inner">
                 🌸
               </div>
-              <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full" />
+              <span className="absolute bottom-0 right-0 w-3 h-3 bg-[#25d366] border-2 border-[#008069] rounded-full" />
             </div>
 
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="font-bold text-sm sm:text-base text-slate-900">Dr. Arya Women&apos;s Health</h1>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">
-                  Senior AI Physician
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-sm sm:text-base leading-tight tracking-tight text-white">
+                  Dr. Arya
+                </span>
+                <span className="w-4 h-4 rounded-full bg-white text-[#008069] flex items-center justify-center text-[10px] font-black" title="Verified Meditrust AI Physician">
+                  ✓
+                </span>
+                <span className="hidden sm:inline-block text-[10px] bg-white/20 px-2 py-0.2 rounded-full font-medium text-emerald-100">
+                  OB-GYN AI
                 </span>
               </div>
-              <p className="text-3xs text-slate-500 flex items-center gap-1">
-                <Lock className="w-3 h-3 text-emerald-600" />
-                <span>256-Bit Private &amp; ABDM Compliant · 24/7 Real-Time</span>
-              </p>
+              
+              <div className="text-[11px] text-emerald-100/90 font-normal flex items-center gap-1 leading-none">
+                {isTyping ? (
+                  <span className="text-emerald-200 font-medium animate-pulse">typing…</span>
+                ) : (
+                  <span>online · Meditrust Clinical Network</span>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Action Quick Tools */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setLmpModalOpen(true)}
-              className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 text-xs font-bold border border-rose-200 flex items-center gap-1.5 transition-colors"
+          {/* Right: WhatsApp Actions (Call, WhatsApp App, Audio, Lang) */}
+          <div className="flex items-center gap-1 sm:gap-2">
+            
+            {/* Language Selector Dropdown */}
+            <select
+              value={selectedLanguage}
+              onChange={(e) => setSelectedLanguage(e.target.value as any)}
+              className="bg-[#006e5a] text-white text-xs font-semibold px-2 py-1.5 rounded-lg border-0 focus:outline-none cursor-pointer"
             >
-              <Calendar className="w-3.5 h-3.5 text-rose-600" />
-              <span>{userGraph.LMP ? `LMP: ${userGraph.LMP}` : 'Set LMP / Age'}</span>
-            </button>
+              <option value="en">English</option>
+              <option value="hi">हिंदी</option>
+              <option value="mr">मराठी</option>
+            </select>
 
+            {/* Voice Audio Speaker Toggle */}
             <button
               onClick={() => setSpeechEnabled(!speechEnabled)}
-              className={`p-2 rounded-xl border transition-colors ${
-                speechEnabled
-                  ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
-                  : 'bg-slate-50 text-slate-400 border-slate-200 hover:text-slate-600'
+              className={`p-2 rounded-full transition-colors ${
+                speechEnabled ? 'bg-white/30 text-white' : 'text-white/80 hover:bg-[#006e5a]'
               }`}
-              title={speechEnabled ? 'Voice output enabled' : 'Voice output disabled'}
+              title={speechEnabled ? 'Voice read-aloud active' : 'Voice read-aloud muted'}
             >
               {speechEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </button>
-          </div>
-        </div>
 
-        {/* ── CHAT CONTAINER ── */}
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-md flex flex-col h-[650px] overflow-hidden">
+            {/* Direct Phone Call */}
+            <a
+              href="tel:+917028025717"
+              className="p-2 text-white/90 hover:bg-[#006e5a] rounded-full transition-colors"
+              title="Call Meditrust Doctor Desk (+91 7028025717)"
+            >
+              <Phone className="w-4 h-4" />
+            </a>
+
+            {/* Open in Official WhatsApp App */}
+            <a
+              href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-[#25d366] hover:bg-[#20bd5a] text-[#075e54] font-bold text-xs shadow-xs transition-colors"
+              title="Switch to WhatsApp Mobile App"
+            >
+              <MessageCircle className="w-3.5 h-3.5" />
+              <span>WhatsApp</span>
+            </a>
+          </div>
+
+        </header>
+
+        {/* ── 2. WHATSAPP CHAT WALLPAPER & MESSAGE THREAD ── */}
+        <div className="flex-1 overflow-y-auto p-3 sm:p-5 space-y-3 relative bg-[#efeae2] bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px]">
           
-          {/* Messages Scroll Area */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
-            {messages.map((msg) => (
+          {/* Security Banner / End-to-End Encryption Pill */}
+          <div className="flex justify-center my-2">
+            <div className="bg-[#ffeecd] border border-[#ffdf9e] text-[#54656f] text-[11px] sm:text-xs rounded-xl px-4 py-2 text-center max-w-md shadow-2xs leading-relaxed flex items-center justify-center gap-2">
+              <Lock className="w-3.5 h-3.5 text-[#856404] flex-shrink-0" />
+              <span>
+                <strong>End-to-End Encrypted.</strong> Messages and health logs are strictly private with 256-bit AES &amp; ABDM compliance.
+              </span>
+            </div>
+          </div>
+
+          {/* Date Separator Pill */}
+          <div className="flex justify-center my-1">
+            <span className="bg-white/80 text-[#54656f] text-[10px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-md shadow-2xs border border-slate-200/60">
+              TODAY
+            </span>
+          </div>
+
+          {/* Active Health Graph Pill if LMP is logged */}
+          {userGraph.LMP && (
+            <div className="flex justify-center my-1">
+              <div className="bg-[#e7fce3] border border-[#c3f7bd] text-[#1b5e20] text-[11px] rounded-full px-3.5 py-1 font-semibold flex items-center gap-1.5 shadow-2xs">
+                <span>🌸 LMP Logged: <strong>{userGraph.LMP}</strong></span>
+                {userGraph.age && <span>· Age: <strong>{userGraph.age}</strong></span>}
+                <button
+                  onClick={() => setLmpModalOpen(true)}
+                  className="text-[10px] underline ml-1 text-emerald-800 font-bold hover:text-emerald-950"
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Messages Loop */}
+          {messages.map((msg) => {
+            const isUser = msg.role === 'user'
+            return (
               <div
                 key={msg.id}
-                className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'} animate-fadeIn`}
               >
-                {msg.role === 'ai' && (
-                  <div className="w-8 h-8 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-sm flex-shrink-0 shadow-2xs mt-1">
-                    🌸
-                  </div>
-                )}
-
-                <div className={`max-w-[85%] sm:max-w-[75%] space-y-2`}>
-                  
-                  {/* Department & Stage Badge */}
-                  {msg.role === 'ai' && msg.department && (
-                    <div className="flex items-center gap-2 text-3xs font-bold text-rose-800 mb-1">
-                      <span className="px-2 py-0.5 rounded-md bg-rose-50 border border-rose-200">
-                        {msg.department}
-                      </span>
+                <div
+                  className={`relative max-w-[90%] sm:max-w-[78%] rounded-2xl px-3.5 py-2.5 sm:px-4 sm:py-3 shadow-[0_1px_0.5px_rgba(11,20,26,0.13)] ${
+                    isUser
+                      ? 'bg-[#d9fdd3] text-[#111b21] rounded-tr-xs'
+                      : msg.isEmergency
+                      ? 'bg-[#fff0f0] border-2 border-red-500 text-slate-950 rounded-tl-xs'
+                      : 'bg-white text-[#111b21] rounded-tl-xs'
+                  }`}
+                >
+                  {/* Sender Header for Doctor Messages */}
+                  {!isUser && (
+                    <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-1 mb-1.5">
+                      <div className="flex items-center gap-1 text-[11px] font-bold text-[#008069]">
+                        <span>~ Dr. Arya</span>
+                        <span className="text-[10px] text-slate-400 font-normal">
+                          ({msg.department || "Women's Health AI"})
+                        </span>
+                      </div>
+                      {msg.stageDetected && (
+                        <span className="text-[9px] bg-rose-50 text-rose-700 font-bold px-2 py-0.5 rounded-full border border-rose-200">
+                          {msg.stageDetected}
+                        </span>
+                      )}
                     </div>
                   )}
 
-                  {/* Message Bubble */}
-                  <div
-                    className={`p-4 sm:p-5 rounded-2xl text-xs sm:text-sm leading-relaxed whitespace-pre-line ${
-                      msg.role === 'user'
-                        ? 'bg-slate-900 text-white rounded-br-none shadow-xs'
-                        : msg.isEmergency
-                        ? 'bg-rose-50 border-2 border-rose-500 text-slate-950 rounded-bl-none'
-                        : 'bg-slate-50 border border-slate-200/90 text-slate-900 rounded-bl-none shadow-2xs'
-                    }`}
-                  >
+                  {/* Message Body Content */}
+                  <div className="text-xs sm:text-[13px] leading-relaxed whitespace-pre-line text-slate-800">
                     {msg.text}
                   </div>
 
-                  {/* Interactive Action Chips */}
+                  {/* WhatsApp-Style Interactive Action Buttons / Chips */}
                   {msg.chips && msg.chips.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 pt-1">
+                    <div className="flex flex-wrap gap-1.5 pt-2.5 mt-1 border-t border-slate-100/90">
                       {msg.chips.map((chip, idx) => (
                         <button
                           key={idx}
                           onClick={() => handleSendMessage(chip.replace(/^[^\w\s]+/, '').trim())}
-                          className="px-3 py-1.5 rounded-full text-3xs sm:text-2xs font-semibold bg-white hover:bg-rose-50 text-rose-900 border border-rose-200 shadow-2xs hover:border-rose-300 transition-all text-left"
+                          className="px-3 py-1.5 rounded-xl text-3xs sm:text-2xs font-semibold bg-[#f0f2f5] hover:bg-[#e4e6eb] text-[#008069] border border-slate-200/80 shadow-2xs hover:border-[#008069] transition-all text-left flex items-center gap-1"
                         >
-                          {chip}
+                          <span>{chip}</span>
                         </button>
                       ))}
                     </div>
                   )}
 
-                  <div className={`text-3xs text-slate-400 font-mono ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-                    {msg.timestamp}
+                  {/* Message Metadata (Timestamp + Blue Double Ticks for User) */}
+                  <div className="flex items-center justify-end gap-1 mt-1 text-[10px] text-[#667781] font-mono select-none">
+                    <span>{msg.timestamp}</span>
+                    {isUser && (
+                      <CheckCheck className="w-3.5 h-3.5 text-[#53bdeb] ml-0.5 inline-block" />
+                    )}
                   </div>
 
                 </div>
-
-                {msg.role === 'user' && (
-                  <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 shadow-2xs mt-1">
-                    You
-                  </div>
-                )}
               </div>
-            ))}
+            )
+          })}
 
-            {/* Typing Indicator */}
-            {isTyping && (
-              <div className="flex items-center gap-2 text-xs text-slate-400 p-2">
-                <div className="w-2 h-2 rounded-full bg-rose-500 animate-bounce" />
-                <div className="w-2 h-2 rounded-full bg-rose-500 animate-bounce [animation-delay:0.2s]" />
-                <div className="w-2 h-2 rounded-full bg-rose-500 animate-bounce [animation-delay:0.4s]" />
-                <span className="text-3xs font-medium text-rose-700 ml-1">Dr. Arya is reasoning clinical protocols…</span>
+          {/* WhatsApp Realistic Typing Indicator Bubble */}
+          {isTyping && (
+            <div className="flex justify-start animate-fadeIn">
+              <div className="bg-white rounded-2xl rounded-tl-xs px-4 py-2.5 shadow-xs flex items-center gap-2">
+                <span className="text-[11px] text-[#008069] font-medium">Dr. Arya is typing</span>
+                <div className="flex items-center gap-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#008069] animate-bounce [animation-delay:0s]" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#008069] animate-bounce [animation-delay:0.2s]" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#008069] animate-bounce [animation-delay:0.4s]" />
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* ── 3. QUICK CONTEXT CHIPS BAR ABOVE INPUT ── */}
+        <div className="bg-[#f0f2f5] px-3 py-1.5 border-t border-slate-200/80 flex items-center gap-1.5 overflow-x-auto scrollbar-none text-3xs font-bold text-slate-700 flex-shrink-0">
+          <button
+            onClick={() => setLmpModalOpen(true)}
+            className="px-2.5 py-1 rounded-full bg-white border border-slate-300 hover:border-[#008069] hover:text-[#008069] flex items-center gap-1 whitespace-nowrap shadow-2xs transition-colors"
+          >
+            <Calendar className="w-3 h-3 text-[#008069]" />
+            <span>🌸 Log LMP / Cycle</span>
+          </button>
+
+          <Link
+            href="/womens-health#interactive-tools"
+            className="px-2.5 py-1 rounded-full bg-white border border-slate-300 hover:border-[#008069] hover:text-[#008069] flex items-center gap-1 whitespace-nowrap shadow-2xs transition-colors"
+          >
+            <Baby className="w-3 h-3 text-purple-600" />
+            <span>🤰 Calculate EDD</span>
+          </Link>
+
+          <button
+            onClick={() => setRxScannerOpen(true)}
+            className="px-2.5 py-1 rounded-full bg-white border border-slate-300 hover:border-[#008069] hover:text-[#008069] flex items-center gap-1 whitespace-nowrap shadow-2xs transition-colors"
+          >
+            <FileUp className="w-3 h-3 text-blue-600" />
+            <span>📄 Upload Lab / Scan PDF</span>
+          </button>
+
+          <Link
+            href="/doctors/gynecologist/pune"
+            className="px-2.5 py-1 rounded-full bg-white border border-slate-300 hover:border-[#008069] hover:text-[#008069] flex items-center gap-1 whitespace-nowrap shadow-2xs transition-colors"
+          >
+            <Stethoscope className="w-3 h-3 text-emerald-600" />
+            <span>🏥 Gynecologist Desk</span>
+          </Link>
+        </div>
+
+        {/* ── 4. AUTHENTIC WHATSAPP BOTTOM INPUT BAR ── */}
+        <footer className="bg-[#f0f2f5] px-2 sm:px-3 py-2 flex items-center gap-1.5 sm:gap-2 flex-shrink-0 relative">
+          
+          {/* Paperclip / Attachment Launcher */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setAttachMenuOpen(!attachMenuOpen)}
+              className={`p-2 sm:p-2.5 rounded-full transition-colors ${
+                attachMenuOpen ? 'bg-slate-300 text-slate-800' : 'text-[#54656f] hover:bg-slate-200'
+              }`}
+              title="Attach document / tool"
+            >
+              <Paperclip className="w-5 h-5" />
+            </button>
+
+            {/* WhatsApp Attachment Popover Menu */}
+            {attachMenuOpen && (
+              <div className="absolute bottom-12 left-0 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 w-48 space-y-1 z-30 animate-fadeIn text-xs font-semibold text-slate-700">
+                <button
+                  onClick={() => {
+                    setAttachMenuOpen(false)
+                    setRxScannerOpen(true)
+                  }}
+                  className="w-full p-2 hover:bg-slate-50 rounded-xl flex items-center gap-2 text-left"
+                >
+                  <FileUp className="w-4 h-4 text-blue-600" />
+                  <span>Upload Lab Report</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setAttachMenuOpen(false)
+                    setLmpModalOpen(true)
+                  }}
+                  className="w-full p-2 hover:bg-slate-50 rounded-xl flex items-center gap-2 text-left"
+                >
+                  <Calendar className="w-4 h-4 text-rose-600" />
+                  <span>Log LMP / Cycle</span>
+                </button>
+                <a
+                  href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full p-2 hover:bg-slate-50 rounded-xl flex items-center gap-2 text-left text-emerald-700"
+                >
+                  <MessageCircle className="w-4 h-4 text-emerald-600" />
+                  <span>Open in WhatsApp</span>
+                </a>
               </div>
             )}
-
-            <div ref={messagesEndRef} />
           </div>
 
-          {/* ── BOTTOM INPUT BAR ── */}
-          <div className="p-3 sm:p-4 bg-slate-50 border-t border-slate-200/90 space-y-2">
-            
-            {/* Quick Tool Launchers */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-3xs font-bold text-slate-600">
-              <button
-                onClick={() => setLmpModalOpen(true)}
-                className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-rose-300 hover:text-rose-700 flex items-center gap-1 whitespace-nowrap shadow-2xs"
-              >
-                <Calendar className="w-3 h-3 text-rose-600" />
-                <span>Log LMP / Cycle</span>
-              </button>
-
-              <Link
-                href="/womens-health"
-                className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-rose-300 hover:text-rose-700 flex items-center gap-1 whitespace-nowrap shadow-2xs"
-              >
-                <Heart className="w-3 h-3 text-rose-600" />
-                <span>Women&apos;s Health Hub</span>
-              </Link>
-
-              <button
-                onClick={() => setRxScannerOpen(true)}
-                className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-blue-300 hover:text-blue-700 flex items-center gap-1 whitespace-nowrap shadow-2xs"
-              >
-                <Upload className="w-3 h-3 text-blue-600" />
-                <span>Upload Report / Scan PDF</span>
-              </button>
-
-              <Link
-                href="/doctors/gynecologist/pune"
-                className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-emerald-300 hover:text-emerald-700 flex items-center gap-1 whitespace-nowrap shadow-2xs"
-              >
-                <Stethoscope className="w-3 h-3 text-emerald-600" />
-                <span>Pune OB-GYN Network</span>
-              </Link>
+          {/* Text Input Box */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              handleSendMessage()
+            }}
+            className="flex-1 flex items-center gap-1.5 sm:gap-2"
+          >
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                placeholder="Type a message to Dr. Arya…"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className="w-full pl-4 pr-10 py-2.5 sm:py-3 rounded-full bg-white border border-transparent focus:border-[#008069] focus:outline-none text-xs sm:text-sm text-[#111b21] placeholder:text-[#8696a0] shadow-2xs"
+              />
             </div>
 
-            {/* Input Form */}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault()
-                handleSendMessage()
-              }}
-              className="flex items-center gap-2"
+            {/* Voice Recording / Microphone Button */}
+            <button
+              type="button"
+              onClick={toggleListening}
+              className={`p-2.5 sm:p-3 rounded-full transition-all ${
+                isListening
+                  ? 'bg-rose-600 text-white animate-pulse shadow-md'
+                  : 'text-[#54656f] hover:bg-slate-200 bg-white sm:bg-transparent'
+              }`}
+              title="Voice recording"
             >
-              <div className="flex-1 relative">
-                <input
-                  type="text"
-                  placeholder="Describe your symptoms (e.g. late period, severe cramps, PCOS acne, pregnancy scan query)..."
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="w-full px-4 py-3 rounded-2xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-rose-500 text-xs sm:text-sm placeholder:text-slate-400 shadow-2xs"
-                />
-              </div>
+              {isListening ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
+            </button>
 
-              <button
-                type="button"
-                onClick={toggleListening}
-                className={`p-3 rounded-2xl border transition-colors ${
-                  isListening
-                    ? 'bg-rose-600 text-white animate-pulse border-rose-600'
-                    : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100'
-                }`}
-                title="Voice input"
-              >
-                {isListening ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
-              </button>
+            {/* WhatsApp Green Send Button */}
+            <button
+              type="submit"
+              disabled={!input.trim()}
+              className="p-2.5 sm:p-3 rounded-full bg-[#00a884] hover:bg-[#008f6f] disabled:bg-slate-300 text-white font-bold transition-all shadow-md flex-shrink-0 flex items-center justify-center"
+              title="Send message"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </form>
 
-              <button
-                type="submit"
-                disabled={!input.trim()}
-                className="p-3 rounded-2xl bg-rose-600 hover:bg-rose-700 disabled:bg-slate-300 text-white font-bold transition-colors shadow-xs flex-shrink-0"
-              >
-                <Send className="w-4 h-4" />
-              </button>
-            </form>
-
-            <div className="text-[10px] text-slate-400 text-center flex items-center justify-center gap-1.5">
-              <Shield className="w-3 h-3 text-emerald-600" />
-              <span>For informational and care navigation use. In emergencies, proceed to the nearest ER or call 108.</span>
-            </div>
-
-          </div>
-
-        </div>
+        </footer>
 
       </div>
 
-      {/* ── SET LMP & AGE MODAL ── */}
+      {/* ── SET LMP & AGE MODAL (POPUP) ── */}
       {lmpModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl p-6 max-w-md w-full border border-slate-200 shadow-2xl space-y-4 animate-scaleUp">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-rose-600" />
-                <h3 className="font-bold text-sm text-slate-950">Set Your LMP &amp; Age</h3>
+                <Calendar className="w-5 h-5 text-[#008069]" />
+                <h3 className="font-bold text-sm text-slate-950">Set Your LMP &amp; Age for Dr. Arya</h3>
               </div>
               <button
                 onClick={() => setLmpModalOpen(false)}
@@ -443,8 +574,8 @@ export default function SymptomCheckerPage() {
               </button>
             </div>
 
-            <p className="text-xs text-slate-600">
-              Sharing your Last Menstrual Period (LMP) helps Dr. Arya accurately calculate your ovulation windows, cycle regularity, and pregnancy milestones.
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Logging your Last Menstrual Period (LMP) allows Dr. Arya to accurately compute your ovulation windows, cycle regularities, and pregnancy trimester milestones in chat.
             </p>
 
             <form onSubmit={handleSaveLmpAndAge} className="space-y-3 text-xs">
@@ -466,7 +597,7 @@ export default function SymptomCheckerPage() {
                 </label>
                 <input
                   type="number"
-                  placeholder="e.g. 24"
+                  placeholder="e.g. 25"
                   min="12"
                   max="95"
                   value={inputAge || ''}
@@ -485,7 +616,7 @@ export default function SymptomCheckerPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-xs"
+                  className="px-5 py-2 rounded-xl text-xs font-bold bg-[#008069] hover:bg-[#006e5a] text-white shadow-xs"
                 >
                   Save &amp; Continue
                 </button>
