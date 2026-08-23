@@ -283,6 +283,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/for-doctors" className="text-blue-400 hover:text-blue-300 font-bold transition-colors flex items-center gap-1">
+                  <span>🩺 For Doctors (Onboard Clinic)</span>
+                  <span className="text-3xs bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded">Join</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/about" className="text-slate-400 hover:text-teal-400 transition-colors font-semibold">
                   ℹ️ About Meditrust Life Sciences
                 </Link>

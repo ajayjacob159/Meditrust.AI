@@ -5,7 +5,7 @@ import Link from 'next/link'
 import {
   Menu, X, Heart, Activity, FlaskConical,
   LayoutDashboard, Phone, Upload, Stethoscope, ChevronRight,
-  Sparkles, MessageCircle, ShieldCheck
+  Sparkles, MessageCircle, ShieldCheck, UserPlus
 } from 'lucide-react'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
 
@@ -121,10 +121,14 @@ export default function Header() {
               </Link>
 
               <Link
-                href="/models-overview"
-                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors"
+                href="/for-doctors"
+                className="px-3 py-1.5 rounded-full hover:text-blue-700 hover:bg-blue-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
               >
-                Models
+                <UserPlus className="w-3.5 h-3.5 text-blue-600" />
+                <span>For Doctors</span>
+                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-blue-100 text-blue-700 border border-blue-200 group-hover:bg-blue-200 transition-colors">
+                  Join
+                </span>
               </Link>
             </nav>
 
@@ -276,6 +280,20 @@ export default function Header() {
                       <span>Models Overview</span>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </Link>
+
+                  <Link
+                    href="/for-doctors"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-3 rounded-2xl bg-blue-50/70 hover:bg-blue-100/90 text-blue-950 border border-blue-200/80 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <UserPlus className="w-4 h-4 text-blue-600" />
+                      <span className="font-bold">Onboard as a Doctor / Clinic</span>
+                    </div>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-200 text-blue-800">
+                      Register
+                    </span>
                   </Link>
                 </div>
               </div>
