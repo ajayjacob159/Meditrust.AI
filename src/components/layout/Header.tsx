@@ -60,7 +60,7 @@ export default function Header() {
             </Link>
 
             {/* 2. Center Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1 xl:gap-2 text-xs xl:text-sm font-semibold text-slate-600">
+            <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2 text-xs xl:text-sm font-semibold text-slate-600">
               <Link
                 href="/symptom-checker"
                 className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
@@ -71,21 +71,13 @@ export default function Header() {
 
               <Link
                 href="/womens-health"
-                className="px-3 py-1.5 rounded-full hover:text-rose-700 hover:bg-rose-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
+                className="px-3.5 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100/80 text-rose-900 border border-rose-200/90 transition-all flex items-center gap-1.5 font-bold group shadow-2xs"
               >
                 <span className="text-sm">🌸</span>
                 <span>Women&apos;s Health</span>
-                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-rose-100 text-rose-700 border border-rose-200 group-hover:bg-rose-200 transition-colors">
-                  Flagship
+                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-black bg-rose-200 text-rose-800 border border-rose-300 group-hover:bg-rose-300 transition-colors uppercase tracking-wider">
+                  Exclusive
                 </span>
-              </Link>
-
-              <Link
-                href="/medivault"
-                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
-              >
-                <LayoutDashboard className="w-4 h-4 text-slate-500" />
-                <span>MediVault™</span>
               </Link>
 
               <Link
@@ -105,24 +97,8 @@ export default function Header() {
               </Link>
 
               <Link
-                href="/medication-comparison"
-                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
-              >
-                <Heart className="w-4 h-4 text-slate-500" />
-                <span>Generic Savings</span>
-              </Link>
-
-              <Link
-                href="/find-healthcare"
-                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
-              >
-                <FlaskConical className="w-4 h-4 text-slate-500" />
-                <span>Find Care</span>
-              </Link>
-
-              <Link
                 href="/for-doctors"
-                className="px-3 py-1.5 rounded-full hover:text-blue-700 hover:bg-blue-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
+                className="px-3.5 py-1.5 rounded-full hover:text-blue-700 hover:bg-blue-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
               >
                 <UserPlus className="w-3.5 h-3.5 text-blue-600" />
                 <span>For Doctors</span>
@@ -199,27 +175,15 @@ export default function Header() {
                   <Link
                     href="/womens-health"
                     onClick={() => setMobileOpen(false)}
-                    className="p-3 rounded-2xl bg-rose-50/60 hover:bg-rose-100/80 text-rose-900 border border-rose-200/80 flex items-center justify-between"
+                    className="p-3.5 rounded-2xl bg-rose-50 hover:bg-rose-100/90 text-rose-950 border border-rose-200 flex items-center justify-between"
                   >
                     <div className="flex items-center gap-2.5">
-                      <span className="text-base">🌸</span>
-                      <span className="font-bold">Women&apos;s Health Journey</span>
+                      <span className="text-lg">🌸</span>
+                      <span className="font-bold text-sm">Women&apos;s Health Portal</span>
                     </div>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-200 text-rose-800">
-                      Flagship
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-200 text-rose-800 uppercase">
+                      Exclusive
                     </span>
-                  </Link>
-
-                  <Link
-                    href="/medivault"
-                    onClick={() => setMobileOpen(false)}
-                    className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <LayoutDashboard className="w-4 h-4 text-slate-500" />
-                      <span>MediVault™ Records</span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-slate-400" />
                   </Link>
 
                   <Link
@@ -247,49 +211,13 @@ export default function Header() {
                   </Link>
 
                   <Link
-                    href="/medication-comparison"
-                    onClick={() => setMobileOpen(false)}
-                    className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <Heart className="w-4 h-4 text-slate-500" />
-                      <span>Generic Medicine Savings</span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-slate-400" />
-                  </Link>
-
-                  <Link
-                    href="/find-healthcare"
-                    onClick={() => setMobileOpen(false)}
-                    className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <FlaskConical className="w-4 h-4 text-slate-500" />
-                      <span>Find Healthcare Nearby</span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-slate-400" />
-                  </Link>
-
-                  <Link
-                    href="/models-overview"
-                    onClick={() => setMobileOpen(false)}
-                    className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <ShieldCheck className="w-4 h-4 text-slate-500" />
-                      <span>Models Overview</span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-slate-400" />
-                  </Link>
-
-                  <Link
                     href="/for-doctors"
                     onClick={() => setMobileOpen(false)}
-                    className="p-3 rounded-2xl bg-blue-50/70 hover:bg-blue-100/90 text-blue-950 border border-blue-200/80 flex items-center justify-between"
+                    className="p-3.5 rounded-2xl bg-blue-50/70 hover:bg-blue-100/90 text-blue-950 border border-blue-200/80 flex items-center justify-between"
                   >
                     <div className="flex items-center gap-2.5">
                       <UserPlus className="w-4 h-4 text-blue-600" />
-                      <span className="font-bold">Onboard as a Doctor / Clinic</span>
+                      <span className="font-bold text-sm">Onboard as a Doctor / Clinic</span>
                     </div>
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-200 text-blue-800">
                       Register

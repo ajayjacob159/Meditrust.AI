@@ -1,53 +1,163 @@
-import { Metadata } from 'next'
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
 import {
   Stethoscope, ShieldCheck, Sparkles, Heart, Activity, CheckCircle2,
   ArrowRight, MessageCircle, ChevronRight, Lock, BookOpen, AlertCircle,
-  Clock, MapPin, Award, Calendar, FileText, UserCheck, HelpCircle, Layers
+  Clock, MapPin, Award, Calendar, FileText, UserCheck, HelpCircle, Layers,
+  Calculator, Baby, HeartPulse, Search, Info, Check, RefreshCw
 } from 'lucide-react'
 import { WOMENS_HEALTH_ARTICLES } from '@/data/womensHealthArticles'
 
-export const metadata: Metadata = {
-  title: "AI-Powered Women's Health Care & Navigation | MEDITRUST AI",
-  description: "Explore AI-powered women's health guidance with MEDITRUST AI and Dr. Arya across menstrual health, PCOS, fertility, pregnancy, postnatal care and menopause. Understand your health journey and connect with appropriate healthcare professionals.",
-  keywords: [
-    "Womens health AI", "Dr Arya Womens Health", "PCOS symptoms", "PCOD treatment India",
-    "Pregnancy care navigation", "Irregular periods", "Fertility specialist Pune",
-    "Gynecologist online consultation", "Perimenopause menopause", "Postnatal recovery"
-  ],
-  openGraph: {
-    title: "AI-Powered Women's Health Care & Navigation | MEDITRUST AI",
-    description: "Personalized, AI-powered health understanding and clinician-led care navigation for every stage of a woman's life.",
-    url: "https://www.meditrustai.in/womens-health",
-    siteName: "Meditrust AI India",
-    images: [{ url: "https://www.meditrustai.in/dr_arya.jpg", width: 1200, height: 630 }],
-  },
-}
-
 export default function WomensHealthPage() {
+  const [activeToolTab, setActiveToolTab] = useState<'ovulation' | 'pregnancy' | 'pcos'>('ovulation')
+  
+  // 1. Ovulation Calculator State
+  const [lmpDate, setLmpDate] = useState('')
+  const [cycleLength, setCycleLength] = useState(28)
+  const [ovulationResult, setOvulationResult] = useState<{
+    ovulationDate: string
+    fertileStart: string
+    fertileEnd: string
+    nextPeriod: string
+  } | null>(null)
+
+  // 2. Pregnancy Due Date Calculator State
+  const [pregLmp, setPregLmp] = useState('')
+  const [pregnancyResult, setPregnancyResult] = useState<{
+    edd: string
+    gestationalWeeks: number
+    trimester: string
+    nextMilestone: string
+  } | null>(null)
+
+  // 3. PCOS Screener State
+  const [pcosAnswers, setPcosAnswers] = useState<{
+    cycle: string
+    hairAcne: string
+    weight: string
+    cysts: string
+    family: string
+  }>({
+    cycle: '',
+    hairAcne: '',
+    weight: '',
+    cysts: '',
+    family: '',
+  })
+  const [pcosScoreResult, setPcosScoreResult] = useState<string | null>(null)
+
+  // Ovulation Calculation Handler
+  const handleCalculateOvulation = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!lmpDate) return
+
+    const lmp = new Date(lmpDate)
+    const cycle = Number(cycleLength) || 28
+    
+    // Ovulation occurs approximately 14 days before the next period
+    const ovulationDayOffset = cycle - 14
+    const ovulationDate = new Date(lmp)
+    ovulationDate.setDate(lmp.getDate() + ovulationDayOffset)
+
+    // Fertile window: 5 days before ovulation to 1 day after
+    const fertileStart = new Date(ovulationDate)
+    fertileStart.setDate(ovulationDate.getDate() - 5)
+
+    const fertileEnd = new Date(ovulationDate)
+    fertileEnd.setDate(ovulationDate.getDate() + 1)
+
+    const nextPeriod = new Date(lmp)
+    nextPeriod.setDate(lmp.getDate() + cycle)
+
+    const formatDate = (d: Date) =>
+      d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+
+    setOvulationResult({
+      ovulationDate: formatDate(ovulationDate),
+      fertileStart: formatDate(fertileStart),
+      fertileEnd: formatDate(fertileEnd),
+      nextPeriod: formatDate(nextPeriod),
+    })
+  }
+
+  // Pregnancy Due Date Calculation Handler (Naegele's Rule)
+  const handleCalculatePregnancy = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!pregLmp) return
+
+    const lmp = new Date(pregLmp)
+    // EDD = LMP + 280 days (40 weeks)
+    const edd = new Date(lmp)
+    edd.setDate(lmp.getDate() + 280)
+
+    // Current Gestational Age
+    const today = new Date()
+    const diffTime = Math.max(0, today.getTime() - lmp.getTime())
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+    const weeks = Math.floor(diffDays / 7)
+
+    let trimester = 'First Trimester (Weeks 1–12)'
+    let nextMilestone = 'Dating Scan (Wk 6-8) & NT Scan (Wk 11-13)'
+    if (weeks > 12 && weeks <= 27) {
+      trimester = 'Second Trimester (Weeks 13–27)'
+      nextMilestone = 'TIFFA Anomaly Scan (Wk 18-20) & OGTT Glucose Screen (Wk 24-28)'
+    } else if (weeks > 27) {
+      trimester = 'Third Trimester (Weeks 28–40)'
+      nextMilestone = 'Growth Doppler Ultrasound & Hospital Birth Plan (Wk 32-36)'
+    }
+
+    const formatDate = (d: Date) =>
+      d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+
+    setPregnancyResult({
+      edd: formatDate(edd),
+      gestationalWeeks: weeks,
+      trimester,
+      nextMilestone,
+    })
+  }
+
+  // PCOS Screener Evaluation Handler
+  const handleEvaluatePcos = (e: React.FormEvent) => {
+    e.preventDefault()
+    let score = 0
+    if (pcosAnswers.cycle === 'irregular' || pcosAnswers.cycle === 'absent') score += 2
+    if (pcosAnswers.hairAcne === 'yes') score += 2
+    if (pcosAnswers.weight === 'yes') score += 1
+    if (pcosAnswers.cysts === 'yes') score += 2
+    if (pcosAnswers.family === 'yes') score += 1
+
+    if (score >= 4) {
+      setPcosScoreResult('High likelihood of PCOS/PCOD clinical presentation. A comprehensive pelvic ultrasound and hormonal blood panel (LH/FSH, Total Testosterone, Fasting Insulin, AMH) with a qualified gynecologist is strongly recommended.')
+    } else if (score >= 2) {
+      setPcosScoreResult('Moderate presentation of hormonal imbalance. Monitoring cycle regularity and discussing symptoms with a gynecologist or Dr. Arya will provide clarity.')
+    } else {
+      setPcosScoreResult('Low presentation of PCOS indicators. Maintain balanced nutrition, regular sleep, and annual preventive gynecological checkups.')
+    }
+  }
+
   const featuredArticles = WOMENS_HEALTH_ARTICLES.slice(0, 6)
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 overflow-x-hidden pt-20 sm:pt-24">
+    <div className="min-h-screen bg-white text-slate-900 overflow-x-hidden pt-20 sm:pt-24 pb-20">
       
       {/* ── 1. HERO SECTION ── */}
       <section className="relative py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto overflow-hidden">
-        {/* Subtle Ambient Radial Accents */}
-        <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-rose-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
+        <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-rose-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl pointer-events-none -z-10" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Left Column: Vision & Primary Brand Statements */}
           <div className="lg:col-span-7 space-y-6">
-            
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-900 text-xs font-black shadow-2xs">
               <span className="text-sm">🌸</span>
-              <span className="uppercase tracking-wider">MEDITRUST AI · SPECIALIZED AI CARE JOURNEY</span>
+              <span className="uppercase tracking-wider">MEDITRUST AI · EXCLUSIVE WOMEN&apos;S HEALTH ECOSYSTEM</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-950 leading-[1.12]">
-              AI-Powered Women&apos;s Health for <span className="text-rose-600">Every Stage of Life</span>
+              All About <span className="text-rose-600">Women&apos;s Health</span> Across Every Stage of Life
             </h1>
 
             <p className="text-base sm:text-lg text-slate-700 font-medium leading-relaxed">
@@ -55,7 +165,7 @@ export default function WomensHealthPage() {
             </p>
 
             <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
-              From adolescence to reproductive health, fertility, pregnancy, motherhood and menopause, <strong>Dr. Arya Women&apos;s Health</strong> helps women understand their health needs, navigate the appropriate care pathway and connect with qualified healthcare professionals.
+              From adolescence to reproductive health, PCOS, fertility, pregnancy, motherhood, and menopause, <strong>Dr. Arya Women&apos;s Health</strong> helps women understand their health needs, navigate the appropriate care pathway, and connect with qualified healthcare professionals.
             </p>
 
             {/* CTAs */}
@@ -69,21 +179,19 @@ export default function WomensHealthPage() {
               </Link>
 
               <a
-                href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20have%20a%20women%27s%20health%20question"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white hover:bg-rose-50 text-rose-800 font-bold text-sm sm:text-base border border-rose-300 shadow-2xs transition-all hover:-translate-y-0.5"
+                href="#interactive-tools"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-rose-50 hover:bg-rose-100/80 text-rose-900 font-bold text-sm sm:text-base border border-rose-200 shadow-2xs transition-all hover:-translate-y-0.5"
               >
-                <MessageCircle className="w-5 h-5 text-emerald-600" />
-                <span>WhatsApp AI Consultation</span>
+                <Calculator className="w-4 h-4 text-rose-600" />
+                <span>Ovulation &amp; Pregnancy Tools</span>
               </a>
 
               <Link
-                href="#life-stages"
+                href="/womens-health/health-library"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm transition-colors"
               >
-                <span>Explore Care Pathways</span>
-                <ChevronRight className="w-4 h-4" />
+                <BookOpen className="w-4 h-4 text-slate-600" />
+                <span>Knowledge Centre (20 Guides)</span>
               </Link>
             </div>
 
@@ -105,7 +213,7 @@ export default function WomensHealthPage() {
 
           </div>
 
-          {/* Right Column: Life Stage Wheel / Visual Showcase */}
+          {/* Right Column: 7 Life Stages Connected Box */}
           <div className="lg:col-span-5 relative">
             <div className="bg-white rounded-3xl border border-rose-200/90 shadow-xl p-6 sm:p-8 space-y-6 relative overflow-hidden">
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
@@ -134,8 +242,9 @@ export default function WomensHealthPage() {
                   { stage: 'Stage 6', name: 'Postnatal & Motherhood', desc: 'Maternal healing & pediatric transition', icon: '🤱' },
                   { stage: 'Stage 7', name: 'Mid-Life & Menopause', desc: 'Bone density, heart & perimenopause', icon: '🌸' },
                 ].map((item, idx) => (
-                  <div
+                  <a
                     key={idx}
+                    href={`#stage-${idx + 1}`}
                     className="p-2.5 rounded-xl bg-slate-50 hover:bg-rose-50/70 border border-slate-200/70 hover:border-rose-300 transition-all flex items-center justify-between group cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
@@ -150,7 +259,7 @@ export default function WomensHealthPage() {
                     <span className="text-3xs font-bold text-rose-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">
                       {item.stage}
                     </span>
-                  </div>
+                  </a>
                 ))}
               </div>
 
@@ -165,137 +274,499 @@ export default function WomensHealthPage() {
         </div>
       </section>
 
-      {/* ── 2. MORE THAN "BOOK A GYNECOLOGIST" (THE CORE DIFFERENCE) ── */}
-      <section className="py-16 sm:py-24 bg-slate-50/80 border-y border-slate-200/80">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+      {/* ── 2. INTERACTIVE SCREENING & CLINICAL CALCULATORS TOOLKIT ── */}
+      <section id="interactive-tools" className="py-16 sm:py-24 bg-gradient-to-b from-slate-50 to-white border-y border-slate-200/80">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
-          <div className="max-w-3xl mx-auto text-center space-y-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">
-              Transforming Healthcare Discovery
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-100/80 px-3.5 py-1 rounded-full border border-rose-200">
+              Interactive Clinical Toolkit
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight">
-              More Than &ldquo;Book a Gynecologist&rdquo;
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+              Women&apos;s Health Screening &amp; Calculators
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-              Traditional healthcare search starts with an appointment button. MEDITRUST AI is built around a complete clinical care pathway: from understanding your symptoms to diagnostic clarity, specialist consultation, and continuous follow-up.
+            <p className="text-sm text-slate-600">
+              Private, instant clinical tools designed to help you track your cycle, estimate pregnancy milestones, or evaluate PCOS indicators.
             </p>
           </div>
 
-          {/* Comparative Journey Diagram */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-            
-            {/* The Broken Traditional Way */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-2xs space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Traditional Discovery</span>
-                <span className="text-2xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">Fragmented</span>
+          {/* Tool Navigation Tabs */}
+          <div className="flex items-center justify-center gap-2 sm:gap-4 border-b border-slate-200 pb-4">
+            <button
+              onClick={() => setActiveToolTab('ovulation')}
+              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                activeToolTab === 'ovulation'
+                  ? 'bg-rose-600 text-white shadow-sm'
+                  : 'bg-white text-slate-600 hover:bg-rose-50 hover:text-rose-700 border border-slate-200'
+              }`}
+            >
+              <Calendar className="w-4 h-4" />
+              <span>Ovulation &amp; Fertile Window</span>
+            </button>
+
+            <button
+              onClick={() => setActiveToolTab('pregnancy')}
+              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                activeToolTab === 'pregnancy'
+                  ? 'bg-purple-600 text-white shadow-sm'
+                  : 'bg-white text-slate-600 hover:bg-purple-50 hover:text-purple-700 border border-slate-200'
+              }`}
+            >
+              <Baby className="w-4 h-4" />
+              <span>Due Date &amp; Trimester Tracker</span>
+            </button>
+
+            <button
+              onClick={() => setActiveToolTab('pcos')}
+              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                activeToolTab === 'pcos'
+                  ? 'bg-blue-600 text-white shadow-sm'
+                  : 'bg-white text-slate-600 hover:bg-blue-50 hover:text-blue-700 border border-slate-200'
+              }`}
+            >
+              <HeartPulse className="w-4 h-4" />
+              <span>PCOS / PCOD Risk Screener</span>
+            </button>
+          </div>
+
+          {/* Tab 1: Ovulation Calculator */}
+          {activeToolTab === 'ovulation' && (
+            <div className="bg-white rounded-3xl p-6 sm:p-10 border border-rose-200 shadow-md max-w-2xl mx-auto space-y-6">
+              <div className="space-y-1">
+                <h3 className="text-xl font-bold text-slate-950 flex items-center gap-2">
+                  <span>📅 Ovulation &amp; Fertile Window Calculator</span>
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Calculates your 6-day fertile window and peak ovulation timing based on standard clinical luteal phase modeling.
+                </p>
               </div>
 
-              <div className="space-y-3 font-mono text-xs text-slate-600">
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-3">
-                  <span className="text-rose-500 font-bold">1</span>
-                  <span>Patient experiences vague pelvic pain or cycle delay</span>
+              <form onSubmit={handleCalculateOvulation} className="space-y-4 text-xs">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">
+                    First Day of Your Last Menstrual Period (LMP):
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={lmpDate}
+                    onChange={(e) => setLmpDate(e.target.value)}
+                    className="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-500 font-medium"
+                  />
                 </div>
-                <div className="text-center text-slate-300">↓</div>
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-3">
-                  <span className="text-rose-500 font-bold">2</span>
-                  <span>Anxious Google search with frightening worst-case results</span>
-                </div>
-                <div className="text-center text-slate-300">↓</div>
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-3">
-                  <span className="text-rose-500 font-bold">3</span>
-                  <span>Generic appointment booking with no context or history</span>
-                </div>
-                <div className="text-center text-slate-300">↓</div>
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-3">
-                  <span className="text-rose-500 font-bold">4</span>
-                  <span>Repeating full medical history from scratch each time</span>
-                </div>
-              </div>
 
-              <p className="text-xs text-slate-500 italic">
-                Result: Health anxiety, fragmented records, delayed diagnosis, and repetitive visits.
-              </p>
-            </div>
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">
+                    Average Cycle Length (Days): <span className="text-rose-600 font-bold">{cycleLength} days</span>
+                  </label>
+                  <input
+                    type="range"
+                    min="21"
+                    max="45"
+                    value={cycleLength}
+                    onChange={(e) => setCycleLength(Number(e.target.value))}
+                    className="w-full accent-rose-600 cursor-pointer"
+                  />
+                  <div className="flex justify-between text-3xs text-slate-400 mt-1">
+                    <span>21 Days (Short)</span>
+                    <span>28 Days (Average)</span>
+                    <span>45 Days (Long)</span>
+                  </div>
+                </div>
 
-            {/* The MEDITRUST AI Care Journey */}
-            <div className="bg-gradient-to-br from-rose-50/70 via-white to-blue-50/50 rounded-3xl p-6 sm:p-8 border-2 border-rose-300 shadow-md space-y-6">
-              <div className="flex items-center justify-between border-b border-rose-100 pb-3">
-                <span className="text-xs font-bold text-rose-800 uppercase tracking-wider">The MEDITRUST Connected Way</span>
-                <span className="text-2xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">
-                  ✓ Continuous Care
-                </span>
-              </div>
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-sm transition-colors flex items-center justify-center gap-2"
+                >
+                  <Calculator className="w-4 h-4" />
+                  <span>Calculate Fertile Window</span>
+                </button>
+              </form>
 
-              <div className="space-y-2.5 text-xs text-slate-800">
-                {[
-                  { step: '1', title: 'Tell Dr. Arya What You’re Experiencing', desc: 'Plain-language symptom triage in Marathi, Hindi, or English' },
-                  { step: '2', title: 'AI-Assisted Understanding & Structured Questions', desc: 'Contextual queries regarding cycle timing, pain patterns & history' },
-                  { step: '3', title: 'Identify Appropriate Care Pathway', desc: 'General Gynecologist, OB-GYN, Fertility Specialist, or Endocrinologist' },
-                  { step: '4', title: 'Diagnostics Where Clinically Recommended', desc: 'Ultrasound or NABL blood tests (AMH, Thyroid, CBC) at home in 60m' },
-                  { step: '5', title: 'Specialist Consultation & Prescription', desc: 'Expert medical diagnosis and evidence-based treatment by verified doctor' },
-                  { step: '6', title: 'Tracking, Reminders & Follow-Up', desc: 'MediVault records storage, dosage WhatsApp alerts & recovery graphs' },
-                ].map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="p-2.5 rounded-xl bg-white/90 border border-rose-200/80 shadow-2xs flex items-start gap-3"
-                  >
-                    <span className="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">
-                      {item.step}
-                    </span>
-                    <div>
-                      <strong className="text-slate-900 block font-bold text-xs">{item.title}</strong>
-                      <span className="text-3xs text-slate-500">{item.desc}</span>
+              {ovulationResult && (
+                <div className="p-5 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-3 animate-fadeIn">
+                  <h4 className="font-bold text-xs text-rose-950 uppercase tracking-wider">
+                    ✨ Your Fertile Window &amp; Ovulation Forecast:
+                  </h4>
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div className="p-3 bg-white rounded-xl border border-rose-200">
+                      <span className="text-3xs text-slate-500 block">Peak Ovulation Date</span>
+                      <strong className="text-rose-700 text-sm font-black">{ovulationResult.ovulationDate}</strong>
+                    </div>
+                    <div className="p-3 bg-white rounded-xl border border-rose-200">
+                      <span className="text-3xs text-slate-500 block">6-Day Fertile Window</span>
+                      <strong className="text-slate-900 text-xs font-bold">{ovulationResult.fertileStart} – {ovulationResult.fertileEnd}</strong>
+                    </div>
+                    <div className="col-span-2 p-3 bg-white rounded-xl border border-rose-200">
+                      <span className="text-3xs text-slate-500 block">Next Expected Period</span>
+                      <strong className="text-slate-800 text-xs">{ovulationResult.nextPeriod}</strong>
                     </div>
                   </div>
-                ))}
-              </div>
-
-              <div className="p-3 rounded-xl bg-white border border-rose-200 text-3xs text-rose-950 font-medium">
-                <strong>Our Objective:</strong> Not simply to help women find a doctor, but to make the complete healthcare journey easier to understand, navigate, and afford.
-              </div>
+                  <p className="text-3xs text-slate-500 italic">
+                    Note: Cycle variations can occur with stress or travel. For confirmed ovulation tracking, speak with Dr. Arya or your gynecologist.
+                  </p>
+                </div>
+              )}
             </div>
+          )}
 
-          </div>
+          {/* Tab 2: Pregnancy Due Date Tracker */}
+          {activeToolTab === 'pregnancy' && (
+            <div className="bg-white rounded-3xl p-6 sm:p-10 border border-purple-200 shadow-md max-w-2xl mx-auto space-y-6">
+              <div className="space-y-1">
+                <h3 className="text-xl font-bold text-slate-950 flex items-center gap-2">
+                  <span>🤰 Pregnancy Due Date &amp; Trimester Tracker</span>
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Estimates your Expected Date of Delivery (EDD) and current gestational milestones according to Naegele&apos;s clinical standard.
+                </p>
+              </div>
+
+              <form onSubmit={handleCalculatePregnancy} className="space-y-4 text-xs">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">
+                    First Day of Your Last Menstrual Period (LMP):
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={pregLmp}
+                    onChange={(e) => setPregLmp(e.target.value)}
+                    className="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-sm transition-colors flex items-center justify-center gap-2"
+                >
+                  <Baby className="w-4 h-4" />
+                  <span>Estimate Due Date &amp; Milestones</span>
+                </button>
+              </form>
+
+              {pregnancyResult && (
+                <div className="p-5 rounded-2xl bg-purple-50/70 border border-purple-200 space-y-3 animate-fadeIn">
+                  <h4 className="font-bold text-xs text-purple-950 uppercase tracking-wider">
+                    ✨ Your Pregnancy Milestones:
+                  </h4>
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div className="p-3 bg-white rounded-xl border border-purple-200">
+                      <span className="text-3xs text-slate-500 block">Estimated Due Date (EDD)</span>
+                      <strong className="text-purple-700 text-sm font-black">{pregnancyResult.edd}</strong>
+                    </div>
+                    <div className="p-3 bg-white rounded-xl border border-purple-200">
+                      <span className="text-3xs text-slate-500 block">Current Gestation</span>
+                      <strong className="text-slate-900 text-sm font-black">~{pregnancyResult.gestationalWeeks} Weeks</strong>
+                    </div>
+                    <div className="col-span-2 p-3 bg-white rounded-xl border border-purple-200">
+                      <span className="text-3xs text-slate-500 block">Current Trimester</span>
+                      <strong className="text-slate-800 text-xs">{pregnancyResult.trimester}</strong>
+                    </div>
+                    <div className="col-span-2 p-3 bg-purple-100/60 rounded-xl border border-purple-300 text-3xs text-purple-900">
+                      <strong>Recommended Next Clinical Scan:</strong> {pregnancyResult.nextMilestone}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Tab 3: PCOS Risk Screener */}
+          {activeToolTab === 'pcos' && (
+            <div className="bg-white rounded-3xl p-6 sm:p-10 border border-blue-200 shadow-md max-w-2xl mx-auto space-y-6">
+              <div className="space-y-1">
+                <h3 className="text-xl font-bold text-slate-950 flex items-center gap-2">
+                  <span>🩺 PCOS / PCOD Clinical Risk Screener</span>
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Evaluates the presence of common ovulatory, androgenic, and metabolic indicators (Rotterdam criteria guidance).
+                </p>
+              </div>
+
+              <form onSubmit={handleEvaluatePcos} className="space-y-4 text-xs">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">
+                    1. How regular are your menstrual cycles?
+                  </label>
+                  <select
+                    value={pcosAnswers.cycle}
+                    onChange={(e) => setPcosAnswers({ ...pcosAnswers, cycle: e.target.value })}
+                    required
+                    className="w-full p-2.5 rounded-xl border border-slate-200 font-medium"
+                  >
+                    <option value="">Select cycle regularity</option>
+                    <option value="regular">Regular (24–35 days every month)</option>
+                    <option value="irregular">Irregular (Delayed &gt;35 days or highly variable)</option>
+                    <option value="absent">Absent (Skipped 3+ months)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">
+                    2. Do you experience persistent cystic acne or excess facial/body hair (hirsutism)?
+                  </label>
+                  <select
+                    value={pcosAnswers.hairAcne}
+                    onChange={(e) => setPcosAnswers({ ...pcosAnswers, hairAcne: e.target.value })}
+                    required
+                    className="w-full p-2.5 rounded-xl border border-slate-200 font-medium"
+                  >
+                    <option value="">Select option</option>
+                    <option value="yes">Yes, noticeable hair growth or stubborn acne</option>
+                    <option value="no">No, minimal or normal</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">
+                    3. Do you find weight management difficult despite dietary discipline?
+                  </label>
+                  <select
+                    value={pcosAnswers.weight}
+                    onChange={(e) => setPcosAnswers({ ...pcosAnswers, weight: e.target.value })}
+                    required
+                    className="w-full p-2.5 rounded-xl border border-slate-200 font-medium"
+                  >
+                    <option value="">Select option</option>
+                    <option value="yes">Yes, especially central abdominal weight</option>
+                    <option value="no">No, weight is stable / lean BMI</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">
+                    4. Have you ever been told you have polycystic ovaries on ultrasound?
+                  </label>
+                  <select
+                    value={pcosAnswers.cysts}
+                    onChange={(e) => setPcosAnswers({ ...pcosAnswers, cysts: e.target.value })}
+                    required
+                    className="w-full p-2.5 rounded-xl border border-slate-200 font-medium"
+                  >
+                    <option value="">Select option</option>
+                    <option value="yes">Yes, polycystic appearance noted</option>
+                    <option value="no">No, normal ultrasound</option>
+                    <option value="never">Never had a pelvic ultrasound</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition-colors flex items-center justify-center gap-2"
+                >
+                  <HeartPulse className="w-4 h-4" />
+                  <span>Evaluate PCOS Indicators</span>
+                </button>
+              </form>
+
+              {pcosScoreResult && (
+                <div className="p-5 rounded-2xl bg-blue-50/80 border border-blue-200 space-y-3 animate-fadeIn">
+                  <h4 className="font-bold text-xs text-blue-950 uppercase tracking-wider">
+                    ✨ Assessment Summary:
+                  </h4>
+                  <p className="text-xs text-slate-700 leading-relaxed font-medium">
+                    {pcosScoreResult}
+                  </p>
+                  <div className="pt-2 flex flex-wrap gap-2">
+                    <Link
+                      href="/womens-health/pcos/pcos-symptoms"
+                      className="px-4 py-2 rounded-full bg-blue-600 text-white text-3xs font-bold"
+                    >
+                      Read Complete PCOS Clinical Guide →
+                    </Link>
+                    <Link
+                      href="/symptom-checker?specialty=gynaecology"
+                      className="px-4 py-2 rounded-full bg-white border border-blue-300 text-blue-800 text-3xs font-bold"
+                    >
+                      Consult Dr. Arya for Triage
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
         </div>
       </section>
 
-      {/* ── 3. MEET DR. ARYA WOMEN'S HEALTH (PRODUCT & CONTEXT ENGINE) ── */}
+      {/* ── 3. ALL ABOUT WOMEN'S HEALTH: 10 CORE CLINICAL DIMENSIONS ── */}
       <section className="py-16 sm:py-24 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         <div className="max-w-3xl space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-bold">
-            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-            <span>Product Architecture</span>
-          </div>
+          <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">
+            Comprehensive Clinical Encyclopaedia
+          </span>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
-            Meet Dr. Arya Women&apos;s Health
+            All About Women&apos;s Health: 10 Core Care Dimensions
           </h2>
-          <p className="text-base text-slate-600 leading-relaxed">
-            A specialized AI health companion designed around women&apos;s changing healthcare needs. Dr. Arya progressively organizes relevant health context with your explicit consent—eliminating the frustration of repeating your history at every appointment.
-          </p>
-          <p className="text-sm font-bold text-slate-900 pt-1">
-            ✨ Less repetition. More context. More personalized healthcare navigation.
+          <p className="text-base text-slate-600 font-normal leading-relaxed">
+            Everything you need to understand your body, recognize warning signs, and make informed choices across every chapter of life.
           </p>
         </div>
 
-        {/* Structured Context Matrix */}
-        <div className="bg-slate-50 rounded-3xl p-6 sm:p-10 border border-slate-200/90 space-y-8 shadow-xs">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
-          <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-900">
-              <Layers className="w-4 h-4 text-blue-600" />
-              <span>Progressive Clinical Context Engine (User Consent Governed)</span>
+          {/* Dim 1: Menstrual Health */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-2xs space-y-3 flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <span className="text-2xl">🩸</span>
+              <h3 className="font-bold text-base text-slate-900">1. Menstrual &amp; Hormonal Balance</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Healthy cycles span 24–38 days with 3–8 days of flow. We guide you through oligomenorrhea, PMS mood regulation, heavy bleeding (menorrhagia), and non-pregnancy missed period causes.
+              </p>
             </div>
-            <div className="flex items-center gap-3 text-3xs font-semibold">
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500" /> Live</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500" /> In Dev</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500" /> Planned</span>
-            </div>
+            <Link href="/womens-health/periods/irregular-periods" className="text-xs font-bold text-rose-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+              <span>Read Menstrual Guide</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {/* Dim 2: PCOS / PCOD */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-2xs space-y-3 flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <span className="text-2xl">🩺</span>
+              <h3 className="font-bold text-base text-slate-900">2. PCOS / PCOD &amp; Metabolism</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Understand insulin resistance, androgen excess, hirsutism, cystic acne, and Rotterdam diagnostic criteria. Discover low-GI nutrition, inositol therapy, and ovulation restoration.
+              </p>
+            </div>
+            <Link href="/womens-health/pcos/pcos-symptoms" className="text-xs font-bold text-rose-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+              <span>Read PCOS Guide</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
+          {/* Dim 3: Endometriosis & Pelvic Pain */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-2xs space-y-3 flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <span className="text-2xl">🎗️</span>
+              <h3 className="font-bold text-base text-slate-900">3. Endometriosis, Cysts &amp; Fibroids</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Debilitating period pain is not normal. Learn the &ldquo;4 Ds&rdquo; of endometriosis, functional vs chocolate ovarian cysts, uterine fibroids, and surgical laparoscopy pathways.
+              </p>
+            </div>
+            <Link href="/womens-health/conditions/endometriosis-symptoms" className="text-xs font-bold text-rose-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+              <span>Read Pelvic Pain Guide</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
+          {/* Dim 4: Fertility & Conception */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-2xs space-y-3 flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <span className="text-2xl">🥚</span>
+              <h3 className="font-bold text-base text-slate-900">4. Pre-Conception &amp; Fertility</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Ovulation window tracking, Anti-Müllerian Hormone (AMH) egg reserve tests, semen analysis basics, tubal patency (HSG), and when to transition to a fertility specialist.
+              </p>
+            </div>
+            <Link href="/womens-health/fertility/ovulation-guide" className="text-xs font-bold text-rose-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+              <span>Read Fertility Guide</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
+          {/* Dim 5: Pregnancy & Antenatal */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-2xs space-y-3 flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <span className="text-2xl">🤰</span>
+              <h3 className="font-bold text-base text-slate-900">5. Complete Pregnancy Hub</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Trimester 1, 2, and 3 fetal growth milestones, dating scans, NT screen, Level-2 TIFFA anomaly scans, gestational diabetes OGTT testing, and delivery planning.
+              </p>
+            </div>
+            <Link href="/womens-health/pregnancy/early-pregnancy-symptoms" className="text-xs font-bold text-rose-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+              <span>Read Pregnancy Guide</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
+          {/* Dim 6: Postnatal Fourth Trimester */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-2xs space-y-3 flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <span className="text-2xl">🤱</span>
+              <h3 className="font-bold text-base text-slate-900">6. Postnatal &amp; Motherhood Care</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Physical recovery following vaginal or C-section delivery, lochia bleeding progression, lactation support, postpartum depression (PPD) screening, and pediatric vaccines.
+              </p>
+            </div>
+            <Link href="/womens-health/postnatal/postnatal-recovery" className="text-xs font-bold text-rose-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+              <span>Read Postnatal Guide</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
+          {/* Dim 7: Menopause & Bone Health */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-2xs space-y-3 flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <span className="text-2xl">🌸</span>
+              <h3 className="font-bold text-base text-slate-900">7. Perimenopause &amp; Menopause</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Navigating vasomotor hot flashes, sleep disruption, mood changes, and bone mineral density preservation (DEXA scans) with qualified gynecologists.
+              </p>
+            </div>
+            <Link href="/womens-health/menopause/perimenopause-vs-menopause" className="text-xs font-bold text-rose-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+              <span>Read Menopause Guide</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
+          {/* Dim 8: Health After 40 */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-2xs space-y-3 flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <span className="text-2xl">❤️</span>
+              <h3 className="font-bold text-base text-slate-900">8. Cardiometabolic Vitality</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Estrogen depletion post-40 increases arterial stiffness and alters lipid profiles. Discover heart-healthy lifestyle strategies, calcium &amp; D3 balance, and preventive lipid screening.
+              </p>
+            </div>
+            <Link href="/womens-health/menopause/health-after-40" className="text-xs font-bold text-rose-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+              <span>Read After-40 Guide</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
+          {/* Dim 9: Preventive Screening */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-2xs space-y-3 flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <span className="text-2xl">🛡️</span>
+              <h3 className="font-bold text-base text-slate-900">9. Cancer &amp; Preventive Screening</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Essential timelines for Cervical Pap Smears + HPV DNA (every 3–5 yrs), clinical breast examinations, screening mammograms (age 40+), and thyroid TSH checks.
+              </p>
+            </div>
+            <Link href="/womens-health/health-library" className="text-xs font-bold text-rose-700 flex items-center gap-1 pt-2 border-t border-slate-100">
+              <span>View Screening Schedule</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* ── 4. MEET DR. ARYA WOMEN'S HEALTH PRODUCT SECTION ── */}
+      <section className="py-16 sm:py-24 bg-slate-50/80 border-y border-slate-200/80">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          
+          <div className="max-w-3xl space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-bold">
+              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+              <span>Specialized AI Health Companion</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+              Meet Dr. Arya Women&apos;s Health
+            </h2>
+            <p className="text-base text-slate-600 leading-relaxed">
+              A dedicated AI health companion built around women&apos;s changing physiological needs. Dr. Arya progressively organizes relevant health context with your explicit consent—eliminating the frustration of repeating your history at every appointment.
+            </p>
+            <p className="text-sm font-bold text-slate-900 pt-1">
+              ✨ Less repetition. More context. More personalized healthcare navigation.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { title: 'Age & Life Stage', status: 'Available', statusClass: 'bg-emerald-100 text-emerald-800', desc: 'Calibrates clinical risk profiles for adolescence, reproductive years, or perimenopause.' },
               { title: 'Menstrual History & Cycle', status: 'Available', statusClass: 'bg-emerald-100 text-emerald-800', desc: 'Tracks cycle regularity, bleeding duration, flow heaviness, and pain patterns.' },
@@ -308,7 +779,7 @@ export default function WomensHealthPage() {
             ].map((ctx, i) => (
               <div
                 key={i}
-                className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2 flex flex-col justify-between"
+                className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
@@ -323,7 +794,6 @@ export default function WomensHealthPage() {
             ))}
           </div>
 
-          {/* Privacy Note */}
           <div className="p-4 rounded-2xl bg-white border border-blue-200/80 flex items-start gap-3 text-xs text-slate-600">
             <Lock className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
             <div className="space-y-0.5">
@@ -335,382 +805,6 @@ export default function WomensHealthPage() {
           </div>
 
         </div>
-
-      </section>
-
-      {/* ── 4. WOMEN'S HEALTH THROUGH EVERY LIFE STAGE (7 COMPLETE STAGES) ── */}
-      <section id="life-stages" className="py-16 sm:py-24 bg-slate-50/60 border-y border-slate-200/80">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-          
-          <div className="max-w-3xl mx-auto text-center space-y-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">
-              Interactive Care Journeys
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight">
-              Women&apos;s Health Through Every Life Stage
-            </h2>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-              Explore how MEDITRUST AI and Dr. Arya guide you through tailored health education, screening pathways, and specialist connections.
-            </p>
-          </div>
-
-          {/* The 7 Stages Detailed Cards */}
-          <div className="space-y-8">
-            
-            {/* Stage 1: Teen Health */}
-            <div id="teen-health" className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xs space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-2xl font-bold">
-                    🌱
-                  </div>
-                  <div>
-                    <span className="text-3xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                      Stage 01
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-black text-slate-950">Teen Health &amp; Adolescence</h3>
-                  </div>
-                </div>
-                <Link
-                  href="/womens-health/periods/irregular-periods"
-                  className="text-xs font-bold text-rose-700 hover:text-rose-800 flex items-center gap-1"
-                >
-                  <span>Explore Teen Health Guide</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-600">
-                <div className="space-y-2 p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-                  <strong className="text-slate-900 block font-bold text-sm">Puberty &amp; Menstrual Education</strong>
-                  <p className="text-2xs text-slate-500 leading-relaxed">
-                    Understanding first periods (menarche), cycle normality, menstrual hygiene practices, and overcoming social stigmas.
-                  </p>
-                </div>
-                <div className="space-y-2 p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-                  <strong className="text-slate-900 block font-bold text-sm">Nutrition &amp; Anemia Prevention</strong>
-                  <p className="text-2xs text-slate-500 leading-relaxed">
-                    Early screening for iron deficiency anemia, dietary iron absorption, ragi/leafy greens nutrition, and adolescent bone density.
-                  </p>
-                </div>
-                <div className="space-y-2 p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-                  <strong className="text-slate-900 block font-bold text-sm">When to Seek Professional Care</strong>
-                  <p className="text-2xs text-slate-500 leading-relaxed">
-                    Clear guidance on severe cramps, periods lasting &gt;8 days, or no period by age 15 (primary amenorrhea).
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Stage 2: Menstrual Health */}
-            <div id="menstrual-health" className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xs space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-700 flex items-center justify-center text-2xl font-bold">
-                    🩸
-                  </div>
-                  <div>
-                    <span className="text-3xs font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                      Stage 02
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-black text-slate-950">Menstrual &amp; Hormonal Health</h3>
-                  </div>
-                </div>
-                <Link
-                  href="/womens-health/periods/period-pain"
-                  className="text-xs font-bold text-rose-700 hover:text-rose-800 flex items-center gap-1"
-                >
-                  <span>Explore Menstrual Health Articles</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
-                <Link href="/womens-health/periods/irregular-periods" className="p-4 rounded-2xl bg-slate-50 hover:bg-rose-50/60 border border-slate-200 transition-colors space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-rose-700 block font-bold">Irregular Periods</strong>
-                  <p className="text-3xs text-slate-500">Causes of delayed or skipped cycles and hormonal balance.</p>
-                </Link>
-                <Link href="/womens-health/periods/missed-period" className="p-4 rounded-2xl bg-slate-50 hover:bg-rose-50/60 border border-slate-200 transition-colors space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-rose-700 block font-bold">Missed Periods</strong>
-                  <p className="text-3xs text-slate-500">Non-pregnancy causes, stress &amp; thyroid evaluation.</p>
-                </Link>
-                <Link href="/womens-health/periods/period-pain" className="p-4 rounded-2xl bg-slate-50 hover:bg-rose-50/60 border border-slate-200 transition-colors space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-rose-700 block font-bold">Period Pain (Dysmenorrhea)</strong>
-                  <p className="text-3xs text-slate-500">Normal cramping vs secondary pain from endometriosis.</p>
-                </Link>
-                <Link href="/womens-health/periods/heavy-periods" className="p-4 rounded-2xl bg-slate-50 hover:bg-rose-50/60 border border-slate-200 transition-colors space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-rose-700 block font-bold">Heavy Periods (Menorrhagia)</strong>
-                  <p className="text-3xs text-slate-500">Blood clots, fibroid screening &amp; anemia management.</p>
-                </Link>
-              </div>
-            </div>
-
-            {/* Stage 3: PCOS & Hormonal Health (Flagship Deep Flow) */}
-            <div id="pcos-health" className="bg-gradient-to-br from-rose-50/80 via-white to-rose-50/30 rounded-3xl p-6 sm:p-10 border-2 border-rose-300 shadow-sm space-y-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-rose-200 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-rose-600 text-white flex items-center justify-center text-2xl font-bold shadow-sm">
-                    🩺
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-3xs font-black text-rose-900 bg-rose-200 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                        Stage 03 · High-Priority Specialization
-                      </span>
-                    </div>
-                    <h3 className="text-xl sm:text-2xl font-black text-slate-950">PCOS &amp; Hormonal Health</h3>
-                  </div>
-                </div>
-                <Link
-                  href="/womens-health/pcos/pcos-symptoms"
-                  className="px-4 py-2 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-2xs"
-                >
-                  <span>Explore PCOS Care Hub</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-              {/* Connected PCOS Pathway */}
-              <div className="space-y-3">
-                <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
-                  The End-to-End PCOS Clinical Care Pathway:
-                </span>
-                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 text-center text-xs">
-                  {[
-                    { step: '1. Symptoms', desc: 'Irregular cycles, acne, weight' },
-                    { step: '2. AI Screening', desc: 'Structured symptom questions' },
-                    { step: '3. Specialist', desc: 'Gynecologist consultation' },
-                    { step: '4. Lab Tests', desc: 'Hormones & fasting insulin' },
-                    { step: '5. Nutrition', desc: 'Low GI & insulin support' },
-                    { step: '6. Treatment', desc: 'Doctor-guided therapy' },
-                    { step: '7. Tracking', desc: 'MediVault biomarker trends' },
-                    { step: '8. Follow-Up', desc: 'Ovulation & metabolic checks' },
-                  ].map((p, i) => (
-                    <div key={i} className="p-3 rounded-2xl bg-white border border-rose-200/90 shadow-2xs space-y-1">
-                      <div className="font-black text-rose-700 text-xs">{p.step}</div>
-                      <div className="text-[10px] text-slate-500 leading-tight">{p.desc}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* 4 Pillar PCOS Articles */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-                <Link href="/womens-health/pcos/pcos-symptoms" className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-rose-400 transition-colors shadow-2xs space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-rose-700 block font-bold">PCOS Symptoms &amp; Signs</strong>
-                  <p className="text-3xs text-slate-500">Rotterdam criteria, diagnostic checklist &amp; hormone blood panels.</p>
-                </Link>
-                <Link href="/womens-health/pcos/pcos-vs-pcod" className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-rose-400 transition-colors shadow-2xs space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-rose-700 block font-bold">PCOS vs PCOD Explained</strong>
-                  <p className="text-3xs text-slate-500">Clear differences in severity, metabolic risks &amp; terminology in India.</p>
-                </Link>
-                <Link href="/womens-health/pcos/pcos-and-pregnancy" className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-rose-400 transition-colors shadow-2xs space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-rose-700 block font-bold">PCOS and Pregnancy</strong>
-                  <p className="text-3xs text-slate-500">Ovulation induction, pregnancy success rates &amp; doctor guidance.</p>
-                </Link>
-                <Link href="/womens-health/pcos/pcos-weight-management" className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-rose-400 transition-colors shadow-2xs space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-rose-700 block font-bold">Weight &amp; Insulin Science</strong>
-                  <p className="text-3xs text-slate-500">Understanding hyperinsulinemia, muscle movement &amp; nutrition.</p>
-                </Link>
-              </div>
-            </div>
-
-            {/* Stage 4: Pre-Conception & Fertility */}
-            <div id="fertility-journey" className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xs space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center text-2xl font-bold">
-                    🥚
-                  </div>
-                  <div>
-                    <span className="text-3xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                      Stage 04
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-black text-slate-950">Pre-Conception &amp; Fertility</h3>
-                  </div>
-                </div>
-                <Link
-                  href="/womens-health/fertility/ovulation-guide"
-                  className="text-xs font-bold text-blue-700 hover:text-blue-800 flex items-center gap-1"
-                >
-                  <span>Explore Fertility Pathway</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-600">
-                <Link href="/womens-health/fertility/ovulation-guide" className="space-y-2 p-4 rounded-2xl bg-slate-50 hover:bg-blue-50/60 border border-slate-200/70 transition-colors block group">
-                  <strong className="text-slate-900 group-hover:text-blue-700 block font-bold text-sm">Ovulation &amp; Fertile Window</strong>
-                  <p className="text-2xs text-slate-500 leading-relaxed">
-                    Calculating the 6-day fertile window, tracking cervical mucus, and understanding BBT temperature shifts.
-                  </p>
-                </Link>
-                <Link href="/womens-health/fertility/fertility-tests" className="space-y-2 p-4 rounded-2xl bg-slate-50 hover:bg-blue-50/60 border border-slate-200/70 transition-colors block group">
-                  <strong className="text-slate-900 group-hover:text-blue-700 block font-bold text-sm">AMH &amp; Ovarian Reserve Tests</strong>
-                  <p className="text-2xs text-slate-500 leading-relaxed">
-                    Understanding Anti-Müllerian Hormone (AMH), Antral Follicle Count (AFC), and tubal patency assessments.
-                  </p>
-                </Link>
-                <Link href="/womens-health/fertility/when-to-see-fertility-specialist" className="space-y-2 p-4 rounded-2xl bg-slate-50 hover:bg-blue-50/60 border border-slate-200/70 transition-colors block group">
-                  <strong className="text-slate-900 group-hover:text-blue-700 block font-bold text-sm">When to See a Specialist</strong>
-                  <p className="text-2xs text-slate-500 leading-relaxed">
-                    Age-based clinical timelines (under 35 vs over 35), semen analysis considerations &amp; reproductive endocrinology.
-                  </p>
-                </Link>
-              </div>
-            </div>
-
-            {/* Stage 5: Pregnancy */}
-            <div id="pregnancy-care" className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xs space-y-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center text-2xl font-bold">
-                    🤰
-                  </div>
-                  <div>
-                    <span className="text-3xs font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                      Stage 05 · Antenatal Journey
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-black text-slate-950">Pregnancy &amp; Maternal Care</h3>
-                  </div>
-                </div>
-                <Link
-                  href="/womens-health/pregnancy/early-pregnancy-symptoms"
-                  className="text-xs font-bold text-purple-700 hover:text-purple-800 flex items-center gap-1"
-                >
-                  <span>Explore Pregnancy Guides</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-              {/* Antenatal Care Journey Bar */}
-              <div className="p-4 rounded-2xl bg-purple-50/60 border border-purple-200/80 space-y-2">
-                <span className="text-2xs font-bold text-purple-900 uppercase tracking-wider">
-                  The Complete Antenatal Care Milestone Flow:
-                </span>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 text-center text-3xs font-semibold">
-                  <div className="p-2 bg-white rounded-xl border border-purple-200">Confirmation (Wk 4-6)</div>
-                  <div className="p-2 bg-white rounded-xl border border-purple-200">Dating Scan (Wk 6-8)</div>
-                  <div className="p-2 bg-white rounded-xl border border-purple-200">NT Scan (Wk 11-13)</div>
-                  <div className="p-2 bg-white rounded-xl border border-purple-200">Anomaly Scan (Wk 18-20)</div>
-                  <div className="p-2 bg-white rounded-xl border border-purple-200">OGTT Sugar (Wk 24-28)</div>
-                  <div className="p-2 bg-white rounded-xl border border-purple-200">Delivery Plan (Wk 36+)</div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-                <Link href="/womens-health/pregnancy/early-pregnancy-symptoms" className="p-4 rounded-2xl bg-slate-50 hover:bg-purple-50/60 border border-slate-200 transition-colors space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-purple-700 block font-bold">Early Pregnancy Symptoms</strong>
-                  <p className="text-3xs text-slate-500">Implantation signs, morning sickness &amp; first-trimester changes.</p>
-                </Link>
-                <Link href="/womens-health/pregnancy/week-by-week" className="p-4 rounded-2xl bg-slate-50 hover:bg-purple-50/60 border border-slate-200 transition-colors space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-purple-700 block font-bold">Week-by-Week Guide</strong>
-                  <p className="text-3xs text-slate-500">Fetal development milestones across all three trimesters.</p>
-                </Link>
-                <Link href="/womens-health/pregnancy/tests-and-scans" className="p-4 rounded-2xl bg-slate-50 hover:bg-purple-50/60 border border-slate-200 transition-colors space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-purple-700 block font-bold">Scans &amp; Test Schedule</strong>
-                  <p className="text-3xs text-slate-500">Essential ultrasounds, NT, TIFFA &amp; blood investigation schedule.</p>
-                </Link>
-                <Link href="/womens-health/pregnancy/pregnancy-diet" className="p-4 rounded-2xl bg-slate-50 hover:bg-purple-50/60 border border-slate-200 transition-colors space-y-1 group">
-                  <strong className="text-slate-900 group-hover:text-purple-700 block font-bold">Pregnancy Nutrition</strong>
-                  <p className="text-3xs text-slate-500">Folic acid, iron, calcium &amp; foods to avoid for Indian mothers.</p>
-                </Link>
-              </div>
-            </div>
-
-            {/* Stage 6: Postnatal & Motherhood */}
-            <div id="postnatal-care" className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xs space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center text-2xl font-bold">
-                    🤱
-                  </div>
-                  <div>
-                    <span className="text-3xs font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                      Stage 06
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-black text-slate-950">Postnatal &amp; Motherhood Care</h3>
-                  </div>
-                </div>
-                <Link
-                  href="/womens-health/postnatal/postnatal-recovery"
-                  className="text-xs font-bold text-teal-700 hover:text-teal-800 flex items-center gap-1"
-                >
-                  <span>Explore Postpartum Recovery</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-600">
-                <div className="space-y-2 p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-                  <strong className="text-slate-900 block font-bold text-sm">Fourth Trimester Healing</strong>
-                  <p className="text-2xs text-slate-500 leading-relaxed">
-                    Vaginal birth and C-section recovery, lochia stages, pelvic floor strengthening, and lactation guidance.
-                  </p>
-                </div>
-                <div className="space-y-2 p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-                  <strong className="text-slate-900 block font-bold text-sm">Emotional Wellbeing &amp; PPD</strong>
-                  <p className="text-2xs text-slate-500 leading-relaxed">
-                    Compassionate screening for the baby blues vs postpartum depression, sleep restoration, and supportive counseling.
-                  </p>
-                </div>
-                <div className="space-y-2 p-4 rounded-2xl bg-teal-50/70 border border-teal-200/80">
-                  <strong className="text-teal-950 block font-bold text-sm">Mother ➔ Baby ➔ Pediatrician Ecosystem</strong>
-                  <p className="text-2xs text-teal-800 leading-relaxed">
-                    Seamlessly transitions from maternal postpartum care to newborn immunization schedules and pediatrician visits.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Stage 7: Mid-Life & Menopause */}
-            <div id="menopause-health" className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xs space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center text-2xl font-bold">
-                    🌸
-                  </div>
-                  <div>
-                    <span className="text-3xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                      Stage 07
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-black text-slate-950">Mid-Life &amp; Menopause Health</h3>
-                  </div>
-                </div>
-                <Link
-                  href="/womens-health/menopause/perimenopause-vs-menopause"
-                  className="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1"
-                >
-                  <span>Explore Menopause Guides</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-600">
-                <Link href="/womens-health/menopause/perimenopause-vs-menopause" className="space-y-2 p-4 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-200/70 transition-colors block group">
-                  <strong className="text-slate-900 group-hover:text-amber-700 block font-bold text-sm">Perimenopause Transition</strong>
-                  <p className="text-2xs text-slate-500 leading-relaxed">
-                    Understanding hot flashes, sleep disruptions, cycle fluctuations, and average menopause age in India.
-                  </p>
-                </Link>
-                <Link href="/womens-health/menopause/health-after-40" className="space-y-2 p-4 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-200/70 transition-colors block group">
-                  <strong className="text-slate-900 group-hover:text-amber-700 block font-bold text-sm">Bone &amp; Heart Health After 40</strong>
-                  <p className="text-2xs text-slate-500 leading-relaxed">
-                    DEXA bone density screening, calcium/D3 protocols, cardiovascular protection, and weight-bearing exercise.
-                  </p>
-                </Link>
-                <div className="space-y-2 p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-                  <strong className="text-slate-900 block font-bold text-sm">Preventive Screenings</strong>
-                  <p className="text-2xs text-slate-500 leading-relaxed">
-                    Regular cervical Pap smears, screening mammograms, lipid profiles, and gynecologist consultations.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
       </section>
 
       {/* ── 5. CLINICAL GOVERNANCE & TRUST STATEMENT ── */}
@@ -719,7 +813,7 @@ export default function WomensHealthPage() {
         <div className="max-w-3xl space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold">
             <Award className="w-3.5 h-3.5 text-slate-700" />
-            <span>Clinical Oversight</span>
+            <span>Clinical Oversight &amp; Reviewers</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
             Clinical Governance for Women&apos;s Health
@@ -731,7 +825,6 @@ export default function WomensHealthPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
-          {/* Reviewer 1 */}
           <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-2xs space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-center text-xl font-bold text-rose-700">
               👩‍⚕️
@@ -750,7 +843,6 @@ export default function WomensHealthPage() {
             </div>
           </div>
 
-          {/* Reviewer 2 */}
           <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-2xs space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-xl font-bold text-blue-700">
               👩‍⚕️
@@ -769,7 +861,6 @@ export default function WomensHealthPage() {
             </div>
           </div>
 
-          {/* Reviewer 3 */}
           <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-2xs space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center text-xl font-bold text-purple-700">
               👩‍⚕️
@@ -809,7 +900,7 @@ export default function WomensHealthPage() {
 
       </section>
 
-      {/* ── 6. WOMEN'S HEALTH KNOWLEDGE CENTRE (SEO PILLARS & ARTICLES) ── */}
+      {/* ── 6. KNOWLEDGE CENTRE & FEATURED PILLAR ARTICLES ── */}
       <section className="py-16 sm:py-24 bg-slate-50/70 border-t border-slate-200/80">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
@@ -836,7 +927,6 @@ export default function WomensHealthPage() {
             </Link>
           </div>
 
-          {/* Featured 6 Pillar Articles Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredArticles.map((art) => (
               <Link
@@ -880,7 +970,7 @@ export default function WomensHealthPage() {
         </div>
       </section>
 
-      {/* ── 7. FIND LOCAL WOMEN'S HEALTH SPECIALISTS (PUNE & PCMC) ── */}
+      {/* ── 7. VERIFIED GYNECOLOGIST & MATERNITY HOSPITAL NETWORK (PUNE & PCMC) ── */}
       <section className="py-16 sm:py-20 bg-white border-t border-slate-200/80">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-r from-rose-900 via-slate-950 to-blue-950 rounded-3xl p-8 sm:p-12 text-white flex flex-col lg:flex-row items-center justify-between gap-8 shadow-xl">
