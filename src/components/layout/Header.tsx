@@ -70,6 +70,17 @@ export default function Header() {
               </Link>
 
               <Link
+                href="/womens-health"
+                className="px-3 py-1.5 rounded-full hover:text-rose-700 hover:bg-rose-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
+              >
+                <span className="text-sm">🌸</span>
+                <span>Women&apos;s Health</span>
+                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-rose-100 text-rose-700 border border-rose-200 group-hover:bg-rose-200 transition-colors">
+                  Flagship
+                </span>
+              </Link>
+
+              <Link
                 href="/medivault"
                 className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
               >
@@ -179,6 +190,20 @@ export default function Header() {
                       <span>Dr. Arya AI Doctor</span>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </Link>
+
+                  <Link
+                    href="/womens-health"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-3 rounded-2xl bg-rose-50/60 hover:bg-rose-100/80 text-rose-900 border border-rose-200/80 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-base">🌸</span>
+                      <span className="font-bold">Women&apos;s Health Journey</span>
+                    </div>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-200 text-rose-800">
+                      Flagship
+                    </span>
                   </Link>
 
                   <Link

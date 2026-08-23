@@ -187,6 +187,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/womens-health" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center gap-1.5">
+                  <Heart className="w-3.5 h-3.5 text-rose-500" />
+                  <span>Women&apos;s Health Care Journey 🌸</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/medivault" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
                   <LayoutDashboard className="w-3.5 h-3.5 text-blue-500" />
                   <span>MediVault™ Health Locker</span>
@@ -237,8 +243,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/symptom-checker?specialty=gynaecology" className="hover:text-teal-400 transition-colors">
-                  🌺 Gynaecology (PCOS & Periods)
+                <Link href="/womens-health" className="text-rose-400 hover:text-rose-300 font-bold transition-colors">
+                  🌺 Women&apos;s Health &amp; Gynaecology
                 </Link>
               </li>
               <li>

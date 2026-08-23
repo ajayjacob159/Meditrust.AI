@@ -292,6 +292,257 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── 2.5 WOMEN'S HEALTH FLAGSHIP SPECIALIZATION SECTION ── */}
+      <section className="py-16 sm:py-24 bg-gradient-to-b from-white via-rose-50/30 to-white border-b border-slate-200/80 relative overflow-hidden">
+        {/* Subtle Ambient Radial Glows */}
+        <div className="absolute top-1/3 right-0 w-96 h-96 bg-rose-200/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-10 left-0 w-80 h-80 bg-blue-100/20 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
+          
+          {/* Section Header */}
+          <div className="max-w-3xl space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold shadow-2xs">
+              <span className="text-sm">🌸</span>
+              <span className="uppercase tracking-wider">MEDITRUST SPECIALIZED CARE · FLAGSHIP VERTICAL</span>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-tight">
+              Women&apos;s Health, Understood Across Every Life Stage.
+            </h2>
+
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+              Women&apos;s healthcare is not a single consultation or condition. It is a journey that evolves through adolescence, menstrual health, hormonal changes, fertility, pregnancy, motherhood, and menopause. <strong>Dr. Arya Women&apos;s Health</strong> is built as a specialized AI-powered care-navigation experience that helps women better understand their health needs, identify appropriate next steps, and connect with trusted healthcare professionals and diagnostic services.
+            </p>
+
+            <div className="pt-2">
+              <span className="inline-block text-xs sm:text-sm font-bold uppercase tracking-widest text-slate-900 bg-slate-100 px-4 py-2 rounded-xl border border-slate-200">
+                ✨ One Woman. Many Life Stages. One Connected Healthcare Journey.
+              </span>
+            </div>
+          </div>
+
+          {/* 7 Connected Life Stages Visual Flow */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between text-xs font-bold text-slate-500 uppercase tracking-wider px-1">
+              <span>Connected Care Pathways</span>
+              <span className="hidden sm:inline">From Adolescence to Menopause</span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3.5">
+              
+              {/* Stage 1: Teen Health */}
+              <Link
+                href="/womens-health#teen-health"
+                className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-rose-300 transition-all flex flex-col justify-between group"
+              >
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl">🌱</span>
+                    <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                      Stage 01
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-rose-600 transition-colors">
+                    Teen Health
+                  </h3>
+                  <p className="text-3xs text-slate-500 leading-relaxed">
+                    Menstrual education, cycle awareness, nutrition, and anemia prevention.
+                  </p>
+                </div>
+                <div className="pt-3 mt-3 border-t border-slate-100 flex items-center gap-1 text-[11px] font-semibold text-rose-700">
+                  <span>Explore</span>
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Stage 2: Menstrual Health */}
+              <Link
+                href="/womens-health#menstrual-health"
+                className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-rose-300 transition-all flex flex-col justify-between group"
+              >
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl">🩸</span>
+                    <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                      Stage 02
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-rose-600 transition-colors">
+                    Menstrual &amp; Hormonal
+                  </h3>
+                  <p className="text-3xs text-slate-500 leading-relaxed">
+                    Irregular periods, pain relief, cycle tracking, and PMS guidance.
+                  </p>
+                </div>
+                <div className="pt-3 mt-3 border-t border-slate-100 flex items-center gap-1 text-[11px] font-semibold text-rose-700">
+                  <span>Explore</span>
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Stage 3: PCOS / PCOD */}
+              <Link
+                href="/womens-health#pcos-health"
+                className="bg-white rounded-2xl p-4 sm:p-5 border border-rose-200 shadow-2xs hover:shadow-md hover:border-rose-400 transition-all flex flex-col justify-between group ring-1 ring-rose-100"
+              >
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl">🩺</span>
+                    <span className="text-[10px] font-black text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full">
+                      Stage 03
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-rose-600 transition-colors">
+                    PCOS / PCOD
+                  </h3>
+                  <p className="text-3xs text-slate-500 leading-relaxed">
+                    AI-assisted screening, insulin resistance, hormonal acne, and doctor care.
+                  </p>
+                </div>
+                <div className="pt-3 mt-3 border-t border-slate-100 flex items-center gap-1 text-[11px] font-semibold text-rose-700">
+                  <span>Explore</span>
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Stage 4: Pre-Conception & Fertility */}
+              <Link
+                href="/womens-health#fertility-journey"
+                className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-rose-300 transition-all flex flex-col justify-between group"
+              >
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl">🥚</span>
+                    <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                      Stage 04
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-rose-600 transition-colors">
+                    Fertility &amp; Planning
+                  </h3>
+                  <p className="text-3xs text-slate-500 leading-relaxed">
+                    Ovulation tracking, AMH tests, preconception nutrition, and specialist care.
+                  </p>
+                </div>
+                <div className="pt-3 mt-3 border-t border-slate-100 flex items-center gap-1 text-[11px] font-semibold text-rose-700">
+                  <span>Explore</span>
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Stage 5: Pregnancy */}
+              <Link
+                href="/womens-health#pregnancy-care"
+                className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-rose-300 transition-all flex flex-col justify-between group"
+              >
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl">🤰</span>
+                    <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                      Stage 05
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-rose-600 transition-colors">
+                    Pregnancy Care
+                  </h3>
+                  <p className="text-3xs text-slate-500 leading-relaxed">
+                    Week-by-week guidance, scan checklists, OB-GYN consultations, and hospital plans.
+                  </p>
+                </div>
+                <div className="pt-3 mt-3 border-t border-slate-100 flex items-center gap-1 text-[11px] font-semibold text-rose-700">
+                  <span>Explore</span>
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Stage 6: Postnatal Care */}
+              <Link
+                href="/womens-health#postnatal-care"
+                className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-rose-300 transition-all flex flex-col justify-between group"
+              >
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl">🤱</span>
+                    <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                      Stage 06
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-rose-600 transition-colors">
+                    Postnatal &amp; Baby
+                  </h3>
+                  <p className="text-3xs text-slate-500 leading-relaxed">
+                    Maternal healing, lactation support, emotional care, and pediatric vaccines.
+                  </p>
+                </div>
+                <div className="pt-3 mt-3 border-t border-slate-100 flex items-center gap-1 text-[11px] font-semibold text-rose-700">
+                  <span>Explore</span>
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Stage 7: Mid-Life & Menopause */}
+              <Link
+                href="/womens-health#menopause-health"
+                className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-rose-300 transition-all flex flex-col justify-between group"
+              >
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl">🌸</span>
+                    <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                      Stage 07
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-rose-600 transition-colors">
+                    Mid-Life &amp; Menopause
+                  </h3>
+                  <p className="text-3xs text-slate-500 leading-relaxed">
+                    Perimenopause, bone density, heart health, and preventive wellness after 40.
+                  </p>
+                </div>
+                <div className="pt-3 mt-3 border-t border-slate-100 flex items-center gap-1 text-[11px] font-semibold text-rose-700">
+                  <span>Explore</span>
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </Link>
+
+            </div>
+          </div>
+
+          {/* Action CTAs & Clinical Governance Notice */}
+          <div className="p-6 sm:p-8 rounded-3xl bg-white border border-rose-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="space-y-1.5 text-center sm:text-left">
+              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs font-bold text-slate-900">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span>Responsible AI. Clinician-Led Care.</span>
+              </div>
+              <p className="text-xs text-slate-500 max-w-xl">
+                Dr. Arya Women&apos;s Health assists with clinical health understanding and care navigation. It does not replace independent diagnosis or treatment by qualified gynecologists and healthcare professionals.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 flex-shrink-0">
+              <Link
+                href="/womens-health"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all hover:-translate-y-0.5"
+              >
+                <span>Explore Women&apos;s Health</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+
+              <Link
+                href="/symptom-checker?specialty=gynaecology"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-rose-50 text-rose-700 font-bold text-xs sm:text-sm border border-rose-300 shadow-2xs transition-all hover:-translate-y-0.5"
+              >
+                <Stethoscope className="w-4 h-4 text-rose-600" />
+                <span>Talk to Dr. Arya</span>
+              </Link>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* ── 3. THREE MAJOR FEATURE SHOWCASE CARDS (VAIDYA ALTERNATING CARDS) ── */}
       <section className="py-16 sm:py-24 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         

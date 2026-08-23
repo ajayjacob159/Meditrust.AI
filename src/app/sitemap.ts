@@ -1,15 +1,24 @@
 import { MetadataRoute } from 'next'
+import { WOMENS_HEALTH_ARTICLES } from '@/data/womensHealthArticles'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.meditrustai.in'
 
   const staticRoutes = [
     { url: '/', changeFrequency: 'daily' as const, priority: 1.0 },
+    { url: '/womens-health', changeFrequency: 'daily' as const, priority: 0.98 },
+    { url: '/womens-health/health-library', changeFrequency: 'daily' as const, priority: 0.95 },
     { url: '/symptom-checker', changeFrequency: 'daily' as const, priority: 0.95 },
-    { url: '/government-schemes', changeFrequency: 'daily' as const, priority: 0.95 },
-    { url: '/lab-test-comparison', changeFrequency: 'daily' as const, priority: 0.95 },
+    { url: '/medivault', changeFrequency: 'daily' as const, priority: 0.92 },
+    { url: '/health-score', changeFrequency: 'daily' as const, priority: 0.92 },
+    { url: '/reminders', changeFrequency: 'daily' as const, priority: 0.9 },
     { url: '/medication-comparison', changeFrequency: 'daily' as const, priority: 0.95 },
-    { url: '/dashboard', changeFrequency: 'weekly' as const, priority: 0.85 },
+    { url: '/find-healthcare', changeFrequency: 'daily' as const, priority: 0.92 },
+    { url: '/models-overview', changeFrequency: 'weekly' as const, priority: 0.88 },
+    { url: '/lab-test-comparison', changeFrequency: 'daily' as const, priority: 0.95 },
+    { url: '/government-schemes', changeFrequency: 'daily' as const, priority: 0.95 },
+    { url: '/doctors/gynecologist/pune', changeFrequency: 'weekly' as const, priority: 0.9 },
+    { url: '/doctors/gynecologist/pcmc', changeFrequency: 'weekly' as const, priority: 0.9 },
     { url: '/pricing', changeFrequency: 'weekly' as const, priority: 0.85 },
     { url: '/how-it-works', changeFrequency: 'monthly' as const, priority: 0.75 },
     { url: '/about', changeFrequency: 'monthly' as const, priority: 0.7 },
@@ -26,19 +35,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: '/disclaimer', changeFrequency: 'monthly' as const, priority: 0.4 },
   ]
 
-  const diagnosticKeywords = [
-    'abha-card-registration-online-benefits',
-    'pm-jay-ayushman-bharat-pune-hospitals',
-    'esanjeevani-online-doctor-consultation',
-    'mjpjay-maharashtra-cashless-hospital-list',
-    'blood-sample-collection-at-home-pune',
-    'doorstep-blood-sample-pickup-60-minutes',
-    'thyrocare-vs-metropolis-pune',
-    'dr-lal-pathlabs-cbc-test-cost',
-    'sahyadri-hospital-blood-test-price',
-    'krsnaa-diagnostics-full-body-checkup',
-    'jan-aushadhi-generic-medicine-savings',
-  ]
+  const womensHealthArticleRoutes = WOMENS_HEALTH_ARTICLES.map((article) => ({
+    url: `/womens-health/${article.category}/${article.slug}`,
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }))
 
   return [
     ...staticRoutes.map((route) => ({
@@ -47,11 +48,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: route.changeFrequency,
       priority: route.priority,
     })),
-    ...diagnosticKeywords.map((slug) => ({
-      url: `${baseUrl}/lab-test-comparison#${slug}`,
+    ...womensHealthArticleRoutes.map((route) => ({
+      url: `${baseUrl}${route.url}`,
       lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
+      changeFrequency: route.changeFrequency,
+      priority: route.priority,
     })),
   ]
 }
