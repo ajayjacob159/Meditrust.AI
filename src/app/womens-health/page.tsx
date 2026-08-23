@@ -9,6 +9,7 @@ import {
   Calculator, Baby, HeartPulse, Search, Info, Check, RefreshCw
 } from 'lucide-react'
 import { WOMENS_HEALTH_ARTICLES } from '@/data/womensHealthArticles'
+import WomensHealthPictorialInfographics from '@/components/womens-health/WomensHealthPictorialInfographics'
 
 export default function WomensHealthPage() {
   const [activeToolTab, setActiveToolTab] = useState<'ovulation' | 'pregnancy' | 'pcos'>('ovulation')
@@ -274,7 +275,14 @@ export default function WomensHealthPage() {
         </div>
       </section>
 
-      {/* ── 2. INTERACTIVE SCREENING & CLINICAL CALCULATORS TOOLKIT ── */}
+      {/* ── 2. PICTORIAL CLINICAL INFOGRAPHICS & DIAGNOSTIC MODELS ── */}
+      <section className="py-10 bg-slate-50">
+        <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8">
+          <WomensHealthPictorialInfographics />
+        </div>
+      </section>
+
+      {/* ── 3. INTERACTIVE SCREENING & CLINICAL CALCULATORS TOOLKIT ── */}
       <section id="interactive-tools" className="py-16 sm:py-24 bg-gradient-to-b from-slate-50 to-white border-y border-slate-200/80">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           

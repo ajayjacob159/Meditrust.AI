@@ -13,6 +13,7 @@ import {
   BloodTestItem
 } from '@/data/womensBloodTestsData'
 import { WOMENS_BLOOD_TEST_ARTICLES } from '@/data/womensBloodTestsArticles'
+import WomensHealthPictorialInfographics from '@/components/womens-health/WomensHealthPictorialInfographics'
 
 export default function WomensBloodTestsHubPage() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -296,7 +297,12 @@ export default function WomensBloodTestsHubPage() {
           )}
         </div>
 
-        {/* ── 4. SEO-BACKED HIGH-TRENDING ARTICLES SECTION ── */}
+        {/* ── 4. PICTORIAL CLINICAL INFOGRAPHICS ── */}
+        <div className="pt-4">
+          <WomensHealthPictorialInfographics />
+        </div>
+
+        {/* ── 5. SEO-BACKED HIGH-TRENDING ARTICLES SECTION ── */}
         <section className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm space-y-8 mt-12">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-6">
             <div>
