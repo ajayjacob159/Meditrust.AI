@@ -1,3 +1,5 @@
+import { STRATEGIC_BLOG_ARTICLES } from './womensHealthStrategicArticles'
+
 export interface BlogArticle {
   slug: string
   title: string
@@ -41,7 +43,7 @@ export interface BlogArticle {
   }
 }
 
-export const blogArticles: BlogArticle[] = [
+const originalBlogArticles: BlogArticle[] = [
   {
     slug: 'abha-card-registration-and-ayushman-bharat-guide-2026',
     title: 'How to Create ABHA Card Online (2026): 14-Digit Health ID Benefits, Scan & Share, and ABDM Features',
@@ -307,3 +309,9 @@ export const blogArticles: BlogArticle[] = [
     },
   },
 ]
+
+export const blogArticles: BlogArticle[] = [
+  ...STRATEGIC_BLOG_ARTICLES,
+  ...originalBlogArticles,
+]
+
