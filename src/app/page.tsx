@@ -121,19 +121,19 @@ export default function HomePage() {
           <div className="lg:col-span-7 space-y-6">
             
             {/* Top Powered-by Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 text-blue-800 text-xs font-semibold shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping" />
-              <span>India&apos;s 24/7 AI Health Companion &amp; Savings Engine</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/90 border border-blue-300 text-blue-950 text-xs font-black shadow-xs tracking-wide">
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-ping" />
+              <span>MEDITRUST AI · MAIN GOAL &amp; VISION</span>
             </div>
 
-            {/* High-Impact Main Heading */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.12]">
-              Your Everyday <span className="text-blue-600">AI Health Companion</span> &amp; Medicine Savings Engine
+            {/* High-Impact Main Heading: Company Vision Statement */}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-950 leading-[1.12]">
+              Using Artificial Intelligence to Make Healthcare More <span className="text-blue-600">Accessible</span>, <span className="text-teal-600">Understandable</span> and <span className="text-emerald-600">Affordable</span>.
             </h1>
 
             {/* Subtitle Paragraph */}
-            <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl">
-              Ask <strong>Dr. Arya</strong> in Marathi, Hindi &amp; English. Get instant plain-language blood report breakdowns, save up to <strong>80% on medicines</strong> with Jan Aushadhi generic equivalents, and track family health records in one secure vault.
+            <p className="text-base sm:text-lg text-slate-600 font-medium leading-relaxed max-w-2xl">
+              Our core vision at <strong>MEDITRUST AI</strong> is to empower every family in India with 24/7 multilingual clinical AI doctor consultations, plain-language blood test breakdowns, and up to <strong>80% savings on lifelong prescriptions</strong> with Jan Aushadhi generic equivalents.
             </p>
 
             {/* CTA Button Group */}
@@ -422,18 +422,18 @@ export default function HomePage() {
 
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
           
-          <div className="text-center max-w-3xl mx-auto space-y-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/80 border border-blue-200 text-blue-900 text-xs font-bold shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-              <span>Our Vision &amp; Mission</span>
+          <div className="text-center max-w-4xl mx-auto space-y-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 text-white text-xs sm:text-sm font-black uppercase tracking-widest shadow-md">
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span>MEDITRUST AI — MAIN GOAL &amp; COMPANY VISION</span>
             </div>
 
-            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
-              Using Artificial Intelligence to Make Healthcare <span className="text-blue-600">Accessible</span> &amp; <span className="text-emerald-600">Affordable</span>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-950 leading-tight">
+              Using Artificial Intelligence to Make Healthcare More <span className="text-blue-600">Accessible</span>, <span className="text-teal-600">Understandable</span> and <span className="text-emerald-600">Affordable</span>.
             </h2>
 
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-              Our vision is to empower every individual and family with ethical, clinical-grade Artificial Intelligence — breaking language barriers, eliminating health anxiety, and removing the financial burden of lifelong chronic medications.
+            <p className="text-base sm:text-xl text-slate-600 leading-relaxed font-medium max-w-3xl mx-auto">
+              Our guiding mission at <strong>MEDITRUST AI</strong> is to harness the transformative power of Artificial Intelligence to eliminate geographic barriers, remove medical jargon anxiety, and make essential healthcare radically affordable for every family in India.
             </p>
           </div>
 
