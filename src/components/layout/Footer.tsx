@@ -244,7 +244,12 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/womens-health" className="text-rose-400 hover:text-rose-300 font-bold transition-colors">
-                  🌺 Women&apos;s Health &amp; Gynaecology
+                  🌺 Women&apos;s Health Portal
+                </Link>
+              </li>
+              <li>
+                <Link href="/womens-health/blood-tests" className="text-rose-300 hover:text-rose-200 font-bold transition-colors">
+                  🩸 Women&apos;s Blood Tests Directory
                 </Link>
               </li>
               <li>

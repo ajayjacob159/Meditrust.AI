@@ -81,6 +81,17 @@ export default function Header() {
               </Link>
 
               <Link
+                href="/womens-health/blood-tests"
+                className="px-3.5 py-1.5 rounded-full hover:text-rose-700 hover:bg-rose-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
+              >
+                <span className="text-sm">🩸</span>
+                <span>Blood Tests for Women</span>
+                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-rose-100 text-rose-700 border border-rose-200 group-hover:bg-rose-200 transition-colors">
+                  Labs
+                </span>
+              </Link>
+
+              <Link
                 href="/reminders"
                 className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
               >
@@ -175,6 +186,20 @@ export default function Header() {
                     </div>
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-200 text-rose-800 uppercase">
                       Exclusive
+                    </span>
+                  </Link>
+
+                  <Link
+                    href="/womens-health/blood-tests"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-3 rounded-2xl hover:bg-rose-50 hover:text-rose-800 flex items-center justify-between text-slate-800 font-semibold"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-base">🩸</span>
+                      <span>Blood Tests for Women</span>
+                    </div>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700">
+                      35+ Tests
                     </span>
                   </Link>
 

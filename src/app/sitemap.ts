@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { WOMENS_HEALTH_ARTICLES } from '@/data/womensHealthArticles'
+import { WOMENS_BLOOD_TEST_ARTICLES } from '@/data/womensBloodTestsArticles'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.meditrustai.in'
@@ -7,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     { url: '/', changeFrequency: 'daily' as const, priority: 1.0 },
     { url: '/womens-health', changeFrequency: 'daily' as const, priority: 0.98 },
+    { url: '/womens-health/blood-tests', changeFrequency: 'daily' as const, priority: 0.98 },
     { url: '/womens-health/health-library', changeFrequency: 'daily' as const, priority: 0.95 },
     { url: '/reports/womens-health-india-2026', changeFrequency: 'monthly' as const, priority: 0.95 },
     { url: '/symptom-checker', changeFrequency: 'daily' as const, priority: 0.95 },
@@ -43,6 +45,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }))
 
+  const bloodTestArticleRoutes = WOMENS_BLOOD_TEST_ARTICLES.map((article) => ({
+    url: `/womens-health/blood-tests/${article.slug}`,
+    changeFrequency: 'weekly' as const,
+    priority: 0.92,
+  }))
+
   return [
     ...staticRoutes.map((route) => ({
       url: `${baseUrl}${route.url}`,
@@ -51,6 +59,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: route.priority,
     })),
     ...womensHealthArticleRoutes.map((route) => ({
+      url: `${baseUrl}${route.url}`,
+      lastModified: new Date(),
+      changeFrequency: route.changeFrequency,
+      priority: route.priority,
+    })),
+    ...bloodTestArticleRoutes.map((route) => ({
       url: `${baseUrl}${route.url}`,
       lastModified: new Date(),
       changeFrequency: route.changeFrequency,
