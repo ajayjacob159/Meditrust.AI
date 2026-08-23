@@ -169,7 +169,7 @@ export default function SymptomCheckerPage() {
     }
   }
 
-  const handleSendMessage = (textToSend?: string) => {
+  const handleSendMessage = async (textToSend?: string) => {
     const messageContent = (textToSend || input).trim()
     if (!messageContent) return
 
@@ -186,14 +186,30 @@ export default function SymptomCheckerPage() {
     setAttachMenuOpen(false)
     setIsTyping(true)
 
-    setTimeout(() => {
-      const response = evaluateClinicalQuery(messageContent, userGraph, selectedLanguage)
-      
-      // Update memory graph with stage detected
-      if (response.stageDetected) {
+    try {
+      // Call Real-Time LLM API Route (/api/chat)
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: messageContent,
+          userGraph,
+          language: selectedLanguage,
+          history: messages.slice(-6).map((m) => ({ role: m.role, text: m.text })),
+        }),
+      })
+
+      let responseData: any = null
+      if (res.ok) {
+        responseData = await res.json()
+      } else {
+        responseData = evaluateClinicalQuery(messageContent, userGraph, selectedLanguage)
+      }
+
+      if (responseData.stageDetected) {
         setUserGraph((prev) => ({
           ...prev,
-          current_stage: response.stageDetected as any,
+          current_stage: responseData.stageDetected as any,
           symptom_journal: [...prev.symptom_journal, messageContent],
         }))
       }
@@ -201,19 +217,36 @@ export default function SymptomCheckerPage() {
       const aiMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: 'ai',
-        text: response.text,
+        text: responseData.text,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase(),
-        department: response.department,
-        chips: response.chips,
-        isEmergency: response.isEmergency,
+        department: responseData.department,
+        chips: responseData.chips,
+        isEmergency: responseData.isEmergency,
         audioAvailable: true,
-        stageDetected: response.stageDetected,
+        stageDetected: responseData.stageDetected,
       }
 
       setMessages((prev) => [...prev, aiMsg])
       setIsTyping(false)
-      if (speechEnabled) speakText(response.text)
-    }, 400)
+      if (speechEnabled) speakText(responseData.text)
+    } catch (err) {
+      console.warn('Real-time API error, using local clinical fallback:', err)
+      const fallback = evaluateClinicalQuery(messageContent, userGraph, selectedLanguage)
+      const aiMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'ai',
+        text: fallback.text,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase(),
+        department: fallback.department,
+        chips: fallback.chips,
+        isEmergency: fallback.isEmergency,
+        audioAvailable: true,
+        stageDetected: fallback.stageDetected,
+      }
+      setMessages((prev) => [...prev, aiMsg])
+      setIsTyping(false)
+      if (speechEnabled) speakText(fallback.text)
+    }
   }
 
   return (
