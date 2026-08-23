@@ -126,8 +126,16 @@ export default function Footer() {
             </Link>
 
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              <strong>Meditrust Life Sciences Pvt. Ltd.</strong> is India’s premier health-tech & clinical AI enterprise. Headquartered in Pimpri-Chinchwad (Pune), Maharashtra, we empower over 120,000+ families with <strong>Dr. Arya (24/7 Multilingual AI Doctor)</strong>, real-time medicine price comparison across <strong>Tata 1mg, PharmEasy & Apollo</strong> vs <strong>Jan Aushadhi generics (saving up to 80%)</strong>, and 60-minute at-home blood collection across <strong>13+ NABL-accredited diagnostic labs</strong>.
+              <strong>Meditrust Life Sciences Pvt. Ltd.</strong> is India’s premier health-tech &amp; clinical AI enterprise. Our vision is to use artificial intelligence to make healthcare more accessible and affordable for every family in India.
             </p>
+
+            {/* Vision Banner Badge */}
+            <div className="p-3 rounded-xl bg-teal-950/60 border border-teal-500/30 text-xs text-teal-200 flex items-start gap-2">
+              <Sparkles className="w-4 h-4 text-teal-400 flex-shrink-0 mt-0.5" />
+              <p className="text-2xs leading-relaxed font-medium">
+                <strong>Our Vision:</strong> To use Artificial Intelligence to make healthcare radically accessible, instantly understandable, and genuinely affordable for every family across India.
+              </p>
+            </div>
 
             {/* Official Registered Corporate Address Box */}
             <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 space-y-2 shadow-xs">

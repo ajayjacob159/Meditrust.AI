@@ -414,8 +414,103 @@ export default function HomePage() {
 
       </section>
 
+      {/* ── 3.5 OUR VISION STATEMENT: AI-POWERED ACCESSIBILITY & AFFORDABILITY ── */}
+      <section className="py-16 sm:py-24 bg-gradient-to-b from-white via-blue-50/40 to-white border-y border-slate-200/80 relative overflow-hidden">
+        {/* Subtle Ambient Radial Glows */}
+        <div className="absolute top-1/2 left-0 w-80 h-80 bg-blue-400/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
+        <div className="absolute top-1/2 right-0 w-80 h-80 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
+
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
+          
+          <div className="text-center max-w-3xl mx-auto space-y-4">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/80 border border-blue-200 text-blue-900 text-xs font-bold shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+              <span>Our Vision &amp; Mission</span>
+            </div>
+
+            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
+              Using Artificial Intelligence to Make Healthcare <span className="text-blue-600">Accessible</span> &amp; <span className="text-emerald-600">Affordable</span>
+            </h2>
+
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+              Our vision is to empower every individual and family with ethical, clinical-grade Artificial Intelligence — breaking language barriers, eliminating health anxiety, and removing the financial burden of lifelong chronic medications.
+            </p>
+          </div>
+
+          {/* 3 Vision Pillars Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            {/* Pillar 1: Accessible */}
+            <div className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-xs hover:shadow-md hover:border-blue-400 transition-all space-y-4 group">
+              <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition-transform">
+                🌐
+              </div>
+              <div className="space-y-2">
+                <span className="text-3xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">
+                  Pillar 1: Accessibility
+                </span>
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                  Radical 24/7 Access in Your Mother Tongue
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+                  World-class clinical AI triage in Marathi, Hindi &amp; English with 500ms response time. Healthcare should never be blocked by geographic boundaries, long clinic queues, or clinic hours.
+                </p>
+              </div>
+            </div>
+
+            {/* Pillar 2: Understandable */}
+            <div className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-xs hover:shadow-md hover:border-teal-400 transition-all space-y-4 group">
+              <div className="w-14 h-14 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition-transform">
+                💡
+              </div>
+              <div className="space-y-2">
+                <span className="text-3xs font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-2.5 py-1 rounded-full">
+                  Pillar 2: Clinical Clarity
+                </span>
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
+                  Clarity Over Jargon, Comfort Over Panic
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+                  Translating complex blood test parameters (CBC, HbA1c, Thyroid) into clear, comforting, and actionable health guidance. No more frightening internet searches or unnecessary panic.
+                </p>
+              </div>
+            </div>
+
+            {/* Pillar 3: Affordable */}
+            <div className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-xs hover:shadow-md hover:border-emerald-400 transition-all space-y-4 group">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition-transform">
+                💰
+              </div>
+              <div className="space-y-2">
+                <span className="text-3xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
+                  Pillar 3: Affordability
+                </span>
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
+                  Save 80% with Jan Aushadhi Generics
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+                  Saving Indian families up to ₹27,000 every year by matching branded prescriptions against CDSCO-certified generic bioequivalent drugs and offering 60-min doorstep lab pickups.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Vision Callout Quote Box */}
+          <div className="max-w-4xl mx-auto rounded-2xl bg-slate-900 text-white p-6 sm:p-8 text-center space-y-2 shadow-lg">
+            <p className="text-sm sm:text-base font-semibold text-slate-200 italic">
+              &ldquo;Our vision is to use artificial intelligence to make healthcare more accessible and affordable for every family in India.&rdquo;
+            </p>
+            <span className="text-3xs sm:text-2xs text-teal-400 font-bold uppercase tracking-wider">
+              — Meditrust AI Executive Commitment
+            </span>
+          </div>
+
+        </div>
+      </section>
+
       {/* ── 4. THE 6-APP INTEGRATED HEALTH INTELLIGENCE GRID ── */}
-      <section className="py-16 sm:py-20 bg-slate-50/60 border-y border-slate-200/80">
+      <section className="py-16 sm:py-20 bg-slate-50/60 border-b border-slate-200/80">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="text-center max-w-2xl mx-auto space-y-3">
