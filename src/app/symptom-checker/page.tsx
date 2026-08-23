@@ -7,7 +7,8 @@ import {
   CheckCheck, Phone, Video, MoreVertical, Paperclip, Smile, Mic, MicOff,
   Calendar, Baby, HeartPulse, FileText, UserCheck, Stethoscope, Lock,
   ChevronLeft, Info, ExternalLink, Image as ImageIcon, FileUp, Sparkles,
-  Volume2, VolumeX, AlertCircle, Heart, ArrowRight, ShieldCheck
+  Volume2, VolumeX, AlertCircle, Heart, ArrowRight, ShieldCheck, User,
+  Mail, PhoneCall, MapPin
 } from 'lucide-react'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
 import { evaluateClinicalQuery, UserHealthGraph } from '@/data/clinicalReasoningEngine'
@@ -25,6 +26,14 @@ interface Message {
   provider?: string
 }
 
+interface ClientContact {
+  name: string
+  email: string
+  phone: string
+  age?: number
+  city?: string
+}
+
 const QUICK_SUGGESTIONS = [
   '🌸 Late Period / Delayed Cycle',
   '🤰 Am I Pregnant? (Early Signs)',
@@ -36,38 +45,49 @@ const QUICK_SUGGESTIONS = [
   '💊 Compare Generic Medicine (80% OFF)',
 ]
 
-const INITIAL_MESSAGES: Message[] = [
-  {
-    id: '1',
-    role: 'ai',
-    text: `Hello! I am **Dr. Arya**, lead women's health companion and clinical consultant for Meditrust. 🌸
+export default function SymptomCheckerPage() {
+  // Contact details gate
+  const [clientContact, setClientContact] = useState<ClientContact | null>(null)
+  const [contactModalOpen, setContactModalOpen] = useState(false)
+  const [formName, setFormName] = useState('')
+  const [formPhone, setFormPhone] = useState('')
+  const [formEmail, setFormEmail] = useState('')
+  const [formAge, setFormAge] = useState<number | undefined>(undefined)
+  const [formCity, setFormCity] = useState('Pune / PCMC')
+  const [formError, setFormError] = useState('')
+  const [isSubmittingContact, setIsSubmittingContact] = useState(false)
+
+  // Messages state
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '1',
+      role: 'ai',
+      text: `Hello! I am **Dr. Arya**, lead women's health companion and clinical consultant for Meditrust. 🌸
 
 I am here to guide you with complete privacy through every stage of your health journey—from your very first period to PCOS management, fertility, pregnancy milestones, and mid-life care.
 
-To help me personalize our conversation and understand your health needs:
+To help me personalize our conversation:
 • What symptoms or questions are on your mind today?
 • If comfortable, share your **approximate age** and the date of your **last menstrual period (LMP)**.
 
 Everything we discuss is strictly private between us.`,
-    timestamp: '10:42 am',
-    department: 'Dr. Arya Women’s Health Companion',
-    stageDetected: 'Ready for Triage',
-    provider: 'Free LLM Plugin Gateway',
-    chips: [
-      '🌸 PCOS / PCOD Assessment',
-      '🩸 Is My Period Normal? (Teen)',
-      '🥚 Planning a Baby & Ovulation',
-      '🤰 Early Pregnancy Scans & EDD',
-      '🤱 Postnatal Bleeding & Recovery',
-      '🌸 Hot Flushes & Menopause',
-      '🎗️ Severe Period Pain / Endometriosis',
-      '💊 Jan Aushadhi Generic Savings',
-    ],
-  },
-]
+      timestamp: '10:42 am',
+      department: 'Dr. Arya Women’s Health Companion',
+      stageDetected: 'Ready for Triage',
+      provider: 'Free LLM Plugin Gateway',
+      chips: [
+        '🌸 PCOS / PCOD Assessment',
+        '🩸 Is My Period Normal? (Teen)',
+        '🥚 Planning a Baby & Ovulation',
+        '🤰 Early Pregnancy Scans & EDD',
+        '🤱 Postnatal Bleeding & Recovery',
+        '🌸 Hot Flushes & Menopause',
+        '🎗️ Severe Period Pain / Endometriosis',
+        '💊 Jan Aushadhi Generic Savings',
+      ],
+    },
+  ])
 
-export default function SymptomCheckerPage() {
-  const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES)
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const [speechEnabled, setSpeechEnabled] = useState(false)
@@ -96,6 +116,42 @@ export default function SymptomCheckerPage() {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
+
+  // Check for saved contact in localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('meditrust_client_contact')
+      if (saved) {
+        const parsed: ClientContact = JSON.parse(saved)
+        if (parsed.name && parsed.phone) {
+          setClientContact(parsed)
+          setFormName(parsed.name)
+          setFormPhone(parsed.phone)
+          setFormEmail(parsed.email || '')
+          setFormAge(parsed.age)
+          setFormCity(parsed.city || 'Pune / PCMC')
+
+          setUserGraph((prev) => ({
+            ...prev,
+            age: parsed.age || prev.age,
+          }))
+
+          // Personalize first message with user's name
+          setMessages((prev) => [
+            {
+              ...prev[0],
+              text: `Hello **${parsed.name}**! I am **Dr. Arya**, your lead women's health companion for Meditrust. 🌸\n\nI am here to guide you with complete privacy through every stage of your health journey—from period tracking to PCOS management, fertility, pregnancy milestones, and mid-life care.\n\nWhat symptoms, questions, or blood reports would you like to discuss today?`,
+            },
+          ])
+          return
+        }
+      }
+      // If no contact found, prompt onboarding gate
+      setContactModalOpen(true)
+    } catch {
+      setContactModalOpen(true)
+    }
+  }, [])
 
   useEffect(() => {
     scrollToBottom()
@@ -158,6 +214,76 @@ export default function SymptomCheckerPage() {
     recognition.start()
   }
 
+  // Handle Contact Verification Form Submit
+  const handleSaveContact = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setFormError('')
+
+    const cleanName = formName.trim()
+    const cleanPhone = formPhone.trim().replace(/\D/g, '')
+    const cleanEmail = formEmail.trim()
+
+    if (!cleanName) {
+      setFormError('Please enter your full name.')
+      return
+    }
+    if (cleanPhone.length < 10) {
+      setFormError('Please enter a valid 10-digit mobile number.')
+      return
+    }
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+      setFormError('Please enter a valid email address.')
+      return
+    }
+
+    setIsSubmittingContact(true)
+
+    const contact: ClientContact = {
+      name: cleanName,
+      phone: cleanPhone,
+      email: cleanEmail,
+      age: formAge,
+      city: formCity || 'Pune / PCMC',
+    }
+
+    try {
+      // 1. Send to Lead Capture API
+      await fetch('/api/lead-capture', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: contact.name,
+          phone: contact.phone,
+          email: contact.email,
+          city: contact.city,
+          healthNeed: "Dr. Arya Women's Health & Clinical Consultation",
+        }),
+      }).catch(() => {})
+
+      // 2. Save locally
+      localStorage.setItem('meditrust_client_contact', JSON.stringify(contact))
+      setClientContact(contact)
+      setContactModalOpen(false)
+
+      setUserGraph((prev) => ({
+        ...prev,
+        age: contact.age || prev.age,
+      }))
+
+      // 3. Personalize greeting
+      setMessages((prev) => [
+        {
+          ...prev[0],
+          text: `Hello **${contact.name}**! I am **Dr. Arya**, your lead women's health companion for Meditrust. 🌸\n\nI am here to guide you with complete privacy through every stage of your health journey—from period tracking to PCOS management, fertility, pregnancy milestones, and mid-life care.\n\nWhat symptoms, questions, or blood reports would you like to discuss today?`,
+        },
+      ])
+    } catch {
+      setContactModalOpen(false)
+    } finally {
+      setIsSubmittingContact(false)
+    }
+  }
+
   const handleSaveLmpAndAge = (e: React.FormEvent) => {
     e.preventDefault()
     setUserGraph((prev) => ({
@@ -173,6 +299,12 @@ export default function SymptomCheckerPage() {
   }
 
   const handleSendMessage = async (textToSend?: string) => {
+    // If contact not filled yet, prompt gate first
+    if (!clientContact) {
+      setContactModalOpen(true)
+      return
+    }
+
     const messageContent = (textToSend || input).trim()
     if (!messageContent) return
 
@@ -289,9 +421,16 @@ export default function SymptomCheckerPage() {
                 <span className="w-4 h-4 rounded-full bg-white text-[#008069] flex items-center justify-center text-[10px] font-black" title="Verified Meditrust AI Physician">
                   ✓
                 </span>
-                <span className="hidden sm:inline-block text-[10px] bg-white/20 px-2 py-0.2 rounded-full font-medium text-emerald-100">
-                  OB-GYN AI
-                </span>
+                {clientContact && (
+                  <button
+                    onClick={() => setContactModalOpen(true)}
+                    className="hidden sm:inline-flex items-center gap-1 text-[10px] bg-white/20 hover:bg-white/30 px-2 py-0.5 rounded-full font-medium text-emerald-100 transition-colors"
+                    title="Click to edit profile"
+                  >
+                    <User className="w-2.5 h-2.5" />
+                    <span>{clientContact.name.split(' ')[0]}</span>
+                  </button>
+                )}
               </div>
               
               <div className="text-[11px] text-emerald-100/90 font-normal flex items-center gap-1 leading-none">
@@ -380,12 +519,20 @@ export default function SymptomCheckerPage() {
             </div>
           </div>
 
-          {/* Date Separator Pill */}
-          <div className="flex justify-center my-1">
-            <span className="bg-white/80 text-[#54656f] text-[10px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-md shadow-2xs border border-slate-200/60">
-              TODAY
-            </span>
-          </div>
+          {/* User Profile Pill */}
+          {clientContact && (
+            <div className="flex justify-center my-1">
+              <div className="bg-white/90 border border-slate-200 text-slate-700 text-[11px] rounded-full px-3.5 py-1 font-semibold flex items-center gap-2 shadow-2xs">
+                <span>👤 Patient: <strong>{clientContact.name}</strong> ({clientContact.phone})</span>
+                <button
+                  onClick={() => setContactModalOpen(true)}
+                  className="text-[10px] text-teal-700 font-bold underline hover:text-teal-900"
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Active Health Graph Pill if LMP is logged */}
           {userGraph.LMP && (
@@ -528,7 +675,17 @@ export default function SymptomCheckerPage() {
 
             {/* WhatsApp Attachment Popover Menu */}
             {attachMenuOpen && (
-              <div className="absolute bottom-12 left-0 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 w-52 space-y-1 z-30 animate-fadeIn text-xs font-semibold text-slate-700">
+              <div className="absolute bottom-12 left-0 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 w-56 space-y-1 z-30 animate-fadeIn text-xs font-semibold text-slate-700">
+                <button
+                  onClick={() => {
+                    setAttachMenuOpen(false)
+                    setContactModalOpen(true)
+                  }}
+                  className="w-full p-2 hover:bg-slate-50 rounded-xl flex items-center gap-2.5 text-left text-teal-800"
+                >
+                  <User className="w-4 h-4 text-teal-600" />
+                  <span>Update Contact Details</span>
+                </button>
                 <button
                   onClick={() => {
                     setAttachMenuOpen(false)
@@ -581,9 +738,12 @@ export default function SymptomCheckerPage() {
             <div className="flex-1 relative">
               <input
                 type="text"
-                placeholder="Message Dr. Arya…"
+                placeholder={clientContact ? `Message Dr. Arya…` : 'Enter contact details to start…'}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onClick={() => {
+                  if (!clientContact) setContactModalOpen(true)
+                }}
                 className="w-full pl-4 pr-10 py-2.5 sm:py-3 rounded-full bg-white border border-transparent focus:border-[#008069] focus:outline-none text-xs sm:text-sm text-[#111b21] placeholder:text-[#8696a0] shadow-2xs"
               />
             </div>
@@ -616,6 +776,161 @@ export default function SymptomCheckerPage() {
         </footer>
 
       </div>
+
+      {/* ── CLIENT CONTACT DETAILS GATE MODAL (ONBOARDING BEFORE CHAT) ── */}
+      {contactModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border border-slate-200 shadow-2xl space-y-5 animate-scaleUp">
+            
+            {/* Header */}
+            <div className="flex items-start justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center text-xl">
+                  🌸
+                </div>
+                <div>
+                  <h3 className="font-black text-base text-slate-950 leading-tight">
+                    Start Consultation with Dr. Arya
+                  </h3>
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    MEDITRUST AI Lead Women&apos;s Health Companion
+                  </p>
+                </div>
+              </div>
+              {clientContact && (
+                <button
+                  onClick={() => setContactModalOpen(false)}
+                  className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Please provide your contact details to begin your private AI consultation and safely preserve your personalized health timeline.
+            </p>
+
+            {formError && (
+              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                <span>{formError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSaveContact} className="space-y-3.5 text-xs">
+              
+              {/* Name */}
+              <div>
+                <label className="block font-bold text-slate-700 mb-1 flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-teal-700" />
+                  <span>Full Name *</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Pooja Sharma"
+                  value={formName}
+                  onChange={(e) => setFormName(e.target.value)}
+                  className="w-full p-3 rounded-xl border border-slate-200 font-medium focus:border-[#008069] focus:outline-none"
+                />
+              </div>
+
+              {/* Phone */}
+              <div>
+                <label className="block font-bold text-slate-700 mb-1 flex items-center gap-1.5">
+                  <PhoneCall className="w-3.5 h-3.5 text-teal-700" />
+                  <span>Mobile Number (WhatsApp) *</span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="e.g. 9876543210"
+                  maxLength={13}
+                  value={formPhone}
+                  onChange={(e) => setFormPhone(e.target.value)}
+                  className="w-full p-3 rounded-xl border border-slate-200 font-medium focus:border-[#008069] focus:outline-none"
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block font-bold text-slate-700 mb-1 flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-teal-700" />
+                  <span>Email Address *</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  placeholder="e.g. pooja@example.com"
+                  value={formEmail}
+                  onChange={(e) => setFormEmail(e.target.value)}
+                  className="w-full p-3 rounded-xl border border-slate-200 font-medium focus:border-[#008069] focus:outline-none"
+                />
+              </div>
+
+              {/* Age & City (Grid) */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">
+                    Age (Optional)
+                  </label>
+                  <input
+                    type="number"
+                    min="12"
+                    max="95"
+                    placeholder="e.g. 26"
+                    value={formAge || ''}
+                    onChange={(e) => setFormAge(Number(e.target.value))}
+                    className="w-full p-3 rounded-xl border border-slate-200 font-medium focus:border-[#008069] focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">
+                    City / Location
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Pune"
+                    value={formCity}
+                    onChange={(e) => setFormCity(e.target.value)}
+                    className="w-full p-3 rounded-xl border border-slate-200 font-medium focus:border-[#008069] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Privacy Notice */}
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-3xs text-slate-500 space-y-1">
+                <div className="flex items-center gap-1.5 text-slate-700 font-bold">
+                  <Lock className="w-3 h-3 text-emerald-600" />
+                  <span>100% Private &amp; ABDM Encrypted</span>
+                </div>
+                <p>
+                  Your details are protected under DPDP Act 2023. We never sell your health logs or share data without consent.
+                </p>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isSubmittingContact}
+                className="w-full py-3.5 rounded-2xl bg-[#008069] hover:bg-[#006e5a] text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 active:scale-95 disabled:bg-slate-300"
+              >
+                {isSubmittingContact ? (
+                  <span>Saving details…</span>
+                ) : (
+                  <>
+                    <span>Start Consultation with Dr. Arya</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* ── SET LMP & AGE MODAL (POPUP) ── */}
       {lmpModalOpen && (
