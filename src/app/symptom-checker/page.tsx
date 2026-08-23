@@ -3,13 +3,14 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import {
-  Brain, Send, AlertTriangle, Shield, ChevronRight,
+  Send, AlertTriangle, Shield, ChevronRight,
   RefreshCw, MessageCircle, Activity, Pill, X, CheckCircle2, Phone,
-  Upload, Video, Globe, Building2, MapPin, Sparkles, Heart, Stethoscope,
-  Volume2, VolumeX, Mic, MicOff, Check, CheckCheck, Paperclip, Sparkle
+  Upload, Sparkles, Heart, Stethoscope,
+  Volume2, VolumeX, Mic, MicOff, Check, CheckCheck, Paperclip, Lock,
+  Calendar, Baby, HeartPulse, FileText, UserCheck
 } from 'lucide-react'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
-import { evaluateClinicalQuery } from '@/data/clinicalReasoningEngine'
+import { evaluateClinicalQuery, UserHealthGraph, ClinicalResponse } from '@/data/clinicalReasoningEngine'
 
 interface Message {
   id: string
@@ -20,24 +21,34 @@ interface Message {
   chips?: string[]
   isEmergency?: boolean
   audioAvailable?: boolean
+  stageDetected?: string
 }
 
 const INITIAL_MESSAGES: Message[] = [
   {
     id: '1',
     role: 'ai',
-    text: "नमस्कार! I am **Dr. Arya** (MD Global Clinical AI) 👋\n\nI provide real-time clinical consultations across all major medical specialties in **मराठी, हिन्दी & English**.\n\n🩺 **Our 60/40 Care Model:**\n• **60% of primary health issues** (fever, acidity, PCOD, knee/back stiffness, diabetes & BP) are safely resolved from home with generic savings (save 80%).\n• **40% requiring in-person hospital care** are fast-tracked to **Ruby Hall Clinic & Sahyadri Pune** with zero-wait admission.\n\nWhat symptoms or health concern are you experiencing today?",
+    text: `Hello! I am **Dr. Arya**, lead women's health companion and clinical consultant for Meditrust. 🌸
+
+I am here to guide you with complete privacy through every stage of your health journey—from your very first period to PCOS management, fertility, pregnancy milestones, and mid-life care.
+
+To help me personalize our conversation and understand your health needs:
+• What symptoms or questions are on your mind today?
+• If comfortable, share your **approximate age** and the date of your **last menstrual period (LMP)**.
+
+Everything we discuss is strictly private between us.`,
     timestamp: 'Just now',
-    department: 'Chief Clinical AI Triage',
+    department: 'Dr. Arya Women’s Health Companion',
+    stageDetected: 'Ready for Triage',
     chips: [
-      '🩸 Full Body Blood Test (60-Min Pickup)',
-      '💊 Jan Aushadhi Generic Savings (80%)',
-      '🌺 Gynaecology (PCOS / Periods)',
-      '🦴 Knee & Joint Pain Relief',
-      '❤️ High BP & Cholesterol',
-      '🩺 High Blood Sugar / HbA1c',
-      '🔥 Acidity & Gas Instant Relief',
-      '🌡️ Viral Fever & Body Ache',
+      '🌸 PCOS / PCOD Assessment',
+      '🩸 Is My Period Normal? (Teen)',
+      '🥚 Planning a Baby & Ovulation',
+      '🤰 Early Pregnancy Scans & EDD',
+      '🤱 Postnatal Bleeding & Recovery',
+      '🌸 Hot Flushes & Menopause',
+      '🎗️ Severe Period Pain / Endometriosis',
+      '💊 Jan Aushadhi Generic Savings',
     ],
   },
 ]
@@ -46,10 +57,25 @@ export default function SymptomCheckerPage() {
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES)
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [speechEnabled, setSpeechEnabled] = useState(true)
+  const [speechEnabled, setSpeechEnabled] = useState(false)
   const [isListening, setIsListening] = useState(false)
-  const [selectedLanguage, setSelectedLanguage] = useState<'mr-IN' | 'hi-IN' | 'en-IN'>('mr-IN')
+  const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'hi' | 'mr'>('en')
   const [rxScannerOpen, setRxScannerOpen] = useState(false)
+  const [lmpModalOpen, setLmpModalOpen] = useState(false)
+  const [inputLmp, setInputLmp] = useState('')
+  const [inputAge, setInputAge] = useState<number | undefined>(undefined)
+
+  // Longitudinal Memory Graph State (DPDP & HIPAA Compliant)
+  const [userGraph, setUserGraph] = useState<UserHealthGraph>({
+    current_stage: 'General',
+    cycle_history: [],
+    symptom_journal: [],
+    reports: [],
+    medications: [],
+    family_members: [],
+    language: 'en',
+  })
+
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = () => {
@@ -60,41 +86,38 @@ export default function SymptomCheckerPage() {
     scrollToBottom()
   }, [messages, isTyping])
 
-  // Real-time 28-Year-Old Female Doctor Text-to-Speech Engine
+  // Real-time Text-to-Speech Engine
   const speakText = (text: string) => {
     if (typeof window === 'undefined' || !window.speechSynthesis || !speechEnabled) return
     window.speechSynthesis.cancel()
 
     const cleanText = text.replace(/[*_#•]/g, '').replace(/\[.*?\]\(.*?\)/g, '')
     const utterance = new SpeechSynthesisUtterance(cleanText)
-    utterance.lang = selectedLanguage
-    utterance.rate = 0.94 // Measured, compassionate cadence
-    utterance.pitch = 1.22 // 28-year-old female doctor natural pitch
+    utterance.lang = selectedLanguage === 'mr' ? 'mr-IN' : selectedLanguage === 'hi' ? 'hi-IN' : 'en-IN'
+    utterance.rate = 0.95
+    utterance.pitch = 1.2
 
     const voices = window.speechSynthesis.getVoices()
     const femaleIndianVoice = voices.find(
       (v) =>
-        (v.lang.includes('IN') || v.name.includes('India') || v.name.includes('Hindi') || v.name.includes('Marathi')) &&
+        (v.lang.includes('IN') || v.name.includes('India')) &&
         (v.name.toLowerCase().includes('female') ||
           v.name.toLowerCase().includes('lekha') ||
           v.name.toLowerCase().includes('veena') ||
           v.name.toLowerCase().includes('aditi') ||
-          v.name.toLowerCase().includes('neerja') ||
-          v.name.toLowerCase().includes('sangeeta') ||
           v.name.toLowerCase().includes('google'))
-    ) || voices.find((v) => v.lang.includes('IN') || v.name.includes('India'))
+    )
 
     if (femaleIndianVoice) utterance.voice = femaleIndianVoice
-
     window.speechSynthesis.speak(utterance)
   }
 
-  // Real-time Speech-to-Text (Microphone)
+  // Voice Input (STT)
   const toggleListening = () => {
     if (typeof window === 'undefined') return
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
     if (!SpeechRecognition) {
-      alert('Speech recognition is supported in Chrome, Safari, Edge and Android.')
+      alert('Speech recognition is supported in Chrome, Safari, and Edge.')
       return
     }
 
@@ -104,7 +127,7 @@ export default function SymptomCheckerPage() {
     }
 
     const recognition = new SpeechRecognition()
-    recognition.lang = selectedLanguage
+    recognition.lang = selectedLanguage === 'mr' ? 'mr-IN' : selectedLanguage === 'hi' ? 'hi-IN' : 'en-IN'
     recognition.interimResults = false
     recognition.maxAlternatives = 1
 
@@ -118,6 +141,20 @@ export default function SymptomCheckerPage() {
     }
 
     recognition.start()
+  }
+
+  const handleSaveLmpAndAge = (e: React.FormEvent) => {
+    e.preventDefault()
+    setUserGraph((prev) => ({
+      ...prev,
+      LMP: inputLmp || prev.LMP,
+      age: inputAge || prev.age,
+    }))
+    setLmpModalOpen(false)
+
+    if (inputLmp) {
+      handleSendMessage(`I logged my LMP as ${inputLmp}${inputAge ? ` and my age is ${inputAge}` : ''}.`)
+    }
   }
 
   const handleSendMessage = (textToSend?: string) => {
@@ -137,7 +174,17 @@ export default function SymptomCheckerPage() {
     setIsTyping(true)
 
     setTimeout(() => {
-      const response = evaluateClinicalQuery(messageContent, selectedLanguage)
+      const response = evaluateClinicalQuery(messageContent, userGraph, selectedLanguage)
+      
+      // Update memory graph with stage detected
+      if (response.stageDetected) {
+        setUserGraph((prev) => ({
+          ...prev,
+          current_stage: response.stageDetected as any,
+          symptom_journal: [...prev.symptom_journal, messageContent],
+        }))
+      }
+
       const aiMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: 'ai',
@@ -147,227 +194,230 @@ export default function SymptomCheckerPage() {
         chips: response.chips,
         isEmergency: response.isEmergency,
         audioAvailable: true,
+        stageDetected: response.stageDetected,
       }
 
       setMessages((prev) => [...prev, aiMsg])
       setIsTyping(false)
-      speakText(response.text)
-    }, 450)
+      if (speechEnabled) speakText(response.text)
+    }, 400)
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 py-6 sm:py-10">
-      <div className="max-w-4xl mx-auto px-3 sm:px-6">
+    <div className="min-h-screen bg-slate-100/70 pt-20 sm:pt-24 pb-16">
+      <div className="max-w-4xl mx-auto px-3 sm:px-6 space-y-4">
         
-        {/* WhatsApp / Telegram Style Outer Frame */}
-        <div className="bg-white rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col h-[85vh] sm:h-[88vh]">
-          
-          {/* 1. Doctor Header (WhatsApp / Telegram Style) */}
-          <div className="bg-gradient-to-r from-teal-900 via-teal-800 to-slate-950 text-white p-3.5 sm:p-4 flex items-center justify-between shadow-md z-10 flex-shrink-0">
-            <div className="flex items-center gap-3">
-              {/* Doctor Avatar with Live Pulse */}
-              <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-emerald-400 shadow-xs flex-shrink-0 bg-slate-900">
-                <img
-                  src="/dr_arya.jpg"
-                  alt="Dr. Arya AI Doctor"
-                  className="w-full h-full object-cover object-top"
-                />
-                <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full animate-pulse" />
+        {/* ── TOP HEADER STATUS BAR ── */}
+        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="w-11 h-11 rounded-full bg-rose-50 border-2 border-rose-200 flex items-center justify-center text-xl shadow-2xs">
+                🌸
               </div>
-
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <h1 className="text-sm sm:text-base font-black tracking-tight font-display">
-                    Dr. Arya (AI Physician)
-                  </h1>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 fill-emerald-400/20" />
-                </div>
-                <div className="text-3xs sm:text-2xs text-teal-200 flex items-center gap-1.5 font-medium">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                  <span>Online · Typically replies in seconds</span>
-                </div>
-              </div>
+              <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full" />
             </div>
 
-            {/* Top Quick Actions */}
-            <div className="flex items-center gap-2">
-              {/* Native Language Selector */}
-              <select
-                value={selectedLanguage}
-                onChange={(e) => setSelectedLanguage(e.target.value as any)}
-                className="bg-teal-950/80 text-white text-3xs font-bold px-2 py-1.5 rounded-xl border border-teal-600/50 outline-hidden"
-              >
-                <option value="mr-IN">🚩 मराठी (Marathi)</option>
-                <option value="hi-IN">🇮🇳 हिन्दी (Hindi)</option>
-                <option value="en-IN">🌐 English (India)</option>
-                <option value="kn-IN">🟡 ಕನ್ನಡ (Kannada)</option>
-                <option value="te-IN">🟠 తెలుగు (Telugu)</option>
-                <option value="ta-IN">🟣 தமிழ் (Tamil)</option>
-                <option value="gu-IN">🟢 ગુજરાતી (Gujarati)</option>
-                <option value="bn-IN">🔵 বাংলা (Bengali)</option>
-                <option value="ml-IN">🟤 മലയാളം (Malayalam)</option>
-              </select>
-
-              {/* Voice Speak Toggle */}
-              <button
-                type="button"
-                onClick={() => setSpeechEnabled(!speechEnabled)}
-                className={`p-2 rounded-xl border transition-colors ${
-                  speechEnabled
-                    ? 'bg-teal-700 text-white border-teal-500'
-                    : 'bg-slate-800 text-slate-400 border-slate-700'
-                }`}
-                title={speechEnabled ? 'Voice Speak Enabled' : 'Voice Speak Muted'}
-              >
-                {speechEnabled ? <Volume2 className="w-4 h-4 text-emerald-300" /> : <VolumeX className="w-4 h-4" />}
-              </button>
-
-              {/* Direct Call Button */}
-              <a
-                href="tel:+917028025717"
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow transition-colors"
-              >
-                <Phone className="w-3.5 h-3.5 animate-pulse" />
-                <span>+91 7028025717</span>
-              </a>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="font-bold text-sm sm:text-base text-slate-900">Dr. Arya Women&apos;s Health</h1>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">
+                  Senior AI Physician
+                </span>
+              </div>
+              <p className="text-3xs text-slate-500 flex items-center gap-1">
+                <Lock className="w-3 h-3 text-emerald-600" />
+                <span>256-Bit Private &amp; ABDM Compliant · 24/7 Real-Time</span>
+              </p>
             </div>
           </div>
 
-          {/* 2. Chat Conversation Canvas (WhatsApp Background Texture) */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 bg-slate-50/80">
-            {messages.map((m) => (
+          {/* Action Quick Tools */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setLmpModalOpen(true)}
+              className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 text-xs font-bold border border-rose-200 flex items-center gap-1.5 transition-colors"
+            >
+              <Calendar className="w-3.5 h-3.5 text-rose-600" />
+              <span>{userGraph.LMP ? `LMP: ${userGraph.LMP}` : 'Set LMP / Age'}</span>
+            </button>
+
+            <button
+              onClick={() => setSpeechEnabled(!speechEnabled)}
+              className={`p-2 rounded-xl border transition-colors ${
+                speechEnabled
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                  : 'bg-slate-50 text-slate-400 border-slate-200 hover:text-slate-600'
+              }`}
+              title={speechEnabled ? 'Voice output enabled' : 'Voice output disabled'}
+            >
+              {speechEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+
+        {/* ── CHAT CONTAINER ── */}
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-md flex flex-col h-[650px] overflow-hidden">
+          
+          {/* Messages Scroll Area */}
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+            {messages.map((msg) => (
               <div
-                key={m.id}
-                className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'} animate-fade-in`}
+                key={msg.id}
+                className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                {/* Department Tag for Doctor */}
-                {m.role === 'ai' && m.department && (
-                  <span className="text-3xs font-black uppercase tracking-wider text-teal-800 bg-teal-100/80 px-2 py-0.5 rounded-full mb-1 ml-1">
-                    {m.department}
-                  </span>
+                {msg.role === 'ai' && (
+                  <div className="w-8 h-8 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-sm flex-shrink-0 shadow-2xs mt-1">
+                    🌸
+                  </div>
                 )}
 
-                {/* Message Bubble */}
-                <div
-                  className={`max-w-[88%] sm:max-w-[78%] rounded-3xl p-4 sm:p-5 shadow-sm text-xs sm:text-sm leading-relaxed ${
-                    m.role === 'user'
-                      ? 'bg-teal-700 text-white rounded-tr-xs'
-                      : m.isEmergency
-                      ? 'bg-rose-50 border-2 border-rose-400 text-rose-950 rounded-tl-xs'
-                      : 'bg-white border border-slate-200/90 text-slate-800 rounded-tl-xs'
-                  }`}
-                >
-                  <div className="whitespace-pre-line space-y-2">
-                    {m.text}
-                  </div>
+                <div className={`max-w-[85%] sm:max-w-[75%] space-y-2`}>
+                  
+                  {/* Department & Stage Badge */}
+                  {msg.role === 'ai' && msg.department && (
+                    <div className="flex items-center gap-2 text-3xs font-bold text-rose-800 mb-1">
+                      <span className="px-2 py-0.5 rounded-md bg-rose-50 border border-rose-200">
+                        {msg.department}
+                      </span>
+                    </div>
+                  )}
 
-                  {/* Bubble Footer: Timestamp & Checkmarks */}
+                  {/* Message Bubble */}
                   <div
-                    className={`flex items-center justify-end gap-1.5 text-3xs mt-2 pt-1 border-t ${
-                      m.role === 'user' ? 'border-teal-600/60 text-teal-200' : 'border-slate-100 text-slate-400'
+                    className={`p-4 sm:p-5 rounded-2xl text-xs sm:text-sm leading-relaxed whitespace-pre-line ${
+                      msg.role === 'user'
+                        ? 'bg-slate-900 text-white rounded-br-none shadow-xs'
+                        : msg.isEmergency
+                        ? 'bg-rose-50 border-2 border-rose-500 text-slate-950 rounded-bl-none'
+                        : 'bg-slate-50 border border-slate-200/90 text-slate-900 rounded-bl-none shadow-2xs'
                     }`}
                   >
-                    <span>{m.timestamp}</span>
-                    {m.role === 'user' && <CheckCheck className="w-3.5 h-3.5 text-emerald-300" />}
-                    {m.role === 'ai' && (
-                      <button
-                        onClick={() => speakText(m.text)}
-                        className="hover:text-teal-700 transition-colors flex items-center gap-0.5 ml-1"
-                        title="Listen to Dr. Arya speak"
-                      >
-                        <Volume2 className="w-3 h-3" />
-                      </button>
-                    )}
+                    {msg.text}
                   </div>
+
+                  {/* Interactive Action Chips */}
+                  {msg.chips && msg.chips.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {msg.chips.map((chip, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleSendMessage(chip.replace(/^[^\w\s]+/, '').trim())}
+                          className="px-3 py-1.5 rounded-full text-3xs sm:text-2xs font-semibold bg-white hover:bg-rose-50 text-rose-900 border border-rose-200 shadow-2xs hover:border-rose-300 transition-all text-left"
+                        >
+                          {chip}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className={`text-3xs text-slate-400 font-mono ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
+                    {msg.timestamp}
+                  </div>
+
                 </div>
 
-                {/* Interactive Suggestion Chips */}
-                {m.chips && m.chips.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 mt-2.5 max-w-[90%]">
-                    {m.chips.map((chip, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => handleSendMessage(chip)}
-                        className="px-3 py-1.5 rounded-full bg-white hover:bg-teal-50 text-teal-900 border border-teal-200 text-2xs font-bold transition-all shadow-2xs hover:border-teal-400 active:scale-95 text-left"
-                      >
-                        {chip}
-                      </button>
-                    ))}
+                {msg.role === 'user' && (
+                  <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 shadow-2xs mt-1">
+                    You
                   </div>
                 )}
               </div>
             ))}
 
-            {/* Live Typing Indicator */}
+            {/* Typing Indicator */}
             {isTyping && (
-              <div className="flex items-center gap-2 p-3.5 rounded-2xl bg-white border border-slate-200 w-fit shadow-xs animate-fade-in">
-                <div className="w-7 h-7 rounded-full overflow-hidden bg-slate-900 flex-shrink-0">
-                  <img src="/dr_arya.jpg" alt="Typing" className="w-full h-full object-cover" />
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-xs text-slate-500 font-medium">Dr. Arya is analyzing</span>
-                  <span className="w-1.5 h-1.5 bg-teal-600 rounded-full animate-bounce" />
-                  <span className="w-1.5 h-1.5 bg-teal-600 rounded-full animate-bounce [animation-delay:0.2s]" />
-                  <span className="w-1.5 h-1.5 bg-teal-600 rounded-full animate-bounce [animation-delay:0.4s]" />
-                </div>
+              <div className="flex items-center gap-2 text-xs text-slate-400 p-2">
+                <div className="w-2 h-2 rounded-full bg-rose-500 animate-bounce" />
+                <div className="w-2 h-2 rounded-full bg-rose-500 animate-bounce [animation-delay:0.2s]" />
+                <div className="w-2 h-2 rounded-full bg-rose-500 animate-bounce [animation-delay:0.4s]" />
+                <span className="text-3xs font-medium text-rose-700 ml-1">Dr. Arya is reasoning clinical protocols…</span>
               </div>
             )}
 
             <div ref={messagesEndRef} />
           </div>
 
-          {/* 3. Input & Voice Console Bar */}
-          <div className="p-3 sm:p-4 bg-white border-t border-slate-200 flex-shrink-0 space-y-2">
+          {/* ── BOTTOM INPUT BAR ── */}
+          <div className="p-3 sm:p-4 bg-slate-50 border-t border-slate-200/90 space-y-2">
             
-            <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex items-center gap-2">
-              
-              {/* Prescription Upload Button */}
+            {/* Quick Tool Launchers */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-3xs font-bold text-slate-600">
               <button
-                type="button"
-                onClick={() => setRxScannerOpen(true)}
-                className="p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors flex-shrink-0"
-                title="Scan & Upload Prescription PDF"
+                onClick={() => setLmpModalOpen(true)}
+                className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-rose-300 hover:text-rose-700 flex items-center gap-1 whitespace-nowrap shadow-2xs"
               >
-                <Paperclip className="w-4 h-4" />
+                <Calendar className="w-3 h-3 text-rose-600" />
+                <span>Log LMP / Cycle</span>
               </button>
 
-              {/* Text Input Field */}
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Type your symptoms or question in Marathi, Hindi or English..."
-                className="flex-1 px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20 text-xs sm:text-sm font-medium outline-hidden"
-              />
+              <Link
+                href="/womens-health"
+                className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-rose-300 hover:text-rose-700 flex items-center gap-1 whitespace-nowrap shadow-2xs"
+              >
+                <Heart className="w-3 h-3 text-rose-600" />
+                <span>Women&apos;s Health Hub</span>
+              </Link>
 
-              {/* Microphone Voice Input */}
+              <button
+                onClick={() => setRxScannerOpen(true)}
+                className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-blue-300 hover:text-blue-700 flex items-center gap-1 whitespace-nowrap shadow-2xs"
+              >
+                <Upload className="w-3 h-3 text-blue-600" />
+                <span>Upload Report / Scan PDF</span>
+              </button>
+
+              <Link
+                href="/doctors/gynecologist/pune"
+                className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-emerald-300 hover:text-emerald-700 flex items-center gap-1 whitespace-nowrap shadow-2xs"
+              >
+                <Stethoscope className="w-3 h-3 text-emerald-600" />
+                <span>Pune OB-GYN Network</span>
+              </Link>
+            </div>
+
+            {/* Input Form */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                handleSendMessage()
+              }}
+              className="flex items-center gap-2"
+            >
+              <div className="flex-1 relative">
+                <input
+                  type="text"
+                  placeholder="Describe your symptoms (e.g. late period, severe cramps, PCOS acne, pregnancy scan query)..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  className="w-full px-4 py-3 rounded-2xl bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-rose-500 text-xs sm:text-sm placeholder:text-slate-400 shadow-2xs"
+                />
+              </div>
+
               <button
                 type="button"
                 onClick={toggleListening}
-                className={`p-2.5 sm:p-3 rounded-2xl transition-all flex-shrink-0 ${
+                className={`p-3 rounded-2xl border transition-colors ${
                   isListening
-                    ? 'bg-rose-600 text-white animate-pulse'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                    ? 'bg-rose-600 text-white animate-pulse border-rose-600'
+                    : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100'
                 }`}
-                title={isListening ? 'Listening... Speak now' : 'Speak into Microphone'}
+                title="Voice input"
               >
-                {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-teal-700" />}
+                {isListening ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
               </button>
 
-              {/* Send Button */}
               <button
                 type="submit"
                 disabled={!input.trim()}
-                className="p-2.5 sm:p-3 rounded-2xl bg-teal-700 hover:bg-teal-800 disabled:opacity-40 text-white transition-all shadow flex-shrink-0"
-                title="Send Message"
+                className="p-3 rounded-2xl bg-rose-600 hover:bg-rose-700 disabled:bg-slate-300 text-white font-bold transition-colors shadow-xs flex-shrink-0"
               >
                 <Send className="w-4 h-4" />
               </button>
             </form>
 
-            <div className="flex items-center justify-between text-3xs text-slate-500 px-1">
-              <span>🔒 100% HIPAA & ABDM Compliant · 24/7 Clinical Triage</span>
-              <span>Emergency? Call <strong>108 / 112</strong></span>
+            <div className="text-[10px] text-slate-400 text-center flex items-center justify-center gap-1.5">
+              <Shield className="w-3 h-3 text-emerald-600" />
+              <span>For informational and care navigation use. In emergencies, proceed to the nearest ER or call 108.</span>
             </div>
 
           </div>
@@ -376,7 +426,83 @@ export default function SymptomCheckerPage() {
 
       </div>
 
-      <PrescriptionScannerModal isOpen={rxScannerOpen} onClose={() => setRxScannerOpen(false)} />
+      {/* ── SET LMP & AGE MODAL ── */}
+      {lmpModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full border border-slate-200 shadow-2xl space-y-4 animate-scaleUp">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-rose-600" />
+                <h3 className="font-bold text-sm text-slate-950">Set Your LMP &amp; Age</h3>
+              </div>
+              <button
+                onClick={() => setLmpModalOpen(false)}
+                className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-600">
+              Sharing your Last Menstrual Period (LMP) helps Dr. Arya accurately calculate your ovulation windows, cycle regularity, and pregnancy milestones.
+            </p>
+
+            <form onSubmit={handleSaveLmpAndAge} className="space-y-3 text-xs">
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">
+                  First Day of Last Menstrual Period (LMP):
+                </label>
+                <input
+                  type="date"
+                  value={inputLmp}
+                  onChange={(e) => setInputLmp(e.target.value)}
+                  className="w-full p-2.5 rounded-xl border border-slate-200 font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">
+                  Approximate Age (Optional):
+                </label>
+                <input
+                  type="number"
+                  placeholder="e.g. 24"
+                  min="12"
+                  max="95"
+                  value={inputAge || ''}
+                  onChange={(e) => setInputAge(Number(e.target.value))}
+                  className="w-full p-2.5 rounded-xl border border-slate-200 font-medium"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setLmpModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-xs"
+                >
+                  Save &amp; Continue
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Prescription Scanner Modal */}
+      {rxScannerOpen && (
+        <PrescriptionScannerModal
+          isOpen={rxScannerOpen}
+          onClose={() => setRxScannerOpen(false)}
+        />
+      )}
+
     </div>
   )
 }

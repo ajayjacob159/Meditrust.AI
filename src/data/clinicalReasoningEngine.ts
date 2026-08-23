@@ -1,265 +1,388 @@
+export interface UserHealthGraph {
+  age?: number
+  current_stage:
+    | 'Teen'
+    | 'Young_Woman'
+    | 'PCOS_Hormonal'
+    | 'Preventive'
+    | 'PreConception'
+    | 'Pregnancy'
+    | 'Postnatal'
+    | 'Mother_Family'
+    | 'MidLife'
+    | 'Menopause'
+    | 'Older_Woman'
+    | 'General'
+  LMP?: string
+  cycle_history: number[]
+  symptom_journal: string[]
+  reports: string[]
+  medications: string[]
+  pregnancy_week?: number
+  edd?: string
+  family_members: string[]
+  language: 'en' | 'hi' | 'mr'
+}
+
 export interface ClinicalResponse {
   text: string
   department: string
   chips: string[]
   isEmergency?: boolean
   audioSnippet?: string
+  stageDetected?: string
+  toolActionRecommended?: 'cycle_tracker' | 'symptom_journal' | 'report_organizer' | 'reminder_engine' | 'edd_calculator'
 }
 
-export function evaluateClinicalQuery(query: string, language: string = 'mr-IN'): ClinicalResponse {
+export function evaluateClinicalQuery(
+  query: string,
+  userGraphOrLang?: Partial<UserHealthGraph> | string,
+  languageParam: string = 'en'
+): ClinicalResponse {
+  const userGraph: Partial<UserHealthGraph> | undefined =
+    typeof userGraphOrLang === 'object' ? userGraphOrLang : undefined
+  const language: string =
+    typeof userGraphOrLang === 'string' ? userGraphOrLang : languageParam
+
   const lower = query.toLowerCase().trim()
 
-  // 1. Critical Red Flag Emergencies
-  if (
-    lower.includes('chest') || lower.includes('heart attack') || lower.includes('breath') ||
-    lower.includes('stroke') || lower.includes('unconscious') || lower.includes('bleeding') ||
-    lower.includes('छातीत दुखणे') || lower.includes('दम लागणे') || lower.includes('सीने में दर्द') ||
-    lower.includes('सांस लेने में तकलीफ') || lower.includes('heart')
-  ) {
+  // ── STEP 1: CRITICAL RED FLAG CHECK ──
+  const isRedFlag =
+    lower.includes('soaking') ||
+    (lower.includes('pad') && (lower.includes('hour') || lower.includes('heavy'))) ||
+    lower.includes('faint') ||
+    lower.includes('unconscious') ||
+    (lower.includes('pregnancy') && (lower.includes('bleed') || lower.includes('spotting') || lower.includes('no movement'))) ||
+    (lower.includes('severe') && (lower.includes('abdominal') || lower.includes('pelvic') || lower.includes('headache') || lower.includes('chest'))) ||
+    lower.includes('suicide') ||
+    lower.includes('harm myself') ||
+    lower.includes('खूप रक्तस्राव') ||
+    lower.includes('अतिशय पोटदुखी') ||
+    lower.includes('बेहोश') ||
+    lower.includes('भारी रक्तस्राव')
+
+  if (isRedFlag) {
     return {
       isEmergency: true,
-      department: 'Cardiology & Emergency Triage',
-      text: `🚨 **URGENT MEDICAL EMERGENCY TRIAGE:**
+      department: '🚨 Emergency Clinical Triage',
+      stageDetected: 'Emergency',
+      text: `🚨 **URGENT: This needs immediate medical attention.**
+Please contact your doctor, proceed to the nearest hospital emergency room (such as Ruby Hall Clinic or Sahyadri Hospital in Pune), or call **108 / 112** right now.
 
-Acute chest tightness, radiating left arm pain, or severe breathing distress requires immediate clinical intervention.
+• **Immediate Emergency Steps:**
+  - If bleeding heavily (> 1 pad per hour) or feeling dizzy: Lie down with legs elevated and do not take unprescribed NSAIDs.
+  - If pregnant with bleeding, sudden swelling, or severe headache: Request immediate OB-GYN emergency triage.
+  - Emergency Meditrust Helpline: **+91 7028025717**.
 
-• **Emergency Action:** Dial **108 (National Ambulance)** or **112 (National Emergency)** immediately.
-• **Priority Hospital Fast-Track:** We have notified the Emergency TPA Desk at **Ruby Hall Clinic (Cath Lab Desk)** & **Sahyadri Super Speciality Hospital (Deccan)** for zero-wait emergency admission.
-• **Immediate Meditrust Help:** Call our emergency desk at **+91 7028025717**.`,
-      chips: ['Call 108 Ambulance', 'Ruby Hall Emergency Desk', 'Sahyadri Deccan Emergency', 'Call +91 7028025717'],
-      audioSnippet: 'Urgent medical alert. Please call 108 or proceed to the nearest emergency room immediately.',
+*This is for information only and does not replace emergency medical care from a licensed doctor.*`,
+      chips: ['📞 Call 108 Ambulance', '🏥 Ruby Hall Emergency Desk', '🏥 Sahyadri Emergency Desk', '📞 Meditrust Desk: +91 7028025717'],
+      audioSnippet: 'Urgent medical alert. Please seek immediate hospital emergency care or dial 108.',
     }
   }
 
-  // 2. Acidity, Heartburn, GERD, Gas, Stomach Pain
+  // ── STEP 2: STAGE 1 — TEEN (13–19, First Period, Shame to ask, Normal cycle) ──
   if (
-    lower.includes('acid') || lower.includes('gerd') || lower.includes('gas') ||
-    lower.includes('stomach') || lower.includes('heartburn') || lower.includes('bloat') ||
-    lower.includes('पित्त') || lower.includes('पोटदुखी') || lower.includes('जळजळ') ||
-    lower.includes('पेट में जलन') || lower.includes('एसिडिटी')
+    lower.includes('teen') || lower.includes('first period') || lower.includes('is my period normal') ||
+    lower.includes('14 years') || lower.includes('15 years') || lower.includes('16 years') || lower.includes('17 years') ||
+    lower.includes('school') || lower.includes('scared') || lower.includes('shame') || lower.includes('पहिला महिना') ||
+    (lower.includes('period') && (lower.includes('first time') || lower.includes('new to this')))
   ) {
     return {
-      department: 'Gastroenterology & Gut Health',
-      text: `🩺 **Dr. Arya Clinical Assessment (Gastroenterology):**
-Your symptoms indicate active acid reflux (GERD) or gastric mucosal irritation.
+      department: 'Dr. Arya Adolescent & Teen Health',
+      stageDetected: 'Teen Health',
+      toolActionRecommended: 'cycle_tracker',
+      text: `🌸 **I understand it can feel confusing or overwhelming at first. Please know this is completely private between us.**
 
-• **Jan Aushadhi Generic Match:** Pantoprazole 40mg + Domperidone 30mg SR (**Pan-D generic is ₹45 on Jan Aushadhi** vs ₹199 branded — **save 77%**).
-• **Immediate Home Care:** Drink cold milk or fresh tender coconut water; avoid oily/spicy foods, caffeine, and lying down within 2 hours of eating.
-• **Recommended Diagnostics:** H. Pylori Antibody & Liver Function Panel (60-min home pickup in Pune/PCMC).
-• **मराठी सल्ला:** सकाळी रिकाम्या पोटी कोमट पाणी प्या आणि रात्रीचे जेवण झोपण्यापूर्वी २ तास आधी घ्या.`,
-      chips: ['Compare Pan-D Generic (₹45)', 'Book LFT & Stomach Panel (₹349)', 'Diet for Acidity Relief', 'Jan Aushadhi Store Nigdi'],
-      audioSnippet: 'Your symptoms match acid reflux. Pantoprazole with Domperidone generic on Jan Aushadhi provides 77% savings.',
+• **What could be happening:**
+  - In the first 1–2 years after starting your periods (menarche), irregular cycles ranging from **21 to 35 days** with bleeding for **2 to 7 days** are entirely normal while your hormones mature.
+  - Mild lower abdominal cramping before or on Day 1 is very common due to natural uterine prostaglandins.
+
+• **What to do now:**
+  - Track the first day of each period on our private cycle tracker.
+  - Keep a warm water bag for cramps and eat iron-rich foods (dates, spinach, beetroot) to stay energetic.
+
+• **When to see a doctor:**
+  - If your period lasts longer than 7 days, skips for more than 45 days, or you feel constant dizziness/fatigue.
+  - *Questions to ask your doctor:* "Is my cycle timeline typical for my age?" and "Do I need a routine CBC test for hemoglobin?"
+
+*Want me to privately log your period start date or set an iron-rich nutrition reminder?*
+
+*This is for information only and does not replace medical advice from your doctor.*`,
+      chips: ['📅 Track Period Start Date', '🩸 Check Iron & Anemia Signs', '🌸 Period Cramp Relief Guide', '💬 Chat on WhatsApp'],
+      audioSnippet: 'This is completely normal and private between us. In the first two years, cycles between 21 and 35 days are expected.',
     }
   }
 
-  // 3. Women's Health, Periods, PCOS, PCOD, Pregnancy
+  // ── STEP 3: STAGE 6 — PREGNANCY (Positive Test, Weeks, Scans, Trimester) ──
   if (
-    lower.includes('pcos') || lower.includes('pcod') || lower.includes('period') ||
-    lower.includes('pregnancy') || lower.includes('cramp') || lower.includes('ovary') ||
-    lower.includes('पाळी') || lower.includes('गर्भ') || lower.includes('माहवारी') ||
-    lower.includes('मासिक धर्म') || lower.includes('uterus')
+    lower.includes('positive test') || lower.includes('pregnant') || lower.includes('pregnancy') ||
+    lower.includes('trimester') || lower.includes('nt scan') || lower.includes('anomaly scan') ||
+    lower.includes('gtt') || lower.includes('fetal') || lower.includes('kick count') ||
+    lower.includes('गर्भवती') || lower.includes('गर्भ') || lower.includes('हफ्ते')
+  ) {
+    // Check if LMP is mentioned or calculate standard
+    let lmpLine = 'Based on your pregnancy journey, early trimester care is all about maternal comfort and gentle fetal tracking.'
+    if (userGraph?.LMP) {
+      lmpLine = `Based on your LMP (${userGraph.LMP}), we can track your weekly fetal milestones and upcoming clinical ultrasound schedules.`
+    }
+
+    return {
+      department: 'Dr. Arya Pregnancy & Antenatal Care',
+      stageDetected: 'Pregnancy',
+      toolActionRecommended: 'edd_calculator',
+      text: `🌸 **Congratulations! I understand you want to ensure everything is progressing safely on track.**
+
+${lmpLine}
+
+• **Key Milestones to Understand:**
+  - **First Trimester (Weeks 1–12):** Dating ultrasound (6–8 weeks) to confirm cardiac activity, followed by the crucial **NT Scan + Dual Marker** (Weeks 11–13.6) for chromosomal health.
+  - **Second Trimester (Weeks 13–27):** **TIFFA Anomaly Scan** (Weeks 18–20) and **OGTT Glucose Screening** (Weeks 24–28) for gestational diabetes.
+
+• **What to do right now:**
+  - Take your daily **Folic Acid (400 mcg)** or prescribed prenatal vitamin to support neural tube development.
+  - Maintain gentle hydration (2.5L/day) and avoid unpasteurized foods or unprescribed medications.
+
+• **When to see your OB-GYN:**
+  - Schedule your initial antenatal booking visit this week.
+  - *Questions to ask your OB-GYN:* "Which prenatal vitamin regimen do you recommend?" and "When is my first NT ultrasound scheduled?"
+
+*Want me to calculate your Estimated Due Date (EDD) or organize your upcoming scan checklist?*
+
+*This is for information only and does not replace medical advice from your doctor.*`,
+      chips: ['📅 Calculate Due Date (EDD)', '📋 View Antenatal Scan Checklist', '💊 Folic Acid & Prenatal Guide', '👩‍⚕️ Consult OB-GYN in Pune'],
+      audioSnippet: 'Congratulations. We will track your weekly scans, NT ultrasound, and prenatal milestones step by step.',
+    }
+  }
+
+  // ── STEP 4: STAGE 5 — PRE-CONCEPTION (Planning Baby, Trying to Conceive) ──
+  if (
+    lower.includes('plan baby') || lower.includes('planning baby') || lower.includes('conceive') ||
+    lower.includes('trying for baby') || lower.includes('ovulation window') || lower.includes('folic acid') ||
+    lower.includes('गर्भधारणा') || lower.includes('गर्भधारण') || lower.includes('फर्टिलिटी')
   ) {
     return {
-      department: 'Gynaecology & Reproductive Health',
-      text: `🌸 **Dr. Arya Clinical Assessment (OB-GYN):**
-For irregular cycles, severe menstrual cramps, or PCOS hormonal imbalance:
+      department: 'Dr. Arya Pre-Conception & Fertility',
+      stageDetected: 'Pre-Conception',
+      toolActionRecommended: 'cycle_tracker',
+      text: `🌸 **Planning for a pregnancy is an exciting milestone, and taking proactive steps now gives your baby the healthiest start.**
 
-• **Jan Aushadhi Generic Match:** Myo-Inositol 2000mg + D-Chiro Inositol 50mg (**PMBJP generic is ₹65** vs ₹380 brand) — clinically proven to restore ovulatory regularity.
-• **Targeted Diagnostic Tests:** Meditrust PCOS & Hormone Profile (LH/FSH ratio, Total Testosterone, Thyroid TSH, Fasting Insulin) — ₹649 with 60-min doorstep collection in Pune/PCMC.
-• **Lifestyle Protocol:** 30 minutes of low-glycemic meal planning and cinnamon water naturally restores insulin sensitivity.
-• **मराठी सल्ला:** पीसीओएस ही अतिशय सामान्य समस्या आहे. योग्य इनॉसिटॉल सप्लिमेंट्स व नियमित व्यायामाने पाळी नियमित होते.`,
-      chips: ['Book PCOS Hormone Panel (₹649)', 'Compare Myo-Inositol Generics', 'Period Delay Guide', 'Consult Gynaecologist Ruby Hall'],
+• **Clinical Patterns to Understand:**
+  - Conception occurs during your **6-day fertile window** (the 5 days before ovulation and the day of ovulation itself).
+  - Optimizing pre-pregnancy maternal reserves (Thyroid TSH < 2.5 mIU/L, HbA1c < 5.7%, and Hemoglobin > 12 g/dL) significantly supports early implantation.
+
+• **What to do now:**
+  - Begin **Folic Acid 400 mcg daily** at least 1–3 months before conception to prevent neural tube defects.
+  - Track your last 3 menstrual cycles to pinpoint your estimated fertile window.
+  - Book a routine Preconception Blood Panel (TSH, Complete Blood Count, Rubella IgG, Blood Group).
+
+• **When to consult a fertility specialist:**
+  - If you have been actively trying for >12 months (or >6 months if age 35+), or have known irregular cycles.
+  - *Questions to ask your doctor:* "Is my TSH level optimized for conception?" and "Are all my pre-pregnancy immunity titers up to date?"
+
+*Want me to calculate your upcoming fertile window or set a daily Folic Acid reminder?*
+
+*This is for information only and does not replace medical advice from your doctor.*`,
+      chips: ['📅 Calculate Fertile Window', '📋 Preconception Lab Checklist', '💊 Folic Acid 400mcg Reminder', '👩‍⚕️ Fertility Specialist Pune'],
+      audioSnippet: 'Starting daily Folic Acid and optimizing your thyroid levels are key first steps in your conception journey.',
     }
   }
 
-  // 4. Diabetes, High Sugar, HbA1c
+  // ── STEP 5: STAGE 3 — PCOS / PCOD / HORMONAL (Irregular, Weight, Acne, Hair) ──
   if (
-    lower.includes('sugar') || lower.includes('diabetes') || lower.includes('hba1c') ||
-    lower.includes('glucose') || lower.includes('मधुमेह') || lower.includes('साखर') ||
-    lower.includes('डायबिटीज') || lower.includes('metformin')
+    lower.includes('pcos') || lower.includes('pcod') || lower.includes('irregular period') ||
+    lower.includes('hirsutism') || lower.includes('facial hair') || lower.includes('cystic acne') ||
+    lower.includes('insulin') || lower.includes('पीसीओएस') || lower.includes('माहवारी अनियमित') ||
+    lower.includes('पाळी उशिरा')
   ) {
     return {
-      department: 'Diabetology & Metabolic Care',
-      text: `🩺 **Dr. Arya Clinical Assessment (Diabetology):**
-Target Glycemic Thresholds: Fasting Glucose 80–110 mg/dL | Post-Meal < 140 mg/dL | HbA1c < 6.5%.
+      department: 'Dr. Arya PCOS & Hormonal Care',
+      stageDetected: 'PCOS / Hormonal',
+      toolActionRecommended: 'symptom_journal',
+      text: `🌸 **I hear you, and please know you are not alone. PCOS is a manageable metabolic condition, not your fault.**
 
-• **Prescription Price Match:** Metformin 500mg PR + Glimepiride 2mg (**Jan Aushadhi generic is ₹32** vs ₹128 brand Glycomet-GP — **save 75%**).
-• **Recommended Blood Test:** HbA1c (HPLC Gold Standard) + Fasting Blood Sugar + Serum Creatinine (₹349 with 60-min home pickup).
-• **Reversal Protocol:** 45 minutes of daily brisk aerobic walking + cutting refined wheat/sugar reduces HbA1c by 1.2% in 90 days.
-• **मराठी सल्ला:** जेवणानंतर दररोज १५ मिनिटे चालणे आणि मेथीदाण्याचे पाणी साखर नियंत्रणात ठेवण्यास मदत करते.`,
-      chips: ['Book HbA1c Diabetes Panel (₹349)', 'Compare Glycomet Prices', 'Diabetes Reversal Diet Plan', 'Jan Aushadhi Online Order'],
+• **What could be happening:**
+  - This pattern (delayed cycles, stubborn acne, central weight resistance) is often driven by **insulin resistance** and elevated ovarian androgens (LH/FSH imbalance).
+  - Follicles develop but may not release an egg regularly, leading to skipped cycles and delayed periods.
+
+• **What to do now:**
+  - Focus on a **low-glycemic, high-protein diet** paired with 30 minutes of daily resistance walking to restore insulin sensitivity.
+  - Discuss **Myo-Inositol + D-Chiro Inositol (40:1 ratio)** with your doctor (available on Jan Aushadhi generic saving up to 80%).
+  - Log your cycle length, skin changes, and weight in our symptom journal.
+
+• **When to see your Gynecologist:**
+  - For formal Rotterdam criteria confirmation with a Pelvic Ultrasound and Fasting Insulin + Hormone Panel.
+  - *Questions to ask your gynecologist:* "What is my LH/FSH ratio and fasting insulin score?" and "Would inositol or metabolic support be appropriate for my cycle regularity?"
+
+*Want me to log your symptoms in your health journal or organize your hormone lab reports?*
+
+*This is for information only and does not replace medical advice from your doctor.*`,
+      chips: ['📋 Take PCOS Self-Assessment', '🩸 Book PCOS Hormone Panel (₹649)', '💊 Myo-Inositol Generic Match', '👩‍⚕️ Gynecologist Desk Pune'],
+      audioSnippet: 'PCOS is very manageable with targeted metabolic nutrition, inositol therapy, and cycle tracking.',
     }
   }
 
-  // 5. Thyroid, High TSH, Fatigue, Weight Gain
+  // ── STEP 6: STAGE 7 — POSTNATAL (Delivery Recovery, Lochia, Breastfeeding, Mood) ──
   if (
-    lower.includes('thyroid') || lower.includes('tsh') || lower.includes('weight gain') ||
-    lower.includes('fatigue') || lower.includes('थायरॉईड') || lower.includes('थकवा') ||
-    lower.includes('थायराइड') || lower.includes('thyroxine')
+    lower.includes('postnatal') || lower.includes('postpartum') || lower.includes('after delivery') || lower.includes('बाळंतपण') ||
+    lower.includes('breastfeeding') || lower.includes('lochia') || lower.includes('milk supply') ||
+    lower.includes('post delivery') || lower.includes('c section recovery') || lower.includes('delivery bleeding')
   ) {
     return {
-      department: 'Endocrinology & Thyroid Health',
-      text: `🦋 **Dr. Arya Clinical Assessment (Endocrinology):**
-Elevated TSH (> 5.5 mIU/L) indicates Hypothyroidism, causing sluggish metabolism, morning fatigue, and fluid retention.
+      department: 'Dr. Arya Postnatal & Maternal Recovery',
+      stageDetected: 'Postnatal Recovery',
+      toolActionRecommended: 'symptom_journal',
+      text: `🌸 **Congratulations on your little one! Caring for a newborn is demanding, but your physical and emotional recovery matters just as much.**
 
-• **Jan Aushadhi Generic Match:** Thyroxine Sodium 50mcg / 100mcg (**Jan Aushadhi generic is ₹22** vs ₹145 brand Thyronorm — **save 84%**).
-• **Administration Rule:** Take strictly empty stomach with plain water 45 minutes before morning tea or food.
-• **Recommended Blood Test:** Thyroid Profile Total (T3, T4, TSH Ultrasensitive) for ₹299 (NABL certified).
-• **मराठी सल्ला:** दररोज नियमित थायरॉक्सीन गोळी रिकाम्या पोटी घ्या आणि कोथिंबीरच्या रसाचे सेवन करा.`,
-      chips: ['Book Thyroid Profile (₹299)', 'Compare Thyroxine Generics', 'Hypothyroidism Diet Guide', 'Consult Endocrinologist'],
+• **What to expect during recovery:**
+  - **Lochia Bleeding:** Changes from bright red (Days 1–4) to pinkish-brown (Days 5–10) to yellowish-white (Weeks 2–6). It should gradually lighten, not suddenly get heavier.
+  - **Emotional Well-being:** Mild "baby blues" (crying spells, fatigue) are common for 10–14 days. Persistent low mood or anxiety past 2 weeks deserves gentle, proactive support.
+
+• **What to do now:**
+  - Prioritize pelvic rest, high-fiber nutrition, and sitz baths for perineal comfort.
+  - For breastfeeding, ensure a deep asymmetrical latch to prevent nipple soreness.
+  - Schedule your formal **6-week postpartum review** with your obstetrician.
+
+• **When to see a doctor immediately:**
+  - If you soak a pad in under 1 hour, notice foul-smelling discharge, develop a fever (>100.4°F), or experience worsening calf swelling.
+  - *Questions to ask your doctor:* "Is my pelvic floor and incision healing on track?" and "When can I safely resume gentle core exercises?"
+
+*Want me to set a 6-week postnatal checkup reminder or track your recovery journal?*
+
+*This is for information only and does not replace medical advice from your doctor.*`,
+      chips: ['📅 Set 6-Week Postnatal Reminder', '🤱 Breastfeeding & Latch Guide', '🩸 Lochia Bleeding Tracker', '👩‍⚕️ Lactation Consultant Desk'],
+      audioSnippet: 'Your postnatal recovery matters just as much as baby care. Let us track your healing and 6-week review.',
     }
   }
 
-  // 6. Orthopaedics, Knee Pain, Back Pain, Joint Stiffness
+  // ── STEP 7: STAGE 9 & 10 — MID-LIFE & MENOPAUSE (35–50+, Hot Flashes, Bone Health) ──
   if (
-    lower.includes('knee') || lower.includes('joint') || lower.includes('bone') ||
-    lower.includes('back pain') || lower.includes('spondylosis') || lower.includes('arthritis') ||
-    lower.includes('सांधे') || lower.includes('गुडघे') || lower.includes('कंबरदुखी') ||
-    lower.includes('जोड़ों में दर्द') || lower.includes('calcium')
+    lower.includes('menopause') || lower.includes('perimenopause') || lower.includes('hot flash') ||
+    lower.includes('hot flush') || lower.includes('night sweat') || lower.includes('dexa') ||
+    lower.includes('osteoporosis') || lower.includes('45 years') || lower.includes('50 years') ||
+    lower.includes('रजोनिवृत्ति') || lower.includes('माहवारी बंद')
   ) {
     return {
-      department: 'Orthopaedics & Joint Care',
-      text: `🦴 **Dr. Arya Clinical Assessment (Orthopaedics):**
-Joint crepitus (clicking) and knee stiffness are primarily driven by severe Vitamin D3 deficiency (< 20 ng/mL) and mechanical load.
+      department: 'Dr. Arya Menopause & Mid-Life Health',
+      stageDetected: 'Perimenopause & Menopause',
+      toolActionRecommended: 'symptom_journal',
+      text: `🌸 **Mid-life transitions bring profound physiological shifts, and you deserve clear, empowering answers.**
 
-• **Jan Aushadhi Generic Match:**
-  - Cholecalciferol 60,000 IU weekly for 8 weeks (**Jan Aushadhi generic is ₹25** vs ₹110 brand).
-  - Calcium Carbonate 500mg + Vitamin D3 (**Shelcal generic is ₹28** vs ₹138 brand — **save 80%**).
-• **Physical Protocol:** Non-weight-bearing isometric quad strengthening (15 mins twice daily); avoid deep squatting.
-• **Recommended Blood Test:** Bone & Joint Vitality (Vitamin D3 + Calcium + Uric Acid) — ₹599 in Pune/PCMC.`,
-      chips: ['Book Vitamin D & Bone Panel (₹599)', 'Compare Shelcal Generics', 'Knee Exercise Checklist', 'Orthopaedic Surgeon Sahyadri'],
+• **What could be happening:**
+  - Fluctuating estrogen levels in perimenopause cause cycles to shorten or skip, alongside vasomotor hot flushes, sleep disruption, and mood changes.
+  - Natural menopause is clinically defined after **12 consecutive months without a period** (average age 46–47 in Indian women).
+  - Reduced estrogen accelerates bone mineral loss and alters lipid profiles.
+
+• **What to do now:**
+  - Support bone density with **Calcium 1000mg + Vitamin D3 (60,000 IU monthly)** and weight-bearing exercises.
+  - Dress in breathable cotton layers and keep a cooling bedtime routine for hot flushes.
+  - Track hot flush frequency and sleep quality in your symptom journal.
+
+• **When to see a doctor:**
+  - If you experience post-menopausal bleeding (any spotting after 1 year of no periods requires prompt evaluation).
+  - Discuss a baseline **DEXA Bone Density Scan** and Lipid profile.
+  - *Questions to ask your doctor:* "Do I need a DEXA bone density scan?" and "What are the evidence-based lifestyle or non-hormonal options for my hot flashes?"
+
+*Want me to log your hot flushes or remind you about bone vitality tests?*
+
+*This is for information only and does not replace medical advice from your doctor.*`,
+      chips: ['🦴 Book DEXA & Bone Vitality Panel', '🌸 Hot Flush Symptom Journal', '💊 Calcium & D3 Generic Match', '👩‍⚕️ Menopause Specialist Pune'],
+      audioSnippet: 'Perimenopause and menopause are natural chapters. We will support your bone vitality and hormonal comfort.',
     }
   }
 
-  // 7. Migraine, Headache, Brain, Nerves
+  // ── STEP 8: STAGE 4 — PREVENTIVE CARE & SCREENING (Pap, Mammogram, HPV, Checkups) ──
   if (
-    lower.includes('migraine') || lower.includes('headache') || lower.includes('dizziness') ||
-    lower.includes('डोकेदुखी') || lower.includes('चक्कर') || lower.includes('सिरदर्द')
+    lower.includes('checkup') || lower.includes('pap smear') || lower.includes('mammogram') ||
+    lower.includes('hpv') || lower.includes('screening') || lower.includes('breast exam') ||
+    lower.includes('कॅन्सर तपासणी') || lower.includes('स्क्रीनिंग')
   ) {
     return {
-      department: 'Neurology & Headache Clinic',
-      text: `🧠 **Dr. Arya Clinical Assessment (Neurology):**
-Unilateral throbbing headache with light sensitivity or nausea indicates acute Migraine with vascular inflammation.
+      department: 'Dr. Arya Preventive Women’s Care',
+      stageDetected: 'Preventive Health',
+      toolActionRecommended: 'reminder_engine',
+      text: `🌸 **Preventive screening is the most powerful investment you can make in your lifelong health.**
 
-• **Jan Aushadhi Generic Match:** Naproxen 500mg + Domperidone 10mg (**Jan Aushadhi generic is ₹35** vs ₹160 brand Naprosyn-D).
-• **Immediate Relief:** Rest in a dark, quiet room with cold compress on forehead; drink 500ml electrolyte water.
-• **Warning Sign:** Sudden "thunderclap" headache or accompanied by facial droop requires emergency evaluation (**dial 108**).
-• **मराठी सल्ला:** डोकेदुखीच्या वेळी शांत, अंधाऱ्या खोलीत विश्रांती घ्या आणि हायड्रेशन कायम ठेवा.`,
-      chips: ['Compare Migraine Generics', 'Book Neuro-Metabolic Panel', 'Migraine Trigger Tracker', 'Ruby Hall Neurology Desk'],
+• **Age-Based Clinical Screening Guidelines:**
+  - **Age 21–29:** Cervical Pap Smear every 3 years.
+  - **Age 30–65:** Pap Smear + HPV DNA co-testing every 5 years (Gold Standard for cervical cancer prevention).
+  - **Age 25+:** Monthly Breast Self-Examination (BSE) 5–7 days after your period ends.
+  - **Age 40+:** Annual or biennial screening Mammogram and Bone Density (DEXA) evaluation.
+  - **Annual Labs:** CBC (Hemoglobin), Thyroid TSH, Fasting Blood Sugar, and Vitamin D3/B12.
+
+• **What to do now:**
+  - Check when your last Pap smear or comprehensive blood panel was performed.
+  - Practice your monthly breast self-exam following our step-by-step visual guide.
+
+• **When to see a doctor:**
+  - For your routine annual well-woman examination, or immediately if you notice a discrete breast lump or unusual discharge.
+  - *Questions to ask your doctor:* "Is my cervical screening up to date?" and "Which preventive blood panels do you recommend this year?"
+
+*Want me to set an annual preventive reminder or organize your previous test reports?*
+
+*This is for information only and does not replace medical advice from your doctor.*`,
+      chips: ['📅 Set Annual Screening Reminder', '📋 Pap Smear & HPV Guide', '🎗️ Breast Self-Exam Steps', '🩸 Book Preventive Health Panel'],
+      audioSnippet: 'Preventive Pap smears and annual checkups ensure early detection and lifelong peace of mind.',
     }
   }
 
-  // 8. Fever, Dengue, Malaria, Cold, Cough, Infection
+  // ── STEP 9: GYNECOLOGICAL CONDITIONS (Endometriosis, Fibroids, Pelvic Pain) ──
   if (
-    lower.includes('fever') || lower.includes('cold') || lower.includes('cough') ||
-    lower.includes('dengue') || lower.includes('malaria') || lower.includes('infection') ||
-    lower.includes('ताप') || lower.includes('सर्दी') || lower.includes('खोकला') ||
-    lower.includes('बुखार') || lower.includes('खांसी')
+    lower.includes('endometriosis') || lower.includes('fibroid') || lower.includes('cyst') ||
+    lower.includes('pelvic pain') || lower.includes('painful period') || lower.includes('dysmenorrhea') ||
+    lower.includes('पोटात गाठ') || lower.includes('कंबरदुखी')
   ) {
     return {
-      department: 'Internal Medicine & Infections',
-      text: `🌡️ **Dr. Arya Clinical Assessment (General Medicine):**
-For acute fever, shivering, body ache, and viral cough/cold:
+      department: 'Dr. Arya Gynecological Conditions',
+      stageDetected: 'Gynecological Conditions',
+      toolActionRecommended: 'symptom_journal',
+      text: `🌸 **Debilitating period pain is not something you have to silently endure. Your pain is valid.**
 
-• **Jan Aushadhi Generic Match:** Paracetamol 650mg SOS (**Jan Aushadhi generic is ₹12 per strip** vs ₹35 brand Dolo-650).
-• **Hydration Protocol:** Maintain > 2.5L fluid intake (ORS, tender coconut water, warm vegetable broth).
-• **Critical Test:** If fever exceeds 101°F or lasts > 48 hours, book a Complete Blood Count (CBC + Platelets + Dengue NS1) for ₹199 (60-min Pune pickup).
-• **मराठी सल्ला:** तापामध्ये विश्रांती घ्या आणि प्लेटलेट्स तपासण्यासाठी सीबीसी चाचणी वेळेवर करा.`,
-      chips: ['Book CBC & Platelet Test (₹199)', 'Compare Dolo-650 Generics', 'Dengue Warning Signs', 'Call Doctor Desk (+91 7028025717)'],
+• **What could be happening:**
+  - Severe cyclic pelvic pain, pain during intercourse (dyspareunia), or pain during bowel movements can indicate **Endometriosis** (endometrial-like tissue growing outside the uterus) or **Adenomyosis**.
+  - Heavy bleeding with pelvic fullness or pressure is frequently associated with benign **Uterine Fibroids** or functional ovarian cysts.
+
+• **What to do now:**
+  - Track your pain severity (1–10 scale), timing relative to your cycle, and medication response in our symptom journal.
+  - Apply warm heat therapy and discuss targeted anti-inflammatory options with your doctor.
+
+• **When to see your Gynecologist:**
+  - For a high-resolution Pelvic Ultrasound or pelvic MRI to evaluate uterine tissue and ovarian endometriomas.
+  - *Questions to ask your gynecologist:* "Could my pain pattern suggest endometriosis or adenomyosis?" and "What diagnostic imaging or medical therapies do you recommend?"
+
+*Want me to log your pain patterns in your symptom journal to show your doctor?*
+
+*This is for information only and does not replace medical advice from your doctor.*`,
+      chips: ['📝 Log Pain in Symptom Journal', '📋 Endometriosis 4-Ds Guide', '🩸 Book Pelvic Ultrasound Desk', '👩‍⚕️ Endometriosis Specialist Pune'],
+      audioSnippet: 'Severe period pain is not normal. We can track your symptoms and connect you with a specialist.',
     }
   }
 
-  // 9. Kidney, Creatinine, Urine Infection, UTI
-  if (
-    lower.includes('creatinine') || lower.includes('kidney') || lower.includes('uti') ||
-    lower.includes('urine') || lower.includes('किडनी') || lower.includes('मूत्र') ||
-    lower.includes('पेशाब')
-  ) {
-    return {
-      department: 'Nephrology & Renal Health',
-      text: `💧 **Dr. Arya Clinical Assessment (Nephrology):**
-Normal Serum Creatinine: 0.6 – 1.2 mg/dL. Elevated creatinine or burning urination indicates renal strain or acute urinary tract infection (UTI).
-
-• **Jan Aushadhi Generic Match:** Nitrofurantoin 100mg SR for UTI (**Jan Aushadhi generic is ₹48** vs ₹210 brand).
-• **Diagnostic Test:** Kidney Function Test (KFT - Urea, Creatinine, Uric Acid, Electrolytes) + Urine Culture (₹349 via Meditrust Direct).
-• **Action:** Maintain strict hydration (> 3 Liters daily) and strictly avoid OTC painkiller NSAIDs (like Ibuprofen).`,
-      chips: ['Book Kidney Function Panel (₹349)', 'Compare UTI Generics', 'Uric Acid Diet Guide', 'Nephrologist Consultation'],
-    }
-  }
-
-  // 10. Hair Fall, Dermatology, Skin, Fungal Infection, Acne
-  if (
-    lower.includes('hair') || lower.includes('skin') || lower.includes('acne') ||
-    lower.includes('fungal') || lower.includes('rash') || lower.includes('itch') ||
-    lower.includes('केस') || lower.includes('त्वचा') || lower.includes('बाल झड़ना')
-  ) {
-    return {
-      department: 'Dermatology & Trichology',
-      text: `✨ **Dr. Arya Clinical Assessment (Dermatology):**
-Diffuse hair shedding and skin irritation are frequently linked to Serum Ferritin < 30 ng/mL, Thyroid dysfunction, or fungal dermatophytes.
-
-• **Jan Aushadhi Generic Match:**
-  - Minoxidil 5% Topical Solution for hair regrowth (**₹140 generic** vs ₹750 brand).
-  - Luliconazole 1% Cream for fungal ringworm/itching (**₹45 generic** vs ₹190 brand — **save 76%**).
-• **Recommended Test:** Hair & Scalp Vitality Panel (Ferritin + Vitamin D3 + TSH) — ₹699.
-• **मराठी सल्ला:** केसांसाठी लोहयुक्त आहार (पालक, बीट, खजूर) घ्यावा आणि योग्य अँटी-फंगल क्रीम वापरावी.`,
-      chips: ['Book Hair Vitality Panel (₹699)', 'Compare Minoxidil Generics', 'Fungal Infection Protocol', 'Skin Specialist in Pune'],
-    }
-  }
-
-  // 11. Cholesterol, Blood Pressure, Hypertension
-  if (
-    lower.includes('cholesterol') || lower.includes('bp') || lower.includes('blood pressure') ||
-    lower.includes('lipid') || lower.includes('triglyceride') || lower.includes('रक्तदाब')
-  ) {
-    return {
-      department: 'Preventive Cardiology & Lipids',
-      text: `❤️ **Dr. Arya Clinical Assessment (Cardiology):**
-Target Lipid Thresholds: Total Cholesterol < 200 mg/dL | LDL < 100 mg/dL | Blood Pressure < 120/80 mmHg.
-
-• **Jan Aushadhi Generic Match:**
-  - Rosuvastatin 10mg (**Jan Aushadhi generic is ₹48** vs ₹245 brand Rosuvas — **save 80%**).
-  - Telmisartan 40mg (**Jan Aushadhi generic is ₹24** vs ₹112 brand Telma-40 — **save 79%**).
-• **Recommended Test:** Comprehensive Lipid Profile + hs-CRP + Fasting Sugar (₹349 with 60-min home collection).
-• **मराठी सल्ला:** आहारातील तेल व मीठ कमी करा आणि दररोज ४५ मिनिटे वेगाने चाला.`,
-      chips: ['Book Lipid Profile Panel (₹349)', 'Compare Telma-40 Generics', 'Heart Healthy Diet Plan', 'Ruby Hall Cardiology Desk'],
-    }
-  }
-
-  // 12. Local Pune / PCMC / Nigdi / Booking Assistance
-  if (
-    lower.includes('pune') || lower.includes('nigdi') || lower.includes('pcmc') ||
-    lower.includes('kothrud') || lower.includes('baner') || lower.includes('hinjewadi') ||
-    lower.includes('ruby hall') || lower.includes('sahyadri') || lower.includes('jan aushadhi')
-  ) {
-    return {
-      department: 'Pune & PCMC Clinical Logistics',
-      text: `📍 **Meditrust Local Pune & PCMC Concierge:**
-Our registered hub is located at **Walhekar Heights, Nigdi, Pimpri-Chinchwad, Pune 411033**.
-
-• **60-Minute Phlebotomist Dispatch:** Guaranteed doorstep blood sample pickup across Nigdi, Kothrud, Baner, Wakad, Hinjewadi, Viman Nagar, and Camp.
-• **Hospital VIP Fast-Track:** Direct priority admission desks at **Ruby Hall Clinic** & **Sahyadri Super Speciality Hospital** under PM-JAY & MJPJAY schemes.
-• **Jan Aushadhi Delivery:** Doorstep delivery of generic medications across Pune with up to 80% discount.
-• **Direct Assistance:** Call our care desk at **+91 7028025717**.`,
-      chips: ['Book 60-Min Blood Pickup (₹999)', 'Order Generic Medicines (80% OFF)', 'Hospital VIP Admission', 'Call Hotline: +91 7028025717'],
-    }
-  }
-
-  // 13. Dynamic General Clinical Reasoning Engine
+  // ── STEP 10: GENERAL & INTEGRATED CLINICAL AI FALLBACK ──
   return {
-    department: 'Multi-Specialty Clinical AI',
-    text: `🩺 **Dr. Arya Clinical Reasoning:**
-I have evaluated your query across clinical pharmacology and diagnostic protocols.
+    department: 'Dr. Arya Women’s Health Companion',
+    stageDetected: 'General Women’s Health',
+    toolActionRecommended: 'cycle_tracker',
+    text: `🌸 **I am Dr. Arya, your dedicated women's health companion. I am here to help you navigate your health with clarity and confidence.**
 
-• **Evidence-Based Care Model:** Over 60% of primary medical issues can be resolved from home with verified generic medicines (saving up to 80%) and targeted laboratory tests.
-• **60-Minute Doorstep Blood Collection:** If you need diagnostic validation, our certified phlebotomist arrives at your home within 60 minutes across Pune & PCMC.
-• **Jan Aushadhi Medicine Savings:** Compare your prescription against government-certified PMBJP generics to save 50%–90%.
-• **Consult with Us Directly:** Speak with our medical team anytime at **+91 7028025717**.`,
+• **How I can support you today:**
+  - Understand your menstrual cycle, period symptoms, or hormonal balance.
+  - Calculate your **ovulation fertile window** or **pregnancy due date milestones**.
+  - Evaluate symptoms related to PCOS, pelvic pain, thyroid health, or menopause.
+  - Translate your laboratory test reports or ultrasounds into plain language.
+
+• **What to share to get personalized answers:**
+  - What specific symptoms are you noticing?
+  - Your approximate age and the date of your **last menstrual period (LMP)**.
+
+*What is on your mind or what would you like to explore today?*
+
+*This is for information only and does not replace medical advice from your doctor.*`,
     chips: [
-      '🩸 Book Full Body Blood Test (₹999)',
-      '💊 Compare My Medicines (Save 80%)',
-      '📄 Upload Prescription / Lab PDF',
-      '📞 Call Doctor Desk: +91 7028025717',
+      '🌸 PCOS / PCOD Assessment',
+      '📅 Track Period & Ovulation',
+      '🤰 Pregnancy Trimester Care',
+      '🩸 Book 60-Min Home Blood Test',
     ],
+    audioSnippet: 'I am Dr. Arya. Tell me about your symptoms or current health stage so I can guide you.',
   }
 }
