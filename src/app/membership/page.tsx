@@ -4,18 +4,8 @@ import SakhiMembershipPlans from '@/components/pricing/SakhiMembershipPlans'
 export const metadata: Metadata = {
   title: 'Sakhi Membership Plans — AI Health & Women’s Care by Meditrust AI',
   description: 'One Woman. Many Life Stages. One Membership. Join Sakhi by Meditrust AI for 24/7 AI Doctor in Marathi, Hindi & English, 80% Jan Aushadhi generic savings, and 13 Pune labs comparison.',
-  keywords: [
-    'Sakhi membership',
-    'Meditrust AI pricing',
-    'womens health membership India',
-    'Dr Arya AI doctor Marathi',
-    'PCOS screening kit',
-    'Jan Aushadhi generic medicine savings',
-    'Pune blood test lab compare',
-    'Sakhi Plus 999 plan'
-  ]
 }
 
-export default function PricingPage() {
+export default function MembershipPage() {
   return <SakhiMembershipPlans />
 }
