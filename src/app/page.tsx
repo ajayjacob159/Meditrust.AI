@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import LabReportExplainerModal from '@/components/common/LabReportExplainerModal'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
+import GenZWomenVibeCard from '@/components/common/GenZWomenVibeCard'
 
 const PROBLEM_CARDS = [
   {
@@ -433,6 +434,9 @@ export default function HomePage() {
 
             </div>
           </div>
+
+          {/* ── CHIC WOMEN & GEN-Z CARE VIBE HUB (1-TAP SHARE & SYMPTOM CHECKS) ── */}
+          <GenZWomenVibeCard />
 
           {/* 7 Connected Life Stages Visual Flow */}
           <div className="space-y-4">

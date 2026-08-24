@@ -35,13 +35,14 @@ interface ClientContact {
 }
 
 const QUICK_SUGGESTIONS = [
-  '🌸 Late Period / Delayed Cycle',
-  '🤰 Am I Pregnant? (Early Signs)',
-  '🩺 PCOS Acne & Weight Plan',
-  '🩸 Is My Period Normal? (Teen)',
-  '🤱 Postpartum Recovery & Bleeding',
-  '🌸 Hot Flashes & Perimenopause',
-  '🎗️ Period Cramps vs Endometriosis',
+  '🌸 Late Period / Delayed Cycle (PCOS?)',
+  '🍫 Pre-Period Sugar Cravings & Mood Swings',
+  '✨ Jawline Acne & Hormonal Breakouts',
+  '⚡ Constant Fatigue & Hair Shedding (Ferritin)',
+  '🩸 Severe Period Cramps (Is it Endometriosis?)',
+  '🤰 Am I Pregnant? (Early Signs & Test Timing)',
+  '🤱 Postpartum Recovery & Bleeding Support',
+  '🦋 Sudden Anxiety Before Periods (PMDD Triage)',
   '💊 Compare Generic Medicine (80% OFF)',
 ]
 

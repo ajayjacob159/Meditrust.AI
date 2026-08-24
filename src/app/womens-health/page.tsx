@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { WOMENS_HEALTH_ARTICLES } from '@/data/womensHealthArticles'
 import WomensHealthPictorialInfographics from '@/components/womens-health/WomensHealthPictorialInfographics'
+import GenZWomenVibeCard from '@/components/common/GenZWomenVibeCard'
 
 export default function WomensHealthPage() {
   const [activeToolTab, setActiveToolTab] = useState<'ovulation' | 'pregnancy' | 'pcos'>('ovulation')
@@ -272,6 +273,13 @@ export default function WomensHealthPage() {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* ── 1.5 CHIC WOMEN & GEN-Z CARE VIBE HUB (1-TAP SHARE & SYMPTOM CHECKS) ── */}
+      <section className="py-6 bg-slate-50">
+        <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8">
+          <GenZWomenVibeCard />
         </div>
       </section>
 
