@@ -103,6 +103,7 @@ const TESTIMONIALS = [
 export default function HomePage() {
   const [reportModalOpen, setReportModalOpen] = useState(false)
   const [rxScannerOpen, setRxScannerOpen] = useState(false)
+  const [posterModalOpen, setPosterModalOpen] = useState(false)
   const [activeFaq, setActiveFaq] = useState<number | null>(0)
   const [chatInput, setChatInput] = useState('')
 
@@ -319,6 +320,117 @@ export default function HomePage() {
               <span className="inline-block text-xs sm:text-sm font-bold uppercase tracking-widest text-slate-900 bg-slate-100 px-4 py-2 rounded-xl border border-slate-200">
                 ✨ One Woman. Many Life Stages. One Connected Healthcare Journey.
               </span>
+            </div>
+          </div>
+
+          {/* ── HIGHLIGHTED NATIONAL POSTER SHOWCASE CARD ── */}
+          <div className="relative group">
+            {/* Multi-color ambient aura */}
+            <div className="absolute -inset-1.5 bg-gradient-to-r from-rose-500 via-pink-500 to-teal-500 rounded-3xl sm:rounded-[36px] blur-xl opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-300 pointer-events-none" />
+            
+            <div className="relative bg-white rounded-3xl sm:rounded-[32px] p-4 sm:p-8 border border-rose-200 shadow-2xl overflow-hidden space-y-6">
+              
+              {/* Top Banner Tag */}
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-rose-500 animate-ping" />
+                  <span className="text-xs font-black uppercase tracking-wider text-rose-900 bg-rose-100/90 px-3 py-1 rounded-full border border-rose-200">
+                    ⭐ HIGHLIGHTED POSTER · NATIONAL HEALTH DEMOGRAPHICS (2025 → 2036)
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setPosterModalOpen(true)}
+                    className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+                  >
+                    <span>🔍 Click to Zoom / View Fullscreen</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Poster Image Frame */}
+              <div
+                onClick={() => setPosterModalOpen(true)}
+                className="relative rounded-2xl overflow-hidden cursor-zoom-in bg-slate-950 border border-slate-200/80 shadow-lg group/img"
+              >
+                <img
+                  src="/india_female_population_statistics_poster.webp"
+                  alt="India's Female Population Statistics 2025 to 2036 - Meditrust AI"
+                  className="w-full h-auto object-cover group-hover/img:scale-[1.015] transition-transform duration-500"
+                />
+                
+                {/* Floating Zoom Badge */}
+                <div className="absolute top-4 right-4 bg-slate-950/80 backdrop-blur-md text-white text-xs font-bold px-3.5 py-1.5 rounded-full border border-white/20 shadow-md flex items-center gap-1.5 opacity-90 group-hover/img:opacity-100 transition-opacity">
+                  <span>✨ Tap to Enlarge Poster</span>
+                </div>
+              </div>
+
+              {/* Key Quantitative Takeaways Bar */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-2">
+                <div className="p-3.5 rounded-2xl bg-rose-50/70 border border-rose-200 text-center space-y-0.5">
+                  <span className="text-lg sm:text-xl font-black text-rose-950 block">709M</span>
+                  <span className="text-3xs font-semibold text-rose-800">Females in 2025</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 text-center space-y-0.5">
+                  <span className="text-lg sm:text-xl font-black text-amber-950 block">735M</span>
+                  <span className="text-3xs font-semibold text-amber-800">By 2030 Proj.</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-teal-50/70 border border-teal-200 text-center space-y-0.5">
+                  <span className="text-lg sm:text-xl font-black text-teal-950 block">742.7M</span>
+                  <span className="text-3xs font-semibold text-teal-800">By 2036 (48.8%)</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-purple-50/70 border border-purple-200 text-center space-y-0.5">
+                  <span className="text-lg sm:text-xl font-black text-purple-950 block">400M</span>
+                  <span className="text-3xs font-semibold text-purple-800">Women 45+ Today</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200 text-center space-y-0.5">
+                  <span className="text-lg sm:text-xl font-black text-indigo-950 block">130M</span>
+                  <span className="text-3xs font-semibold text-indigo-800">Menopause by 2030</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 text-center space-y-0.5">
+                  <span className="text-lg sm:text-xl font-black text-blue-950 block">195M</span>
+                  <span className="text-3xs font-semibold text-blue-800">60+ Elders by 2030</span>
+                </div>
+              </div>
+
+              {/* Action Buttons Hub */}
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <Link
+                    href="/womens-health"
+                    className="px-5 py-3 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm shadow-md transition-colors flex items-center gap-2"
+                  >
+                    <span>🌸 Women&apos;s Health Master Portal</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+
+                  <Link
+                    href="/womens-health/blood-tests"
+                    className="px-5 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm shadow-md transition-colors flex items-center gap-2"
+                  >
+                    <span>🩸 35+ Women&apos;s Blood Tests Directory</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+
+                  <Link
+                    href="/reports/womens-health-india-2026"
+                    className="px-4 py-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs sm:text-sm transition-colors border border-slate-200"
+                  >
+                    <span>📊 Read Full National Report</span>
+                  </Link>
+                </div>
+
+                <a
+                  href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20saw%20the%20Women%27s%20Health%20Statistics%20poster%20and%20want%20to%20consult%20with%20you"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-5 py-3 rounded-full bg-[#008069] hover:bg-[#006e5a] text-white font-bold text-xs sm:text-sm shadow-md transition-colors flex items-center gap-2"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Discuss with Dr. Arya AI</span>
+                </a>
+              </div>
+
             </div>
           </div>
 
@@ -1120,6 +1232,65 @@ export default function HomePage() {
         isOpen={rxScannerOpen}
         onClose={() => setRxScannerOpen(false)}
       />
+
+      {/* Fullscreen Poster Lightbox Modal */}
+      {posterModalOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn"
+          onClick={() => setPosterModalOpen(false)}
+        >
+          <div
+            className="relative max-w-5xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-white/20 p-2 sm:p-4 animate-scaleUp max-h-[95vh] flex flex-col justify-between"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between p-3 border-b border-slate-100">
+              <span className="text-xs font-bold text-slate-800">
+                India&apos;s Female Population Statistics (2025 → 2036) — Meditrust AI
+              </span>
+              <button
+                onClick={() => setPosterModalOpen(false)}
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="overflow-y-auto max-h-[75vh] p-2">
+              <img
+                src="/india_female_population_statistics_poster.webp"
+                alt="India's Female Population Statistics"
+                className="w-full h-auto rounded-2xl"
+              />
+            </div>
+
+            <div className="p-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/womens-health"
+                  onClick={() => setPosterModalOpen(false)}
+                  className="px-4 py-2 rounded-xl bg-rose-600 text-white font-bold hover:bg-rose-700"
+                >
+                  Explore Women&apos;s Health
+                </Link>
+                <Link
+                  href="/reports/womens-health-india-2026"
+                  onClick={() => setPosterModalOpen(false)}
+                  className="px-4 py-2 rounded-xl bg-slate-100 text-slate-800 font-bold hover:bg-slate-200"
+                >
+                  View Research Report
+                </Link>
+              </div>
+
+              <button
+                onClick={() => setPosterModalOpen(false)}
+                className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold hover:bg-slate-800"
+              >
+                Close Fullscreen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   )
