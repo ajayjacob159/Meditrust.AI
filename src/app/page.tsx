@@ -345,6 +345,62 @@ export default function HomePage() {
 
           </div>
 
+          {/* ── WIDESCREEN FLAGSHIP BANNER SHOWCASE ── */}
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-rose-400 via-pink-400 to-teal-400 rounded-3xl sm:rounded-[36px] blur-xl opacity-35 group-hover:opacity-70 transition duration-500 pointer-events-none" />
+            
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-white border border-rose-200/90 shadow-2xl">
+              <img
+                src="/meditrust_womens_healthcare_pan_india_banner.webp"
+                alt="India's First AI-Backed Women's Healthcare with Pan-India Highest Gynaecology Network"
+                className="w-full h-auto object-cover"
+              />
+
+              {/* Interactive Action Bar below Banner */}
+              <div className="p-4 sm:p-6 bg-slate-950 text-white flex flex-wrap items-center justify-between gap-4 border-t border-slate-800">
+                <div className="flex flex-wrap items-center gap-2 text-xs font-bold">
+                  <span className="text-slate-400 text-3xs uppercase tracking-wider block sm:inline mr-1">Quick Jump:</span>
+                  <Link href="/womens-health#teen-health" className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-rose-500 text-white transition-colors">
+                    🩸 Period
+                  </Link>
+                  <Link href="/womens-health#pcos-health" className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-purple-500 text-white transition-colors">
+                    🌸 PCOS
+                  </Link>
+                  <Link href="/womens-health#fertility-journey" className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-pink-500 text-white transition-colors">
+                    🥚 Fertility
+                  </Link>
+                  <Link href="/womens-health#pregnancy-care" className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-emerald-500 text-white transition-colors">
+                    🤰 Pregnancy
+                  </Link>
+                  <Link href="/womens-health#postnatal-care" className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-teal-500 text-white transition-colors">
+                    🤱 Motherhood
+                  </Link>
+                  <Link href="/womens-health#menopause-care" className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-amber-500 text-white transition-colors">
+                    🦋 Menopause
+                  </Link>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <Link
+                    href="/doctors/gynecologist/pune"
+                    className="px-5 py-2.5 rounded-full bg-teal-600 hover:bg-teal-500 text-white font-black text-xs transition-colors shadow-md flex items-center gap-1.5"
+                  >
+                    <span>Book Gynaecologist</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                  <Link
+                    href="/symptom-checker"
+                    className="px-5 py-2.5 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-black text-xs transition-colors shadow-md flex items-center gap-1.5"
+                  >
+                    <span>Ask AI Assistant</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           {/* ── 4 ICONIC LIFE-STAGE CONTINUUM PILLARS (ADRENALINE TRIGGER CARDS) ── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             

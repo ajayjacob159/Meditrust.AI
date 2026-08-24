@@ -276,6 +276,19 @@ export default function WomensHealthPage() {
         </div>
       </section>
 
+      {/* ── 1.2 WIDESCREEN FLAGSHIP BANNER SHOWCASE ── */}
+      <section className="py-4 bg-slate-50">
+        <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl overflow-hidden shadow-xl border border-rose-200 bg-white">
+            <img
+              src="/meditrust_womens_healthcare_pan_india_banner.webp"
+              alt="India's First AI-Backed Women's Healthcare with Pan-India Highest Gynaecology Network"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ── 1.5 CHIC WOMEN & GEN-Z CARE VIBE HUB (1-TAP SHARE & SYMPTOM CHECKS) ── */}
       <section className="py-6 bg-slate-50">
         <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8">
