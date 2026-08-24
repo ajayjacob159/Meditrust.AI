@@ -6,7 +6,7 @@ import {
   Stethoscope, Upload, MessageCircle, Phone, ArrowRight, ShieldCheck,
   Activity, Sparkles, Heart, FlaskConical, LayoutDashboard, Clock,
   ChevronDown, ChevronUp, Star, Play, CheckCircle2, Search, Bell,
-  FileText, Users, Building2, MapPin, Send, HelpCircle, Flame
+  FileText, Users, Building2, MapPin, Send, HelpCircle, Flame, TrendingDown
 } from 'lucide-react'
 import LabReportExplainerModal from '@/components/common/LabReportExplainerModal'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
@@ -1028,6 +1028,61 @@ export default function HomePage() {
               </span>
             </a>
 
+          </div>
+
+          {/* ── CORPORATE & EMPLOYER WELLNESS BANNER ── */}
+          <div className="pt-8">
+            <div className="bg-gradient-to-r from-blue-950 via-slate-900 to-slate-950 rounded-3xl p-6 sm:p-10 border border-blue-900/60 shadow-2xl text-white flex flex-col lg:flex-row items-center justify-between gap-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="space-y-4 max-w-2xl relative z-10">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-500/30">
+                  <span>🏢 MEDITRUST FOR ENTERPRISE &amp; EMPLOYER WELLNESS</span>
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-black tracking-tight leading-snug">
+                  Empower Your Workforce with 24/7 AI Doctor Triage, Women&apos;s Health &amp; 80% Generic Savings
+                </h3>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                  Cut outpatient insurance claim spikes and reduce clinic absenteeism by 6.5 hours per employee. Complete with anonymous HR health analytics, PCOS &amp; maternity navigation, and 60-min office health checkups.
+                </p>
+
+                <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-blue-200 pt-1">
+                  <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl border border-white/10">
+                    <Clock className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>6.5 Hrs Saved / Employee</span>
+                  </span>
+                  <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl border border-white/10">
+                    <TrendingDown className="w-3.5 h-3.5 text-teal-300" />
+                    <span>-22% Outpatient Claims</span>
+                  </span>
+                  <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl border border-white/10">
+                    <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+                    <span>100% Data Confidentiality</span>
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-3 flex-shrink-0 relative z-10 w-full lg:w-auto">
+                <Link
+                  href="/corporate-wellness"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-blue-500 hover:bg-blue-400 text-white font-black text-xs sm:text-sm shadow-md transition-all text-center flex items-center justify-center gap-2"
+                >
+                  <span>Explore Corporate Plans &amp; ROI</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
+                <a
+                  href="tel:+917028025717"
+                  className="w-full sm:w-auto px-5 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm transition-colors border border-white/20 text-center flex items-center justify-center gap-2"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span>Call Desk</span>
+                </a>
+              </div>
+
+            </div>
           </div>
 
         </div>

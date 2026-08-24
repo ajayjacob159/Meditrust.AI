@@ -294,6 +294,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/corporate-wellness" className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors flex items-center gap-1">
+                  <span>🏢 Corporate Employer Wellness</span>
+                  <span className="text-3xs bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">HR</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/about" className="text-slate-400 hover:text-teal-400 transition-colors font-semibold">
                   ℹ️ About Meditrust Life Sciences
                 </Link>

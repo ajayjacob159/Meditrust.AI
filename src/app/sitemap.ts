@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: '/doctors/gynecologist/pune', changeFrequency: 'weekly' as const, priority: 0.9 },
     { url: '/doctors/gynecologist/pcmc', changeFrequency: 'weekly' as const, priority: 0.9 },
     { url: '/for-doctors', changeFrequency: 'weekly' as const, priority: 0.92 },
+    { url: '/corporate-wellness', changeFrequency: 'weekly' as const, priority: 0.94 },
     { url: '/pricing', changeFrequency: 'weekly' as const, priority: 0.85 },
     { url: '/how-it-works', changeFrequency: 'monthly' as const, priority: 0.75 },
     { url: '/about', changeFrequency: 'monthly' as const, priority: 0.7 },

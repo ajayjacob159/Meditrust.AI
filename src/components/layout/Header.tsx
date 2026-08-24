@@ -211,6 +211,18 @@ export default function Header() {
                   Join
                 </span>
               </Link>
+
+              {/* Corporate Wellness */}
+              <Link
+                href="/corporate-wellness"
+                className="px-3.5 py-1.5 rounded-full hover:text-blue-700 hover:bg-blue-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
+              >
+                <span className="text-sm">🏢</span>
+                <span>Corporate Wellness</span>
+                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 group-hover:bg-emerald-200 transition-colors">
+                  HR Plans
+                </span>
+              </Link>
             </nav>
 
             {/* 3. Right Action Buttons */}
@@ -387,6 +399,21 @@ export default function Header() {
                   </div>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-200 text-blue-800">
                     Join
+                  </span>
+                </Link>
+
+                {/* Corporate Wellness */}
+                <Link
+                  href="/corporate-wellness"
+                  onClick={() => setMobileOpen(false)}
+                  className="p-3.5 rounded-2xl bg-emerald-50/70 hover:bg-emerald-100/90 text-emerald-950 border border-emerald-200/80 flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-base">🏢</span>
+                    <span className="font-bold text-sm">Corporate Employer Wellness</span>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-200 text-emerald-800">
+                    HR Plans
                   </span>
                 </Link>
               </div>
