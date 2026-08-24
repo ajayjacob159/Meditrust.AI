@@ -162,6 +162,24 @@ export default function GenZWomenVibeCard() {
           </div>
         </div>
 
+        {/* ── CORPORATE WORKING WOMEN CALLOUT STRIP ── */}
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-rose-950 text-white border border-rose-900/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+          <div className="space-y-1">
+            <span className="text-3xs font-black uppercase tracking-wider text-rose-400 bg-rose-500/20 px-2 py-0.5 rounded-full border border-rose-500/30">
+              💼 Working in Corporate?
+            </span>
+            <p className="text-xs text-slate-200 leading-relaxed font-medium">
+              <strong>41.2% of corporate women face chronic high-stress</strong> vs 33.9% overall. <strong>31.7% can&apos;t fall asleep.</strong> Ask Dr. Arya privately at 11pm in Marathi — no taboo, no rushed OPD, zero HR disclosure.
+            </p>
+          </div>
+          <Link
+            href="/corporate-wellness"
+            className="flex-shrink-0 px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all flex items-center gap-1 shadow-sm"
+          >
+            <span>HR Wellness Plans →</span>
+          </Link>
+        </div>
+
       </div>
     </div>
   )

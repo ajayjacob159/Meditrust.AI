@@ -773,6 +773,24 @@ export default function WomensHealthPage() {
 
         </div>
 
+        {/* ── NEW BADGE STRIP: CORPORATE WELLNESS ── */}
+        <div className="pt-6">
+          <Link
+            href="/corporate-wellness"
+            className="group w-full p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-emerald-950 via-slate-900 to-rose-950 text-white border border-emerald-500/40 shadow-xl hover:shadow-2xl hover:border-emerald-400 transition-all flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🏢</span>
+              <span className="font-bold text-slate-200">
+                <strong className="text-white">Trusted by Working Women</strong> | Now for Workplaces
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5 font-black text-emerald-300 group-hover:text-emerald-200 group-hover:translate-x-1 transition-transform">
+              <span>Explore Corporate Wellness Plans →</span>
+            </div>
+          </Link>
+        </div>
+
       </section>
 
       {/* ── 4. MEET DR. ARYA WOMEN'S HEALTH PRODUCT SECTION ── */}

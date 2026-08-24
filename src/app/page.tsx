@@ -878,6 +878,25 @@ export default function HomePage() {
               </Link>
 
             </div>
+
+            {/* ── NEW BADGE STRIP: CORPORATE WELLNESS ── */}
+            <div className="pt-2">
+              <Link
+                href="/corporate-wellness"
+                className="group w-full p-4 rounded-2xl bg-gradient-to-r from-emerald-950 via-slate-900 to-rose-950 text-white border border-emerald-500/40 shadow-lg hover:shadow-xl hover:border-emerald-400 transition-all flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="text-base">🏢</span>
+                  <span className="font-bold text-slate-200">
+                    <strong className="text-white">Trusted by Working Women</strong> | Now for Workplaces
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 font-black text-emerald-300 group-hover:text-emerald-200 group-hover:translate-x-0.5 transition-transform">
+                  <span>Explore Corporate Wellness →</span>
+                </div>
+              </Link>
+            </div>
+
           </div>
 
           {/* Action CTAs & Clinical Governance Notice */}
