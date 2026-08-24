@@ -214,6 +214,18 @@ export default function Header() {
                   HR Plans
                 </span>
               </Link>
+
+              {/* Sakhi Membership Plans */}
+              <Link
+                href="/pricing"
+                className="px-3.5 py-1.5 rounded-full hover:text-rose-700 hover:bg-rose-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
+              >
+                <span className="text-sm">💎</span>
+                <span>Membership</span>
+                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-pink-100 text-pink-700 border border-pink-200 group-hover:bg-pink-200 transition-colors">
+                  ₹83/mo
+                </span>
+              </Link>
             </nav>
 
             {/* 3. Right Action Buttons */}
@@ -392,6 +404,21 @@ export default function Header() {
                   </div>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-200 text-emerald-800">
                     HR Plans
+                  </span>
+                </Link>
+
+                {/* Sakhi Membership Plans */}
+                <Link
+                  href="/pricing"
+                  onClick={() => setMobileOpen(false)}
+                  className="p-3.5 rounded-2xl bg-pink-50/70 hover:bg-pink-100/90 text-pink-950 border border-pink-200/80 flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-base">💎</span>
+                    <span className="font-bold text-sm">Sakhi Membership Plans</span>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-pink-200 text-pink-800">
+                    Save ₹27k
                   </span>
                 </Link>
               </div>
