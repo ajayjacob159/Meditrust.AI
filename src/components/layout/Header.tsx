@@ -191,15 +191,6 @@ export default function Header() {
                 </span>
               </Link>
 
-              {/* Reminders */}
-              <Link
-                href="/reminders"
-                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
-              >
-                <Sparkles className="w-4 h-4 text-slate-500" />
-                <span>Reminders</span>
-              </Link>
-
               {/* For Doctors */}
               <Link
                 href="/for-doctors"
@@ -372,19 +363,6 @@ export default function Header() {
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700">
                     35+ Tests
                   </span>
-                </Link>
-
-                {/* Reminders */}
-                <Link
-                  href="/reminders"
-                  onClick={() => setMobileOpen(false)}
-                  className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <Sparkles className="w-4 h-4 text-slate-500" />
-                    <span>Smart Reminders</span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-slate-400" />
                 </Link>
 
                 {/* For Doctors */}

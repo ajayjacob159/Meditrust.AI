@@ -205,9 +205,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/reminders" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Smart Reminders &amp; WhatsApp</span>
+                <Link href="/reminders" className="text-amber-300 hover:text-amber-200 font-semibold transition-colors flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Smart WhatsApp Reminders</span>
+                  </span>
+                  <span className="text-3xs bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-bold">Daily</span>
                 </Link>
               </li>
               <li>
