@@ -302,25 +302,224 @@ export default function HomePage() {
 
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
           
-          {/* Section Header */}
-          <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold shadow-2xs">
-              <span className="text-sm">🌸</span>
-              <span className="uppercase tracking-wider">MEDITRUST SPECIALIZED CARE · FLAGSHIP VERTICAL</span>
+          {/* ── MANIFESTO HEADER & VISION STATEMENT ── */}
+          <div className="space-y-6 text-center max-w-4xl mx-auto">
+            
+            {/* Top Glowing Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-rose-500/20 via-fuchsia-500/20 to-indigo-500/20 border border-rose-300 text-rose-950 text-xs font-black shadow-xs tracking-wider">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-600 animate-ping" />
+              <span>🇮🇳 INDIA&apos;S FIRST AI-BACKED WOMEN&apos;S HEALTHCARE PLATFORM</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-tight">
-              Women&apos;s Health, Understood Across Every Life Stage.
+            {/* Main Headline */}
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-[1.12]">
+              India&apos;s First AI-Backed Women&apos;s Healthcare Platform <br className="hidden sm:inline" />
+              <span className="text-gradient-chic">With Pan-India&apos;s Largest Gynaecology Network</span>
             </h2>
 
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-              Women&apos;s healthcare is not a single consultation or condition. It is a journey that evolves through adolescence, menstrual health, hormonal changes, fertility, pregnancy, motherhood, and menopause. <strong>Dr. Arya Women&apos;s Health</strong> is built as a specialized AI-powered care-navigation experience that helps women better understand their health needs, identify appropriate next steps, and connect with trusted healthcare professionals and diagnostic services.
-            </p>
+            {/* National Demographic Builder Banner */}
+            <div className="p-4 sm:p-5 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm font-bold">
+              <span className="text-rose-400">MEDITRUST AI is building for:</span>
+              <div className="flex items-center gap-2">
+                <span className="text-base sm:text-lg font-black text-white font-mono">709M</span>
+                <span className="text-slate-400 text-3xs font-normal">women in 2025</span>
+              </div>
+              <span className="text-slate-600">→</span>
+              <div className="flex items-center gap-2">
+                <span className="text-base sm:text-lg font-black text-amber-400 font-mono">735M</span>
+                <span className="text-slate-400 text-3xs font-normal">by 2030</span>
+              </div>
+              <span className="text-slate-600">→</span>
+              <div className="flex items-center gap-2">
+                <span className="text-base sm:text-lg font-black text-teal-400 font-mono">742.7M</span>
+                <span className="text-slate-400 text-3xs font-normal">by 2036</span>
+              </div>
+            </div>
 
+            {/* Life Stage Continuum Title */}
             <div className="pt-2">
-              <span className="inline-block text-xs sm:text-sm font-bold uppercase tracking-widest text-slate-900 bg-slate-100 px-4 py-2 rounded-xl border border-slate-200">
-                ✨ One Woman. Many Life Stages. One Connected Healthcare Journey.
+              <span className="inline-block text-sm sm:text-base font-black uppercase tracking-widest text-slate-900 bg-rose-50 px-6 py-2.5 rounded-2xl border border-rose-200 shadow-2xs">
+                ✨ One Woman. Every Life Stage. One Connected Health Journey.
               </span>
+            </div>
+
+          </div>
+
+          {/* ── 4 ICONIC LIFE-STAGE CONTINUUM PILLARS (ADRENALINE TRIGGER CARDS) ── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            {/* Stage 1: First Period */}
+            <Link
+              href="/womens-health#teen-health"
+              className="p-6 rounded-3xl bg-gradient-to-b from-rose-50/80 to-white border border-rose-200/90 shadow-2xs hover:shadow-xl hover:border-rose-400 transition-all space-y-3 group"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-3xl">🩸</span>
+                <span className="text-3xs font-black uppercase px-2.5 py-1 rounded-full bg-rose-100 text-rose-800">
+                  Stage 01
+                </span>
+              </div>
+              <h3 className="text-base font-black text-slate-950 group-hover:text-rose-600 transition-colors leading-snug">
+                From her first period to menstrual health.
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                Cycle rhythm, non-judgmental cramp triage, and cellular Ferritin iron reserve protection.
+              </p>
+              <span className="text-xs font-bold text-rose-700 flex items-center gap-1 pt-2">
+                <span>Explore Care</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </Link>
+
+            {/* Stage 2: PCOS to Fertility */}
+            <Link
+              href="/womens-health#pcos-health"
+              className="p-6 rounded-3xl bg-gradient-to-b from-purple-50/80 to-white border border-purple-200/90 shadow-2xs hover:shadow-xl hover:border-purple-400 transition-all space-y-3 group"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-3xl">🌸</span>
+                <span className="text-3xs font-black uppercase px-2.5 py-1 rounded-full bg-purple-100 text-purple-800">
+                  Stage 02
+                </span>
+              </div>
+              <h3 className="text-base font-black text-slate-950 group-hover:text-purple-600 transition-colors leading-snug">
+                From PCOS to fertility.
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                Insulin resistance reversal, Rotterdam screener, AMH egg reserve, and ovulation timing.
+              </p>
+              <span className="text-xs font-bold text-purple-700 flex items-center gap-1 pt-2">
+                <span>Explore Care</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </Link>
+
+            {/* Stage 3: Pregnancy to Motherhood */}
+            <Link
+              href="/womens-health#pregnancy-care"
+              className="p-6 rounded-3xl bg-gradient-to-b from-emerald-50/80 to-white border border-emerald-200/90 shadow-2xs hover:shadow-xl hover:border-emerald-400 transition-all space-y-3 group"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-3xl">🤰</span>
+                <span className="text-3xs font-black uppercase px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">
+                  Stage 03
+                </span>
+              </div>
+              <h3 className="text-base font-black text-slate-950 group-hover:text-emerald-600 transition-colors leading-snug">
+                From pregnancy to motherhood.
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                Trimester scan checklists, 75g OGTT sugar curve, delivery second opinions, and postpartum recovery.
+              </p>
+              <span className="text-xs font-bold text-emerald-700 flex items-center gap-1 pt-2">
+                <span>Explore Care</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </Link>
+
+            {/* Stage 4: Preventive to Menopause */}
+            <Link
+              href="/womens-health#menopause-care"
+              className="p-6 rounded-3xl bg-gradient-to-b from-amber-50/80 to-white border border-amber-200/90 shadow-2xs hover:shadow-xl hover:border-amber-400 transition-all space-y-3 group"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-3xl">🦋</span>
+                <span className="text-3xs font-black uppercase px-2.5 py-1 rounded-full bg-amber-100 text-amber-800">
+                  Stage 04
+                </span>
+              </div>
+              <h3 className="text-base font-black text-slate-950 group-hover:text-amber-600 transition-colors leading-snug">
+                From preventive health to menopause.
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                HPV DNA cancer screening, hot flashes relief, DEXA bone density, and 40+ cardiovascular vitality.
+              </p>
+              <span className="text-xs font-bold text-amber-700 flex items-center gap-1 pt-2">
+                <span>Explore Care</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </Link>
+
+          </div>
+
+          {/* ── THE 40+ YEARS MANIFESTO & DR. ARYA SOLUTION (HERO CARD) ── */}
+          <div className="relative group">
+            <div className="absolute -inset-1.5 bg-gradient-to-r from-rose-500 via-purple-600 to-teal-500 rounded-[36px] blur-xl opacity-40 group-hover:opacity-75 transition duration-500 pointer-events-none" />
+
+            <div className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white rounded-[32px] p-8 sm:p-12 border border-slate-800 shadow-2xl space-y-8 overflow-hidden">
+              
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                {/* Left Statement */}
+                <div className="lg:col-span-8 space-y-6">
+                  
+                  <div className="space-y-3">
+                    <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-medium">
+                      While <strong className="text-amber-400 font-black">400M women are 45+ today</strong>, <strong className="text-rose-400 font-black">130M are in menopausal phase by 2030</strong>, and <strong className="text-teal-400 font-black">195M will be 60+ by 2030</strong>, no platform remembers her journey.
+                    </p>
+
+                    <h3 className="text-3xl sm:text-5xl font-black text-rose-400 tracking-tight">
+                      Dr. Arya does.
+                    </h3>
+
+                    <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
+                      An AI-powered understanding, human-led care companion that learns the context she chooses to share, explains what is happening, connects her to qualified healthcare providers across India, and stays with her through follow-up — <strong className="text-white font-bold underline decoration-rose-500 decoration-2">for 40+ years</strong>.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3 pt-2">
+                    <Link
+                      href="/symptom-checker"
+                      className="px-7 py-3.5 rounded-full bg-[#008069] hover:bg-[#006e5a] text-white font-black text-xs sm:text-sm shadow-md transition-all hover:scale-105 flex items-center gap-2"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      <span>Start Private Chat with Dr. Arya AI</span>
+                    </Link>
+
+                    <Link
+                      href="/womens-health"
+                      className="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm transition-colors border border-white/20 flex items-center gap-2"
+                    >
+                      <span>Explore 7 Life Stages</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+
+                </div>
+
+                {/* Right Doctor Portrait & Verified Network Card */}
+                <div className="lg:col-span-4 bg-white/5 backdrop-blur-md rounded-3xl p-6 border border-white/10 space-y-4 text-center">
+                  <div className="w-24 h-24 rounded-full overflow-hidden mx-auto border-2 border-rose-400/80 p-1 bg-slate-900 shadow-inner">
+                    <img
+                      src="/dr_arya.jpg"
+                      alt="Dr. Arya AI"
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-base text-white">Dr. Arya, AI Physician</h4>
+                    <span className="text-xs text-rose-300 font-semibold">Lead Women&apos;s Health Companion</span>
+                  </div>
+
+                  <div className="pt-2 border-t border-white/10 space-y-1.5 text-3xs text-slate-300 text-left">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                      <span>Pan-India&apos;s Largest Verified Gynaecology Network</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                      <span>100% Private, Non-Judgmental &amp; Multilingual</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                      <span>Longitudinal Context &amp; 40-Year Continuity</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
             </div>
           </div>
 
