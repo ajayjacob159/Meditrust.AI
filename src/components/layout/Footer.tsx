@@ -285,9 +285,15 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
+                <Link href="/womens-schemes-funds" className="text-pink-300 hover:text-pink-200 font-bold transition-colors flex items-center justify-between">
+                  <span>🌸 Women&apos;s Govt &amp; CSR Schemes Hub</span>
+                  <span className="text-3xs bg-pink-500/20 text-pink-300 px-1.5 py-0.5 rounded font-black">35+ Schemes</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/government-schemes" className="text-amber-400 hover:text-amber-300 transition-colors font-bold flex items-center gap-1">
-                  <span>🏛️ Govt Schemes Hub</span>
-                  <span className="text-3xs bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">PM-JAY</span>
+                  <span>🏛️ General Govt Schemes (PM-JAY)</span>
+                  <span className="text-3xs bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">ABDM</span>
                 </Link>
               </li>
               <li>

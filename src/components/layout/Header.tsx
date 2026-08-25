@@ -103,37 +103,48 @@ export default function Header() {
                     <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-2xl space-y-5">
                       
                       {/* Top Quick Links Bar */}
-                      <div className="grid grid-cols-3 gap-3 p-3 rounded-2xl bg-rose-50/60 border border-rose-100 text-xs">
+                      <div className="grid grid-cols-4 gap-2 p-2.5 rounded-2xl bg-rose-50/60 border border-rose-100 text-xs">
                         <Link
                           href="/womens-health"
-                          className="p-2.5 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-bold text-rose-950"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-bold text-rose-950"
                         >
                           <span className="text-base">🌸</span>
                           <div>
-                            <span className="block leading-none">Master Portal</span>
-                            <span className="text-[10px] text-rose-700/80 font-normal">Overview &amp; Tools</span>
+                            <span className="block leading-none text-xs">Portal</span>
+                            <span className="text-[9px] text-rose-700/80 font-normal">7 Life Stages</span>
                           </div>
                         </Link>
 
                         <Link
                           href="/womens-health/blood-tests"
-                          className="p-2.5 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-bold text-rose-950"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-bold text-rose-950"
                         >
                           <span className="text-base">🩸</span>
                           <div>
-                            <span className="block leading-none">Blood Tests</span>
-                            <span className="text-[10px] text-rose-700/80 font-normal">35+ Lab Panels</span>
+                            <span className="block leading-none text-xs">Blood Tests</span>
+                            <span className="text-[9px] text-rose-700/80 font-normal">35+ Panels</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          href="/womens-schemes-funds"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-bold text-rose-950"
+                        >
+                          <span className="text-base">🏛️</span>
+                          <div>
+                            <span className="block leading-none text-xs">Govt &amp; CSR</span>
+                            <span className="text-[9px] text-rose-700/80 font-normal">35+ Schemes</span>
                           </div>
                         </Link>
 
                         <Link
                           href="/reports/womens-health-india-2026"
-                          className="p-2.5 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-bold text-rose-950"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-bold text-rose-950"
                         >
                           <span className="text-base">📊</span>
                           <div>
-                            <span className="block leading-none">National Report</span>
-                            <span className="text-[10px] text-rose-700/80 font-normal">2026–2030 Projections</span>
+                            <span className="block leading-none text-xs">Report</span>
+                            <span className="text-[9px] text-rose-700/80 font-normal">2026–2030</span>
                           </div>
                         </Link>
                       </div>
