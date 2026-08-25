@@ -1,4 +1,5 @@
 import { STRATEGIC_BLOG_ARTICLES } from './womensHealthStrategicArticles'
+import { SEO_AEO_KEYWORD_ARTICLES } from './seoAeoKeywordArticles'
 
 export interface BlogArticle {
   slug: string
@@ -311,6 +312,7 @@ const originalBlogArticles: BlogArticle[] = [
 ]
 
 export const blogArticles: BlogArticle[] = [
+  ...SEO_AEO_KEYWORD_ARTICLES,
   ...STRATEGIC_BLOG_ARTICLES,
   ...originalBlogArticles,
 ]
