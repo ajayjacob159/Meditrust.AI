@@ -2,7 +2,7 @@ import Link from 'next/link'
 import {
   Shield, Heart, Activity, FlaskConical, Lock, Phone, Mail,
   MapPin, ExternalLink, Award, CheckCircle2, Building2, Sparkles,
-  Zap, Stethoscope, FileText, LayoutDashboard
+  Zap, Stethoscope, FileText, LayoutDashboard, MessageCircle
 } from 'lucide-react'
 
 export default function Footer() {
@@ -180,6 +180,15 @@ export default function Footer() {
               <Sparkles className="w-3.5 h-3.5 text-teal-400" /> Real-Time AI Tools
             </h4>
             <ul className="space-y-2.5 text-xs">
+              <li>
+                <Link href="/bot" className="text-emerald-300 hover:text-emerald-200 font-bold transition-colors flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <MessageCircle className="w-3.5 h-3.5 text-[#25d366]" />
+                    <span>Sakhi Bot (WA &amp; Telegram)</span>
+                  </span>
+                  <span className="text-3xs bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-black">24/7 LIVE</span>
+                </Link>
+              </li>
               <li>
                 <Link href="/symptom-checker" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
                   <Stethoscope className="w-3.5 h-3.5 text-teal-500" />

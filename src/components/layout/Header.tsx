@@ -241,15 +241,14 @@ export default function Header() {
 
             {/* 3. Right Action Buttons */}
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-              <a
-                href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-emerald-300 bg-white hover:bg-emerald-50 text-emerald-800 text-xs font-semibold shadow-2xs transition-all hover:-translate-y-0.5"
+              <Link
+                href="/bot"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-emerald-300 bg-white hover:bg-emerald-50 text-emerald-900 text-xs font-bold shadow-2xs transition-all hover:-translate-y-0.5"
               >
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                 <MessageCircle className="w-4 h-4 text-[#25d366]" />
-                <span>WhatsApp AI</span>
-              </a>
+                <span>WhatsApp &amp; TG Bot</span>
+              </Link>
 
               <Link
                 href="/symptom-checker"
@@ -300,17 +299,34 @@ export default function Header() {
               </div>
 
               {/* Mobile Links */}
-              <div className="flex flex-col gap-1 text-sm font-semibold text-slate-700">
-                
-                {/* Dr. Arya */}
+              <div className="flex flex-col gap-2 text-sm font-semibold text-slate-700">
+                {/* Sakhi Bot on WhatsApp & Telegram */}
+                <Link
+                  href="/bot"
+                  onClick={() => setMobileOpen(false)}
+                  className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-teal-500/10 to-cyan-500/15 border border-emerald-300 flex items-center justify-between text-emerald-950 font-black shadow-xs"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-xl">🤖</span>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-bold">Sakhi Bot (WA &amp; Telegram)</span>
+                      <span className="text-[10px] text-emerald-700 font-normal">24/7 AI Doctor in Marathi &amp; English</span>
+                    </div>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-[#25d366] text-slate-950">
+                    LIVE
+                  </span>
+                </Link>
+
+                {/* Dr. Arya Link */}
                 <Link
                   href="/symptom-checker"
                   onClick={() => setMobileOpen(false)}
-                  className="p-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between"
+                  className="p-3.5 rounded-2xl bg-blue-50/60 hover:bg-blue-50 flex items-center justify-between text-slate-900 font-semibold"
                 >
                   <div className="flex items-center gap-2.5">
-                    <Stethoscope className="w-4 h-4 text-blue-600" />
-                    <span>Dr. Arya AI Doctor</span>
+                    <Stethoscope className="w-5 h-5 text-blue-600" />
+                    <span>Dr. Arya AI Consultation</span>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-400" />
                 </Link>
