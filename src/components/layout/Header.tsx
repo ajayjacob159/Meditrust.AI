@@ -3,10 +3,9 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
-  Menu, X, Heart, Activity, FlaskConical,
-  LayoutDashboard, Phone, Upload, Stethoscope, ChevronRight,
-  Sparkles, MessageCircle, ShieldCheck, UserPlus, ChevronDown,
-  BookOpen, Droplets, FileText, ArrowRight, Layers
+  Menu, X, ChevronDown, ChevronRight, Stethoscope,
+  MessageCircle, Sparkles, Building2, UserPlus, Heart,
+  BookOpen, FileText, ArrowRight, ShieldCheck, Droplets
 } from 'lucide-react'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
 import { WOMENS_HEALTH_STRATEGIC_TOPICS } from '@/data/womensHealthStrategicArticles'
@@ -27,55 +26,43 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-3 sm:py-4 px-3 sm:px-6`}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-3 sm:py-3.5 px-3 sm:px-6"
         role="banner"
       >
-        <div className="max-w-[1440px] mx-auto w-full">
+        <div className="max-w-[1400px] mx-auto w-full">
           <div
-            className={`flex items-center justify-between transition-all duration-300 px-4 sm:px-6 py-2.5 rounded-full ${
+            className={`flex items-center justify-between transition-all duration-300 px-4 sm:px-6 py-2 rounded-full ${
               scrolled
-                ? 'bg-white/95 backdrop-blur-xl border border-slate-200/90 shadow-md'
-                : 'bg-white/80 backdrop-blur-md border border-slate-200/60 shadow-xs'
+                ? 'bg-white/95 backdrop-blur-xl border border-slate-200/90 shadow-[0_8px_30px_rgb(0,0,0,0.06)]'
+                : 'bg-white/85 backdrop-blur-lg border border-slate-200/70 shadow-[0_2px_15px_rgb(0,0,0,0.03)]'
             }`}
           >
             
-            {/* 1. Left Logo Pill */}
+            {/* ── 1. BRAND LOGO ── */}
             <Link
               href="/"
               className="flex items-center gap-2.5 flex-shrink-0 group"
               aria-label="Meditrust AI Home"
             >
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
+              <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-200/80 flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
                 <img
                   src="/logo.png"
                   alt="Meditrust AI"
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-sm sm:text-base text-slate-900 tracking-tight flex items-center gap-1.5">
-                  <span>Meditrust AI</span>
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-sm sm:text-[15px] text-slate-900 tracking-tight">
+                  Meditrust<span className="text-teal-700">.AI</span>
                 </span>
-                <span className="text-[10px] text-slate-400 font-medium hidden sm:block -mt-1">
-                  Healthcare Companion
-                </span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 hidden sm:inline-block" title="Clinical AI Systems Online" />
               </div>
             </Link>
 
-            {/* 2. Center Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2 text-xs xl:text-sm font-semibold text-slate-600">
+            {/* ── 2. CENTER DESKTOP NAVIGATION (CALM & CLEAN) ── */}
+            <nav className="hidden lg:flex items-center gap-1 xl:gap-2 text-[13px] font-medium text-slate-600">
               
-              {/* Dr. Arya Link */}
-              <Link
-                href="/symptom-checker"
-                className="px-3.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-blue-50/60 transition-colors flex items-center gap-1.5"
-              >
-                <Stethoscope className="w-4 h-4 text-blue-600" />
-                <span>Dr. Arya AI</span>
-              </Link>
-
-              {/* ── WOMEN'S HEALTH WITH MEGA-DROPDOWN ── */}
+              {/* Women's Health Hub with Clean Dropdown */}
               <div
                 className="relative"
                 onMouseEnter={() => setWomensDropdownOpen(true)}
@@ -83,102 +70,98 @@ export default function Header() {
               >
                 <Link
                   href="/womens-health"
-                  className={`px-3.5 py-1.5 rounded-full transition-all flex items-center gap-1.5 font-bold group shadow-2xs ${
+                  className={`px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
                     womensDropdownOpen
-                      ? 'bg-rose-100 text-rose-950 border border-rose-300'
-                      : 'bg-rose-50 hover:bg-rose-100/80 text-rose-900 border border-rose-200/90'
+                      ? 'bg-slate-100 text-slate-950 font-semibold'
+                      : 'hover:text-slate-950 hover:bg-slate-50 text-slate-700'
                   }`}
                 >
                   <span className="text-sm">🌸</span>
                   <span>Women&apos;s Health</span>
-                  <span className="px-1.5 py-0.5 rounded-full text-[9px] font-black bg-rose-200 text-rose-800 border border-rose-300 group-hover:bg-rose-300 transition-colors uppercase tracking-wider">
-                    Exclusive
-                  </span>
-                  <ChevronDown className={`w-3.5 h-3.5 text-rose-700 transition-transform ${womensDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform ${womensDropdownOpen ? 'rotate-180 text-slate-700' : ''}`} />
                 </Link>
 
-                {/* Mega Dropdown Menu */}
+                {/* Clean Mega Dropdown Menu */}
                 {womensDropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[760px] z-50 animate-fadeIn">
-                    <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-2xl space-y-5">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[720px] z-50 animate-fadeIn">
+                    <div className="bg-white rounded-3xl p-5 border border-slate-200/90 shadow-2xl space-y-4">
                       
-                      {/* Top Quick Links Bar */}
-                      <div className="grid grid-cols-4 gap-2 p-2.5 rounded-2xl bg-rose-50/60 border border-rose-100 text-xs">
+                      {/* Top 4 Pill Highlights */}
+                      <div className="grid grid-cols-4 gap-2 p-2 rounded-2xl bg-slate-50 border border-slate-100 text-xs">
                         <Link
                           href="/womens-health"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-bold text-rose-950"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-medium text-slate-900"
                         >
-                          <span className="text-base">🌸</span>
+                          <span>🌸</span>
                           <div>
-                            <span className="block leading-none text-xs">Portal</span>
-                            <span className="text-[9px] text-rose-700/80 font-normal">7 Life Stages</span>
+                            <span className="block font-semibold leading-none">Master Hub</span>
+                            <span className="text-[10px] text-slate-500">7 Life Stages</span>
                           </div>
                         </Link>
 
                         <Link
                           href="/womens-health/blood-tests"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-bold text-rose-950"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-medium text-slate-900"
                         >
-                          <span className="text-base">🩸</span>
+                          <span>🩸</span>
                           <div>
-                            <span className="block leading-none text-xs">Blood Tests</span>
-                            <span className="text-[9px] text-rose-700/80 font-normal">35+ Panels</span>
+                            <span className="block font-semibold leading-none">Blood Tests</span>
+                            <span className="text-[10px] text-slate-500">35+ Lab Panels</span>
                           </div>
                         </Link>
 
                         <Link
                           href="/womens-schemes-funds"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-bold text-rose-950"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-medium text-slate-900"
                         >
-                          <span className="text-base">🏛️</span>
+                          <span>🏛️</span>
                           <div>
-                            <span className="block leading-none text-xs">Govt &amp; CSR</span>
-                            <span className="text-[9px] text-rose-700/80 font-normal">35+ Schemes</span>
+                            <span className="block font-semibold leading-none">Govt &amp; CSR</span>
+                            <span className="text-[10px] text-slate-500">35+ Schemes</span>
                           </div>
                         </Link>
 
                         <Link
                           href="/reports/womens-health-india-2026"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-bold text-rose-950"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-medium text-slate-900"
                         >
-                          <span className="text-base">📊</span>
+                          <span>📊</span>
                           <div>
-                            <span className="block leading-none text-xs">Report</span>
-                            <span className="text-[9px] text-rose-700/80 font-normal">2026–2030</span>
+                            <span className="block font-semibold leading-none">Report</span>
+                            <span className="text-[10px] text-slate-500">2026–2030</span>
                           </div>
                         </Link>
                       </div>
 
-                      {/* 9 Strategic Topics Section Header */}
-                      <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                        <span className="text-[11px] font-black text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                          <BookOpen className="w-3.5 h-3.5 text-rose-600" />
-                          <span>9 Strategic Insights &amp; Health Topics (Trending)</span>
+                      {/* Strategic Topics Header */}
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-1.5 px-1">
+                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                          Clinical Topics &amp; Life Stages
                         </span>
                         <Link
                           href="/womens-health/health-library"
-                          className="text-[11px] font-bold text-rose-700 hover:text-rose-900 flex items-center gap-1"
+                          className="text-3xs font-semibold text-slate-600 hover:text-teal-700 flex items-center gap-1"
                         >
-                          <span>View All Guides</span>
-                          <ArrowRight className="w-3 h-3" />
+                          <span>All Guides</span>
+                          <ArrowRight className="w-2.5 h-2.5" />
                         </Link>
                       </div>
 
-                      {/* 9 Strategic Topics Grid (3x3) */}
-                      <div className="grid grid-cols-3 gap-2.5">
+                      {/* 9 Clinical Guides Grid */}
+                      <div className="grid grid-cols-3 gap-2">
                         {WOMENS_HEALTH_STRATEGIC_TOPICS.map((topic) => (
                           <Link
                             key={topic.id}
                             href={`/blog/${topic.slug}`}
-                            className="p-3 rounded-2xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all space-y-1 group/item flex flex-col justify-between"
+                            className="p-2.5 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all space-y-0.5 group/item"
                           >
-                            <div className="flex items-center gap-2">
-                              <span className="text-base">{topic.icon}</span>
-                              <span className="font-bold text-xs text-slate-900 group-hover/item:text-rose-700 leading-snug line-clamp-1">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-sm">{topic.icon}</span>
+                              <span className="font-semibold text-xs text-slate-800 group-hover/item:text-teal-700 line-clamp-1">
                                 {topic.shortLabel}
                               </span>
                             </div>
-                            <p className="text-[10px] text-slate-500 line-clamp-2 leading-relaxed pl-6">
+                            <p className="text-3xs text-slate-500 line-clamp-1 pl-5 font-normal">
                               {topic.description}
                             </p>
                           </Link>
@@ -193,80 +176,80 @@ export default function Header() {
               {/* Blood Tests Direct Link */}
               <Link
                 href="/womens-health/blood-tests"
-                className="px-3.5 py-1.5 rounded-full hover:text-rose-700 hover:bg-rose-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
+                className="px-3 py-1.5 rounded-full hover:text-slate-950 hover:bg-slate-50 transition-colors"
               >
-                <span className="text-sm">🩸</span>
                 <span>Blood Tests</span>
-                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-rose-100 text-rose-700 border border-rose-200 group-hover:bg-rose-200 transition-colors">
-                  Labs
-                </span>
               </Link>
 
-              {/* For Doctors */}
+              {/* Sakhi AI Bot (WhatsApp & Telegram) */}
               <Link
-                href="/for-doctors"
-                className="px-3.5 py-1.5 rounded-full hover:text-blue-700 hover:bg-blue-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
+                href="/bot"
+                className="px-3 py-1.5 rounded-full hover:text-slate-950 hover:bg-slate-50 transition-colors flex items-center gap-1.5"
               >
-                <UserPlus className="w-3.5 h-3.5 text-blue-600" />
-                <span>For Doctors</span>
-                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-blue-100 text-blue-700 border border-blue-200 group-hover:bg-blue-200 transition-colors">
-                  Join
-                </span>
+                <span className="text-sm">🤖</span>
+                <span>Sakhi Bot</span>
+              </Link>
+
+              {/* Membership Plans */}
+              <Link
+                href="/pricing"
+                className="px-3 py-1.5 rounded-full hover:text-slate-950 hover:bg-slate-50 transition-colors flex items-center gap-1"
+              >
+                <span>Membership</span>
               </Link>
 
               {/* Corporate Wellness */}
               <Link
                 href="/corporate-wellness"
-                className="px-3.5 py-1.5 rounded-full hover:text-blue-700 hover:bg-blue-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
+                className="px-3 py-1.5 rounded-full hover:text-slate-950 hover:bg-slate-50 transition-colors"
               >
-                <span className="text-sm">🏢</span>
-                <span>Corporate Wellness</span>
-                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 group-hover:bg-emerald-200 transition-colors">
-                  HR Plans
-                </span>
+                <span>Corporate</span>
               </Link>
 
-              {/* Sakhi Membership Plans */}
+              {/* For Doctors */}
               <Link
-                href="/pricing"
-                className="px-3.5 py-1.5 rounded-full hover:text-rose-700 hover:bg-rose-50/70 transition-colors flex items-center gap-1.5 text-slate-700 font-semibold group"
+                href="/for-doctors"
+                className="px-3 py-1.5 rounded-full hover:text-slate-950 hover:bg-slate-50 transition-colors"
               >
-                <span className="text-sm">💎</span>
-                <span>Membership</span>
-                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-pink-100 text-pink-700 border border-pink-200 group-hover:bg-pink-200 transition-colors">
-                  ₹83/mo
-                </span>
+                <span>For Doctors</span>
               </Link>
+
             </nav>
 
-            {/* 3. Right Action Buttons */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-              <Link
-                href="/bot"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-emerald-300 bg-white hover:bg-emerald-50 text-emerald-900 text-xs font-bold shadow-2xs transition-all hover:-translate-y-0.5"
+            {/* ── 3. RIGHT ACTIONS (CALM & MINIMALIST) ── */}
+            <div className="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
+              
+              {/* WhatsApp Quick Trigger */}
+              <a
+                href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-slate-200/80 bg-slate-50/80 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition-colors"
+                title="Chat on WhatsApp"
               >
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                <MessageCircle className="w-4 h-4 text-[#25d366]" />
-                <span>WhatsApp &amp; TG Bot</span>
-              </Link>
+                <MessageCircle className="w-3.5 h-3.5 text-[#25d366]" />
+                <span>WhatsApp</span>
+              </a>
 
+              {/* Primary Consultation CTA */}
               <Link
                 href="/symptom-checker"
-                className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full bg-gradient-to-r from-teal-700 to-emerald-700 hover:from-teal-600 hover:to-emerald-600 text-white text-xs sm:text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 active:scale-95"
+                className="inline-flex items-center gap-1.5 px-4 sm:px-4.5 py-1.5 sm:py-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-[13px] font-semibold shadow-xs transition-all hover:shadow-sm"
               >
+                <Stethoscope className="w-3.5 h-3.5 text-teal-400" />
                 <span>Ask Dr. Arya</span>
-                <ChevronRight className="w-4 h-4" />
               </Link>
 
-              {/* Mobile Menu Toggle */}
+              {/* Mobile Drawer Toggle */}
               <button
                 type="button"
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden p-2 rounded-full text-slate-700 hover:bg-slate-100 transition-colors"
+                className="lg:hidden p-1.5 rounded-full text-slate-700 hover:bg-slate-100 transition-colors"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
+
             </div>
 
           </div>
@@ -277,17 +260,17 @@ export default function Header() {
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div
-            className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs transition-opacity"
             onClick={() => setMobileOpen(false)}
           />
 
           <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl p-6 overflow-y-auto flex flex-col justify-between">
-            <div className="space-y-5">
+            <div className="space-y-4">
               
-              {/* Drawer Top */}
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              {/* Drawer Top Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <img src="/logo.png" alt="Meditrust" className="w-7 h-7 object-contain" />
+                  <img src="/logo.png" alt="Meditrust" className="w-6 h-6 object-contain" />
                   <span className="font-bold text-slate-900 text-sm">Meditrust AI</span>
                 </div>
                 <button
@@ -298,178 +281,164 @@ export default function Header() {
                 </button>
               </div>
 
-              {/* Mobile Links */}
-              <div className="flex flex-col gap-2 text-sm font-semibold text-slate-700">
-                {/* Sakhi Bot on WhatsApp & Telegram */}
+              {/* Mobile Links List */}
+              <div className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+                
+                {/* Sakhi Bot */}
                 <Link
                   href="/bot"
                   onClick={() => setMobileOpen(false)}
-                  className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-teal-500/10 to-cyan-500/15 border border-emerald-300 flex items-center justify-between text-emerald-950 font-black shadow-xs"
+                  className="p-3 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-200/60 flex items-center justify-between text-slate-900 font-semibold"
                 >
                   <div className="flex items-center gap-2.5">
-                    <span className="text-xl">🤖</span>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-bold">Sakhi Bot (WA &amp; Telegram)</span>
-                      <span className="text-[10px] text-emerald-700 font-normal">24/7 AI Doctor in Marathi &amp; English</span>
+                    <span className="text-lg">🤖</span>
+                    <div>
+                      <span className="block font-bold text-xs">Sakhi Bot (WA &amp; Telegram)</span>
+                      <span className="text-3xs text-slate-500 font-normal">24/7 AI Health Companion</span>
                     </div>
                   </div>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-[#25d366] text-slate-950">
-                    LIVE
-                  </span>
+                  <ChevronRight className="w-4 h-4 text-slate-400" />
                 </Link>
 
-                {/* Dr. Arya Link */}
+                {/* Dr. Arya */}
                 <Link
                   href="/symptom-checker"
                   onClick={() => setMobileOpen(false)}
-                  className="p-3.5 rounded-2xl bg-blue-50/60 hover:bg-blue-50 flex items-center justify-between text-slate-900 font-semibold"
+                  className="p-3 rounded-2xl hover:bg-slate-50 flex items-center justify-between text-slate-800"
                 >
                   <div className="flex items-center gap-2.5">
-                    <Stethoscope className="w-5 h-5 text-blue-600" />
+                    <Stethoscope className="w-4 h-4 text-teal-600" />
                     <span>Dr. Arya AI Consultation</span>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-400" />
                 </Link>
 
                 {/* Women's Health Accordion */}
-                <div className="rounded-2xl bg-rose-50/70 border border-rose-200 overflow-hidden">
-                  <div className="p-3.5 flex items-center justify-between">
+                <div className="rounded-2xl border border-slate-200/60 overflow-hidden">
+                  <div className="p-3 flex items-center justify-between">
                     <Link
                       href="/womens-health"
                       onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-2.5 text-rose-950 font-bold text-sm"
+                      className="flex items-center gap-2 text-slate-900 font-semibold text-xs"
                     >
-                      <span className="text-lg">🌸</span>
-                      <span>Women&apos;s Health</span>
+                      <span>🌸</span>
+                      <span>Women&apos;s Health Hub</span>
                     </Link>
                     <button
                       onClick={() => setMobileWomensOpen(!mobileWomensOpen)}
-                      className="p-1 text-rose-700"
+                      className="p-1 text-slate-500"
                     >
                       <ChevronDown className={`w-4 h-4 transition-transform ${mobileWomensOpen ? 'rotate-180' : ''}`} />
                     </button>
                   </div>
 
-                  {/* Accordion Sub-links */}
                   {mobileWomensOpen && (
-                    <div className="px-3 pb-3 pt-1 space-y-1.5 border-t border-rose-200/60 text-xs">
+                    <div className="px-3 pb-3 pt-1 space-y-1 border-t border-slate-100 text-xs bg-slate-50">
                       <Link
                         href="/womens-health/blood-tests"
                         onClick={() => setMobileOpen(false)}
-                        className="p-2 rounded-xl bg-white text-rose-900 font-bold flex items-center gap-2"
+                        className="p-2 rounded-xl bg-white text-slate-800 font-medium flex items-center gap-2"
                       >
                         <span>🩸</span>
-                        <span>Blood Tests Directory (35+ Tests)</span>
+                        <span>Blood Tests (35+ Panels)</span>
                       </Link>
+
+                      <Link
+                        href="/womens-schemes-funds"
+                        onClick={() => setMobileOpen(false)}
+                        className="p-2 rounded-xl bg-white text-slate-800 font-medium flex items-center gap-2"
+                      >
+                        <span>🏛️</span>
+                        <span>Govt &amp; CSR Schemes</span>
+                      </Link>
+
                       <Link
                         href="/reports/womens-health-india-2026"
                         onClick={() => setMobileOpen(false)}
-                        className="p-2 rounded-xl bg-white text-rose-900 font-bold flex items-center gap-2"
+                        className="p-2 rounded-xl bg-white text-slate-800 font-medium flex items-center gap-2"
                       >
                         <span>📊</span>
-                        <span>National Research Report 2026</span>
+                        <span>National Report (2026–30)</span>
                       </Link>
-
-                      <div className="pt-2 text-[10px] font-bold uppercase tracking-wider text-rose-800 px-1">
-                        9 Strategic Topics:
-                      </div>
-
-                      {WOMENS_HEALTH_STRATEGIC_TOPICS.map((topic) => (
-                        <Link
-                          key={topic.id}
-                          href={`/blog/${topic.slug}`}
-                          onClick={() => setMobileOpen(false)}
-                          className="p-2 rounded-lg hover:bg-rose-100/60 text-slate-800 flex items-center gap-2 text-3xs font-semibold"
-                        >
-                          <span>{topic.icon}</span>
-                          <span className="truncate">{topic.shortLabel}</span>
-                        </Link>
-                      ))}
                     </div>
                   )}
                 </div>
 
-                {/* Blood Tests Direct Link */}
+                {/* Blood Tests */}
                 <Link
                   href="/womens-health/blood-tests"
                   onClick={() => setMobileOpen(false)}
-                  className="p-3 rounded-2xl hover:bg-rose-50 hover:text-rose-800 flex items-center justify-between text-slate-800 font-semibold"
+                  className="p-3 rounded-2xl hover:bg-slate-50 flex items-center justify-between text-slate-800"
                 >
                   <div className="flex items-center gap-2.5">
-                    <span className="text-base">🩸</span>
+                    <span>🩸</span>
                     <span>Blood Tests for Women</span>
                   </div>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700">
-                    35+ Tests
-                  </span>
+                  <ChevronRight className="w-4 h-4 text-slate-400" />
+                </Link>
+
+                {/* Membership */}
+                <Link
+                  href="/pricing"
+                  onClick={() => setMobileOpen(false)}
+                  className="p-3 rounded-2xl hover:bg-slate-50 flex items-center justify-between text-slate-800"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span>💎</span>
+                    <span>Sakhi Membership Plans</span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-slate-400" />
+                </Link>
+
+                {/* Corporate */}
+                <Link
+                  href="/corporate-wellness"
+                  onClick={() => setMobileOpen(false)}
+                  className="p-3 rounded-2xl hover:bg-slate-50 flex items-center justify-between text-slate-800"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span>🏢</span>
+                    <span>Corporate Wellness</span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-slate-400" />
                 </Link>
 
                 {/* For Doctors */}
                 <Link
                   href="/for-doctors"
                   onClick={() => setMobileOpen(false)}
-                  className="p-3.5 rounded-2xl bg-blue-50/70 hover:bg-blue-100/90 text-blue-950 border border-blue-200/80 flex items-center justify-between"
+                  className="p-3 rounded-2xl hover:bg-slate-50 flex items-center justify-between text-slate-800"
                 >
                   <div className="flex items-center gap-2.5">
                     <UserPlus className="w-4 h-4 text-blue-600" />
-                    <span className="font-bold text-sm">For Doctors / Clinics</span>
+                    <span>For Doctors / Clinics</span>
                   </div>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-200 text-blue-800">
-                    Join
-                  </span>
+                  <ChevronRight className="w-4 h-4 text-slate-400" />
                 </Link>
 
-                {/* Corporate Wellness */}
-                <Link
-                  href="/corporate-wellness"
-                  onClick={() => setMobileOpen(false)}
-                  className="p-3.5 rounded-2xl bg-emerald-50/70 hover:bg-emerald-100/90 text-emerald-950 border border-emerald-200/80 flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-base">🏢</span>
-                    <span className="font-bold text-sm">Corporate Employer Wellness</span>
-                  </div>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-200 text-emerald-800">
-                    HR Plans
-                  </span>
-                </Link>
-
-                {/* Sakhi Membership Plans */}
-                <Link
-                  href="/pricing"
-                  onClick={() => setMobileOpen(false)}
-                  className="p-3.5 rounded-2xl bg-pink-50/70 hover:bg-pink-100/90 text-pink-950 border border-pink-200/80 flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-base">💎</span>
-                    <span className="font-bold text-sm">Sakhi Membership Plans</span>
-                  </div>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-pink-200 text-pink-800">
-                    Save ₹27k
-                  </span>
-                </Link>
               </div>
 
             </div>
 
-            {/* Mobile Actions */}
-            <div className="space-y-3 pt-6 border-t border-slate-100">
+            {/* Drawer Bottom Actions */}
+            <div className="space-y-2 pt-4 border-t border-slate-100">
               <a
                 href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-emerald-600 text-white font-semibold text-xs shadow-sm"
+                className="w-full flex items-center justify-center gap-2 p-2.5 rounded-xl bg-[#008069] text-white font-semibold text-xs shadow-xs"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Chat on WhatsApp</span>
               </a>
 
               <a
-                href="tel:+917028025717"
-                className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl border border-slate-200 text-slate-700 font-semibold text-xs hover:bg-slate-50"
+                href="https://t.me/MeditrustAiAryaBot"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 p-2.5 rounded-xl bg-[#229ED9] text-white font-semibold text-xs shadow-xs"
               >
-                <Phone className="w-4 h-4 text-teal-600" />
-                <span>Call Doctor Desk (+91 7028025717)</span>
+                <span>Chat on Telegram (@MeditrustAiAryaBot)</span>
               </a>
             </div>
 
