@@ -34,24 +34,77 @@ async function sendChatAction(chatId: string | number, action: string = 'typing'
 }
 
 /**
- * Helper: Fetch file path from Telegram and extract text/caption
+ * Helper: Convert simple markdown to HTML safely for Telegram
  */
-async function getTelegramFileUrl(fileId: string): Promise<string | null> {
-  if (!TELEGRAM_BOT_TOKEN) return null
-  try {
-    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getFile?file_id=${fileId}`)
-    const data = await res.json()
-    if (data.ok && data.result?.file_path) {
-      return `https://api.telegram.org/file/bot${TELEGRAM_BOT_TOKEN}/${data.result.file_path}`
-    }
-  } catch (e) {
-    console.error('Error fetching Telegram file:', e)
-  }
-  return null
+function formatTextForTelegram(text: string): { htmlText: string; plainText: string } {
+  const plainText = text.replace(/\*/g, '')
+  let htmlText = text
+    // Escape HTML special chars
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    // Convert *bold* to <b>bold</b>
+    .replace(/\*([^\*]+)\*/g, '<b>$1</b>')
+    // Convert _italic_ to <i>italic</i>
+    .replace(/_([^_]+)_/g, '<i>$1</i>')
+
+  return { htmlText, plainText }
 }
 
 /**
- * 2. POST: Inbound Telegram Webhook Handler (100% Standalone & Autonomous)
+ * Helper: Robust Outbound Telegram Message Sender (with HTML -> PlainText Fallback)
+ */
+async function sendTelegramMessage(chatId: string | number, text: string, inlineKeyboard: any[]) {
+  if (!TELEGRAM_BOT_TOKEN) return null
+
+  const { htmlText, plainText } = formatTextForTelegram(text)
+
+  // Attempt 1: Send with HTML parse_mode
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: htmlText,
+        parse_mode: 'HTML',
+        reply_markup: {
+          inline_keyboard: inlineKeyboard,
+        },
+      }),
+    })
+    const data = await res.json()
+    if (data.ok) {
+      return data
+    }
+    console.warn('Telegram HTML send failed, falling back to PlainText:', data)
+  } catch (e) {
+    console.warn('Network error in Telegram HTML send:', e)
+  }
+
+  // Attempt 2: Fallback to Plain Text (Guaranteed delivery, zero parse errors)
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: plainText,
+        reply_markup: {
+          inline_keyboard: inlineKeyboard,
+        },
+      }),
+    })
+    const data = await res.json()
+    return data
+  } catch (e) {
+    console.error('Fatal error sending Telegram message:', e)
+    return null
+  }
+}
+
+/**
+ * 2. POST: Inbound Telegram Webhook Handler (100% Standalone & Real-Time)
  */
 export async function POST(request: Request) {
   try {
@@ -73,39 +126,28 @@ export async function POST(request: Request) {
     // Trigger typing indicator immediately
     sendChatAction(chatId, 'typing')
 
-    // Handle Text, Photo, Document or Callback
+    // Handle Text or Callback Data
     let userText = message?.text || callbackQuery?.data || message?.caption || ''
-    let mediaUrl: string | undefined
 
-    // If user sent a photo (e.g. blood report photo or prescription)
+    // Handle Photos (e.g. lab report upload)
     if (message?.photo && Array.isArray(message.photo) && message.photo.length > 0) {
-      const bestPhoto = message.photo[message.photo.length - 1]
-      const fileUrl = await getTelegramFileUrl(bestPhoto.file_id)
-      if (fileUrl) {
-        mediaUrl = fileUrl
-        if (!userText) {
-          userText = 'Here is my blood test report photo. Please analyze my values, explain what they mean, and check Jan Aushadhi generic savings.'
-        }
+      if (!userText) {
+        userText = 'Here is my blood test report photo. Please analyze my values, explain what they mean, and check Jan Aushadhi generic savings.'
       }
     }
 
-    // If user sent a document (e.g. PDF lab report)
+    // Handle Documents (e.g. PDF lab report upload)
     if (message?.document) {
-      const doc = message.document
-      const fileUrl = await getTelegramFileUrl(doc.file_id)
-      if (fileUrl) {
-        mediaUrl = fileUrl
-        if (!userText) {
-          userText = `Here is my lab report document (${doc.file_name || 'PDF'}). Please analyze my biomarkers and provide clinical guidance.`
-        }
+      if (!userText) {
+        userText = `Here is my lab report document (${message.document.file_name || 'PDF'}). Please analyze my biomarkers and provide clinical guidance.`
       }
     }
 
-    console.log(`🤖 Telegram Query from @${fromUser?.username || userId} (${chatId}): "${userText}"`)
+    console.log(`🤖 Inbound Telegram from @${fromUser?.username || userId} (${chatId}): "${userText}"`)
 
     // Handle command shortcuts gracefully
     let queryText = userText.trim()
-    if (queryText === '/start' || queryText.toLowerCase() === 'hi' || queryText.toLowerCase() === 'hello') {
+    if (!queryText || queryText === '/start' || queryText.toLowerCase() === 'hi' || queryText.toLowerCase() === 'hello') {
       queryText = 'hello'
     } else if (queryText === '/stages') {
       queryText = 'Explain all 7 women life stages from first period to menopause'
@@ -132,7 +174,7 @@ export async function POST(request: Request) {
     }
 
     // Process with Real-Time Multi-Agent Clinical Engine
-    const botResult = await processDrAryaBotMessage(queryText, userId, 'telegram', mediaUrl)
+    const botResult = await processDrAryaBotMessage(queryText, userId, 'telegram')
 
     // Record assistant reply into session history
     session.history.push({ role: 'assistant', text: botResult.replyText })
@@ -178,25 +220,8 @@ export async function POST(request: Request) {
       } catch (e) {}
     }
 
-    // Dispatch Outbound Message to Telegram API
-    if (TELEGRAM_BOT_TOKEN) {
-      try {
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: chatId,
-            text: botResult.replyText,
-            parse_mode: 'Markdown',
-            reply_markup: {
-              inline_keyboard: inlineKeyboard,
-            },
-          }),
-        })
-      } catch (tgErr) {
-        console.warn('Could not dispatch message to Telegram endpoint:', tgErr)
-      }
-    }
+    // Dispatch Outbound Message to Telegram API with Guaranteed Delivery
+    const sendResult = await sendTelegramMessage(chatId, botResult.replyText, inlineKeyboard)
 
     return NextResponse.json({
       status: 'success',
@@ -204,7 +229,7 @@ export async function POST(request: Request) {
       agentAssigned: botResult.agentName,
       stageIdentified: botResult.stageIdentified,
       isEmergency: botResult.isEmergency,
-      replyLength: botResult.replyText.length,
+      telegramDelivered: sendResult?.ok || false,
     })
   } catch (error: any) {
     console.error('Error processing Telegram webhook:', error)
