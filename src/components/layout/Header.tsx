@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Menu, X, ChevronDown, ChevronRight, Stethoscope,
-  MessageCircle, Sparkles, Building2, UserPlus, Heart,
-  BookOpen, FileText, ArrowRight, ShieldCheck, Droplets
+  MessageCircle, Building2, UserPlus, Heart,
+  BookOpen, ArrowRight, ShieldCheck
 } from 'lucide-react'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
 import { WOMENS_HEALTH_STRATEGIC_TOPICS } from '@/data/womensHealthStrategicArticles'
@@ -29,40 +29,40 @@ export default function Header() {
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-3 sm:py-3.5 px-3 sm:px-6"
         role="banner"
       >
-        <div className="max-w-[1400px] mx-auto w-full">
+        <div className="max-w-[1360px] mx-auto w-full">
           <div
-            className={`flex items-center justify-between transition-all duration-300 px-4 sm:px-6 py-2 rounded-full ${
+            className={`flex items-center justify-between transition-all duration-300 px-4 sm:px-5 py-2 rounded-full ${
               scrolled
-                ? 'bg-white/95 backdrop-blur-xl border border-slate-200/90 shadow-[0_8px_30px_rgb(0,0,0,0.06)]'
-                : 'bg-white/85 backdrop-blur-lg border border-slate-200/70 shadow-[0_2px_15px_rgb(0,0,0,0.03)]'
+                ? 'bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.04)]'
+                : 'bg-white/85 backdrop-blur-md border border-slate-200/60 shadow-[0_2px_10px_rgba(0,0,0,0.02)]'
             }`}
           >
             
-            {/* ── 1. BRAND LOGO ── */}
+            {/* ── 1. LOGO ── */}
             <Link
               href="/"
               className="flex items-center gap-2.5 flex-shrink-0 group"
               aria-label="Meditrust AI Home"
             >
-              <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-200/80 flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
+              <div className="w-8 h-8 rounded-full bg-slate-100/80 border border-slate-200/80 flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
                 <img
                   src="/logo.png"
                   alt="Meditrust AI"
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-sm sm:text-[15px] text-slate-900 tracking-tight">
-                  Meditrust<span className="text-teal-700">.AI</span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-sm tracking-tight text-slate-900">
+                  Meditrust<span className="text-teal-700 font-semibold">.AI</span>
                 </span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 hidden sm:inline-block" title="Clinical AI Systems Online" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 hidden sm:inline-block" />
               </div>
             </Link>
 
-            {/* ── 2. CENTER DESKTOP NAVIGATION (CALM & CLEAN) ── */}
-            <nav className="hidden lg:flex items-center gap-1 xl:gap-2 text-[13px] font-medium text-slate-600">
+            {/* ── 2. CLEAN DESKTOP NAV ── */}
+            <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5 text-[13px] font-medium text-slate-600">
               
-              {/* Women's Health Hub with Clean Dropdown */}
+              {/* Women's Health Dropdown */}
               <div
                 className="relative"
                 onMouseEnter={() => setWomensDropdownOpen(true)}
@@ -70,24 +70,23 @@ export default function Header() {
               >
                 <Link
                   href="/womens-health"
-                  className={`px-3 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-full transition-colors flex items-center gap-1.5 ${
                     womensDropdownOpen
-                      ? 'bg-slate-100 text-slate-950 font-semibold'
-                      : 'hover:text-slate-950 hover:bg-slate-50 text-slate-700'
+                      ? 'bg-slate-100 text-slate-900'
+                      : 'hover:text-slate-900 hover:bg-slate-50 text-slate-700'
                   }`}
                 >
-                  <span className="text-sm">🌸</span>
                   <span>Women&apos;s Health</span>
                   <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform ${womensDropdownOpen ? 'rotate-180 text-slate-700' : ''}`} />
                 </Link>
 
                 {/* Clean Mega Dropdown Menu */}
                 {womensDropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[720px] z-50 animate-fadeIn">
-                    <div className="bg-white rounded-3xl p-5 border border-slate-200/90 shadow-2xl space-y-4">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[680px] z-50 animate-fadeIn">
+                    <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xl space-y-4">
                       
-                      {/* Top 4 Pill Highlights */}
-                      <div className="grid grid-cols-4 gap-2 p-2 rounded-2xl bg-slate-50 border border-slate-100 text-xs">
+                      {/* Top 4 Quick Links */}
+                      <div className="grid grid-cols-4 gap-2 p-1.5 rounded-2xl bg-slate-50 border border-slate-100 text-xs">
                         <Link
                           href="/womens-health"
                           className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-medium text-slate-900"
@@ -95,7 +94,7 @@ export default function Header() {
                           <span>🌸</span>
                           <div>
                             <span className="block font-semibold leading-none">Master Hub</span>
-                            <span className="text-[10px] text-slate-500">7 Life Stages</span>
+                            <span className="text-[10px] text-slate-500 font-normal">7 Life Stages</span>
                           </div>
                         </Link>
 
@@ -106,7 +105,7 @@ export default function Header() {
                           <span>🩸</span>
                           <div>
                             <span className="block font-semibold leading-none">Blood Tests</span>
-                            <span className="text-[10px] text-slate-500">35+ Lab Panels</span>
+                            <span className="text-[10px] text-slate-500 font-normal">35+ Panels</span>
                           </div>
                         </Link>
 
@@ -117,7 +116,7 @@ export default function Header() {
                           <span>🏛️</span>
                           <div>
                             <span className="block font-semibold leading-none">Govt &amp; CSR</span>
-                            <span className="text-[10px] text-slate-500">35+ Schemes</span>
+                            <span className="text-[10px] text-slate-500 font-normal">35+ Schemes</span>
                           </div>
                         </Link>
 
@@ -128,44 +127,38 @@ export default function Header() {
                           <span>📊</span>
                           <div>
                             <span className="block font-semibold leading-none">Report</span>
-                            <span className="text-[10px] text-slate-500">2026–2030</span>
+                            <span className="text-[10px] text-slate-500 font-normal">2026–2030</span>
                           </div>
                         </Link>
                       </div>
 
-                      {/* Strategic Topics Header */}
-                      <div className="flex items-center justify-between border-b border-slate-100 pb-1.5 px-1">
-                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                          Clinical Topics &amp; Life Stages
-                        </span>
-                        <Link
-                          href="/womens-health/health-library"
-                          className="text-3xs font-semibold text-slate-600 hover:text-teal-700 flex items-center gap-1"
-                        >
-                          <span>All Guides</span>
-                          <ArrowRight className="w-2.5 h-2.5" />
-                        </Link>
-                      </div>
-
-                      {/* 9 Clinical Guides Grid */}
-                      <div className="grid grid-cols-3 gap-2">
-                        {WOMENS_HEALTH_STRATEGIC_TOPICS.map((topic) => (
+                      {/* Clinical Topics Grid */}
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between px-1 border-b border-slate-100 pb-1.5">
+                          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                            Specialized Topics
+                          </span>
                           <Link
-                            key={topic.id}
-                            href={`/blog/${topic.slug}`}
-                            className="p-2.5 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all space-y-0.5 group/item"
+                            href="/womens-health/health-library"
+                            className="text-3xs text-slate-500 hover:text-teal-700 flex items-center gap-1 font-semibold"
                           >
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-sm">{topic.icon}</span>
-                              <span className="font-semibold text-xs text-slate-800 group-hover/item:text-teal-700 line-clamp-1">
-                                {topic.shortLabel}
-                              </span>
-                            </div>
-                            <p className="text-3xs text-slate-500 line-clamp-1 pl-5 font-normal">
-                              {topic.description}
-                            </p>
+                            <span>View All Guides</span>
+                            <ArrowRight className="w-2.5 h-2.5" />
                           </Link>
-                        ))}
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-1.5">
+                          {WOMENS_HEALTH_STRATEGIC_TOPICS.map((topic) => (
+                            <Link
+                              key={topic.id}
+                              href={`/blog/${topic.slug}`}
+                              className="p-2 rounded-xl hover:bg-slate-50 transition-colors flex items-center gap-2 text-xs text-slate-700 hover:text-slate-950 font-medium"
+                            >
+                              <span>{topic.icon}</span>
+                              <span className="truncate">{topic.shortLabel}</span>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
 
                     </div>
@@ -173,35 +166,34 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Blood Tests Direct Link */}
+              {/* Blood Tests */}
               <Link
                 href="/womens-health/blood-tests"
-                className="px-3 py-1.5 rounded-full hover:text-slate-950 hover:bg-slate-50 transition-colors"
+                className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:bg-slate-50 transition-colors"
               >
                 <span>Blood Tests</span>
               </Link>
 
-              {/* Sakhi AI Bot (WhatsApp & Telegram) */}
+              {/* Sakhi Bot */}
               <Link
                 href="/bot"
-                className="px-3 py-1.5 rounded-full hover:text-slate-950 hover:bg-slate-50 transition-colors flex items-center gap-1.5"
+                className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:bg-slate-50 transition-colors"
               >
-                <span className="text-sm">🤖</span>
                 <span>Sakhi Bot</span>
               </Link>
 
-              {/* Membership Plans */}
+              {/* Membership */}
               <Link
                 href="/pricing"
-                className="px-3 py-1.5 rounded-full hover:text-slate-950 hover:bg-slate-50 transition-colors flex items-center gap-1"
+                className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:bg-slate-50 transition-colors"
               >
                 <span>Membership</span>
               </Link>
 
-              {/* Corporate Wellness */}
+              {/* Corporate */}
               <Link
                 href="/corporate-wellness"
-                className="px-3 py-1.5 rounded-full hover:text-slate-950 hover:bg-slate-50 transition-colors"
+                className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:bg-slate-50 transition-colors"
               >
                 <span>Corporate</span>
               </Link>
@@ -209,14 +201,14 @@ export default function Header() {
               {/* For Doctors */}
               <Link
                 href="/for-doctors"
-                className="px-3 py-1.5 rounded-full hover:text-slate-950 hover:bg-slate-50 transition-colors"
+                className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:bg-slate-50 transition-colors"
               >
                 <span>For Doctors</span>
               </Link>
 
             </nav>
 
-            {/* ── 3. RIGHT ACTIONS (CALM & MINIMALIST) ── */}
+            {/* ── 3. RIGHT ACTIONS ── */}
             <div className="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
               
               {/* WhatsApp Quick Trigger */}
@@ -224,23 +216,23 @@ export default function Header() {
                 href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-slate-200/80 bg-slate-50/80 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition-colors"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200/80 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition-colors"
                 title="Chat on WhatsApp"
               >
                 <MessageCircle className="w-3.5 h-3.5 text-[#25d366]" />
                 <span>WhatsApp</span>
               </a>
 
-              {/* Primary Consultation CTA */}
+              {/* Primary Consultation Button */}
               <Link
                 href="/symptom-checker"
-                className="inline-flex items-center gap-1.5 px-4 sm:px-4.5 py-1.5 sm:py-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-[13px] font-semibold shadow-xs transition-all hover:shadow-sm"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-[13px] font-semibold transition-colors shadow-2xs"
               >
                 <Stethoscope className="w-3.5 h-3.5 text-teal-400" />
                 <span>Ask Dr. Arya</span>
               </Link>
 
-              {/* Mobile Drawer Toggle */}
+              {/* Mobile Menu Toggle */}
               <button
                 type="button"
                 onClick={() => setMobileOpen(!mobileOpen)}
