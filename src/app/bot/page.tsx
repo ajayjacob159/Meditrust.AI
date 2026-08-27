@@ -243,7 +243,7 @@ export default function SakhiBotHubPage() {
                       </span>
                     </div>
                     <div className="text-3xs text-slate-400">
-                      {platformSkin === 'whatsapp' ? '+91 7028025717 · Online' : '@MeditrustSakhiBot · 24/7 Live'}
+                      {platformSkin === 'whatsapp' ? '+91 7028025717 · Online' : '@MeditrustAiAryaBot · 24/7 Live'}
                     </div>
                   </div>
                 </div>
@@ -414,7 +414,7 @@ export default function SakhiBotHubPage() {
                   </div>
                   <div>
                     <h3 className="font-black text-base text-white">Telegram Official Bot</h3>
-                    <span className="text-3xs text-cyan-300 font-semibold">@MeditrustSakhiBot</span>
+                    <span className="text-3xs text-cyan-300 font-semibold">@MeditrustAiAryaBot</span>
                   </div>
                 </div>
                 <span className="text-3xs bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full font-bold">
@@ -428,17 +428,17 @@ export default function SakhiBotHubPage() {
 
               <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
                 <a
-                  href="https://t.me/MeditrustSakhiBot"
+                  href="https://t.me/MeditrustAiAryaBot"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto flex-1 py-3 px-4 rounded-xl bg-[#229ED9] hover:bg-[#1b80b0] text-white font-black text-xs flex items-center justify-center gap-2 transition-transform hover:scale-102 shadow-md"
                 >
                   <Send className="w-4 h-4 text-white" />
-                  <span>Launch @MeditrustSakhiBot</span>
+                  <span>Launch @MeditrustAiAryaBot</span>
                 </a>
 
                 <button
-                  onClick={() => handleCopy('@MeditrustSakhiBot', 'tg-handle')}
+                  onClick={() => handleCopy('@MeditrustAiAryaBot', 'tg-handle')}
                   className="px-3.5 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-xs text-slate-200 border border-white/10 flex items-center gap-1.5"
                 >
                   {copiedKey === 'tg-handle' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}

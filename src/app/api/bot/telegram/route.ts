@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { processDrAryaBotMessage } from '@/lib/bot/botEngine'
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '7482910482:AAE7jK3_meditrust_sakhi_bot_2026'
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8710012278:AAFqMoZuWT5MR0EbH96Lwa6TEynFB9dxzEg'
 
 /**
  * 1. GET: Status & Health Check for Telegram Bot Webhook
@@ -9,7 +9,7 @@ const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '7482910482:AAE7jK3
 export async function GET() {
   return NextResponse.json({
     status: 'online',
-    bot: '@MeditrustSakhiBot',
+    bot: '@MeditrustAiAryaBot',
     platform: 'Telegram Bot API',
     description: 'Dr. Arya 24/7 AI Health & Women Care Companion',
     supportedCommands: ['/start', '/stages', '/report', '/savings', '/schemes', '/emergency'],
