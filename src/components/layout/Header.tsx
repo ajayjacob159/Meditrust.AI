@@ -189,12 +189,13 @@ export default function Header() {
                 <span>Blood Tests</span>
               </Link>
 
-              {/* Sakhi Bot */}
+              {/* Women's Marketplace */}
               <Link
-                href="/bot"
-                className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:bg-slate-50 transition-colors"
+                href="/womens-marketplace"
+                className="px-3 py-1.5 rounded-full text-rose-700 bg-rose-50/70 hover:bg-rose-100 hover:text-rose-900 transition-colors font-bold flex items-center gap-1"
               >
-                <span>Sakhi Bot</span>
+                <span>🛍️</span>
+                <span>Marketplace</span>
               </Link>
 
               {/* Membership */}

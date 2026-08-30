@@ -180,44 +180,82 @@ export default function WomensMarketplacePage() {
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group"
+              className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-xl hover:border-rose-300 transition-all flex flex-col justify-between group"
             >
               
-              {/* Card Top Section */}
-              <div className="p-6 space-y-4">
+              {/* Product Photo Banner */}
+              <div
+                onClick={() => handleOpenProduct(product)}
+                className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100 cursor-pointer"
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500"
+                />
                 
-                {/* Header: Badge & Category Icon */}
-                <div className="flex items-center justify-between gap-2">
-                  <span className={`text-3xs font-black uppercase px-2.5 py-1 rounded-full ${product.badgeColor}`}>
+                {/* Overlay Top Badges */}
+                <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
+                  <span className={`text-3xs font-black uppercase px-2.5 py-1 rounded-full shadow-sm ${product.badgeColor}`}>
                     {product.badge}
                   </span>
-                  <div className="flex items-center gap-1 text-amber-500 text-xs font-bold bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-100">
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
+                  <div className="flex items-center gap-1 text-amber-900 text-3xs font-bold bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-lg border border-amber-200 shadow-sm">
+                    <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
                     <span>{product.rating}</span>
-                    <span className="text-slate-400 text-3xs">({product.reviewCount})</span>
                   </div>
                 </div>
 
-                {/* Product Name & Tagline */}
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">{product.icon}</span>
-                    <h3 className="font-black text-base text-slate-950 leading-snug group-hover:text-rose-600 transition-colors">
+                <div className="absolute bottom-2.5 right-3 bg-slate-950/75 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  {product.categoryLabel}
+                </div>
+              </div>
+
+              {/* Card Middle Content */}
+              <div className="p-5 sm:p-6 space-y-3.5 flex-1 flex flex-col justify-between">
+                
+                <div className="space-y-2">
+                  {/* Product Name & Tagline */}
+                  <div className="space-y-1">
+                    <h3
+                      onClick={() => handleOpenProduct(product)}
+                      className="font-black text-base text-slate-950 leading-snug group-hover:text-rose-600 transition-colors cursor-pointer"
+                    >
                       {product.name}
                     </h3>
+                    <p className="text-xs text-slate-500 leading-relaxed font-normal line-clamp-2">
+                      {product.tagline}
+                    </p>
                   </div>
-                  <p className="text-xs text-slate-500 leading-relaxed font-normal">
-                    {product.tagline}
-                  </p>
-                </div>
 
-                {/* Price & Savings */}
-                <div className="flex items-baseline gap-2 pt-1 border-t border-slate-100">
-                  <span className="text-2xl font-black text-slate-950">₹{product.price}</span>
-                  <span className="text-xs text-slate-400 line-through">₹{product.originalPrice}</span>
-                  <span className="text-3xs font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
-                    {product.discountPercent}% OFF
-                  </span>
+                  {/* Price & Savings */}
+                  <div className="flex items-baseline gap-2 pt-1">
+                    <span className="text-2xl font-black text-slate-950">₹{product.price}</span>
+                    <span className="text-xs text-slate-400 line-through">₹{product.originalPrice}</span>
+                    <span className="text-3xs font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
+                      {product.discountPercent}% OFF
+                    </span>
+                  </div>
+
+                  {/* Key Bullet Features */}
+                  <ul className="space-y-1 text-xs text-slate-600 pt-1">
+                    {product.keyFeatures.slice(0, 2).map((feat, idx) => (
+                      <li key={idx} className="flex items-start gap-1.5 text-3xs font-medium leading-relaxed">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Dr. Arya Clinical Rationale Tooltip */}
+                  <div className="p-2.5 rounded-2xl bg-rose-50/70 border border-rose-100 space-y-1">
+                    <div className="flex items-center gap-1.5 text-3xs font-bold text-rose-900">
+                      <Sparkles className="w-3 h-3 text-rose-600" />
+                      <span>Dr. Arya Clinical Note:</span>
+                    </div>
+                    <p className="text-3xs text-slate-600 line-clamp-2 leading-relaxed font-normal">
+                      {product.drAryaRecommendation}
+                    </p>
+                  </div>
                 </div>
 
                 {/* Key Bullet Features */}
@@ -337,8 +375,16 @@ export default function WomensMarketplacePage() {
             </button>
 
             {/* Modal Top Info */}
-            <div className="space-y-2 pr-8">
-              <div className="flex items-center gap-2">
+            <div className="space-y-3 pr-8">
+              <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-100 shadow-xs border border-slate-100">
+                <img
+                  src={selectedProduct.image}
+                  alt={selectedProduct.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 pt-1">
                 <span className={`text-3xs font-black uppercase px-2.5 py-1 rounded-full ${selectedProduct.badgeColor}`}>
                   {selectedProduct.badge}
                 </span>
@@ -347,16 +393,13 @@ export default function WomensMarketplacePage() {
                 </span>
               </div>
 
-              <div className="flex items-center gap-3">
-                <span className="text-3xl">{selectedProduct.icon}</span>
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-black text-slate-950 leading-tight">
-                    {selectedProduct.name}
-                  </h3>
-                  <p className="text-xs text-slate-500 font-normal">
-                    {selectedProduct.tagline}
-                  </p>
-                </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-black text-slate-950 leading-tight">
+                  {selectedProduct.name}
+                </h3>
+                <p className="text-xs text-slate-500 font-normal">
+                  {selectedProduct.tagline}
+                </p>
               </div>
             </div>
 

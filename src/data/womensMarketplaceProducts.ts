@@ -2,7 +2,7 @@
  * ══════════════════════════════════════════════════════════════════════════════
  * MEDITRUST AI — 100% WHITE-LABELED WOMEN'S WELLNESS MARKETPLACE DATASET
  * Brand: Meditrust Sakhi™ (Period Care, Intimate Hygiene, Skincare & Hormonal Wellness)
- * Integrated with Dr. Arya Clinical Rationale, PMBJP Jan Aushadhi Generic Matches & Subscriptions.
+ * Integrated with Real Product Photos, Dr. Arya Rationale, Jan Aushadhi Matches & Subscriptions.
  * ══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -21,6 +21,7 @@ export interface MarketplaceProduct {
   badge: string
   badgeColor: string
   icon: string
+  image: string
   description: string
   keyFeatures: string[]
   ingredients: string[]
@@ -52,6 +53,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: '15+ Lakh Happy Women',
     badgeColor: 'bg-rose-500 text-white',
     icon: '🌸',
+    image: '/products/sakhi_rashfree_pads.jpg',
     description:
       'India\'s #1 customizable sanitary pad pack designed without harmful toxins, dyes, or harsh bleaches. Choose your customized combination of Heavy (XL+), Medium (XL), and Light (L) flow pads with wider leak-proof back and individual resealable disposal wrappers.',
     keyFeatures: [
@@ -95,6 +97,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: 'Best Seller for Dysmenorrhea',
     badgeColor: 'bg-amber-500 text-white',
     icon: '🔥',
+    image: '/products/sakhi_cramp_patches.jpg',
     description:
       'Air-activated, discreet self-heating patches that provide up to 8 hours of continuous 40°C therapeutic heat to relax uterine muscle spasms, eliminate period cramps, and relieve lower back pain on the go.',
     keyFeatures: [
@@ -133,6 +136,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: 'Postpartum & Heavy Flow Must-Have',
     badgeColor: 'bg-purple-600 text-white',
     icon: '🩲',
+    image: '/products/sakhi_period_panties.jpg',
     description:
       'Wearable underwear-style sanitary protection providing complete 360° front, back, and side leak-proofing. Holds up to 4x the capacity of regular pads for heavy periods, postpartum lochia, and peaceful overnight sleep.',
     keyFeatures: [
@@ -169,6 +173,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: 'Eco & Zero Waste',
     badgeColor: 'bg-teal-600 text-white',
     icon: '🌱',
+    image: '/products/sakhi_period_panties.jpg',
     description:
       'Made with 100% biocompatible, US-FDA compliant platinum silicone. Flexible bell shape with easy-grip ring stem provides 8–10 hours of uninterrupted leak-free protection for swimming, running, and workouts.',
     keyFeatures: [
@@ -202,6 +207,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: 'Gynecologist Tested',
     badgeColor: 'bg-emerald-600 text-white',
     icon: '🫧',
+    image: '/products/sakhi_intimate_wash.jpg',
     description:
       'A gentle, soap-free foaming wash formulated at the exact acidic pH (3.5 to 4.5) of the healthy female vulva. Powered by natural Lactic Acid and Tea Tree to defend against recurrent yeast infections, bacterial vaginosis (BV), and post-period odor.',
     keyFeatures: [
@@ -240,6 +246,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: 'Everyday Freshness',
     badgeColor: 'bg-blue-500 text-white',
     icon: '✨',
+    image: '/products/sakhi_rashfree_pads.jpg',
     description:
       'Featherlight 1mm ultra-thin panty liners crafted with 100% breathable organic cotton. Ideal for daily mid-cycle cervical discharge, ovulation spotting, light urinary sneezes, and pre-menstrual staining.',
     keyFeatures: [
@@ -276,6 +283,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: 'Travel & Gym Essential',
     badgeColor: 'bg-teal-500 text-white',
     icon: '🌿',
+    image: '/products/sakhi_intimate_wash.jpg',
     description:
       'Gentle, alcohol-free intimate wipes made with 100% plant-based biodegradable viscose fiber. Perfect for instant cleansing during public restroom use, after gym workouts, during period pad changes, and post-intimacy.',
     keyFeatures: [
@@ -315,6 +323,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: '#1 Hormonal Acne Hack',
     badgeColor: 'bg-pink-600 text-white',
     icon: '🎯',
+    image: '/products/sakhi_pimple_patches.jpg',
     description:
       'Medical-grade hydrocolloid micro-patches that extract sebum, pus, and fluids from stubborn hormonal cystic acne (jawline & chin) overnight. Ultra-thin transparent matte finish blends invisibly under makeup.',
     keyFeatures: [
@@ -351,6 +360,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: 'PCOS Acne Defense',
     badgeColor: 'bg-indigo-600 text-white',
     icon: '🧼',
+    image: '/products/sakhi_pimple_patches.jpg',
     description:
       'A dermatologist-formulated gel cleanser designed specifically for hormonal and acne-prone skin. 2% Salicylic Acid gently penetrates deep into pores to dissolve trapped sebum while Prebiotics strengthen the skin barrier against acne-causing bacteria.',
     keyFeatures: [
@@ -389,6 +399,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: 'Non-Comedogenic',
     badgeColor: 'bg-cyan-600 text-white',
     icon: '💧',
+    image: '/products/sakhi_pimple_patches.jpg',
     description:
       'Ultra-lightweight water-gel moisturizer that provides 72-hour deep cellular hydration without clogging pores. Formulated with 3% Niacinamide to fade dark post-acne spots and 3 Essential Ceramides to heal broken skin barriers.',
     keyFeatures: [
@@ -427,6 +438,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: 'Clinically Proven 40:1 Ratio',
     badgeColor: 'bg-rose-600 text-white',
     icon: '💊',
+    image: '/products/sakhi_pcos_inositol.jpg',
     description:
       'First-line natural metabolic therapy for PCOS. Contains the evidence-based 40:1 physiological ratio of Myo-Inositol to D-Chiro Inositol with L-Methylfolate and Vitamin D3 to reverse insulin resistance, restore regular ovulation, and reduce facial hair shedding.',
     keyFeatures: [
@@ -470,6 +482,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: '100% Organic Herbs',
     badgeColor: 'bg-emerald-700 text-white',
     icon: '🍵',
+    image: '/products/sakhi_pcos_inositol.jpg',
     description:
       'Whole-leaf organic herbal blend of Mentha Spicata (Spearmint), Shatavari, Chamomile, and Ginger. Scientifically shown to lower free circulating testosterone in women with PCOS while relieving PMS mood swings and digestive water retention.',
     keyFeatures: [
@@ -508,6 +521,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: 'Mom & Daughter Favorite',
     badgeColor: 'bg-teal-600 text-white',
     icon: '🎒',
+    image: '/products/sakhi_teen_box.jpg',
     description:
       'A loving, judgment-free starter box designed to make a young girl\'s first period positive and stress-free. Includes rash-free pads, daily liners, cramp comfort heat patch, illustrated "Dr. Arya Menarche Guide", and a discreet school waterproof travel pouch.',
     keyFeatures: [
@@ -540,6 +554,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: '30-Day Transformation Kit',
     badgeColor: 'bg-rose-600 text-white',
     icon: '📦',
+    image: '/products/sakhi_pcos_inositol.jpg',
     description:
       'The definitive 360° management kit for polycystic ovary syndrome. Combines internal metabolic balancing (40:1 Inositol Sachets) with external dermatological defense (Pimple Patches + Salicylic Cleanser) and acute cramp warmth.',
     keyFeatures: [
@@ -573,6 +588,7 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
     badge: 'Hospital Bag Essential',
     badgeColor: 'bg-purple-600 text-white',
     icon: '🤱',
+    image: '/products/sakhi_period_panties.jpg',
     description:
       'Everything a new mother needs for comfortable postpartum recovery after normal or C-section delivery. Includes leak-proof disposable maternity panties, gentle pH-balanced foaming wash, soothing biodegradable wipes, and organic Shatavari for breast milk lactation support.',
     keyFeatures: [
