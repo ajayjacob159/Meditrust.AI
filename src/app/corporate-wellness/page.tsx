@@ -7,7 +7,8 @@ import {
   Clock, Heart, CheckCircle2, ArrowRight, Phone, Mail, Award,
   DollarSign, TrendingDown, TrendingUp, Zap, HelpCircle, FileText,
   ChevronRight, Calculator, PieChart, Lock, UserCheck, MessageCircle,
-  AlertTriangle, Scale, Shield, Landmark
+  AlertTriangle, Scale, Shield, Landmark, Download, Baby, Compass,
+  Check, ChevronDown, CheckCircle
 } from 'lucide-react'
 
 export default function CorporateWellnessPage() {
@@ -19,20 +20,22 @@ export default function CorporateWellnessPage() {
   const [contactName, setContactName] = useState('')
   const [workEmail, setWorkEmail] = useState('')
   const [phone, setPhone] = useState('')
-  const [location, setLocation] = useState('Pune / PCMC (Hinjewadi / Magarpatta)')
+  const [location, setLocation] = useState('Hyderabad / Bengaluru / Pune / Mumbai / Delhi')
   const [selectedNeeds, setSelectedNeeds] = useState<string[]>([
-    '24/7 AI Doctor Triage',
+    '24/7 AI Doctor Triage (Dr. Arya)',
     "Women's Health & PCOS Program",
     'Maternity & Return-to-Work Care',
-    '80% Jan Aushadhi Generic Savings'
+    '80% Jan Aushadhi Generic Savings',
+    'Menopause & Midlife Health'
   ])
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [deckDownloaded, setDeckDownloaded] = useState(false)
 
-  // ROI Calculations based on User's Framework
-  // Prevent mid-career dropouts: ~1 dropout prevented per 50 women employees
+  // ROI Calculations based on Specification
+  // Prevent mid-career dropouts: ~1 dropout prevented per 25-50 women employees
   const dropoutsPrevented = Math.max(1, Math.round(employeeCount * 0.04))
-  // Replacement cost saved: ~₹6,00,000 per talent (50-80L for 10)
+  // Replacement cost saved: ~₹6,50,000 per talent (50-80L for 10)
   const replacementCostSaved = dropoutsPrevented * 650000
   // Program Cost: ₹500/employee/year
   const programCost = employeeCount * 500
@@ -43,6 +46,37 @@ export default function CorporateWellnessPage() {
     setSelectedNeeds(prev =>
       prev.includes(need) ? prev.filter(n => n !== need) : [...prev, need]
     )
+  }
+
+  const handleDownloadDeck = () => {
+    setDeckDownloaded(true)
+    const element = document.createElement('a')
+    const file = new Blob([
+      `MEDITRUST AI — CORPORATE WOMEN'S HEALTHCARE BENEFIT DECK 2026\n\n` +
+      `India's First AI-Backed Women's Healthcare Benefit\n` +
+      `With Pan-India Highest Gynaecology Network — From First Period to Menopause\n\n` +
+      `1. The Workplace Problem:\n` +
+      `- 93% of employers worried about rising healthcare costs\n` +
+      `- 92% of working parents feel burned out\n` +
+      `- 69% of employees consider switching jobs for reproductive benefits\n` +
+      `- 51% of Indian women have ongoing issues (PCOS, anemia, thyroid) not reaching HR dashboard\n` +
+      `- India: 709M females in 2025, 735M in 2030, 400M women 45+ today, 130M menopausal by 2030\n\n` +
+      `2. Four Pillars of Care:\n` +
+      `- Always-on Support (24/7 Dr. Arya AI + human experts in 12 languages)\n` +
+      `- Integrated Payments (Corporate women's health wallet + one invoice)\n` +
+      `- Continuous Care (Connected, coordinated care without repeating history)\n` +
+      `- Pan-India Network (Gynaecologists, IVF specialists, diagnostics in 175+ cities)\n\n` +
+      `3. Proven ROI:\n` +
+      `- 2:1 Clinical ROI (₹80,000 saved per high-risk birth)\n` +
+      `- 4:1 Business ROI (94% return-to-work rate post-maternity)\n\n` +
+      `Contact Enterprise Desk: care@meditrustlife.com | +91 7028025717\n` +
+      `Website: https://www.meditrustai.in/corporate-wellness`
+    ], { type: 'text/plain' })
+    element.href = URL.createObjectURL(file)
+    element.download = 'Meditrust_AI_Corporate_Womens_Healthcare_Deck_2026.txt'
+    document.body.appendChild(element)
+    element.click()
+    document.body.removeChild(element)
   }
 
   const handleSubmitLead = async (e: React.FormEvent) => {
@@ -81,119 +115,271 @@ export default function CorporateWellnessPage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 overflow-x-hidden pt-20 sm:pt-24 pb-20">
       
-      {/* ── 1. BREADCRUMBS ── */}
+      {/* ── BREADCRUMBS ── */}
       <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-500 font-medium">
           <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
           <Link href="/womens-health" className="hover:text-rose-700 transition-colors">Women&apos;s Health</Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-          <span className="text-slate-900 font-semibold">Corporate Employer Wellness</span>
+          <span className="text-slate-900 font-semibold">Corporate Women&apos;s Benefits</span>
         </nav>
       </div>
 
-      {/* ── 2. HERO SECTION ── */}
+      {/* ══════════════════════════════════════════════════════════════════════════
+          SECTION 1: HERO SECTION
+          ══════════════════════════════════════════════════════════════════════════ */}
       <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
-          {/* Left Column: Headline, Sub-headline & CTAs */}
+          {/* Left Column: Tag, Headline, Sub-headline, Body & CTAs */}
           <div className="lg:col-span-7 space-y-6">
+            
+            {/* Tag */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-100/90 border border-rose-200 text-rose-950 text-xs font-black shadow-2xs">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-600 animate-ping" />
-              <span>MEDITRUST FOR ENTERPRISE · WOMEN&apos;S CORPORATE WELLNESS</span>
+              <span className="w-2 rounded-full bg-rose-600 animate-ping" />
+              <span>TRUSTED BY FORWARD-THINKING EMPLOYERS</span>
             </div>
 
-            {/* Exact Headline */}
+            {/* Headline */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-950 leading-[1.12]">
-              Keep Your Women Talent <span className="text-gradient-chic">Healthy, Present &amp; Promoted.</span>
+              India&apos;s First AI-Backed <span className="text-gradient-chic">Women&apos;s Healthcare Benefit</span>
             </h1>
 
-            {/* Exact Sub-headline */}
-            <p className="text-base sm:text-lg text-slate-700 font-medium leading-relaxed max-w-2xl">
-              <strong>48% of women drop out within 4 months of returning from maternity.</strong> 79.7% say periods or menopause affect productivity, but won&apos;t tell HR. <strong>Meditrust AI</strong> gives them private, 24/7 care in Marathi, Hindi &amp; English — without exposing personal data to HR.
+            {/* Sub-headline */}
+            <div className="text-base sm:text-xl font-bold text-rose-900 bg-rose-50 border-l-4 border-rose-500 px-4 py-2.5 rounded-r-2xl">
+              With Pan-India Highest Gynaecology Network — From First Period to Menopause
+            </div>
+
+            {/* Body */}
+            <p className="text-sm sm:text-base text-slate-700 font-normal leading-relaxed">
+              <strong>MEDITRUST AI helps you save talent and money.</strong> We deliver more effective, equitable healthcare — bridging gaps in care to improve outcomes for all women in your workforce. From her first period to menopause, Dr. Arya stays with her journey.
             </p>
 
-            {/* Key Quick Badges */}
-            <div className="flex flex-wrap items-center gap-3 pt-1 text-xs font-bold text-slate-700">
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            {/* Quick Privacy & Network Trust Badges */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs font-semibold text-slate-700">
+              <div className="flex items-center gap-2 p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                 <span>100% Private — Zero Personal Data Disclosed to HR</span>
               </div>
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
-                <Clock className="w-4 h-4 text-blue-600" />
-                <span>24/7 WhatsApp AI in Marathi, Hindi &amp; English</span>
+              <div className="flex items-center gap-2 p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <Clock className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                <span>24/7 AI Companion on App &amp; WhatsApp in 12 Languages</span>
               </div>
             </div>
 
-            {/* Exact CTA Buttons */}
+            {/* CTA Buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
-                href="#demo-request"
+                href="#demo-form"
                 className="px-7 py-3.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-black text-sm shadow-md transition-all hover:-translate-y-0.5 flex items-center gap-2"
               >
-                <span>Book Corporate Demo</span>
+                <span>Book a Demo for HR</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
 
+              <button
+                onClick={handleDownloadDeck}
+                className="px-6 py-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-all hover:-translate-y-0.5 flex items-center gap-2"
+              >
+                <Download className="w-4 h-4 text-teal-400" />
+                <span>{deckDownloaded ? 'Deck Downloaded (Check Files)' : 'Download Corporate Wellness Deck'}</span>
+              </button>
+
               <a
-                href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20am%20an%20HR%20Leader%20interested%20in%20Meditrust%20Women%27s%20Corporate%20Wellness"
+                href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20am%20an%20HR%20Leader%20interested%20in%20Meditrust%20Corporate%20Women%27s%20Benefits"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3.5 rounded-full bg-[#008069] hover:bg-[#006e5a] text-white font-bold text-sm shadow-md transition-all hover:-translate-y-0.5 flex items-center gap-2"
+                className="px-5 py-3.5 rounded-full border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-bold text-xs shadow-2xs transition-colors flex items-center gap-1.5"
               >
-                <MessageCircle className="w-4 h-4" />
-                <span>Talk to Dr. Arya on WhatsApp</span>
+                <MessageCircle className="w-4 h-4 text-[#25d366]" />
+                <span>Talk on WhatsApp</span>
               </a>
             </div>
 
           </div>
 
-          {/* Right Column: Hero Impact Metric Box */}
+          {/* Right Column: Visual Dark Premium Banner */}
           <div className="lg:col-span-5 relative">
             <div className="absolute -inset-2 bg-gradient-to-r from-rose-500/20 via-purple-500/20 to-teal-500/20 rounded-3xl blur-xl" />
             
-            <div className="relative bg-slate-950 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-5">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-2xl bg-rose-500/20 text-rose-300 flex items-center justify-center font-bold text-lg">
-                    🌸
+            <div className="relative bg-slate-950 text-white rounded-3xl overflow-hidden border border-slate-800 shadow-2xl space-y-4">
+              
+              {/* Premium Visual Banner Image */}
+              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-slate-900">
+                <img
+                  src="/meditrust_womens_healthcare_pan_india_banner.webp"
+                  alt="Using Artificial Intelligence to Make Healthcare More Accessible, Understandable and Affordable"
+                  className="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+                <div className="absolute bottom-3 left-4 right-4">
+                  <span className="text-3xs font-mono uppercase tracking-widest text-teal-400 font-bold block">
+                    MEDITRUST AI ENTERPRISE
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-white leading-tight">
+                    Using Artificial Intelligence to Make Healthcare More Accessible, Understandable and Affordable
+                  </h3>
+                </div>
+              </div>
+
+              {/* Key Metric Highlights Grid */}
+              <div className="p-5 pt-0 space-y-4">
+                <div className="grid grid-cols-2 gap-2.5 text-xs">
+                  <div className="p-3 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
+                    <span className="text-slate-400 block text-3xs">Maternity Retention</span>
+                    <span className="text-base font-black text-rose-400">94% Return Rate</span>
+                    <span className="text-3xs text-slate-400">vs 52% national avg</span>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-sm text-white">Talent Retention Engine</h3>
-                    <span className="text-3xs text-rose-400 font-semibold">Active in Hinjewadi, Magarpatta &amp; PCMC IT Parks</span>
+
+                  <div className="p-3 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
+                    <span className="text-slate-400 block text-3xs">Clinical &amp; Business ROI</span>
+                    <span className="text-base font-black text-emerald-400">4:1 Business ROI</span>
+                    <span className="text-3xs text-slate-400">₹80,000 saved/high-risk</span>
+                  </div>
+
+                  <div className="p-3 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
+                    <span className="text-slate-400 block text-3xs">Care Continuum</span>
+                    <span className="text-base font-black text-amber-400">40+ Years Span</span>
+                    <span className="text-3xs text-slate-400">Puberty to Menopause</span>
+                  </div>
+
+                  <div className="p-3 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
+                    <span className="text-slate-400 block text-3xs">Pan-India Reach</span>
+                    <span className="text-base font-black text-teal-300">175+ Cities</span>
+                    <span className="text-3xs text-slate-400">Tier 1, Tier 2 &amp; Tier 3</span>
                   </div>
                 </div>
-                <span className="text-xs font-mono font-bold px-2.5 py-1 bg-white/10 rounded-lg text-emerald-300">
-                  10–16x ROI
+
+                <div className="p-3 rounded-2xl bg-white/10 text-3xs text-slate-300 flex items-center justify-between">
+                  <span className="flex items-center gap-1">
+                    <Lock className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>ABDM &amp; HIPAA Compliant</span>
+                  </span>
+                  <span className="font-bold text-white">POSH &amp; Maternity Act Aligned</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ══════════════════════════════════════════════════════════════════════════
+          SECTION 2: WHEN BENEFITS FALL SHORT, WOMEN LEAVE - AND COSTS RISE
+          ══════════════════════════════════════════════════════════════════════════ */}
+      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-rose-200 shadow-sm space-y-8">
+          
+          <div className="space-y-2 max-w-3xl">
+            <div className="inline-flex items-center gap-2 text-xs font-bold text-rose-700 uppercase tracking-wider">
+              <span>SECTION 02 · THE HIDDEN WORKPLACE COST</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
+              When Benefits Fall Short, Women Leave — And Costs Rise
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Many traditional employer benefit programs leave critical care gaps that drive up costs, hurt retention and productivity.
+            </p>
+          </div>
+
+          {/* 4 Problem Stat Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            
+            <div className="p-6 rounded-3xl bg-rose-50/70 border border-rose-200 space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-3xl sm:text-4xl font-black text-rose-600 tracking-tight">
+                  93%
                 </span>
+                <h3 className="font-black text-sm sm:text-base text-slate-950 leading-snug">
+                  Employers Worried About Rising Costs
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  93% of employers are worried about rising healthcare costs and unvetted medical quality across fragmented insurance plans.
+                </p>
               </div>
+              <span className="text-3xs font-bold text-rose-800 bg-rose-100 px-2.5 py-1 rounded-lg w-fit">
+                Cost &amp; Quality Gap
+              </span>
+            </div>
 
-              <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
-                  <span className="text-slate-400 block text-3xs">Maternity Dropouts</span>
-                  <span className="text-lg font-black text-rose-400">48% Industry Rate</span>
-                  <span className="text-3xs text-slate-400">Halted with 1-on-1 AI Triage</span>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
-                  <span className="text-slate-400 block text-3xs">Silent Productivity Tax</span>
-                  <span className="text-lg font-black text-amber-400">79.7% Women</span>
-                  <span className="text-3xs text-slate-400">Periods/Menopause affected</span>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
-                  <span className="text-slate-400 block text-3xs">Annual Absenteeism</span>
-                  <span className="text-lg font-black text-emerald-400">-8 to 12 Days</span>
-                  <span className="text-3xs text-slate-400">Recovered per woman/year</span>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
-                  <span className="text-slate-400 block text-3xs">Corporate Pricing</span>
-                  <span className="text-lg font-black text-teal-300">₹500 / year</span>
-                  <span className="text-3xs text-slate-400">Per employee covered</span>
-                </div>
+            <div className="p-6 rounded-3xl bg-purple-50/70 border border-purple-200 space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-3xl sm:text-4xl font-black text-purple-600 tracking-tight">
+                  92%
+                </span>
+                <h3 className="font-black text-sm sm:text-base text-slate-950 leading-snug">
+                  Working Parents Burned Out
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  92% of working parents feel burned out, making it harder to show up at work and at home without continuous pediatric &amp; maternal support.
+                </p>
               </div>
+              <span className="text-3xs font-bold text-purple-800 bg-purple-100 px-2.5 py-1 rounded-lg w-fit">
+                Parental Fatigue
+              </span>
+            </div>
 
-              <div className="p-3 rounded-2xl bg-white/10 text-3xs text-slate-300 flex items-center justify-between">
-                <span>🛡️ ABDM &amp; HIPAA Compliant</span>
-                <span className="font-bold text-white">POSH &amp; Maternity Act Aligned</span>
+            <div className="p-6 rounded-3xl bg-amber-50/70 border border-amber-200 space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-3xl sm:text-4xl font-black text-amber-600 tracking-tight">
+                  69%
+                </span>
+                <h3 className="font-black text-sm sm:text-base text-slate-950 leading-snug">
+                  Considering Job Switch for Care
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  69% of employees have taken or are considering taking a new job due to better reproductive health and family-building benefits.
+                </p>
+              </div>
+              <span className="text-3xs font-bold text-amber-800 bg-amber-100 px-2.5 py-1 rounded-lg w-fit">
+                Talent Attrition
+              </span>
+            </div>
+
+            <div className="p-6 rounded-3xl bg-teal-50/70 border border-teal-200 space-y-3 flex flex-col justify-between">
+              <div className="space-y-2">
+                <span className="text-3xl sm:text-4xl font-black text-teal-600 tracking-tight">
+                  51%
+                </span>
+                <h3 className="font-black text-sm sm:text-base text-slate-950 leading-snug">
+                  Hidden Chronic Health Issues
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  51% of women in India have ongoing health issues — PCOS, irregular periods, anemia, thyroid — that never reach your insurance dashboard.
+                </p>
+              </div>
+              <span className="text-3xs font-bold text-teal-800 bg-teal-100 px-2.5 py-1 rounded-lg w-fit">
+                Unseen Productivity Tax
+              </span>
+            </div>
+
+          </div>
+
+          {/* Demographic Data Banner: 40-Year Gap */}
+          <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-950 to-slate-900 text-white border border-slate-800 flex flex-col md:flex-row items-center gap-6 justify-between">
+            <div className="space-y-2 max-w-2xl">
+              <div className="inline-flex items-center gap-1.5 text-xs text-amber-400 font-bold uppercase tracking-wider">
+                <AlertTriangle className="w-4 h-4" />
+                <span>The 40-Year Policy Disconnect in India</span>
+              </div>
+              <h3 className="text-lg sm:text-2xl font-black text-white leading-tight">
+                Your current health policy covers 3 days of delivery, not 40 years of her health.
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                In India, there are <strong>709M females in 2025</strong> and <strong>735M by 2030</strong>. <strong>400M women are 45+ today</strong> and <strong>130M will be in menopausal phase by 2030</strong>. Single-episode insurance models leave your most valuable senior female leaders unsupported.
+              </p>
+            </div>
+
+            <div className="flex-shrink-0 w-full md:w-auto">
+              <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-center space-y-1">
+                <span className="text-3xs uppercase tracking-widest text-slate-300 font-semibold block">
+                  Indian Female Demographic
+                </span>
+                <span className="text-2xl font-black text-teal-300">735 Million</span>
+                <span className="text-3xs text-slate-300 block">by 2030 (400M Age 45+)</span>
               </div>
             </div>
           </div>
@@ -201,94 +387,304 @@ export default function CorporateWellnessPage() {
         </div>
       </section>
 
-      {/* ── 3. SECTION 2: THE PROBLEM HR DOESN'T SEE (INVISIBLE PRODUCTIVITY TAX) ── */}
+
+      {/* ══════════════════════════════════════════════════════════════════════════
+          SECTION 3: MEDITRUST HELPS YOU SAVE TALENT AND MONEY
+          ══════════════════════════════════════════════════════════════════════════ */}
       <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-rose-200 shadow-sm space-y-8">
+        <div className="space-y-8">
           
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 text-xs font-bold text-rose-700 uppercase tracking-wider">
-              <span>🌸 SECTION 02 · WORKPLACE BURDEN</span>
+          <div className="text-center max-w-3xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-teal-100 text-teal-900 text-xs font-bold uppercase tracking-wider">
+              <span>SECTION 03 · CONTINUUM PLATFORM</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
-              The Invisible Productivity Tax HR Doesn&apos;t See
+              MEDITRUST Helps You Save Talent and Money
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600">
-              Women rarely report chronic reproductive and hormonal distress to corporate HR due to taboos, embarrassment, or fear of career penalty. Here is the hidden data:
+            <p className="text-sm sm:text-base text-slate-600 font-medium">
+              We built for the continuum, not episodes.
+            </p>
+          </div>
+
+          {/* 4 Pillars Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            {/* Pillar 1: Always-on Support */}
+            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 hover:border-teal-300 transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center text-xl font-bold">
+                🩺
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="text-lg font-black text-slate-950">
+                  Always-on Support
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  24/7 access to Dr. Arya AI companion + human experts through every life stage. On App, WhatsApp and Voice in 12 Indian languages. <strong>Privacy-first: Your Health. Your Data. Your Choice.</strong>
+                </p>
+              </div>
+              <div className="pt-2 flex flex-wrap gap-2 text-3xs font-bold text-rose-800">
+                <span className="px-2.5 py-1 rounded-lg bg-rose-50 border border-rose-100">24/7 Dr. Arya AI</span>
+                <span className="px-2.5 py-1 rounded-lg bg-rose-50 border border-rose-100">WhatsApp &amp; Voice</span>
+                <span className="px-2.5 py-1 rounded-lg bg-rose-50 border border-rose-100">12 Indian Languages</span>
+              </div>
+            </div>
+
+            {/* Pillar 2: Integrated Payments */}
+            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 hover:border-teal-300 transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center text-xl font-bold">
+                💳
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="text-lg font-black text-slate-950">
+                  Integrated Payments
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  Corporate women&apos;s health wallet + billing seamlessly managed in one platform. One invoice, full visibility, zero hassle for employees with direct provider settlements.
+                </p>
+              </div>
+              <div className="pt-2 flex flex-wrap gap-2 text-3xs font-bold text-blue-800">
+                <span className="px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-100">Corporate Health Wallet</span>
+                <span className="px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-100">1 Consolidated Invoice</span>
+                <span className="px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-100">Zero Claim Hassle</span>
+              </div>
+            </div>
+
+            {/* Pillar 3: Continuous Care */}
+            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 hover:border-teal-300 transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center text-xl font-bold">
+                🔄
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="text-lg font-black text-slate-950">
+                  Continuous Care
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  Connected, coordinated care to support employees without pause. AI remembers context she chooses to share — no repeating medical history to every doctor or lab.
+                </p>
+              </div>
+              <div className="pt-2 flex flex-wrap gap-2 text-3xs font-bold text-purple-800">
+                <span className="px-2.5 py-1 rounded-lg bg-purple-50 border border-purple-100">Shared Context Memory</span>
+                <span className="px-2.5 py-1 rounded-lg bg-purple-50 border border-purple-100">No Repeated History</span>
+                <span className="px-2.5 py-1 rounded-lg bg-purple-50 border border-purple-100">Coordinated Referrals</span>
+              </div>
+            </div>
+
+            {/* Pillar 4: Pan-India Network */}
+            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 hover:border-teal-300 transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold">
+                🗺️
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="text-lg font-black text-slate-950">
+                  Pan-India Network
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  Access to our trusted network of gynaecologists, fertility specialists, diagnostics and pharmacies at the best rates — in Hyderabad, Bengaluru, Pune, Mumbai, Delhi and Tier 2/3.
+                </p>
+              </div>
+              <div className="pt-2 flex flex-wrap gap-2 text-3xs font-bold text-emerald-800">
+                <span className="px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-100">Top Gynae &amp; IVF Clinics</span>
+                <span className="px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-100">80% Jan Aushadhi Savings</span>
+                <span className="px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-100">Hyderabad to Tier 2/3</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ══════════════════════════════════════════════════════════════════════════
+          SECTION 4: MADE TO SUPPORT EVERY STAGE OF LIFE - ONE WOMAN. EVERY STAGE.
+          ══════════════════════════════════════════════════════════════════════════ */}
+      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="bg-gradient-to-br from-rose-50/60 via-slate-50 to-purple-50/60 rounded-3xl p-6 sm:p-10 border border-rose-200/80 space-y-8">
+          
+          <div className="text-center max-w-3xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-rose-200 text-rose-900 text-xs font-bold uppercase tracking-wider">
+              <span>SECTION 04 · LIFE STAGES</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
+              Made to Support Every Stage of Life — One Woman. Every Stage.
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 font-normal">
+              Specialized clinical playbooks designed for the entire journey of your female workforce.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            {/* Stage 1: Fertility & Family Building */}
+            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center text-lg font-bold">
+                    🥚
+                  </div>
+                  <div>
+                    <span className="text-3xs font-mono uppercase text-rose-600 font-bold block">Stage 01</span>
+                    <h3 className="text-base sm:text-lg font-black text-slate-950">Fertility &amp; Family Building</h3>
+                  </div>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  Guiding members on the quickest, safest, and most affordable path to parenthood. PCOS, egg freezing, IVF second opinions, and partner inclusion.
+                </p>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-100 text-xs font-bold text-rose-950 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-rose-600 flex-shrink-0" />
+                <span>30% of fertility members achieve pregnancy without assisted reproduction.</span>
+              </div>
+            </div>
+
+            {/* Stage 2: Maternity & Newborn Care */}
+            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center text-lg font-bold">
+                    🤰
+                  </div>
+                  <div>
+                    <span className="text-3xs font-mono uppercase text-blue-600 font-bold block">Stage 02</span>
+                    <h3 className="text-base sm:text-lg font-black text-slate-950">Maternity &amp; Newborn Care</h3>
+                  </div>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  Providing proactive, continuous care — including high-risk support — to help families throughout pregnancy, postpartum, and return-to-work coaching.
+                </p>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-blue-50 border border-blue-100 text-xs font-bold text-blue-950 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                <span>Up to 27% lower NICU admissions with early risk detection.</span>
+              </div>
+            </div>
+
+            {/* Stage 3: Parenting & Pediatrics */}
+            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center text-lg font-bold">
+                    🧸
+                  </div>
+                  <div>
+                    <span className="text-3xs font-mono uppercase text-purple-600 font-bold block">Stage 03</span>
+                    <h3 className="text-base sm:text-lg font-black text-slate-950">Parenting &amp; Pediatrics</h3>
+                  </div>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  Helping working parents navigate child development with 24/7 pediatric care, infant milestone tracking, and expert support, reducing stress and improving well-being.
+                </p>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-purple-50 border border-purple-100 text-xs font-bold text-purple-950 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-purple-600 flex-shrink-0" />
+                <span>24/7 on-demand pediatrician triage resolving infant fever &amp; feeding queries.</span>
+              </div>
+            </div>
+
+            {/* Stage 4: Menopause & Midlife Health */}
+            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg font-bold">
+                    🦋
+                  </div>
+                  <div>
+                    <span className="text-3xs font-mono uppercase text-teal-600 font-bold block">Stage 04</span>
+                    <h3 className="text-base sm:text-lg font-black text-slate-950">Menopause &amp; Midlife Health</h3>
+                  </div>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  Empowering members to thrive in midlife, both personally and professionally, with holistic care, bone density checks, and safe HRT guidance.
+                </p>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-teal-50 border border-teal-100 text-xs font-bold text-teal-950 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-teal-600 flex-shrink-0" />
+                <span>India&apos;s most neglected workforce segment — 400M women 45+ with zero workplace support today.</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ══════════════════════════════════════════════════════════════════════════
+          SECTION 5: SUPERIOR OUTCOMES. PROVEN ROI.
+          ══════════════════════════════════════════════════════════════════════════ */}
+      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm space-y-8">
+          
+          <div className="text-center max-w-3xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold uppercase tracking-wider">
+              <span>SECTION 05 · ENTERPRISE IMPACT</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
+              Superior Outcomes. Proven ROI.
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 font-normal">
+              Hard data showing measurable clinical improvements and enterprise cost savings.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             
-            {/* Tax 1 */}
-            <div className="p-6 rounded-3xl bg-rose-50/70 border border-rose-200 space-y-3 flex flex-col justify-between">
-              <div className="space-y-2">
-                <div className="w-12 h-12 rounded-2xl bg-rose-200 text-rose-900 flex items-center justify-center text-2xl">
-                  🩸
-                </div>
-                <h3 className="font-black text-base text-slate-950 leading-snug">
-                  37% Professional Women Are Anemic
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                  Chronic exhaustion, brain fog, and midday energy crashes hitting women at the exact peak of their corporate careers.
-                </p>
+            {/* Outcome 1 */}
+            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
+              <div className="w-10 h-10 rounded-2xl bg-teal-100 text-teal-800 flex items-center justify-center font-bold">
+                🩺
               </div>
-              <span className="text-3xs font-bold text-rose-800 bg-rose-100 px-2.5 py-1 rounded-lg w-fit">
-                Ferritin Depletion
-              </span>
+              <h3 className="font-black text-base text-slate-950">Improve Clinical Outcomes</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                Our high-touch approach ensures employees receive personalized, preventative, and continuous care that makes a measurable difference.
+              </p>
+              <div className="pt-1 text-3xs font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-lg">
+                Preventative &amp; Continuous
+              </div>
             </div>
 
-            {/* Tax 2 */}
-            <div className="p-6 rounded-3xl bg-purple-50/70 border border-purple-200 space-y-3 flex flex-col justify-between">
-              <div className="space-y-2">
-                <div className="w-12 h-12 rounded-2xl bg-purple-200 text-purple-900 flex items-center justify-center text-2xl">
-                  🩺
-                </div>
-                <h3 className="font-black text-base text-slate-950 leading-snug">
-                  1 in 5 (20.7%) Has Diagnosed PCOS
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                  Coupled with a 22.3% higher workplace stress burden, anxiety flareups, metabolic fatigue, and hormonal acne.
-                </p>
+            {/* Outcome 2 */}
+            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
+              <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                💰
               </div>
-              <span className="text-3xs font-bold text-purple-800 bg-purple-100 px-2.5 py-1 rounded-lg w-fit">
-                Metabolic Twin Crisis
-              </span>
+              <h3 className="font-black text-base text-slate-950">Reduce Healthcare Costs</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                Through proactive, evidence-based care, we help members avoid complications and costly interventions.
+              </p>
+              <div className="pt-1 text-3xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg space-y-0.5">
+                <div>₹80,000 Saved / High-Risk Birth</div>
+                <div className="text-emerald-900 font-black">2:1 Clinical ROI</div>
+              </div>
             </div>
 
-            {/* Tax 3 */}
-            <div className="p-6 rounded-3xl bg-amber-50/70 border border-amber-200 space-y-3 flex flex-col justify-between">
-              <div className="space-y-2">
-                <div className="w-12 h-12 rounded-2xl bg-amber-200 text-amber-900 flex items-center justify-center text-2xl">
-                  🌸
-                </div>
-                <h3 className="font-black text-base text-slate-950 leading-snug">
-                  70–80% Menstrual Discomfort
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                  7% to 8.8% take 2 to 3 days off every 3 months, often disguising severe dysmenorrhea under vague sick leaves.
-                </p>
+            {/* Outcome 3 */}
+            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
+              <div className="w-10 h-10 rounded-2xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold">
+                🤝
               </div>
-              <span className="text-3xs font-bold text-amber-800 bg-amber-100 px-2.5 py-1 rounded-lg w-fit">
-                Dysmenorrhea
-              </span>
+              <h3 className="font-black text-base text-slate-950">Achieve Benefits Parity</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                In 175+ cities across India, members have access to providers who speak their language and understand cultural nuances.
+              </p>
+              <div className="pt-1 text-3xs font-bold text-blue-800 bg-blue-50 px-2.5 py-1 rounded-lg">
+                2 in 3 Members Save Out-of-Pocket
+              </div>
             </div>
 
-            {/* Tax 4 */}
-            <div className="p-6 rounded-3xl bg-teal-50/70 border border-teal-200 space-y-3 flex flex-col justify-between">
-              <div className="space-y-2">
-                <div className="w-12 h-12 rounded-2xl bg-teal-200 text-teal-900 flex items-center justify-center text-2xl">
-                  🦋
-                </div>
-                <h3 className="font-black text-base text-slate-950 leading-snug">
-                  Perimenopause Starts at 44.7y
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                  Exactly when women should ascend into CXO &amp; VP leadership — yet 79% feel uncomfortable discussing hot flashes or sleep disruptions.
-                </p>
+            {/* Outcome 4 */}
+            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
+              <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-800 flex items-center justify-center font-bold">
+                🚀
               </div>
-              <span className="text-3xs font-bold text-teal-800 bg-teal-100 px-2.5 py-1 rounded-lg w-fit">
-                Mid-Life Transition
-              </span>
+              <h3 className="font-black text-base text-slate-950">Attract &amp; Retain Talent</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                We help you attract top talent while boosting productivity and retention with seamless maternity transition.
+              </p>
+              <div className="pt-1 text-3xs font-bold text-purple-800 bg-purple-50 px-2.5 py-1 rounded-lg space-y-0.5">
+                <div>94% Planned Return to Work</div>
+                <div className="text-purple-900 font-black">4:1 Business ROI</div>
+              </div>
             </div>
 
           </div>
@@ -296,484 +692,434 @@ export default function CorporateWellnessPage() {
         </div>
       </section>
 
-      {/* ── 4. SECTION 3: WHY BLANKET PERIOD LEAVE FAILS (TRUST BUILDER) ── */}
-      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-slate-950 text-white rounded-3xl p-8 sm:p-10 border border-slate-800 shadow-xl space-y-6 relative overflow-hidden">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
-              ⚖️
-            </div>
-            <div>
-              <span className="text-3xs font-black uppercase tracking-wider text-amber-400">
-                SECTION 03 · POLICY &amp; CLINICAL GOVERNANCE
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black text-white">
-                Why Blanket Period Leave Fails — And What Actually Works
-              </h3>
-            </div>
-          </div>
 
-          <div className="p-5 rounded-2xl bg-white/5 border border-white/10 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-3">
-            <p>
-              <strong>The Supreme Court of India in March 2026 declined mandatory period leave</strong> — noting that rigid, mandated labels may inadvertently make employers hesitant to hire women in competitive roles.
-            </p>
-            <p className="text-teal-300 font-bold">
-              The real solution is not a labeled, stigmatized leave. It is private wellness care, certified by AI triage, without exposing personal medical reasons to HR.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-2 text-xs">
-            <div className="flex items-center gap-2 text-slate-400">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Employee receives confidential medical triage &amp; non-surgical pain protocols.</span>
-            </div>
-            <a
-              href="#demo-request"
-              className="text-rose-400 hover:text-rose-300 font-bold flex items-center gap-1 underline"
-            >
-              <span>See How Meditrust Private Certification Works →</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 5. SECTION 4: MEDITRUST 4-PILLAR CORPORATE PROGRAM ── */}
-      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-        
-        <div className="text-center max-w-3xl mx-auto space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-100 px-3 py-1 rounded-full border border-rose-200">
-            SECTION 04 · ENTERPRISE ARCHITECTURE
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
-            The Meditrust 4-Pillar Corporate Program
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600">
-            Our 6 core clinical intelligence tools mapped directly into actionable corporate wellness benefits:
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* ══════════════════════════════════════════════════════════════════════════
+          SECTION 6: INTERACTIVE ROI CALCULATOR & HR LEAD CAPTURE
+          ══════════════════════════════════════════════════════════════════════════ */}
+      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-12" id="calculator">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Pillar 1 */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-blue-200 shadow-sm space-y-4 flex flex-col justify-between hover:shadow-md transition-all">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-2xl">🤖</span>
-                <span className="text-3xs font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-blue-100 text-blue-900 font-mono">
-                  Pillar 01
-                </span>
-              </div>
-              <h3 className="font-black text-lg text-slate-950">
-                Dr. Arya — 100% Private AI Doctor
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                24/7 WhatsApp triage in Marathi, Hindi &amp; English. <strong>No HR sees personal chats.</strong> Only anonymous organizational aggregates (e.g. <em>&quot;32% flagged irregular cycles&quot;</em>). Solves the massive 62% national barrier: lack of female providers.
-              </p>
-            </div>
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-blue-700 font-bold">
-              <span>Zero Waiting Time Triage</span>
-              <CheckCircle2 className="w-4 h-4 text-blue-600" />
-            </div>
-          </div>
-
-          {/* Pillar 2 */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-emerald-200 shadow-sm space-y-4 flex flex-col justify-between hover:shadow-md transition-all">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-2xl">📊</span>
-                <span className="text-3xs font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 font-mono">
-                  Pillar 02
-                </span>
-              </div>
-              <h3 className="font-black text-lg text-slate-950">
-                MediVault™ + Dynamic Health Score (0–100)
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Auto-graphs Ferritin, HbA1c, TSH, and AMH over time. Detects <em>&quot;Hb 12.0 but Ferritin &lt;15 — cellular energy drained&quot;</em> <strong>3 months before employee burnout occurs</strong>. Replaces emergency sick leave with proactive nutritional action.
-              </p>
-            </div>
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-emerald-700 font-bold">
-              <span>Predictive Burnout Prevention</span>
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-            </div>
-          </div>
-
-          {/* Pillar 3 */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-amber-200 shadow-sm space-y-4 flex flex-col justify-between hover:shadow-md transition-all">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-2xl">💊</span>
-                <span className="text-3xs font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 font-mono">
-                  Pillar 03
-                </span>
-              </div>
-              <h3 className="font-black text-lg text-slate-950">
-                Save Up To 80% + 60-Min Doorstep Lab Pickups
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Matches branded Rx vs. PMBJP Jan Aushadhi generics. 60-minute doorstep blood pickups across 13 NABL labs in Pune (Metropolis, Lal, Thyrocare) and VIP hospital desks at Ruby Hall &amp; Sahyadri. <strong>Less work time lost for lab reports.</strong>
-              </p>
-            </div>
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-amber-700 font-bold">
-              <span>Out-of-Pocket Cost Relief</span>
-              <CheckCircle2 className="w-4 h-4 text-amber-600" />
-            </div>
-          </div>
-
-          {/* Pillar 4 */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-rose-200 shadow-sm space-y-4 flex flex-col justify-between hover:shadow-md transition-all">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-2xl">🌸</span>
-                <span className="text-3xs font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-rose-100 text-rose-900 font-mono">
-                  Pillar 04
-                </span>
-              </div>
-              <h3 className="font-black text-lg text-slate-950">
-                7 Life Stages = Full Employee Lifecycle
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Teen Health → Menstrual → PCOS → Fertility → Pregnancy (week-by-week scans + second opinion before C-section, curbing the 54.1% private hospital rate) → Postnatal (lactation + PPD screening) → Mid-Life &amp; Menopause (Meno Club).
-              </p>
-            </div>
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-rose-700 font-bold">
-              <span>40-Year Continuous Care</span>
-              <CheckCircle2 className="w-4 h-4 text-rose-600" />
-            </div>
-          </div>
-
-        </div>
-
-      </section>
-
-      {/* ── 6. SECTION 5: PRIVACY & COMPLIANCE ── */}
-      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 text-white border border-slate-800 flex flex-wrap items-center justify-between gap-6">
-          <div className="space-y-1 max-w-2xl">
-            <span className="text-3xs font-bold uppercase tracking-wider text-emerald-400">
-              SECTION 05 · ENTERPRISE COMPLIANCE &amp; SECURITY
-            </span>
-            <h3 className="text-base sm:text-lg font-black">
-              ABDM &amp; HIPAA Compliant | ICMR &amp; WHO Protocols | 91.4% Accuracy
-            </h3>
-            <p className="text-xs text-slate-400">
-              HR sees only anonymized organizational dashboards, never personal symptoms. Strictly aligned with POSH and the Maternity Benefit Act (26 weeks paid leave).
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-2 text-3xs font-bold text-slate-200">
-            <span className="px-3 py-1.5 rounded-xl bg-white/10 border border-white/10">🔒 256-Bit AES</span>
-            <span className="px-3 py-1.5 rounded-xl bg-white/10 border border-white/10">📜 POSH Aligned</span>
-            <span className="px-3 py-1.5 rounded-xl bg-white/10 border border-white/10">👶 Maternity Act 26W</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 7. SECTION 6: ROI FOR EMPLOYERS & PRICING ── */}
-      <section id="roi-calculator" className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-        
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-200">
-            SECTION 06 · QUANTIFIABLE BUSINESS CASE
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
-            Clear, Quantifiable ROI for Leadership
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600">
-            Starting at just <strong>₹500 / employee / year</strong> for Pune, PCMC, and Hinjewadi IT Parks.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
-          {/* Left Controls Slider */}
+          {/* Left Column: Interactive Slider & Live Savings Summary */}
           <div className="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-sm font-bold">
-                <label htmlFor="corpEmployeeRange" className="text-slate-800">Women &amp; Total Workforce Covered:</label>
-                <span className="text-rose-600 bg-rose-50 px-3 py-1 rounded-xl border border-rose-200 font-mono text-base font-black">
-                  {employeeCount.toLocaleString('en-IN')} Employees
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-700 uppercase tracking-wider">
+                <Calculator className="w-4 h-4" />
+                <span>INTERACTIVE ROI CALCULATOR</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-950">
+                Calculate Your Company&apos;s Return
+              </h3>
+              <p className="text-xs text-slate-500 font-normal">
+                Drag the slider to your approximate female employee headcount.
+              </p>
+            </div>
+
+            {/* Slider Control */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-700">Covered Women Employees:</span>
+                <span className="text-lg font-black text-rose-600 px-3 py-1 bg-white rounded-xl border border-rose-200 shadow-2xs">
+                  {employeeCount} Women
                 </span>
               </div>
               <input
-                id="corpEmployeeRange"
                 type="range"
-                min="25"
-                max="3000"
-                step="25"
+                min={25}
+                max={2500}
+                step={25}
                 value={employeeCount}
                 onChange={(e) => setEmployeeCount(Number(e.target.value))}
-                className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-rose-600"
+                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-rose-600"
               />
-              <div className="flex justify-between text-3xs text-slate-400 font-bold">
-                <span>25 (Startups)</span>
-                <span>250 (Mid-Market)</span>
-                <span>3,000+ (Enterprises)</span>
+              <div className="flex justify-between text-3xs text-slate-400 font-mono">
+                <span>25 Women</span>
+                <span>500</span>
+                <span>1,000</span>
+                <span>2,500+</span>
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2">
-              <strong className="text-slate-950 block font-bold">The Math Behind Your Returns:</strong>
-              <ul className="space-y-1.5 text-xs text-slate-600">
-                <li>• <strong>Mid-Career Dropout Savings:</strong> Preventing 10 dropouts saves ₹50–80L in recruitment &amp; onboarding costs vs. ₹5L program cost (<strong>10–16x ROI</strong>).</li>
-                <li>• <strong>Absenteeism Cut:</strong> Reduces 8 to 12 days of sick leave per woman per year.</li>
-                <li>• <strong>Health Checkup Rate:</strong> Increases annual preventive test completion by 40%.</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Right Metrics Summary */}
-          <div className="lg:col-span-6 bg-slate-950 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
-                Projected Organizational Savings
-              </span>
-              <span className="text-3xs bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full font-bold">
-                {estimatedRoiRatio}x Projected ROI
-              </span>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
-                <span className="text-3xs text-slate-400 block font-medium">Talent Dropouts Prevented</span>
-                <span className="text-2xl font-black text-rose-400 block font-mono">
-                  ~{dropoutsPrevented} Women
-                </span>
-                <span className="text-3xs text-slate-400">Post-maternity retention</span>
+            {/* Real-time Calculated ROI Metrics */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-4 rounded-2xl bg-rose-50/80 border border-rose-200 space-y-1">
+                <span className="text-3xs font-semibold text-rose-900 block">Mid-Career Dropouts Prevented</span>
+                <span className="text-2xl font-black text-rose-600">~{dropoutsPrevented} Women</span>
+                <span className="text-3xs text-slate-500 block">4% maternity &amp; burnout retention</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
-                <span className="text-3xs text-slate-400 block font-medium">Talent Replacement Saved</span>
-                <span className="text-2xl font-black text-emerald-400 block font-mono">
-                  ₹{(replacementCostSaved / 100000).toFixed(1)} Lakhs
-                </span>
-                <span className="text-3xs text-slate-400">vs. ₹{(programCost / 1000).toFixed(0)}k program cost</span>
+              <div className="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 space-y-1">
+                <span className="text-3xs font-semibold text-emerald-900 block">Hiring &amp; Replacement Saved</span>
+                <span className="text-2xl font-black text-emerald-600">₹{(replacementCostSaved / 100000).toFixed(1)} Lakhs</span>
+                <span className="text-3xs text-slate-500 block">at ₹6.5L avg replacement cost</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
-                <span className="text-3xs text-slate-400 block font-medium">Workforce Days Recovered</span>
-                <span className="text-2xl font-black text-blue-400 block font-mono">
-                  {daysAbsenteeismSaved.toLocaleString('en-IN')} Days
-                </span>
-                <span className="text-3xs text-slate-400">From early symptom action</span>
+              <div className="p-4 rounded-2xl bg-purple-50/80 border border-purple-200 space-y-1">
+                <span className="text-3xs font-semibold text-purple-900 block">Absenteeism Days Saved</span>
+                <span className="text-2xl font-black text-purple-600">{daysAbsenteeismSaved} Days</span>
+                <span className="text-3xs text-slate-500 block">Recovered productivity</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
-                <span className="text-3xs text-slate-400 block font-medium">Annual Pricing</span>
-                <span className="text-2xl font-black text-teal-300 block font-mono">
-                  ₹500 / emp
-                </span>
-                <span className="text-3xs text-slate-400">Pune / PCMC IT Hubs</span>
+              <div className="p-4 rounded-2xl bg-teal-50/80 border border-teal-200 space-y-1">
+                <span className="text-3xs font-semibold text-teal-900 block">Estimated Enterprise ROI</span>
+                <span className="text-2xl font-black text-teal-700">{estimatedRoiRatio}x ROI</span>
+                <span className="text-3xs text-slate-500 block">Annual program @ ₹500/emp</span>
               </div>
             </div>
 
-            <a
-              href="#demo-request"
-              className="w-full py-3.5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs sm:text-sm text-center block transition-colors shadow-md"
-            >
-              Book Corporate Demo for {employeeCount} Employees →
-            </a>
-          </div>
-
-        </div>
-
-      </section>
-
-      {/* ── 8. CORPORATE DEMO & PROPOSAL REQUEST FORM ── */}
-      <section id="demo-request" className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-white rounded-3xl p-6 sm:p-12 border border-rose-200 shadow-xl space-y-8">
-          
-          <div className="space-y-2 text-center max-w-2xl mx-auto">
-            <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">
-              Direct HR Pilot Request
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
-              Request Your Custom Corporate Proposal
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600">
-              Receive a customized pilot plan, anonymous dashboard demo, and pricing proposal for your workforce within 4 business hours.
-            </p>
-          </div>
-
-          {submitted ? (
-            <div className="p-8 rounded-3xl bg-emerald-50 border border-emerald-200 text-center space-y-4 animate-scaleUp">
-              <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl mx-auto">
-                ✓
+            <div className="p-4 rounded-2xl bg-slate-900 text-white text-xs space-y-1">
+              <div className="flex items-center justify-between font-bold">
+                <span>Annual Investment:</span>
+                <span className="text-teal-300">₹{programCost.toLocaleString('en-IN')} / year</span>
               </div>
-              <h3 className="text-xl font-bold text-emerald-950">Thank You, {contactName}!</h3>
-              <p className="text-xs sm:text-sm text-emerald-800 max-w-md mx-auto leading-relaxed">
-                We have received your corporate wellness inquiry for <strong>{companyName}</strong>. Our enterprise health director will reach out to <strong>{workEmail}</strong> / <strong>{phone}</strong> with a detailed proposal.
+              <p className="text-3xs text-slate-400">
+                ₹500/year/employee covers 24/7 AI Triage, Gynecologist Network, and Health Wallet.
               </p>
-              <div className="pt-2">
-                <a
-                  href="tel:+917028025717"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-700 text-white text-xs font-bold"
-                >
-                  <Phone className="w-3.5 h-3.5" />
-                  <span>Immediate Assistance: +91 7028025717</span>
-                </a>
-              </div>
             </div>
-          ) : (
-            <form onSubmit={handleSubmitLead} className="space-y-6">
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Company Name *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Infosys, Persistent, Tata Technologies, Wipro"
-                    value={companyName}
-                    onChange={(e) => setCompanyName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-medium focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
-                  />
+
+          </div>
+
+          {/* Right Column: HR Demo Booking Form */}
+          <div className="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6" id="demo-form">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 uppercase tracking-wider">
+                <Mail className="w-4 h-4" />
+                <span>BOOK A DEMO FOR HR</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-950">
+                Get a Custom Pilot Plan
+              </h3>
+              <p className="text-xs text-slate-500 font-normal">
+                14-day zero-risk corporate rollout for your women workforce.
+              </p>
+            </div>
+
+            {submitted ? (
+              <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-3">
+                <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
+                <h4 className="font-black text-lg text-emerald-950">Demo Request Received!</h4>
+                <p className="text-xs text-slate-600 leading-relaxed max-w-md mx-auto">
+                  Our Corporate Benefits Advisor will connect with you at <strong>{workEmail}</strong> within 4 business hours with your custom pilot proposal.
+                </p>
+                <div className="pt-2">
+                  <a
+                    href="https://wa.me/917028025717?text=Hi%20Meditrust%20Team,%20I%20just%20submitted%20a%20Corporate%20Benefits%20Demo%20Request."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#008069] text-white font-bold text-xs"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Instant WhatsApp Connect</span>
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmitLead} className="space-y-4 text-xs">
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="font-bold text-slate-700">Company Name *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Infosys, TCS, Tech Mahindra"
+                      value={companyName}
+                      onChange={(e) => setCompanyName(e.target.value)}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-rose-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-slate-700">Your Name &amp; Title *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Priya Sharma, VP HR"
+                      value={contactName}
+                      onChange={(e) => setContactName(e.target.value)}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-rose-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="font-bold text-slate-700">Official Work Email *</label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="name@company.com"
+                      value={workEmail}
+                      onChange={(e) => setWorkEmail(e.target.value)}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-rose-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-slate-700">Mobile / WhatsApp Number *</label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="+91 98765 43210"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-rose-500"
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">HR / Talent Leader Name *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Your Full Name"
-                    value={contactName}
-                    onChange={(e) => setContactName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-medium focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Official Work Email *</label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="hr@company.com"
-                    value={workEmail}
-                    onChange={(e) => setWorkEmail(e.target.value)}
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-medium focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Phone / WhatsApp Number *</label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="+91 98765 43210"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-medium focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Primary Office Location</label>
-                  <input
-                    type="text"
-                    placeholder="Pune / PCMC (Hinjewadi / Magarpatta / Kharadi), Bengaluru, Mumbai"
+                  <label className="font-bold text-slate-700">Primary Office Location *</label>
+                  <select
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-medium focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Approx. Women / Total Headcount</label>
-                  <select
-                    value={employeeCount}
-                    onChange={(e) => setEmployeeCount(Number(e.target.value))}
-                    className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-medium focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
+                    className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:outline-rose-500"
                   >
-                    <option value={50}>25 – 100 Employees (₹500/yr)</option>
-                    <option value={250}>100 – 500 Employees (₹500/yr)</option>
-                    <option value={1000}>500 – 2,000 Employees (Enterprise Tier)</option>
-                    <option value={3000}>2,000+ Employees (Custom Tier)</option>
+                    <option>Hyderabad / Cyberabad</option>
+                    <option>Bengaluru (Whitefield / Electronic City / ORR)</option>
+                    <option>Pune / PCMC (Hinjewadi / Magarpatta / Kharadi)</option>
+                    <option>Mumbai / Navi Mumbai / Thane</option>
+                    <option>Delhi NCR (Gurugram / Noida)</option>
+                    <option>Chennai / OMR</option>
+                    <option>Tier 2 / Pan-India Distributed</option>
                   </select>
                 </div>
-              </div>
 
-              {/* Checkboxes: Priorities */}
-              <div className="space-y-2 pt-2">
-                <label className="text-xs font-bold text-slate-700 block">
-                  Select Corporate Wellness Priorities:
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-xs">
-                  {[
-                    '24/7 AI Doctor Triage',
-                    "Women's Health & PCOS Program",
-                    'Maternity & Return-to-Work Care',
-                    '80% Jan Aushadhi Generic Savings',
-                    'Annual 60-Min Office Checkups',
-                    'MediVault™ ABDM Health Locker'
-                  ].map((need) => (
-                    <button
-                      type="button"
-                      key={need}
-                      onClick={() => handleToggleNeed(need)}
-                      className={`p-3 rounded-xl border text-left font-semibold transition-all flex items-center justify-between ${
-                        selectedNeeds.includes(need)
-                          ? 'bg-rose-50 text-rose-950 border-rose-300 shadow-2xs'
-                          : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
-                      }`}
-                    >
-                      <span className="text-3xs">{need}</span>
-                      {selectedNeeds.includes(need) && <CheckCircle2 className="w-3.5 h-3.5 text-rose-600" />}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-3xs text-slate-500">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span>Confidential HR inquiry only. NDA guaranteed.</span>
+                <div className="space-y-2 pt-1">
+                  <label className="font-bold text-slate-700 block">Select Key Focus Areas:</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {[
+                      '24/7 AI Doctor Triage (Dr. Arya)',
+                      "Women's Health & PCOS Program",
+                      'Maternity & Return-to-Work Care',
+                      '80% Jan Aushadhi Generic Savings',
+                      'Menopause & Midlife Health',
+                      'Corporate Health Wallet & Billing'
+                    ].map((need) => (
+                      <button
+                        key={need}
+                        type="button"
+                        onClick={() => handleToggleNeed(need)}
+                        className={`p-2 rounded-xl text-left text-3xs font-semibold border transition-all flex items-center gap-1.5 ${
+                          selectedNeeds.includes(need)
+                            ? 'bg-rose-50 border-rose-300 text-rose-950 font-bold'
+                            : 'bg-slate-50 border-slate-200 text-slate-600'
+                        }`}
+                      >
+                        <Check className={`w-3 h-3 ${selectedNeeds.includes(need) ? 'text-rose-600' : 'text-slate-300'}`} />
+                        <span>{need}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-black text-xs sm:text-sm shadow-md transition-all disabled:opacity-50"
+                  className="w-full py-3.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-black text-sm shadow-md transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                  {submitting ? 'Submitting Request...' : 'Book Corporate Demo →'}
+                  {submitting ? 'Preparing Pilot Proposal...' : 'Request Custom Corporate Demo & Pilot'}
                 </button>
-              </div>
 
-            </form>
-          )}
+                <p className="text-3xs text-center text-slate-400">
+                  🔒 100% Confidential. No spam. Direct consultation with Meditrust Enterprise Health Directors.
+                </p>
+
+              </form>
+            )}
+
+          </div>
 
         </div>
       </section>
 
-      {/* ── 9. DIRECT ENTERPRISE CALL DESK ── */}
-      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-10 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800">
-          <div className="space-y-2 text-center md:text-left max-w-xl">
-            <h3 className="text-xl sm:text-2xl font-black text-rose-300">
-              Need an Immediate Corporate Health Briefing?
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Connect directly with our Chief Medical Officer and Enterprise Wellness desk for Pune, PCMC, and Pan-India tech parks.
+
+      {/* ══════════════════════════════════════════════════════════════════════════
+          SECTION 7: HOW IT WORKS
+          ══════════════════════════════════════════════════════════════════════════ */}
+      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="bg-slate-950 text-white rounded-3xl p-6 sm:p-10 border border-slate-800 space-y-10">
+          
+          <div className="text-center max-w-3xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-teal-500/20 text-teal-300 text-xs font-bold uppercase tracking-wider">
+              <span>SECTION 07 · OPERATIONAL BLUEPRINT</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+              How It Works
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 font-normal">
+              Seamless onboarding for HR leadership and a deeply supportive, private clinical journey for your employees.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 flex-shrink-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            {/* Track 1: For CHRO / HR */}
+            <div className="p-6 sm:p-7 rounded-3xl bg-slate-900 border border-slate-800 space-y-5">
+              <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
+                <div className="w-10 h-10 rounded-2xl bg-teal-500/20 text-teal-300 flex items-center justify-center font-bold text-lg">
+                  🏢
+                </div>
+                <div>
+                  <span className="text-3xs font-mono uppercase text-teal-400 font-bold block">Enterprise Flow</span>
+                  <h3 className="text-lg font-black text-white">For CHRO / HR Leadership</h3>
+                </div>
+              </div>
+
+              <div className="space-y-4 text-xs">
+                
+                <div className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full bg-teal-500 text-slate-950 font-black text-3xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                    1
+                  </span>
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Discovery Call</h4>
+                    <p className="text-slate-400 leading-relaxed font-normal">
+                      We assess your female workforce demographics, city hubs (Hyderabad, Pune, Bengaluru), and current insurance gaps.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full bg-teal-500 text-slate-950 font-black text-3xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                    2
+                  </span>
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Custom Plan for Your Workforce</h4>
+                    <p className="text-slate-400 leading-relaxed font-normal">
+                      Tailored packages covering PCOS, Maternity return-to-work, and Menopause wellness @ ₹500/employee/year.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full bg-teal-500 text-slate-950 font-black text-3xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                    3
+                  </span>
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Launch in 14 Days</h4>
+                    <p className="text-slate-400 leading-relaxed font-normal">
+                      Turnkey employee communication kit, internal townhall launch with Dr. Arya, and instant WhatsApp onboarding.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full bg-teal-500 text-slate-950 font-black text-3xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                    4
+                  </span>
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Dashboard with Anonymized Insights</h4>
+                    <p className="text-slate-400 leading-relaxed font-normal">
+                      Quarterly aggregated utilization reports (e.g. 34% engaged in preventative health) with <strong>zero individual employee health data revealed to HR</strong>.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Track 2: For Employee Anjali */}
+            <div className="p-6 sm:p-7 rounded-3xl bg-slate-900 border border-slate-800 space-y-5">
+              <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
+                <div className="w-10 h-10 rounded-2xl bg-rose-500/20 text-rose-300 flex items-center justify-center font-bold text-lg">
+                  👩‍💼
+                </div>
+                <div>
+                  <span className="text-3xs font-mono uppercase text-rose-400 font-bold block">User Experience</span>
+                  <h3 className="text-lg font-black text-white">For Employee Anjali (Care Journey)</h3>
+                </div>
+              </div>
+
+              <div className="space-y-3.5 text-xs">
+                
+                <div className="p-3 rounded-2xl bg-slate-950/70 border border-slate-800/80 space-y-1">
+                  <div className="flex items-center justify-between text-3xs font-bold text-rose-300">
+                    <span>Month 1–3 · Menstrual Health</span>
+                    <span>AI Triage</span>
+                  </div>
+                  <p className="text-slate-300 leading-relaxed">
+                    Experiencing severe period pain $\rightarrow$ Dr. Arya tracks 3 months $\rightarrow$ Flags potential PCOS risk.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-slate-950/70 border border-slate-800/80 space-y-1">
+                  <div className="flex items-center justify-between text-3xs font-bold text-blue-300">
+                    <span>Care Navigation &amp; Wallet</span>
+                    <span>Provider Booking</span>
+                  </div>
+                  <p className="text-slate-300 leading-relaxed">
+                    Books verified gynecologist in Ameerpet same day via corporate health wallet $\rightarrow$ Ultrasound scans explained in plain language by AI.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-slate-950/70 border border-slate-800/80 space-y-1">
+                  <div className="flex items-center justify-between text-3xs font-bold text-purple-300">
+                    <span>Holistic Support</span>
+                    <span>Diet &amp; Mental Health</span>
+                  </div>
+                  <p className="text-slate-300 leading-relaxed">
+                    Accesses low-GI Indian nutrition guide and confidential mental health counseling without stigma.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-slate-950/70 border border-slate-800/80 space-y-1">
+                  <div className="flex items-center justify-between text-3xs font-bold text-emerald-300">
+                    <span>Year 2 · Maternity &amp; Return-to-Work</span>
+                    <span>Continuity of Care</span>
+                  </div>
+                  <p className="text-slate-300 leading-relaxed">
+                    Next year pregnancy high-risk flagged early (averting pre-eclampsia) $\rightarrow$ Postpartum lactation support and 1-on-1 return-to-work coaching.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ══════════════════════════════════════════════════════════════════════════
+          SECTION 8: FINAL CTA & COMPLIANCE FOOTER
+          ══════════════════════════════════════════════════════════════════════════ */}
+      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-rose-950 text-white p-8 sm:p-14 border border-rose-900/40 shadow-2xl text-center space-y-6">
+          
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs font-black uppercase tracking-wider">
+            <span>GET STARTED TODAY</span>
+          </div>
+
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight max-w-3xl mx-auto leading-tight">
+            Ready to become the best workplace for women in India?
+          </h2>
+
+          <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Join leading IT, BFSI and GCCs who are choosing MEDITRUST to transform care for their workforce.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <a
-              href="tel:+917028025717"
-              className="px-6 py-3.5 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs sm:text-sm shadow-md transition-colors flex items-center gap-2"
+              href="#demo-form"
+              className="px-8 py-4 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-black text-sm shadow-xl transition-all hover:-translate-y-0.5"
             >
-              <Phone className="w-4 h-4" />
-              <span>Call Enterprise Desk: +91 7028025717</span>
+              Talk to Benefits Advisor
             </a>
+
             <a
-              href="https://wa.me/917028025717?text=Hi%20Meditrust%20AI,%20I%20am%20an%20HR%20Leader%20inquiring%20about%20Corporate%20Wellness"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-3.5 rounded-full bg-[#008069] hover:bg-[#006e5a] text-white font-bold text-xs sm:text-sm transition-colors flex items-center gap-2"
+              href="#calculator"
+              className="px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm backdrop-blur-md transition-all hover:-translate-y-0.5"
             >
-              <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp Enterprise</span>
+              Get Pricing for 100, 500, 1000+ Women Team
             </a>
           </div>
+
+          {/* Compliance & Privacy Footer Note */}
+          <div className="pt-8 border-t border-white/10 max-w-2xl mx-auto text-3xs text-slate-400 leading-relaxed">
+            <p>
+              <strong>Footer Note:</strong> MEDITRUST AI is an AI-powered understanding and care navigation platform. It does not replace a doctor&apos;s judgment. All care is delivered by qualified healthcare providers. <em>Your Health. Your Data. Your Choice.</em>
+            </p>
+          </div>
+
         </div>
       </section>
 
