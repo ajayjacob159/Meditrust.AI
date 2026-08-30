@@ -279,7 +279,7 @@ export default function Footer() {
                 <Link href="/womens-marketplace" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <ShoppingBag className="w-3.5 h-3.5 text-rose-500" />
-                    <span>Nua Period &amp; Skincare Store</span>
+                    <span>Sakhi Period &amp; Skincare Store</span>
                   </span>
                   <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded font-black">SHOP</span>
                 </Link>
@@ -411,7 +411,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/womens-marketplace" className="text-rose-300 hover:text-rose-200 transition-colors font-bold flex items-center gap-1">
-                  <span>🛍️ Nua Wellness Marketplace</span>
+                  <span>🛍️ Sakhi Wellness Marketplace</span>
                   <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded">NEW</span>
                 </Link>
               </li>

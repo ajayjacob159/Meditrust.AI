@@ -1,7 +1,7 @@
 /**
  * ══════════════════════════════════════════════════════════════════════════════
- * MEDITRUST AI — WOMEN'S WELLNESS MARKETPLACE PRODUCTS DATASET
- * Inspired by Nua Woman (Period Care, Intimate Hygiene, Skincare & Hormonal Wellness)
+ * MEDITRUST AI — 100% WHITE-LABELED WOMEN'S WELLNESS MARKETPLACE DATASET
+ * Brand: Meditrust Sakhi™ (Period Care, Intimate Hygiene, Skincare & Hormonal Wellness)
  * Integrated with Dr. Arya Clinical Rationale, PMBJP Jan Aushadhi Generic Matches & Subscriptions.
  * ══════════════════════════════════════════════════════════════════════════════
  */
@@ -36,10 +36,10 @@ export interface MarketplaceProduct {
 }
 
 export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
-  // ── 1. PERIOD CARE (NUA PADS, PANTIES, CRAMP COMFORT, MENSTRUAL CUP) ──
+  // ── 1. PERIOD CARE (MEDITRUST SAKHI PADS, PANTIES, CRAMP COMFORT, MENSTRUAL CUP) ──
   {
-    id: 'nua-custom-rashfree-pads',
-    name: 'Nua Ultra-Soft Rash-Free Sanitary Pads (Custom Pack of 12)',
+    id: 'meditrust-sakhi-rashfree-pads',
+    name: 'Meditrust Sakhi™ Ultra-Soft Rash-Free Sanitary Pads (Custom Pack of 12)',
     tagline: 'Customized flow sizes with individual biodegradable disposal covers',
     category: 'period-care',
     categoryLabel: 'Period Care',
@@ -81,8 +81,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
   },
 
   {
-    id: 'nua-cramp-comfort-heat-patches',
-    name: 'Nua Cramp Comfort Self-Heating Patches (Pack of 3)',
+    id: 'meditrust-sakhi-cramp-comfort-heat-patches',
+    name: 'Meditrust Sakhi™ Cramp Comfort Self-Heating Patches (Pack of 3)',
     tagline: '100% natural, 8-hour continuous soothing heat for period cramps',
     category: 'period-care',
     categoryLabel: 'Period Care',
@@ -119,8 +119,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
   },
 
   {
-    id: 'nua-360-period-panties',
-    name: 'Nua 360° Leak-Proof Disposable Period Panties (Pack of 5)',
+    id: 'meditrust-sakhi-360-period-panties',
+    name: 'Meditrust Sakhi™ 360° Leak-Proof Disposable Period Panties (Pack of 5)',
     tagline: 'All-night full coverage protection for postpartum and heavy flow',
     category: 'period-care',
     categoryLabel: 'Period Care',
@@ -155,8 +155,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
   },
 
   {
-    id: 'nua-platinum-menstrual-cup',
-    name: 'Nua Platinum-Grade Medical Silicone Menstrual Cup',
+    id: 'meditrust-sakhi-platinum-menstrual-cup',
+    name: 'Meditrust Sakhi™ Platinum-Grade Medical Silicone Menstrual Cup',
     tagline: '10-year reusable, ultra-soft design with sterilizing pouch',
     category: 'period-care',
     categoryLabel: 'Period Care',
@@ -188,8 +188,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
 
   // ── 2. INTIMATE HYGIENE (INTIMATE WASH, PANTY LINERS, WIPES) ──
   {
-    id: 'nua-foaming-intimate-wash',
-    name: 'Nua pH 3.5–4.5 Foaming Intimate Wash (150ml)',
+    id: 'meditrust-sakhi-foaming-intimate-wash',
+    name: 'Meditrust Sakhi™ pH 3.5–4.5 Foaming Intimate Wash (150ml)',
     tagline: 'Lactic Acid, Aloe Vera & Tea Tree — Prevents UTI & Odor',
     category: 'intimate-hygiene',
     categoryLabel: 'Intimate Hygiene',
@@ -226,8 +226,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
   },
 
   {
-    id: 'nua-ultra-thin-panty-liners',
-    name: 'Nua 1mm Breathable Cotton Panty Liners (Pack of 30)',
+    id: 'meditrust-sakhi-ultra-thin-panty-liners',
+    name: 'Meditrust Sakhi™ 1mm Breathable Cotton Panty Liners (Pack of 30)',
     tagline: 'Daily freshness for non-period discharge, spotting & ovulation',
     category: 'intimate-hygiene',
     categoryLabel: 'Intimate Hygiene',
@@ -262,8 +262,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
   },
 
   {
-    id: 'nua-soothing-intimate-wipes',
-    name: 'Nua Biodegradable Soothing Intimate Wipes (Pack of 20)',
+    id: 'meditrust-sakhi-soothing-intimate-wipes',
+    name: 'Meditrust Sakhi™ Biodegradable Soothing Intimate Wipes (Pack of 20)',
     tagline: 'Flushable, 100% viscose with Aloe Vera for on-the-go hygiene',
     category: 'intimate-hygiene',
     categoryLabel: 'Intimate Hygiene',
@@ -301,8 +301,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
 
   // ── 3. HORMONAL SKINCARE (PIMPLE PATCHES, SALICYLIC CLEANSER, OIL-FREE GEL) ──
   {
-    id: 'nua-hydrocolloid-pimple-patches',
-    name: 'Nua Invisible Hydrocolloid Pimple Patches (36 Patches)',
+    id: 'meditrust-sakhi-hydrocolloid-pimple-patches',
+    name: 'Meditrust Sakhi™ Invisible Hydrocolloid Pimple Patches (36 Patches)',
     tagline: 'Absorbs pus in 6–8 hours & prevents acne picking scars',
     category: 'hormonal-skincare',
     categoryLabel: 'Hormonal Skincare',
@@ -337,8 +337,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
   },
 
   {
-    id: 'nua-pore-cleansing-face-wash',
-    name: 'Nua 2% Salicylic Acid + Prebiotic Pore Cleansing Face Wash (100ml)',
+    id: 'meditrust-sakhi-pore-cleansing-face-wash',
+    name: 'Meditrust Sakhi™ 2% Salicylic Acid + Prebiotic Pore Cleansing Face Wash (100ml)',
     tagline: 'Unclogs deep pores, balances sebum & calms hormonal redness',
     category: 'hormonal-skincare',
     categoryLabel: 'Hormonal Skincare',
@@ -375,8 +375,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
   },
 
   {
-    id: 'nua-oil-free-gel-moisturizer',
-    name: 'Nua Oil-Free Barrier Calming Gel Moisturizer (50g)',
+    id: 'meditrust-sakhi-oil-free-gel-moisturizer',
+    name: 'Meditrust Sakhi™ Oil-Free Barrier Calming Gel Moisturizer (50g)',
     tagline: 'Niacinamide, Ceramides & Hyaluronic Acid — Zero Stickiness',
     category: 'hormonal-skincare',
     categoryLabel: 'Hormonal Skincare',
@@ -413,8 +413,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
 
   // ── 4. PCOS & HORMONAL NUTRITION ──
   {
-    id: 'nua-myo-inositol-pcos-sachets',
-    name: 'Meditrust x Nua PCOS Hormonal Balance Sachets (40:1 Inositol)',
+    id: 'meditrust-sakhi-myo-inositol-pcos-sachets',
+    name: 'Meditrust Sakhi™ PCOS Hormonal Balance Sachets (40:1 Inositol)',
     tagline: '2000mg Myo-Inositol + 50mg D-Chiro + Folate — Regulates Cycles',
     category: 'pcos-supplements',
     categoryLabel: 'PCOS & Nutrition',
@@ -456,8 +456,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
   },
 
   {
-    id: 'nua-spearmint-pcos-tea',
-    name: 'Organic Spearmint + Shatavari Herbal Period Tea (100g Loose Leaf)',
+    id: 'meditrust-sakhi-spearmint-pcos-tea',
+    name: 'Meditrust Sakhi™ Organic Spearmint + Shatavari Herbal Period Tea (100g)',
     tagline: 'Natural anti-androgen tea for hormonal acne & PMS bloating',
     category: 'pcos-supplements',
     categoryLabel: 'PCOS & Nutrition',
@@ -494,8 +494,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
 
   // ── 5. CURATED CARE BUNDLES & STARTER KITS ──
   {
-    id: 'nua-first-period-teen-starter-kit',
-    name: 'Nua Teen First Period Starter Box (Puberty & School Kit)',
+    id: 'meditrust-sakhi-first-period-teen-starter-kit',
+    name: 'Meditrust Sakhi™ Teen First Period Starter Box (Puberty & School Kit)',
     tagline: 'Complete reassurance kit for young girls — Pads, Liners, Guide & Pouch',
     category: 'care-bundles',
     categoryLabel: 'Care Bundles & Kits',
@@ -526,8 +526,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
   },
 
   {
-    id: 'nua-pcos-acne-cycle-harmony-box',
-    name: 'Nua Total PCOS & Acne Care Box (4-in-1 Complete Solution)',
+    id: 'meditrust-sakhi-pcos-acne-cycle-harmony-box',
+    name: 'Meditrust Sakhi™ Total PCOS & Acne Care Box (4-in-1 Complete Solution)',
     tagline: 'Inositol Sachets + Hydrocolloid Patches + Cleanser + Cramp Patch',
     category: 'care-bundles',
     categoryLabel: 'Care Bundles & Kits',
@@ -559,8 +559,8 @@ export const WOMENS_MARKETPLACE_PRODUCTS: MarketplaceProduct[] = [
   },
 
   {
-    id: 'nua-postpartum-new-mom-recovery-kit',
-    name: 'Nua New Mother Postpartum Healing & Maternity Bundle',
+    id: 'meditrust-sakhi-postpartum-new-mom-recovery-kit',
+    name: 'Meditrust Sakhi™ New Mother Postpartum Healing & Maternity Bundle',
     tagline: '360° Period Panties + Intimate Wash + Wipes + Shatavari Granules',
     category: 'care-bundles',
     categoryLabel: 'Care Bundles & Kits',

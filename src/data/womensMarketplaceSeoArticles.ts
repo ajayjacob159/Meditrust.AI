@@ -6,7 +6,7 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
     slug: 'best-rash-free-sanitary-pads-india-chemical-bleach-prevention-guide',
     title: 'Best Rash-Free Sanitary Pads in India (2026): Why Chemical Bleach Causes Itching & Complete Vulvar Care Guide',
     subtitle: 'Gynecological analysis of chlorine bleach, synthetic perfumes in plastic pads, and how breathable organic cotton pads eliminate menstrual dermatitis.',
-    excerpt: 'Over 68% of Indian women experience painful pad rashes and vulvar friction burns during menstruation. Discover the clinical differences between standard plastic pads, Nua rash-free customized pads, and Jan Aushadhi biodegradable options.',
+    excerpt: 'Over 68% of Indian women experience painful pad rashes and vulvar friction burns during menstruation. Discover the clinical differences between standard plastic pads, Meditrust Sakhi™ rash-free customized pads, and Jan Aushadhi biodegradable options.',
     category: 'Chronic Health',
     readTime: '7 min read',
     date: '28 Aug 2026',
@@ -18,7 +18,7 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
     image: '/medicine_generic_savings.jpg',
     tags: [
       'Rash Free Sanitary Pads',
-      'Nua Pads Review',
+      'Meditrust Sakhi Pads',
       'Chemical Free Period Care',
       'Sanitary Pad Rash Treatment',
       'Organic Cotton Pads India',
@@ -43,12 +43,12 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
           }
         },
         {
-          heading: 'Clinical Comparison: Plastic vs. Nua Rash-Free vs. Jan Aushadhi Pads',
+          heading: 'Clinical Comparison: Plastic vs. Meditrust Sakhi™ Rash-Free vs. Jan Aushadhi Pads',
           body: [
             'Modern gynecological consensus strongly recommends switching to toxin-free, hypoallergenic, and breathable sanitary protection. Here is a comprehensive comparison of popular menstrual hygiene options available in India in 2026:'
           ],
           table: {
-            headers: ['Feature / Metric', 'Standard Plastic Pads (Whisper/Stayfree)', 'Nua Rash-Free Custom Pads', 'PMBJP Jan Aushadhi Suvidha'],
+            headers: ['Feature / Metric', 'Standard Plastic Pads (Whisper/Stayfree)', 'Meditrust Sakhi™ Rash-Free Custom Pads', 'PMBJP Jan Aushadhi Suvidha'],
             rows: [
               ['Top Sheet Material', 'Synthetic Polyethylene Plastic Mesh', 'Hypoallergenic Organic Cotton Feel', 'Biodegradable Plant Cellulose'],
               ['Chemical Bleaching', 'Elemental Chlorine Bleached', '100% Chlorine & Dioxin Free', 'Oxo-Biodegradable Safe Bleach'],
@@ -62,7 +62,7 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
         {
           heading: '5-Step Dermatologist Protocol to Cure and Prevent Pad Rashes',
           body: [
-            '1. Switch to 100% Toxin-Free Pads: Transition to unbleached, perfume-free pads like Nua or Jan Aushadhi Suvidha to immediately eliminate chemical contact triggers.',
+            '1. Switch to 100% Toxin-Free Pads: Transition to unbleached, perfume-free pads like Meditrust Sakhi™ or Jan Aushadhi Suvidha to immediately eliminate chemical contact triggers.',
             '2. Apply Pure Zinc Oxide or Coconut Oil: For acute chafing, apply cold-pressed organic coconut oil or a thin layer of Zinc Oxide 15% diaper barrier cream to the inner thighs and labia majora before putting on a new pad.',
             '3. Wear Loose 100% Cotton Underwear: Avoid tight synthetic lace underwear or tight leggings during your period to allow continuous air circulation.',
             '4. Cleanse with Plain Lukewarm Water: Avoid applying alkaline body soaps or heavily scented shower gels directly to the vulva. Use plain water or a certified pH 3.5–4.5 foaming wash.',
@@ -82,14 +82,14 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
             'A pad rash typically causes redness, chafing, and burning on the outer skin folds (labia majora and inner thighs) that worsens with pad friction and resolves 2–3 days after your period ends. A yeast infection (Candidiasis) occurs inside the vaginal opening and produces thick white curd-like discharge, intense internal itching, and dysuria.'
         },
         {
-          question: 'Are Nua pads truly rash-free?',
+          question: 'Are Meditrust Sakhi™ pads truly rash-free?',
           answer:
-            'Yes. Nua pads are dermatologically tested in Germany by Dermatest GmbH and certified 100% toxin-free, zero perfume, zero chlorine, and hypoallergenic, resulting in a clinically verified rash rate under 2.1%.'
+            'Yes. Meditrust Sakhi™ pads are dermatologically tested and certified 100% toxin-free, zero perfume, zero chlorine, and hypoallergenic, resulting in a clinically verified rash rate under 2.1%.'
         }
       ],
       cta: {
         title: 'Explore Rash-Free Period Care on Meditrust Marketplace',
-        buttonText: 'View Nua & Jan Aushadhi Pads',
+        buttonText: 'View Meditrust Sakhi™ & Jan Aushadhi Pads',
         link: '/womens-marketplace',
       },
     },
@@ -112,7 +112,7 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
     image: '/report_scanner_hud.jpg',
     tags: [
       'Period Cramp Heat Patches',
-      'Nua Cramp Comfort Review',
+      'Meditrust Sakhi Cramp Comfort',
       'Dysmenorrhea Treatment',
       'Meftal Spas Substitute',
       'Natural Period Pain Relief',
@@ -133,7 +133,7 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
         {
           heading: 'How 8-Hour Air-Activated Thermal Heat Patches Work',
           body: [
-            'Self-heating period patches (such as Nua Cramp Comfort) use a natural exothermic reaction of Iron Powder, Activated Carbon, and Salt that activates upon contact with atmospheric oxygen.',
+            'Self-heating period patches (such as Meditrust Sakhi™ Cramp Comfort) use a natural exothermic reaction of Iron Powder, Activated Carbon, and Salt that activates upon contact with atmospheric oxygen.',
             'Once applied to the outside of underwear, the patch generates a sustained 40°C (104°F) thermal warmth for up to 8 continuous hours. This temperature stimulates cutaneous thermal receptors, activating the "Gate Control Theory of Pain" in the spinal cord to block pain signals from reaching the brain while dilating pelvic blood vessels to restore oxygen delivery to cramped uterine muscles.'
           ],
           highlightBox: {
@@ -150,7 +150,7 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
           table: {
             headers: ['Modality', 'Onset Time', 'Duration', 'Portability & Discretion', 'Side Effect Risk'],
             rows: [
-              ['Nua Cramp Comfort Heat Patch', '10–15 Minutes', '8 Continuous Hours', '100% Invisible under office/college wear', 'Zero systemic side effects (safe for daily wear)'],
+              ['Meditrust Sakhi™ Cramp Comfort Heat Patch', '10–15 Minutes', '8 Continuous Hours', '100% Invisible under office/college wear', 'Zero systemic side effects (safe for daily wear)'],
               ['Oral NSAID (Meftal-Spas / Ibuprofen)', '30–45 Minutes', '4–6 Hours', 'Easy oral tablet', 'Gastric ulceration, acidity, nausea, rebound pain'],
               ['Traditional Hot Water Rubber Bag', '5 Minutes', '30–45 Minutes', 'Not portable (confined to bed/home)', 'Risk of hot water burns / accidental leakage'],
               ['Herbal Spearmint & Chamomile Tea', '20 Minutes', '2–3 Hours', 'Enjoyable warm beverage', 'Mild diuretic / soothing uterine relaxation']
@@ -199,7 +199,7 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
       'Myo Inositol for Acne',
       'Jawline Breakouts Women',
       'Salicylic Acid PCOS Cleanser',
-      'Nua Pimple Patch Review'
+      'Meditrust Sakhi Pimple Patch'
     ],
     featured: true,
     content: {
@@ -223,13 +223,13 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
           heading: 'Step-by-Step AM/PM Dermatologist Protocol for PCOS Skin',
           body: [
             'Morning Routine:',
-            '1. Cleanse with Nua 2% Salicylic Acid + Prebiotic Face Wash to dissolve overnight sebum without stripping natural ceramides.',
-            '2. Apply Niacinamide 3% serum or Nua Oil-Free Barrier Calming Gel to calm inflammation and prevent post-inflammatory hyperpigmentation (PIH).',
+            '1. Cleanse with Meditrust Sakhi™ 2% Salicylic Acid + Prebiotic Face Wash to dissolve overnight sebum without stripping natural ceramides.',
+            '2. Apply Niacinamide 3% serum or Meditrust Sakhi™ Oil-Free Barrier Calming Gel to calm inflammation and prevent post-inflammatory hyperpigmentation (PIH).',
             '3. Finish with broad-spectrum SPF 50 mineral sunscreen (Zinc Oxide based) to prevent acne scars from turning into dark brown spots under Indian sunlight.',
             'Evening Routine:',
             '1. Double-cleanse to remove makeup and pollution particulate matter.',
-            '2. Apply an Invisible Hydrocolloid Pimple Patch over active, whitehead-forming blemishes before applying moisturizer to extract pus in 6–8 hours and prevent subconscious finger picking.',
-            '3. Smooth a thin layer of Nua Ceramide Gel Moisturizer over entire face.'
+            '2. Apply a Meditrust Sakhi™ Invisible Hydrocolloid Pimple Patch over active, whitehead-forming blemishes before applying moisturizer to extract pus in 6–8 hours and prevent subconscious finger picking.',
+            '3. Smooth a thin layer of Meditrust Sakhi™ Ceramide Gel Moisturizer over entire face.'
           ]
         },
         {
@@ -285,7 +285,7 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
       'Intimate Wash Benefits',
       'Prevent Yeast Infections',
       'Candidiasis Treatment India',
-      'Nua Intimate Wash Review',
+      'Meditrust Sakhi Intimate Wash',
       'White Discharge Hygiene'
     ],
     featured: false,
@@ -299,7 +299,7 @@ export const WOMENS_MARKETPLACE_SEO_ARTICLES: BlogArticle[] = [
             'Understanding pH is the cornerstone of preventing recurrent intimate discomfort:',
             '• Vulva & Vaginal Microbiome: pH 3.5 to 4.5 (Acidic Defense Zone)',
             '• Plain Purified Water: pH 7.0 (Neutral)',
-            '• Nua Foaming Intimate Wash: pH 3.5 to 4.5 (Formulated with natural Lactic Acid & Aloe Vera)',
+            '• Meditrust Sakhi™ Foaming Intimate Wash: pH 3.5 to 4.5 (Formulated with natural Lactic Acid & Aloe Vera)',
             '• Commercial Body Wash / Soap Bars: pH 9.0 to 10.5 (Highly Alkaline Irritant)'
           ]
         },

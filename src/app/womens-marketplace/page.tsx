@@ -37,7 +37,7 @@ export default function WomensMarketplacePage() {
 
   const handleWhatsAppOrder = (product: MarketplaceProduct, pack: string, subscribe: boolean) => {
     const text = encodeURIComponent(
-      `Hello Meditrust AI & Nua Wellness Desk! 🙏\n\n` +
+      `Hello Meditrust AI Sakhi Wellness Desk! 🙏\n\n` +
       `I would like to order:\n` +
       `📦 *${product.name}*\n` +
       `🏷️ Pack: *${pack}*\n` +
@@ -71,7 +71,7 @@ export default function WomensMarketplacePage() {
           <div className="relative z-10 max-w-3xl space-y-5">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs font-black tracking-wider uppercase">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>MEDITRUST X NUA · WOMEN&apos;S HEALTH MARKETPLACE</span>
+              <span>MEDITRUST SAKHI™ · WOMEN&apos;S HEALTH MARKETPLACE</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">

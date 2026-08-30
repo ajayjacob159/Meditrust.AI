@@ -105,7 +105,7 @@ export default function Header() {
                           <span>🛍️</span>
                           <div>
                             <span className="block font-semibold leading-none text-3xs">Marketplace</span>
-                            <span className="text-[9px] text-rose-600 font-bold">Nua Care</span>
+                            <span className="text-[9px] text-rose-600 font-bold">Sakhi Care</span>
                           </div>
                         </Link>
 
