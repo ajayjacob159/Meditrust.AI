@@ -8,7 +8,6 @@ import {
   Zap, Stethoscope, FileText, LayoutDashboard, MessageCircle,
   ArrowRight, Check, Send, ShoppingBag, User
 } from 'lucide-react'
-import { WOMENS_HEALTH_MASTER_SEGMENTS } from '@/data/womensHealthMasterSegments'
 
 export default function Footer() {
   const [email, setEmail] = useState('')
@@ -37,13 +36,6 @@ export default function Footer() {
       setSubmitting(false)
     }
   }
-
-  const periodSegs = WOMENS_HEALTH_MASTER_SEGMENTS.filter((s) => s.category === 'Period & Hormones')
-  const maternitySegs = WOMENS_HEALTH_MASTER_SEGMENTS.filter((s) => s.category === 'Fertility & Maternity')
-  const clinicalSegs = WOMENS_HEALTH_MASTER_SEGMENTS.filter((s) => s.category === 'Clinical & Oncology')
-  const enterpriseSegs = WOMENS_HEALTH_MASTER_SEGMENTS.filter(
-    (s) => s.category === 'FemTech & Wellness' || s.category === 'Ecosystem & Enterprise'
-  )
 
   return (
     <footer className="bg-slate-950 text-white border-t border-slate-800 relative overflow-hidden select-none" role="contentinfo">
@@ -193,121 +185,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ── 4. COMPLETE 38 WOMEN'S HEALTH & ENTERPRISE MASTER DIRECTORY ── */}
-      <div className="border-b border-slate-800 bg-slate-950/60 py-10">
-        <div className="container-main space-y-6">
-          
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
-            <div className="space-y-1">
-              <div className="inline-flex items-center gap-2 text-rose-400 font-bold text-xs uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>COMPLETE CLINICAL DIRECTORY</span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                All 38 Women&apos;s Health, Clinical &amp; Enterprise Segments
-              </h3>
-            </div>
-            <Link
-              href="/womens-health"
-              className="inline-flex items-center gap-1.5 text-xs text-rose-300 hover:text-rose-200 font-bold"
-            >
-              <span>Explore Master Hub</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
-            
-            {/* Col 1: Period & Hormones */}
-            <div className="space-y-3">
-              <h4 className="font-black text-rose-400 uppercase tracking-wider text-2xs flex items-center gap-1.5 border-b border-slate-800 pb-2">
-                <span>🩸</span>
-                <span>Period &amp; Hormones</span>
-              </h4>
-              <ul className="space-y-1.5 text-slate-400">
-                {periodSegs.map((seg) => (
-                  <li key={seg.slug}>
-                    <Link
-                      href={`/womens-health/segments/${seg.slug}`}
-                      className="hover:text-white hover:translate-x-0.5 transition-all flex items-center gap-2 py-0.5"
-                    >
-                      <span className="text-3xs">{seg.icon}</span>
-                      <span className="truncate">{seg.title}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Col 2: Fertility & Maternity */}
-            <div className="space-y-3">
-              <h4 className="font-black text-purple-400 uppercase tracking-wider text-2xs flex items-center gap-1.5 border-b border-slate-800 pb-2">
-                <span>🤰</span>
-                <span>Fertility &amp; Maternity</span>
-              </h4>
-              <ul className="space-y-1.5 text-slate-400">
-                {maternitySegs.map((seg) => (
-                  <li key={seg.slug}>
-                    <Link
-                      href={`/womens-health/segments/${seg.slug}`}
-                      className="hover:text-white hover:translate-x-0.5 transition-all flex items-center gap-2 py-0.5"
-                    >
-                      <span className="text-3xs">{seg.icon}</span>
-                      <span className="truncate">{seg.title}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Col 3: Clinical & Oncology */}
-            <div className="space-y-3">
-              <h4 className="font-black text-teal-400 uppercase tracking-wider text-2xs flex items-center gap-1.5 border-b border-slate-800 pb-2">
-                <span>🩺</span>
-                <span>Clinical &amp; Oncology</span>
-              </h4>
-              <ul className="space-y-1.5 text-slate-400">
-                {clinicalSegs.map((seg) => (
-                  <li key={seg.slug}>
-                    <Link
-                      href={`/womens-health/segments/${seg.slug}`}
-                      className="hover:text-white hover:translate-x-0.5 transition-all flex items-center gap-2 py-0.5"
-                    >
-                      <span className="text-3xs">{seg.icon}</span>
-                      <span className="truncate">{seg.title}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Col 4: FemTech & Enterprise */}
-            <div className="space-y-3">
-              <h4 className="font-black text-amber-400 uppercase tracking-wider text-2xs flex items-center gap-1.5 border-b border-slate-800 pb-2">
-                <span>✨</span>
-                <span>FemTech &amp; Enterprise</span>
-              </h4>
-              <ul className="space-y-1.5 text-slate-400">
-                {enterpriseSegs.map((seg) => (
-                  <li key={seg.slug}>
-                    <Link
-                      href={`/womens-health/segments/${seg.slug}`}
-                      className="hover:text-white hover:translate-x-0.5 transition-all flex items-center gap-2 py-0.5"
-                    >
-                      <span className="text-3xs">{seg.icon}</span>
-                      <span className="truncate">{seg.title}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-      {/* ── 5. MAIN FOOTER NAV & LEGAL LINKS ── */}
+      {/* ── 4. MAIN FOOTER NAV & LEGAL LINKS ── */}
       <div className="container-main py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           

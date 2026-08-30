@@ -9,7 +9,6 @@ import {
   Sparkles, Activity, Tag, Check
 } from 'lucide-react'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
-import { WOMENS_HEALTH_MASTER_SEGMENTS } from '@/data/womensHealthMasterSegments'
 import { useCart } from '@/context/CartContext'
 import { useAuth } from '@/context/AuthContext'
 
@@ -19,28 +18,12 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [rxScannerOpen, setRxScannerOpen] = useState(false)
-  const [womensDropdownOpen, setWomensDropdownOpen] = useState(false)
-  const [mobileWomensOpen, setMobileWomensOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 15)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  // Segments Filtered by Group
-  const periodSegments = WOMENS_HEALTH_MASTER_SEGMENTS.filter(
-    (s) => s.category === 'Period & Hormones'
-  )
-  const maternitySegments = WOMENS_HEALTH_MASTER_SEGMENTS.filter(
-    (s) => s.category === 'Fertility & Maternity'
-  )
-  const clinicalSegments = WOMENS_HEALTH_MASTER_SEGMENTS.filter(
-    (s) => s.category === 'Clinical & Oncology'
-  )
-  const femtechAndEcosystemSegments = WOMENS_HEALTH_MASTER_SEGMENTS.filter(
-    (s) => s.category === 'FemTech & Wellness' || s.category === 'Ecosystem & Enterprise'
-  )
 
   return (
     <>
@@ -88,182 +71,6 @@ export default function Header() {
                 <span>Master Hub</span>
               </Link>
 
-              {/* Mega Dropdown: 38 Clinical & Enterprise Segments */}
-              <div
-                className="relative"
-                onMouseEnter={() => setWomensDropdownOpen(true)}
-                onMouseLeave={() => setWomensDropdownOpen(false)}
-              >
-                <button
-                  type="button"
-                  onClick={() => setWomensDropdownOpen(!womensDropdownOpen)}
-                  className={`px-3 py-1.5 rounded-full transition-colors flex items-center gap-1.5 ${
-                    womensDropdownOpen
-                      ? 'text-rose-700 bg-rose-50 font-bold'
-                      : 'hover:text-slate-900 hover:bg-slate-50 text-slate-700'
-                  }`}
-                >
-                  <span>All 38 Health Segments</span>
-                  <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform ${womensDropdownOpen ? 'rotate-180 text-rose-700' : ''}`} />
-                </button>
-
-                {/* 4-Column Mega Dropdown Menu */}
-                {womensDropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[940px] z-50 animate-fadeIn">
-                    <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-2xl space-y-5">
-                      
-                      {/* Top 5 Quick Hub Bar */}
-                      <div className="grid grid-cols-5 gap-2 p-1.5 rounded-2xl bg-slate-50 border border-slate-100 text-xs">
-                        <Link
-                          href="/womens-health"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-medium text-slate-900"
-                        >
-                          <span>🌸</span>
-                          <div>
-                            <span className="block font-bold leading-none text-3xs">Master Hub</span>
-                            <span className="text-[9px] text-slate-500 font-normal">7 Life Stages</span>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/marketplace"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-medium text-slate-900"
-                        >
-                          <span>🛍️</span>
-                          <div>
-                            <span className="block font-bold leading-none text-3xs text-rose-600">Marketplace</span>
-                            <span className="text-[9px] text-rose-500 font-bold">Sakhi™ Store</span>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/womens-health/blood-tests"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-medium text-slate-900"
-                        >
-                          <span>🩸</span>
-                          <div>
-                            <span className="block font-bold leading-none text-3xs">Blood Tests</span>
-                            <span className="text-[9px] text-slate-500 font-normal">35+ Panels</span>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/womens-schemes-funds"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-medium text-slate-900"
-                        >
-                          <span>🏛️</span>
-                          <div>
-                            <span className="block font-bold leading-none text-3xs">Govt &amp; CSR</span>
-                            <span className="text-[9px] text-slate-500 font-normal">35+ Schemes</span>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/reports/womens-health-india-2026"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-medium text-slate-900"
-                        >
-                          <span>📊</span>
-                          <div>
-                            <span className="block font-bold leading-none text-3xs">Report 2026</span>
-                            <span className="text-[9px] text-slate-500 font-normal">Epidemiology</span>
-                          </div>
-                        </Link>
-                      </div>
-
-                      {/* 4 Specialized Category Columns */}
-                      <div className="grid grid-cols-4 gap-4 text-xs">
-                        
-                        {/* Col 1: Period & Hormones */}
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-1 text-[11px] font-black text-rose-700 uppercase tracking-wider border-b border-rose-100 pb-1">
-                            <span>🩸</span>
-                            <span>Period &amp; Hormones</span>
-                          </div>
-                          <ul className="space-y-1 text-slate-600">
-                            {periodSegments.map((seg) => (
-                              <li key={seg.slug}>
-                                <Link
-                                  href={`/womens-health/segments/${seg.slug}`}
-                                  className="p-1.5 rounded-lg hover:bg-rose-50 hover:text-rose-900 transition-colors flex items-center gap-1.5 text-3xs font-semibold"
-                                >
-                                  <span>{seg.icon}</span>
-                                  <span className="truncate">{seg.title}</span>
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        {/* Col 2: Fertility & Maternity */}
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-1 text-[11px] font-black text-purple-700 uppercase tracking-wider border-b border-purple-100 pb-1">
-                            <span>🤰</span>
-                            <span>Fertility &amp; Maternity</span>
-                          </div>
-                          <ul className="space-y-1 text-slate-600">
-                            {maternitySegments.map((seg) => (
-                              <li key={seg.slug}>
-                                <Link
-                                  href={`/womens-health/segments/${seg.slug}`}
-                                  className="p-1.5 rounded-lg hover:bg-purple-50 hover:text-purple-900 transition-colors flex items-center gap-1.5 text-3xs font-semibold"
-                                >
-                                  <span>{seg.icon}</span>
-                                  <span className="truncate">{seg.title}</span>
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        {/* Col 3: Clinical & Oncology */}
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-1 text-[11px] font-black text-teal-700 uppercase tracking-wider border-b border-teal-100 pb-1">
-                            <span>🩺</span>
-                            <span>Clinical &amp; Oncology</span>
-                          </div>
-                          <ul className="space-y-1 text-slate-600">
-                            {clinicalSegments.map((seg) => (
-                              <li key={seg.slug}>
-                                <Link
-                                  href={`/womens-health/segments/${seg.slug}`}
-                                  className="p-1.5 rounded-lg hover:bg-teal-50 hover:text-teal-900 transition-colors flex items-center gap-1.5 text-3xs font-semibold"
-                                >
-                                  <span>{seg.icon}</span>
-                                  <span className="truncate">{seg.title}</span>
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        {/* Col 4: FemTech, Wellness & Ecosystem */}
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-1 text-[11px] font-black text-amber-700 uppercase tracking-wider border-b border-amber-100 pb-1">
-                            <span>✨</span>
-                            <span>FemTech &amp; Enterprise</span>
-                          </div>
-                          <ul className="space-y-1 text-slate-600">
-                            {femtechAndEcosystemSegments.map((seg) => (
-                              <li key={seg.slug}>
-                                <Link
-                                  href={`/womens-health/segments/${seg.slug}`}
-                                  className="p-1.5 rounded-lg hover:bg-amber-50 hover:text-amber-900 transition-colors flex items-center gap-1.5 text-3xs font-semibold"
-                                >
-                                  <span>{seg.icon}</span>
-                                  <span className="truncate">{seg.title}</span>
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                      </div>
-
-                    </div>
-                  </div>
-                )}
-              </div>
-
               {/* Women's Marketplace */}
               <Link
                 href="/marketplace"
@@ -271,6 +78,14 @@ export default function Header() {
               >
                 <span>🛍️</span>
                 <span>Marketplace</span>
+              </Link>
+              
+              {/* Schemes & Funds */}
+              <Link
+                href="/womens-schemes-funds"
+                className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:bg-slate-50 transition-colors"
+              >
+                <span>Schemes &amp; Funds</span>
               </Link>
 
               {/* Blood Tests */}
@@ -441,35 +256,6 @@ export default function Header() {
                   <ChevronRight className="w-4 h-4 text-white" />
                 </Link>
 
-                {/* All 38 Health Segments Accordion */}
-                <div className="rounded-2xl border border-slate-200 overflow-hidden">
-                  <button
-                    onClick={() => setMobileWomensOpen(!mobileWomensOpen)}
-                    className="w-full p-3 bg-slate-50 flex items-center justify-between text-left text-slate-800 font-bold"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <span>🩺</span>
-                      <span>All 38 Health Segments</span>
-                    </div>
-                    <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${mobileWomensOpen ? 'rotate-180' : ''}`} />
-                  </button>
-
-                  {mobileWomensOpen && (
-                    <div className="p-3 space-y-1 max-h-72 overflow-y-auto bg-white text-xs">
-                      {WOMENS_HEALTH_MASTER_SEGMENTS.map((s) => (
-                        <Link
-                          key={s.slug}
-                          href={`/womens-health/segments/${s.slug}`}
-                          onClick={() => setMobileOpen(false)}
-                          className="p-2 rounded-xl hover:bg-slate-50 text-slate-700 flex items-center gap-2"
-                        >
-                          <span>{s.icon}</span>
-                          <span className="truncate">{s.title}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
 
                 {/* Blood Tests */}
                 <Link
