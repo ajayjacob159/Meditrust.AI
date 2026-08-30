@@ -5,16 +5,32 @@ import { MarketplaceProduct } from '@/data/womensMarketplaceProducts'
 
 export interface CartItem {
   id: string
-  productId: string
+  productId?: string
   name: string
-  tagline: string
+  tagline?: string
   pack: string
   price: number
-  originalPrice: number
+  originalPrice?: number
   quantity: number
-  icon: string
+  icon?: string
+  image?: string
   isSubscription: boolean
-  category: string
+  subscriptionInterval?: string
+  category?: string
+}
+
+export interface AddItemPayload {
+  id: string
+  name: string
+  price: number
+  originalPrice?: number
+  pack?: string
+  image?: string
+  icon?: string
+  isSubscription?: boolean
+  subscriptionInterval?: string
+  category?: string
+  quantity?: number
 }
 
 interface CartContextType {
@@ -26,9 +42,13 @@ interface CartContextType {
   discountAmount: number
   deliveryFee: number
   finalTotal: number
+  cartTotal: number
   appliedCoupon: string | null
+  couponCode: string | null
   addToCart: (product: MarketplaceProduct, pack?: string, isSubscription?: boolean, quantity?: number) => void
+  addItem: (payload: AddItemPayload) => void
   removeFromCart: (itemId: string) => void
+  removeItem: (itemId: string) => void
   updateQuantity: (itemId: string, newQty: number) => void
   clearCart: () => void
   openCart: () => void
@@ -104,6 +124,37 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setIsCartOpen(true)
   }
 
+  const addItem = (payload: AddItemPayload) => {
+    const itemUniqueId = `${payload.id}_${payload.pack || 'std'}_${payload.isSubscription ? 'sub' : 'one'}`
+    const qty = payload.quantity || 1
+
+    const existingIndex = items.findIndex((item) => item.id === itemUniqueId || item.id === payload.id)
+
+    if (existingIndex > -1) {
+      const updated = [...items]
+      updated[existingIndex].quantity += qty
+      saveCart(updated)
+    } else {
+      const newItem: CartItem = {
+        id: payload.id,
+        productId: payload.id,
+        name: payload.name,
+        pack: payload.pack || 'Standard Pack',
+        price: payload.price,
+        originalPrice: payload.originalPrice,
+        quantity: qty,
+        icon: payload.icon || '🌸',
+        image: payload.image,
+        isSubscription: !!payload.isSubscription,
+        subscriptionInterval: payload.subscriptionInterval,
+        category: payload.category,
+      }
+      saveCart([...items, newItem])
+    }
+
+    setIsCartOpen(true)
+  }
+
   const removeFromCart = (itemId: string) => {
     const updated = items.filter((item) => item.id !== itemId)
     saveCart(updated)
@@ -147,6 +198,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const deliveryFee = cartSubtotal >= 499 || cartSubtotal === 0 ? 0 : 49
   const finalTotal = Math.max(0, cartSubtotal - discountAmount + deliveryFee)
+  const cartTotal = finalTotal
 
   const applyCoupon = (code: string): { success: boolean; message: string } => {
     const normalized = code.trim().toUpperCase()
@@ -180,9 +232,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         discountAmount,
         deliveryFee,
         finalTotal,
+        cartTotal,
         appliedCoupon,
+        couponCode: appliedCoupon,
         addToCart,
+        addItem,
         removeFromCart,
+        removeItem: removeFromCart,
         updateQuantity,
         clearCart,
         openCart,

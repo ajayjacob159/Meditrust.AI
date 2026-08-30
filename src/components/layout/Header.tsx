@@ -126,7 +126,7 @@ export default function Header() {
                         </Link>
 
                         <Link
-                          href="/womens-marketplace"
+                          href="/marketplace"
                           className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-medium text-slate-900"
                         >
                           <span>🛍️</span>
@@ -266,7 +266,7 @@ export default function Header() {
 
               {/* Women's Marketplace */}
               <Link
-                href="/womens-marketplace"
+                href="/marketplace"
                 className="px-3 py-1.5 rounded-full text-rose-700 bg-rose-50/70 hover:bg-rose-100 hover:text-rose-900 transition-colors font-bold flex items-center gap-1 shadow-2xs"
               >
                 <span>🛍️</span>
@@ -427,7 +427,7 @@ export default function Header() {
 
                 {/* Sakhi Period Care Marketplace */}
                 <Link
-                  href="/womens-marketplace"
+                  href="/marketplace"
                   onClick={() => setMobileOpen(false)}
                   className="p-3 rounded-2xl bg-rose-500 text-white flex items-center justify-between font-bold shadow-xs"
                 >

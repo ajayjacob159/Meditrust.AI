@@ -6,8 +6,9 @@ import {
   Shield, Heart, Activity, FlaskConical, Lock, Phone, Mail,
   MapPin, ExternalLink, Award, CheckCircle2, Building2, Sparkles,
   Zap, Stethoscope, FileText, LayoutDashboard, MessageCircle,
-  ArrowRight, Check, Send, ShoppingBag
+  ArrowRight, Check, Send, ShoppingBag, User
 } from 'lucide-react'
+import { WOMENS_HEALTH_MASTER_SEGMENTS } from '@/data/womensHealthMasterSegments'
 
 export default function Footer() {
   const [email, setEmail] = useState('')
@@ -36,6 +37,13 @@ export default function Footer() {
       setSubmitting(false)
     }
   }
+
+  const periodSegs = WOMENS_HEALTH_MASTER_SEGMENTS.filter((s) => s.category === 'Period & Hormones')
+  const maternitySegs = WOMENS_HEALTH_MASTER_SEGMENTS.filter((s) => s.category === 'Fertility & Maternity')
+  const clinicalSegs = WOMENS_HEALTH_MASTER_SEGMENTS.filter((s) => s.category === 'Clinical & Oncology')
+  const enterpriseSegs = WOMENS_HEALTH_MASTER_SEGMENTS.filter(
+    (s) => s.category === 'FemTech & Wellness' || s.category === 'Ecosystem & Enterprise'
+  )
 
   return (
     <footer className="bg-slate-950 text-white border-t border-slate-800 relative overflow-hidden select-none" role="contentinfo">
@@ -77,7 +85,7 @@ export default function Footer() {
           <span className="text-slate-700">|</span>
           <span className="flex items-center gap-1.5 text-teal-300">
             <MapPin className="w-3.5 h-3.5 text-teal-400" />
-            Nigdi, PCMC & Pune 60-Min Phlebotomy
+            Nigdi, PCMC &amp; Pune 60-Min Phlebotomy
           </span>
           <span className="text-slate-700">|</span>
           <span className="text-amber-300 font-bold flex items-center gap-1">
@@ -102,151 +110,228 @@ export default function Footer() {
             </div>
 
             <div className="flex items-center gap-3 p-2 rounded-2xl bg-slate-900/60 border border-slate-800">
+              <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 font-black text-sm">
+                100%
+              </div>
+              <div>
+                <strong className="text-white block font-bold">Sakhi™ Rash-Free Pads</strong>
+                <span className="text-slate-400 text-3xs">Toxin-free, chlorine-free</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-2 rounded-2xl bg-slate-900/60 border border-slate-800">
               <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 font-black text-sm">
                 60m
               </div>
               <div>
-                <strong className="text-white block font-bold">Doorstep Blood Pickup</strong>
-                <span className="text-slate-400 text-3xs">13+ NABL/CAP Pune labs</span>
+                <strong className="text-white block font-bold">Home Blood Collection</strong>
+                <span className="text-slate-400 text-3xs">NABL labs cold-chain Pune</span>
               </div>
             </div>
 
             <div className="flex items-center gap-3 p-2 rounded-2xl bg-slate-900/60 border border-slate-800">
-              <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 font-black text-sm">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-black text-sm">
                 24/7
               </div>
               <div>
-                <strong className="text-white block font-bold">Dr. Arya AI Doctor</strong>
-                <span className="text-slate-400 text-3xs">मराठी, हिन्दी & English triage</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 p-2 rounded-2xl bg-slate-900/60 border border-slate-800">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-black text-sm">
-                ₹5L
-              </div>
-              <div>
-                <strong className="text-white block font-bold">Govt Schemes Desk</strong>
-                <span className="text-slate-400 text-3xs">ABHA & PM-JAY hospital cover</span>
+                <strong className="text-white block font-bold">Dr. Arya AI Council</strong>
+                <span className="text-slate-400 text-3xs">मराठी, हिंदी &amp; English</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── 3. INTERACTIVE SUBSCRIBE BAR ── */}
-      <div className="border-b border-slate-800 bg-gradient-to-r from-slate-900 via-rose-950/40 to-slate-900 py-8 px-4">
-        <div className="container-main flex flex-col lg:flex-row items-center justify-between gap-6">
-          
-          <div className="space-y-1 text-center lg:text-left max-w-xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 text-3xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3 h-3 text-rose-400" />
-              <span>STAY INFORMED WITH DR. ARYA</span>
-            </div>
-            <h3 className="text-lg sm:text-xl font-black text-white">
-              Subscribe to Weekly Women&apos;s Health &amp; Jan Aushadhi Savings Briefing
-            </h3>
-            <p className="text-xs text-slate-400">
-              Get evidence-based clinical guides, hormone health research, PMBJP generic alerts, and exclusive period care offers.
-            </p>
-          </div>
-
-          <div className="w-full lg:w-auto flex-shrink-0">
-            {subscribed ? (
-              <div className="px-6 py-3.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-400" />
-                <span>You&apos;re subscribed! Welcome to Meditrust Health Circle.</span>
+      {/* ── 3. NEWSLETTER & CLINICAL HEALTH UPDATES BAR ── */}
+      <div className="border-b border-slate-800/80 bg-gradient-to-r from-slate-900/80 via-slate-900 to-slate-900/80 py-8">
+        <div className="container-main">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+            
+            <div className="space-y-1.5 text-center lg:text-left">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-300 text-3xs font-bold uppercase tracking-wider">
+                <Sparkles className="w-3 h-3 text-rose-400" />
+                <span>EVIDENCE-BASED HEALTHCARE DISPATCH</span>
               </div>
-            ) : (
-              <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row items-center gap-2 max-w-md w-full">
-                <div className="relative w-full sm:w-80">
-                  <Mail className="w-4 h-4 text-slate-500 absolute left-4 top-1/2 -translate-y-1/2" />
+              <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
+                Subscribe for Dr. Arya&apos;s Weekly Women&apos;s Health Pearls
+              </h3>
+              <p className="text-xs text-slate-400 max-w-xl font-normal">
+                Receive evidence-based PCOS nutrition hacks, Jan Aushadhi generic price drop alerts, period care tips, and PM-JAY policy updates straight to your inbox.
+              </p>
+            </div>
+
+            {/* Subscribe Form */}
+            <div className="w-full lg:w-auto">
+              {subscribed ? (
+                <div className="flex items-center gap-2 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <span>Welcome to the Meditrust Sakhi family! Check your inbox soon.</span>
+                </div>
+              ) : (
+                <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 w-full sm:w-[420px]">
                   <input
                     type="email"
                     required
-                    placeholder="Enter your email address"
+                    placeholder="Enter your email address..."
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-full bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-rose-500"
+                    className="flex-1 px-4 py-3 rounded-full bg-slate-950 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500"
                   />
-                </div>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md flex-shrink-0"
+                  >
+                    <span>{submitting ? 'Joining...' : 'Subscribe'}</span>
+                    <Send className="w-3.5 h-3.5" />
+                  </button>
+                </form>
+              )}
+            </div>
 
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="w-full sm:w-auto px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-1.5 flex-shrink-0"
-                >
-                  <span>{submitting ? 'Subscribing...' : 'Subscribe'}</span>
-                  <Send className="w-3.5 h-3.5" />
-                </button>
-              </form>
-            )}
-            <span className="text-[10px] text-slate-500 block text-center lg:text-left pt-1.5">
-              🔒 Zero spam. 100% HIPAA/ABDM compliant. Unsubscribe anytime in 1 tap.
-            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── 4. COMPLETE 38 WOMEN'S HEALTH & ENTERPRISE MASTER DIRECTORY ── */}
+      <div className="border-b border-slate-800 bg-slate-950/60 py-10">
+        <div className="container-main space-y-6">
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 text-rose-400 font-bold text-xs uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>COMPLETE CLINICAL DIRECTORY</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                All 38 Women&apos;s Health, Clinical &amp; Enterprise Segments
+              </h3>
+            </div>
+            <Link
+              href="/womens-health"
+              className="inline-flex items-center gap-1.5 text-xs text-rose-300 hover:text-rose-200 font-bold"
+            >
+              <span>Explore Master Hub</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
+            
+            {/* Col 1: Period & Hormones */}
+            <div className="space-y-3">
+              <h4 className="font-black text-rose-400 uppercase tracking-wider text-2xs flex items-center gap-1.5 border-b border-slate-800 pb-2">
+                <span>🩸</span>
+                <span>Period &amp; Hormones</span>
+              </h4>
+              <ul className="space-y-1.5 text-slate-400">
+                {periodSegs.map((seg) => (
+                  <li key={seg.slug}>
+                    <Link
+                      href={`/womens-health/segments/${seg.slug}`}
+                      className="hover:text-white hover:translate-x-0.5 transition-all flex items-center gap-2 py-0.5"
+                    >
+                      <span className="text-3xs">{seg.icon}</span>
+                      <span className="truncate">{seg.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Col 2: Fertility & Maternity */}
+            <div className="space-y-3">
+              <h4 className="font-black text-purple-400 uppercase tracking-wider text-2xs flex items-center gap-1.5 border-b border-slate-800 pb-2">
+                <span>🤰</span>
+                <span>Fertility &amp; Maternity</span>
+              </h4>
+              <ul className="space-y-1.5 text-slate-400">
+                {maternitySegs.map((seg) => (
+                  <li key={seg.slug}>
+                    <Link
+                      href={`/womens-health/segments/${seg.slug}`}
+                      className="hover:text-white hover:translate-x-0.5 transition-all flex items-center gap-2 py-0.5"
+                    >
+                      <span className="text-3xs">{seg.icon}</span>
+                      <span className="truncate">{seg.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Col 3: Clinical & Oncology */}
+            <div className="space-y-3">
+              <h4 className="font-black text-teal-400 uppercase tracking-wider text-2xs flex items-center gap-1.5 border-b border-slate-800 pb-2">
+                <span>🩺</span>
+                <span>Clinical &amp; Oncology</span>
+              </h4>
+              <ul className="space-y-1.5 text-slate-400">
+                {clinicalSegs.map((seg) => (
+                  <li key={seg.slug}>
+                    <Link
+                      href={`/womens-health/segments/${seg.slug}`}
+                      className="hover:text-white hover:translate-x-0.5 transition-all flex items-center gap-2 py-0.5"
+                    >
+                      <span className="text-3xs">{seg.icon}</span>
+                      <span className="truncate">{seg.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Col 4: FemTech & Enterprise */}
+            <div className="space-y-3">
+              <h4 className="font-black text-amber-400 uppercase tracking-wider text-2xs flex items-center gap-1.5 border-b border-slate-800 pb-2">
+                <span>✨</span>
+                <span>FemTech &amp; Enterprise</span>
+              </h4>
+              <ul className="space-y-1.5 text-slate-400">
+                {enterpriseSegs.map((seg) => (
+                  <li key={seg.slug}>
+                    <Link
+                      href={`/womens-health/segments/${seg.slug}`}
+                      className="hover:text-white hover:translate-x-0.5 transition-all flex items-center gap-2 py-0.5"
+                    >
+                      <span className="text-3xs">{seg.icon}</span>
+                      <span className="truncate">{seg.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
           </div>
 
         </div>
       </div>
 
-      {/* ── 4. Main Footer Columns ── */}
-      <div className="container-main py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+      {/* ── 5. MAIN FOOTER NAV & LEGAL LINKS ── */}
+      <div className="container-main py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           
-          {/* Col 1 & 2: Corporate Registration Details */}
+          {/* Col 1 & 2: Brand Story & Certifications */}
           <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="relative w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center p-1.5">
-                <img src="/logo.png" alt="Meditrust Life Sciences" className="w-full h-full object-contain" />
+            <Link href="/" className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center p-1">
+                <img src="/logo.png" alt="Meditrust" className="w-full h-full object-contain" />
               </div>
-              <div>
-                <span className="text-2xl font-black tracking-tight font-display">
-                  <span className="text-white">Medi</span>
-                  <span className="text-teal-400">trust</span>
-                  <span className="text-emerald-400"> AI</span>
-                </span>
-                <span className="block text-3xs text-teal-300 font-bold uppercase tracking-wider">
-                  A Unit of Meditrust Life Sciences Pvt. Ltd.
-                </span>
-              </div>
+              <span className="font-bold text-lg text-white">
+                Medi<span className="text-teal-400">trust</span> AI
+              </span>
             </Link>
 
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              <strong>Meditrust Life Sciences Pvt. Ltd.</strong> is India’s premier health-tech &amp; clinical AI enterprise. Our vision is to use artificial intelligence to make healthcare more accessible and affordable for every family in India.
+            <p className="text-xs text-slate-400 leading-relaxed font-normal">
+              India&apos;s first clinical-grade AI Doctor council and white-labeled women&apos;s healthcare platform. Saving families up to 80% on medications via PMBJP Jan Aushadhi generics, providing 60-minute NABL blood sample collection, and delivering 100% toxin-free Meditrust Sakhi™ period care.
             </p>
 
-            {/* Vision Banner Badge */}
-            <div className="p-3 rounded-xl bg-teal-950/60 border border-teal-500/30 text-xs text-teal-200 flex items-start gap-2">
-              <Sparkles className="w-4 h-4 text-teal-400 flex-shrink-0 mt-0.5" />
-              <p className="text-2xs leading-relaxed font-medium">
-                <strong>Our Vision:</strong> To use Artificial Intelligence to make healthcare radically accessible, instantly understandable, and genuinely affordable for every family across India.
-              </p>
-            </div>
-
-            {/* Official Registered Corporate Address Box */}
-            <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 space-y-2 shadow-xs">
-              <div className="flex items-center gap-2 font-bold text-white">
-                <Building2 className="w-4 h-4 text-teal-400" />
-                <span>Corporate Registration & Office:</span>
-              </div>
-              <p className="text-2xs text-slate-300 font-medium leading-relaxed">
-                <strong className="text-white">Registered Office:</strong> Walhekar Heights, Morya Colony, Walhekarwadi, Bhondvewasti, Nigdi, Pimpri-Chinchwad, Pune, Maharashtra 411033, India.
-              </p>
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-2xs text-teal-300 font-mono pt-1 border-t border-slate-800">
-                <span><strong>CIN:</strong> U86905PN2026PTC258730</span>
-                <span><strong>Hotline:</strong> +91 7028025717</span>
-                <span><strong>Email:</strong> care@meditrustlife.com</span>
-              </div>
-            </div>
-
-            {/* Compliance Badges */}
-            <div className="flex flex-wrap gap-1.5 pt-1">
+            <div className="flex flex-wrap gap-2 pt-2">
               {[
                 'CDSCO Telemedicine Compliant',
-                'ICMR Clinical Protocols',
-                'ABDM Ayushman Bharat',
-                'HIPAA Security Rule',
-                'NABL & CAP Partner Labs',
+                'ABDM Health Locker Verified',
+                'HIPAA 256-Bit Encrypted',
+                'NABL & CAP Accredited Labs',
                 'ISO 15189 Certified',
               ].map((badge) => (
                 <span
@@ -267,19 +352,10 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/bot" className="text-emerald-300 hover:text-emerald-200 font-bold transition-colors flex items-center justify-between">
-                  <span className="flex items-center gap-1.5">
-                    <MessageCircle className="w-3.5 h-3.5 text-[#25d366]" />
-                    <span>Sakhi Bot (WA &amp; Telegram)</span>
-                  </span>
-                  <span className="text-3xs bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-black">24/7 LIVE</span>
-                </Link>
-              </li>
-              <li>
                 <Link href="/womens-marketplace" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <ShoppingBag className="w-3.5 h-3.5 text-rose-500" />
-                    <span>Sakhi Period &amp; Skincare Store</span>
+                    <span>Sakhi™ Period Care Store</span>
                   </span>
                   <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded font-black">SHOP</span>
                 </Link>
@@ -293,13 +369,19 @@ export default function Footer() {
               <li>
                 <Link href="/womens-health" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center gap-1.5">
                   <Heart className="w-3.5 h-3.5 text-rose-500" />
-                  <span>Women&apos;s Health Care Journey 🌸</span>
+                  <span>Women&apos;s Health Care Hub 🌸</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/womens-health/blood-tests" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <span className="text-xs">🩸</span>
+                  <span>35+ Women&apos;s Blood Tests</span>
                 </Link>
               </li>
               <li>
                 <Link href="/medivault" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
                   <LayoutDashboard className="w-3.5 h-3.5 text-blue-500" />
-                  <span>MediVault™ Health Locker</span>
+                  <span>MediVault™ ABHA Locker</span>
                 </Link>
               </li>
               <li>
@@ -309,89 +391,50 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/reminders" className="text-amber-300 hover:text-amber-200 font-semibold transition-colors flex items-center justify-between">
-                  <span className="flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Smart WhatsApp Reminders</span>
-                  </span>
-                  <span className="text-3xs bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-bold">Daily</span>
-                </Link>
-              </li>
-              <li>
                 <Link href="/medication-comparison" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
                   <Heart className="w-3.5 h-3.5 text-rose-500" />
-                  <span>Generic Medicine Match (80%)</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/find-healthcare" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <FlaskConical className="w-3.5 h-3.5 text-purple-500" />
-                  <span>Find Healthcare Nearby</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/models-overview" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <Shield className="w-3.5 h-3.5 text-teal-400" />
-                  <span>Models &amp; Benchmarks</span>
+                  <span>Jan Aushadhi Generic Match</span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: 15+ Clinical Specialties */}
+          {/* Col 4: Portals & Account */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-4">
-              15+ Specialties
+              Member &amp; HR Portals
             </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
+            <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/womens-health" className="hover:text-rose-400 font-semibold text-rose-300 flex items-center gap-1">
-                  <span>🌸 Gynaecology &amp; Women&apos;s Health</span>
+                <Link href="/login" className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5" />
+                  <span>Member Sign In (Mobile OTP)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400">
-                  🫀 Cardiology &amp; ECG Telemetry
+                <Link href="/signup" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Create Account / Register</span>
                 </Link>
               </li>
               <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400">
-                  🩺 Endocrinology &amp; Diabetes
+                <Link href="/account" className="text-slate-400 hover:text-teal-400 transition-colors">
+                  👤 My Orders &amp; Health Wallet
                 </Link>
               </li>
               <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400">
-                  🧠 Neurology &amp; Stroke Triage
+                <Link href="/corporate-wellness" className="text-purple-400 hover:text-purple-300 font-bold transition-colors flex items-center gap-1">
+                  <span>🏢 Corporate Employee SSO</span>
                 </Link>
               </li>
               <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400">
-                  🦴 Orthopaedics &amp; Joint Health
+                <Link href="/for-doctors" className="text-blue-400 hover:text-blue-300 font-bold transition-colors flex items-center gap-1">
+                  <span>🩺 For Doctors &amp; Clinics</span>
                 </Link>
               </li>
               <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400">
-                  👶 Paediatrics &amp; Immunisation
-                </Link>
-              </li>
-              <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400">
-                  🫁 Pulmonology &amp; Respiratory
-                </Link>
-              </li>
-              <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400">
-                  🔬 Pathology &amp; Lab Interpretation
-                </Link>
-              </li>
-              <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400">
-                  💊 Pharmacology &amp; PMBJP Generics
-                </Link>
-              </li>
-              <li>
-                <Link href="/symptom-checker" className="hover:text-teal-400">
-                  🥗 Nutrition &amp; Lifestyle Reversal
+                <Link href="/pricing" className="text-slate-400 hover:text-teal-400 transition-colors">
+                  💎 Sakhi Membership Plans
                 </Link>
               </li>
             </ul>
@@ -400,116 +443,58 @@ export default function Footer() {
           {/* Col 5: Company, Schemes & Legal */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-4">
-              Company &amp; Schemes
+              Schemes &amp; Legal
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
                 <Link href="/womens-schemes-funds" className="text-rose-400 hover:text-rose-300 transition-colors font-bold flex items-center gap-1">
                   <span>🏛️ Women&apos;s Govt &amp; CSR Schemes</span>
-                  <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded">35+ Hub</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/womens-marketplace" className="text-rose-300 hover:text-rose-200 transition-colors font-bold flex items-center gap-1">
-                  <span>🛍️ Sakhi Wellness Marketplace</span>
-                  <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded">NEW</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/government-schemes" className="text-amber-400 hover:text-amber-300 transition-colors font-bold flex items-center gap-1">
-                  <span>🏛️ General Govt Schemes (PM-JAY)</span>
-                  <span className="text-3xs bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">ABDM</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/for-doctors" className="text-blue-400 hover:text-blue-300 font-bold transition-colors flex items-center gap-1">
-                  <span>🩺 For Doctors (Onboard Clinic)</span>
-                  <span className="text-3xs bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded">Join</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/corporate-wellness" className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors flex items-center gap-1">
-                  <span>🏢 Corporate Employer Wellness</span>
-                  <span className="text-3xs bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">HR</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-slate-400 hover:text-teal-400 transition-colors font-semibold">
-                  ℹ️ About Meditrust Life Sciences
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  💰 Pricing & Plans (20% OFF)
+                  <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded">35+</span>
                 </Link>
               </li>
               <li>
                 <Link href="/reports/womens-health-india-2026" className="text-rose-300 hover:text-rose-200 font-bold transition-colors flex items-center gap-1">
-                  <span>📊 Women&apos;s Health in India (2026–30 Report)</span>
-                  <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded font-black">NEW</span>
+                  <span>📊 2026–30 National Report</span>
+                  <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded">NEW</span>
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  📚 Evidence-Based Health Library
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  📞 Contact (+91 7028025717)
-                </Link>
-              </li>
-              <li>
-                <Link href="/disclaimer" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  ⚖️ Medical Disclaimer
+                <Link href="/about" className="text-slate-400 hover:text-teal-400 transition-colors font-semibold">
+                  ℹ️ About Meditrust
                 </Link>
               </li>
               <li>
                 <Link href="/privacy" className="text-slate-400 hover:text-teal-400 transition-colors">
-                  🔐 Privacy Policy (HIPAA / ABDM)
+                  🔒 Privacy Policy &amp; ABDM
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-slate-400 hover:text-teal-400 transition-colors">
+                  📜 Terms of Telemedicine
+                </Link>
+              </li>
+              <li>
+                <Link href="/hipaa" className="text-slate-400 hover:text-teal-400 transition-colors">
+                  🛡️ HIPAA Compliance
                 </Link>
               </li>
             </ul>
           </div>
 
         </div>
-      </div>
 
-      {/* ── 5. GIANT TRENDING "MEDITRUST AI" DISPLAY WATERMARK ── */}
-      <div className="border-t border-slate-900 bg-slate-950/80 pt-8 pb-4 overflow-hidden relative">
-        <div className="absolute inset-0 bg-radial from-teal-500/10 via-transparent to-transparent pointer-events-none" />
-        
-        <div className="container-main text-center relative z-10">
-          <div className="text-[14vw] sm:text-[13vw] lg:text-[11.5vw] font-black tracking-tighter leading-none select-none uppercase font-display bg-gradient-to-b from-slate-700/60 via-slate-800/40 to-transparent bg-clip-text text-transparent opacity-80 hover:opacity-100 transition-opacity">
-            MEDITRUST AI
+        {/* Bottom Copyright & Disclaimer */}
+        <div className="mt-12 pt-8 border-t border-slate-900 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <div>
+            © 2026 Meditrust Life Sciences Private Limited. All rights reserved. Dr. Arya™ and Meditrust Sakhi™ are registered trademarks.
           </div>
-          <div className="text-3xs sm:text-2xs uppercase tracking-widest text-teal-400/80 font-bold -mt-2 sm:-mt-4">
-            India's Leading 24/7 AI Healthcare Companion & Medicine Savings Engine
+          <div className="flex items-center gap-4 text-3xs">
+            <span>Made with ❤️ for Indian Healthcare</span>
+            <span>•</span>
+            <span>Emergency: Dial 108 / 181</span>
           </div>
         </div>
-      </div>
 
-      {/* ── 6. Bottom Legal Disclaimer & Copyright ── */}
-      <div className="border-t border-slate-900 bg-black py-6">
-        <div className="container-main space-y-4">
-          <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-400 text-xs leading-relaxed">
-            <strong className="text-slate-200">⚕️ Clinical & Emergency Notice:</strong> Meditrust Life Sciences Pvt. Ltd. provides evidence-based health triage and price comparison tools. In acute medical emergencies (severe chest pain, breathing difficulty, acute trauma), immediately call <strong>108 (National Ambulance)</strong> or <strong>112 (National Emergency)</strong> or proceed to the nearest emergency room at Ruby Hall Clinic or Sahyadri Hospital. All drug comparisons reflect CDSCO registered formulations and PMBJP published schedules.
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-            <div>
-              © 2026 <strong>Meditrust Life Sciences Pvt. Ltd.</strong> (CIN: <strong>U86905PN2026PTC258730</strong>). All rights reserved. Registered at Walhekar Heights, Nigdi, Pimpri-Chinchwad, Pune, Maharashtra 411033, India.
-            </div>
-            <div className="flex items-center gap-4 text-2xs">
-              <Link href="/government-schemes" className="hover:text-amber-400">Govt Schemes</Link>
-              <Link href="/privacy" className="hover:text-teal-400">Privacy</Link>
-              <Link href="/terms" className="hover:text-teal-400">Terms</Link>
-              <Link href="/hipaa" className="hover:text-teal-400">HIPAA Notice</Link>
-              <Link href="/disclaimer" className="hover:text-teal-400">Disclaimer</Link>
-              <Link href="/sitemap.xml" className="hover:text-teal-400">Sitemap XML</Link>
-            </div>
-          </div>
-        </div>
       </div>
 
     </footer>

@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next'
 import { WOMENS_HEALTH_ARTICLES } from '@/data/womensHealthArticles'
 import { WOMENS_BLOOD_TEST_ARTICLES } from '@/data/womensBloodTestsArticles'
 import { WOMENS_HEALTH_MASTER_SEGMENTS } from '@/data/womensHealthMasterSegments'
+import { MARKETPLACE_CATEGORIES, ALL_MARKETPLACE_PRODUCTS } from '@/data/marketplaceCatalog'
 import { blogArticles } from '@/data/blogArticles'
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -10,6 +11,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     { url: '/', changeFrequency: 'daily' as const, priority: 1.0 },
     { url: '/womens-health', changeFrequency: 'daily' as const, priority: 0.98 },
+    { url: '/marketplace', changeFrequency: 'daily' as const, priority: 0.99 },
+    { url: '/marketplace/cart', changeFrequency: 'daily' as const, priority: 0.8 },
+    { url: '/marketplace/checkout', changeFrequency: 'daily' as const, priority: 0.8 },
+    { url: '/marketplace/orders', changeFrequency: 'daily' as const, priority: 0.85 },
+    { url: '/marketplace/bundles', changeFrequency: 'daily' as const, priority: 0.95 },
+    { url: '/marketplace/brands', changeFrequency: 'weekly' as const, priority: 0.9 },
     { url: '/womens-marketplace', changeFrequency: 'daily' as const, priority: 0.98 },
     { url: '/account', changeFrequency: 'daily' as const, priority: 0.92 },
     { url: '/login', changeFrequency: 'monthly' as const, priority: 0.9 },
@@ -44,6 +51,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: '/disclaimer', changeFrequency: 'monthly' as const, priority: 0.4 },
   ]
 
+  const marketplaceCategoryRoutes = MARKETPLACE_CATEGORIES.map((cat) => ({
+    url: `/marketplace/${cat.slug}`,
+    changeFrequency: 'daily' as const,
+    priority: 0.96,
+  }))
+
+  const marketplaceProductRoutes = ALL_MARKETPLACE_PRODUCTS.map((prod) => ({
+    url: `/marketplace/product/${prod.slug}`,
+    changeFrequency: 'daily' as const,
+    priority: 0.95,
+  }))
+
   const blogArticleRoutes = blogArticles.map((article) => ({
     url: `/blog/${article.slug}`,
     changeFrequency: 'weekly' as const,
@@ -70,6 +89,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const allRoutes = [
     ...staticRoutes,
+    ...marketplaceCategoryRoutes,
+    ...marketplaceProductRoutes,
     ...segmentRoutes,
     ...blogArticleRoutes,
     ...womensHealthArticleRoutes,

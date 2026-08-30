@@ -11,6 +11,7 @@ import {
 import LabReportExplainerModal from '@/components/common/LabReportExplainerModal'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
 import GenZWomenVibeCard from '@/components/common/GenZWomenVibeCard'
+import AdrenalineInteractiveHub from '@/components/home/AdrenalineInteractiveHub'
 
 const PROBLEM_CARDS = [
   {
@@ -252,9 +253,11 @@ export default function HomePage() {
             </div>
 
           </div>
-
         </div>
       </section>
+
+      {/* ── 1.5 INTERACTIVE ADRENALINE TELEMETRY & ACTION HUB ── */}
+      <AdrenalineInteractiveHub />
 
       {/* ── 2. PROBLEM CAROUSEL SECTION (THE SIGNATURE VAIDYA SECTION) ── */}
       <section className="py-14 sm:py-20 bg-slate-50/70 border-y border-slate-200/70 overflow-hidden">

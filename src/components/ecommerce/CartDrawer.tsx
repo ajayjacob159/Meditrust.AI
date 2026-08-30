@@ -158,9 +158,11 @@ export default function CartDrawer() {
                     <span className="text-sm font-black text-slate-950">
                       ₹{item.price * item.quantity}
                     </span>
-                    <span className="text-3xs text-slate-400 line-through">
-                      ₹{item.originalPrice * item.quantity}
-                    </span>
+                    {item.originalPrice && (
+                      <span className="text-3xs text-slate-400 line-through">
+                        ₹{item.originalPrice * item.quantity}
+                      </span>
+                    )}
                   </div>
 
                   {/* +/- buttons */}
