@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { WOMENS_HEALTH_ARTICLES } from '@/data/womensHealthArticles'
 import { WOMENS_BLOOD_TEST_ARTICLES } from '@/data/womensBloodTestsArticles'
+import { WOMENS_HEALTH_MASTER_SEGMENTS } from '@/data/womensHealthMasterSegments'
 import { blogArticles } from '@/data/blogArticles'
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -10,6 +11,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: '/', changeFrequency: 'daily' as const, priority: 1.0 },
     { url: '/womens-health', changeFrequency: 'daily' as const, priority: 0.98 },
     { url: '/womens-marketplace', changeFrequency: 'daily' as const, priority: 0.98 },
+    { url: '/account', changeFrequency: 'daily' as const, priority: 0.92 },
+    { url: '/login', changeFrequency: 'monthly' as const, priority: 0.9 },
+    { url: '/signup', changeFrequency: 'monthly' as const, priority: 0.9 },
     { url: '/bot', changeFrequency: 'daily' as const, priority: 0.98 },
     { url: '/womens-health/blood-tests', changeFrequency: 'daily' as const, priority: 0.98 },
     { url: '/womens-schemes-funds', changeFrequency: 'daily' as const, priority: 0.96 },
@@ -46,6 +50,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.92,
   }))
 
+  const segmentRoutes = WOMENS_HEALTH_MASTER_SEGMENTS.map((segment) => ({
+    url: `/womens-health/segments/${segment.slug}`,
+    changeFrequency: 'weekly' as const,
+    priority: 0.94,
+  }))
+
   const womensHealthArticleRoutes = WOMENS_HEALTH_ARTICLES.map((article) => ({
     url: `/womens-health/${article.category}/${article.slug}`,
     changeFrequency: 'weekly' as const,
@@ -55,33 +65,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const bloodTestArticleRoutes = WOMENS_BLOOD_TEST_ARTICLES.map((article) => ({
     url: `/womens-health/blood-tests/${article.slug}`,
     changeFrequency: 'weekly' as const,
-    priority: 0.92,
+    priority: 0.9,
   }))
 
-  return [
-    ...staticRoutes.map((route) => ({
-      url: `${baseUrl}${route.url}`,
-      lastModified: new Date(),
-      changeFrequency: route.changeFrequency,
-      priority: route.priority,
-    })),
-    ...blogArticleRoutes.map((route) => ({
-      url: `${baseUrl}${route.url}`,
-      lastModified: new Date(),
-      changeFrequency: route.changeFrequency,
-      priority: route.priority,
-    })),
-    ...womensHealthArticleRoutes.map((route) => ({
-      url: `${baseUrl}${route.url}`,
-      lastModified: new Date(),
-      changeFrequency: route.changeFrequency,
-      priority: route.priority,
-    })),
-    ...bloodTestArticleRoutes.map((route) => ({
-      url: `${baseUrl}${route.url}`,
-      lastModified: new Date(),
-      changeFrequency: route.changeFrequency,
-      priority: route.priority,
-    })),
+  const allRoutes = [
+    ...staticRoutes,
+    ...segmentRoutes,
+    ...blogArticleRoutes,
+    ...womensHealthArticleRoutes,
+    ...bloodTestArticleRoutes,
   ]
+
+  return allRoutes.map((route) => ({
+    url: `${baseUrl}${route.url}`,
+    lastModified: new Date().toISOString().split('T')[0],
+    changeFrequency: route.changeFrequency,
+    priority: route.priority,
+  }))
 }
