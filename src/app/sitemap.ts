@@ -3,6 +3,7 @@ import { WOMENS_HEALTH_ARTICLES } from '@/data/womensHealthArticles'
 import { WOMENS_BLOOD_TEST_ARTICLES } from '@/data/womensBloodTestsArticles'
 import { WOMENS_HEALTH_MASTER_SEGMENTS } from '@/data/womensHealthMasterSegments'
 import { MARKETPLACE_CATEGORIES, ALL_MARKETPLACE_PRODUCTS } from '@/data/marketplaceCatalog'
+import { ALL_1000_FERTILITY_QUESTIONS } from '@/data/fertilityQuestionsData'
 import { blogArticles } from '@/data/blogArticles'
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -11,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     { url: '/', changeFrequency: 'daily' as const, priority: 1.0 },
     { url: '/womens-health', changeFrequency: 'daily' as const, priority: 0.98 },
+    { url: '/fertility-qa', changeFrequency: 'daily' as const, priority: 0.99 },
     { url: '/marketplace', changeFrequency: 'daily' as const, priority: 0.99 },
     { url: '/marketplace/cart', changeFrequency: 'daily' as const, priority: 0.8 },
     { url: '/marketplace/checkout', changeFrequency: 'daily' as const, priority: 0.8 },
@@ -51,6 +53,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: '/disclaimer', changeFrequency: 'monthly' as const, priority: 0.4 },
   ]
 
+  const fertilityQuestionRoutes = ALL_1000_FERTILITY_QUESTIONS.slice(0, 200).map((q) => ({
+    url: `/fertility-qa/${q.slug}`,
+    changeFrequency: 'weekly' as const,
+    priority: 0.94,
+  }))
+
   const marketplaceCategoryRoutes = MARKETPLACE_CATEGORIES.map((cat) => ({
     url: `/marketplace/${cat.slug}`,
     changeFrequency: 'daily' as const,
@@ -89,6 +97,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const allRoutes = [
     ...staticRoutes,
+    ...fertilityQuestionRoutes,
     ...marketplaceCategoryRoutes,
     ...marketplaceProductRoutes,
     ...segmentRoutes,

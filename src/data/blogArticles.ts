@@ -1,6 +1,7 @@
 import { STRATEGIC_BLOG_ARTICLES } from './womensHealthStrategicArticles'
 import { SEO_AEO_KEYWORD_ARTICLES } from './seoAeoKeywordArticles'
 import { WOMENS_MARKETPLACE_SEO_ARTICLES } from './womensMarketplaceSeoArticles'
+import { FERTILITY_BLOG_ARTICLES } from './fertilityBlogArticles'
 
 export interface BlogArticle {
   slug: string
@@ -313,6 +314,7 @@ const originalBlogArticles: BlogArticle[] = [
 ]
 
 export const blogArticles: BlogArticle[] = [
+  ...FERTILITY_BLOG_ARTICLES,
   ...WOMENS_MARKETPLACE_SEO_ARTICLES,
   ...SEO_AEO_KEYWORD_ARTICLES,
   ...STRATEGIC_BLOG_ARTICLES,
