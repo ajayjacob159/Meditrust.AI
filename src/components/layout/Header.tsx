@@ -85,49 +85,60 @@ export default function Header() {
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[680px] z-50 animate-fadeIn">
                     <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xl space-y-4">
                       
-                      {/* Top 4 Quick Links */}
-                      <div className="grid grid-cols-4 gap-2 p-1.5 rounded-2xl bg-slate-50 border border-slate-100 text-xs">
+                      {/* Top 5 Quick Links */}
+                      <div className="grid grid-cols-5 gap-1.5 p-1.5 rounded-2xl bg-slate-50 border border-slate-100 text-xs">
                         <Link
                           href="/womens-health"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-medium text-slate-900"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-medium text-slate-900"
                         >
                           <span>🌸</span>
                           <div>
-                            <span className="block font-semibold leading-none">Master Hub</span>
-                            <span className="text-[10px] text-slate-500 font-normal">7 Life Stages</span>
+                            <span className="block font-semibold leading-none text-3xs">Master Hub</span>
+                            <span className="text-[9px] text-slate-500 font-normal">7 Life Stages</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          href="/womens-marketplace"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-medium text-slate-900"
+                        >
+                          <span>🛍️</span>
+                          <div>
+                            <span className="block font-semibold leading-none text-3xs">Marketplace</span>
+                            <span className="text-[9px] text-rose-600 font-bold">Nua Care</span>
                           </div>
                         </Link>
 
                         <Link
                           href="/womens-health/blood-tests"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-medium text-slate-900"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-medium text-slate-900"
                         >
                           <span>🩸</span>
                           <div>
-                            <span className="block font-semibold leading-none">Blood Tests</span>
-                            <span className="text-[10px] text-slate-500 font-normal">35+ Panels</span>
+                            <span className="block font-semibold leading-none text-3xs">Blood Tests</span>
+                            <span className="text-[9px] text-slate-500 font-normal">35+ Panels</span>
                           </div>
                         </Link>
 
                         <Link
                           href="/womens-schemes-funds"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-medium text-slate-900"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-medium text-slate-900"
                         >
                           <span>🏛️</span>
                           <div>
-                            <span className="block font-semibold leading-none">Govt &amp; CSR</span>
-                            <span className="text-[10px] text-slate-500 font-normal">35+ Schemes</span>
+                            <span className="block font-semibold leading-none text-3xs">Govt &amp; CSR</span>
+                            <span className="text-[9px] text-slate-500 font-normal">35+ Schemes</span>
                           </div>
                         </Link>
 
                         <Link
                           href="/reports/womens-health-india-2026"
-                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-2 font-medium text-slate-900"
+                          className="p-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 font-medium text-slate-900"
                         >
                           <span>📊</span>
                           <div>
-                            <span className="block font-semibold leading-none">Report</span>
-                            <span className="text-[10px] text-slate-500 font-normal">2026–2030</span>
+                            <span className="block font-semibold leading-none text-3xs">Report</span>
+                            <span className="text-[9px] text-slate-500 font-normal">2026–30</span>
                           </div>
                         </Link>
                       </div>

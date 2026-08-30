@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     { url: '/', changeFrequency: 'daily' as const, priority: 1.0 },
     { url: '/womens-health', changeFrequency: 'daily' as const, priority: 0.98 },
+    { url: '/womens-marketplace', changeFrequency: 'daily' as const, priority: 0.98 },
     { url: '/bot', changeFrequency: 'daily' as const, priority: 0.98 },
     { url: '/womens-health/blood-tests', changeFrequency: 'daily' as const, priority: 0.98 },
     { url: '/womens-schemes-funds', changeFrequency: 'daily' as const, priority: 0.96 },
