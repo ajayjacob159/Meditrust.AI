@@ -5,12 +5,16 @@ import Link from 'next/link'
 import {
   Menu, X, ChevronDown, ChevronRight, Stethoscope,
   MessageCircle, Building2, UserPlus, Heart,
-  BookOpen, ArrowRight, ShieldCheck
+  BookOpen, ArrowRight, ShieldCheck, ShoppingBag, User
 } from 'lucide-react'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
 import { WOMENS_HEALTH_STRATEGIC_TOPICS } from '@/data/womensHealthStrategicArticles'
+import { useCart } from '@/context/CartContext'
+import { useAuth } from '@/context/AuthContext'
 
 export default function Header() {
+  const { cartCount, openCart } = useCart()
+  const { user, isAuthenticated, openAuthModal } = useAuth()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [rxScannerOpen, setRxScannerOpen] = useState(false)
@@ -220,14 +224,52 @@ export default function Header() {
             </nav>
 
             {/* ── 3. RIGHT ACTIONS ── */}
-            <div className="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
               
+              {/* E-Commerce Cart Trigger with Live Count Badge */}
+              <button
+                type="button"
+                onClick={openCart}
+                className="relative p-2 rounded-full hover:bg-slate-100 text-slate-700 transition-colors"
+                title="View Care Bag / Cart"
+                aria-label="View Shopping Cart"
+              >
+                <ShoppingBag className="w-4.5 h-4.5 text-slate-800" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-rose-600 text-white font-black text-[10px] rounded-full flex items-center justify-center shadow-xs">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+
+              {/* User Account / Sign In */}
+              {isAuthenticated && user ? (
+                <Link
+                  href="/account"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-950 text-xs font-bold transition-colors"
+                >
+                  <span className="w-4 h-4 rounded-full bg-rose-600 text-white text-[10px] font-black flex items-center justify-center">
+                    {user.name.charAt(0)}
+                  </span>
+                  <span className="truncate max-w-[90px]">{user.name.split(' ')[0]}</span>
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => openAuthModal('login')}
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200/80 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition-colors"
+                >
+                  <User className="w-3.5 h-3.5 text-slate-500" />
+                  <span>Sign In</span>
+                </button>
+              )}
+
               {/* WhatsApp Quick Trigger */}
               <a
                 href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20want%20to%20consult%20with%20you"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200/80 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition-colors"
+                className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200/80 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition-colors"
                 title="Chat on WhatsApp"
               >
                 <MessageCircle className="w-3.5 h-3.5 text-[#25d366]" />
@@ -237,7 +279,7 @@ export default function Header() {
               {/* Primary Consultation Button */}
               <Link
                 href="/symptom-checker"
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-[13px] font-semibold transition-colors shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-[13px] font-semibold transition-colors shadow-2xs"
               >
                 <Stethoscope className="w-3.5 h-3.5 text-teal-400" />
                 <span>Ask Dr. Arya</span>
@@ -405,6 +447,51 @@ export default function Header() {
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-400" />
                 </Link>
+
+                {/* Sakhi Period Care Marketplace */}
+                <Link
+                  href="/womens-marketplace"
+                  onClick={() => setMobileOpen(false)}
+                  className="p-3 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-between text-rose-950 font-bold"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span>🛍️</span>
+                    <div>
+                      <span>Sakhi Period Care Store</span>
+                      <span className="block text-3xs text-rose-600 font-medium">Rash-free pads, heat patches &amp; PCOS</span>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-rose-400" />
+                </Link>
+
+                {/* Account / Sign In */}
+                {isAuthenticated && user ? (
+                  <Link
+                    href="/account"
+                    onClick={() => setMobileOpen(false)}
+                    className="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between text-slate-900 font-bold"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <User className="w-4 h-4 text-rose-600" />
+                      <div>
+                        <span>My Account ({user.name})</span>
+                        <span className="block text-3xs text-slate-500 font-normal">{user.lifeStage} Stage · Orders &amp; Wallet</span>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => { setMobileOpen(false); openAuthModal('login'); }}
+                    className="w-full p-3 rounded-2xl bg-slate-900 text-white font-bold text-xs flex items-center justify-between shadow-xs"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <User className="w-4 h-4 text-rose-400" />
+                      <span>Sign In / Create Account</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </button>
+                )}
 
                 {/* For Doctors */}
                 <Link

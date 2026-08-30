@@ -7,6 +7,8 @@ import LeadDiscountModal from '@/components/common/LeadDiscountModal'
 import MobileBottomNavigation from '@/components/layout/MobileBottomNavigation'
 import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
 
+import AppProviders from '@/components/providers/AppProviders'
+
 export const viewport: Viewport = {
   themeColor: '#0F766E',
   width: 'device-width',
@@ -219,15 +221,17 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-white antialiased text-slate-900 selection:bg-teal-100 selection:text-teal-900">
-        <PWAInstallPrompt />
-        <EmergencyBanner />
-        <Header />
-        <main id="main-content" role="main">
-          {children}
-        </main>
-        <Footer />
-        <LeadDiscountModal />
-        <MobileBottomNavigation />
+        <AppProviders>
+          <PWAInstallPrompt />
+          <EmergencyBanner />
+          <Header />
+          <main id="main-content" role="main">
+            {children}
+          </main>
+          <Footer />
+          <LeadDiscountModal />
+          <MobileBottomNavigation />
+        </AppProviders>
       </body>
     </html>
   )

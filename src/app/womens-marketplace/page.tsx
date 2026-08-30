@@ -12,8 +12,10 @@ import {
   WOMENS_MARKETPLACE_PRODUCTS,
   MarketplaceProduct
 } from '@/data/womensMarketplaceProducts'
+import { useCart } from '@/context/CartContext'
 
 export default function WomensMarketplacePage() {
+  const { addToCart } = useCart()
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const [activeStage, setActiveStage] = useState<string>('all')
   const [selectedProduct, setSelectedProduct] = useState<MarketplaceProduct | null>(null)
@@ -265,11 +267,11 @@ export default function WomensMarketplacePage() {
                   </button>
 
                   <button
-                    onClick={() => handleWhatsAppOrder(product, product.packOptions[0], false)}
-                    className="py-2.5 px-4 rounded-full bg-[#008069] hover:bg-[#006e5a] text-white font-bold text-xs flex items-center gap-1.5 shadow-2xs transition-transform hover:scale-102"
+                    onClick={() => addToCart(product, product.packOptions[0], false)}
+                    className="py-2.5 px-4 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-2xs transition-transform hover:scale-102"
                   >
-                    <MessageCircle className="w-3.5 h-3.5" />
-                    <span>Buy</span>
+                    <ShoppingBag className="w-3.5 h-3.5" />
+                    <span>Add to Bag</span>
                   </button>
                 </div>
 
@@ -462,21 +464,22 @@ export default function WomensMarketplacePage() {
             {/* Modal Bottom Order Bar */}
             <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center gap-3">
               <button
-                onClick={() => handleWhatsAppOrder(selectedProduct, selectedPack, isSubscribing)}
-                className="w-full sm:flex-1 py-3.5 rounded-full bg-[#008069] hover:bg-[#006e5a] text-white font-black text-sm flex items-center justify-center gap-2 shadow-md transition-transform hover:scale-102"
+                onClick={() => {
+                  addToCart(selectedProduct, selectedPack, isSubscribing)
+                  setSelectedProduct(null)
+                }}
+                className="w-full sm:flex-1 py-3.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-black text-sm flex items-center justify-center gap-2 shadow-md transition-transform hover:scale-102"
               >
-                <MessageCircle className="w-4 h-4" />
-                <span>Order via WhatsApp (₹{isSubscribing ? Math.round(selectedProduct.price * 0.8) : selectedProduct.price})</span>
+                <ShoppingBag className="w-4 h-4" />
+                <span>Add to Care Bag (₹{isSubscribing ? Math.round(selectedProduct.price * 0.8) : selectedProduct.price})</span>
               </button>
 
               <button
-                onClick={() => {
-                  setCartSuccessMessage(`Added ${selectedProduct.name} (${selectedPack}) to your Meditrust Care Bag!`)
-                  setTimeout(() => setCartSuccessMessage(''), 4000)
-                }}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs"
+                onClick={() => handleWhatsAppOrder(selectedProduct, selectedPack, isSubscribing)}
+                className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#008069] hover:bg-[#006e5a] text-white font-bold text-xs flex items-center justify-center gap-1.5"
               >
-                Add to Cart
+                <MessageCircle className="w-4 h-4" />
+                <span>Order on WhatsApp</span>
               </button>
             </div>
 
