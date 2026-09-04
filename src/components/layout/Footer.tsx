@@ -348,6 +348,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/vision" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center gap-1">
+                  <span>🎯 Our 2030 Vision &amp; Manifesto</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/privacy" className="text-slate-400 hover:text-teal-400 transition-colors">
                   🔒 Privacy Policy &amp; ABDM
                 </Link>

@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     { url: '/', changeFrequency: 'daily' as const, priority: 1.0 },
     { url: '/womens-health', changeFrequency: 'daily' as const, priority: 0.98 },
+    { url: '/vision', changeFrequency: 'monthly' as const, priority: 0.95 },
     { url: '/womens-health/tools', changeFrequency: 'daily' as const, priority: 0.99 },
     { url: '/medimom', changeFrequency: 'daily' as const, priority: 0.98 },
     { url: '/corpo-mom', changeFrequency: 'daily' as const, priority: 0.98 },

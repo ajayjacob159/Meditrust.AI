@@ -526,6 +526,68 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── 4.5 OUR 2030 HEALTHCARE VISION & MANIFESTO ── */}
+      <section className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-rose-950 text-white p-8 sm:p-12 border border-slate-800 shadow-xl space-y-8">
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/10 pb-6">
+            <div className="space-y-2 max-w-2xl">
+              <div className="inline-flex items-center gap-1.5 text-rose-400 font-bold text-3xs uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>OUR VISION &amp; PURPOSE</span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+                Healthcare that Listens, Protects, and Empowers.
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
+                We are building an India where medical intelligence is never limited by pincode or income, health anxiety is replaced with clinical clarity, and lifesaving medicines cost 80% less.
+              </p>
+            </div>
+
+            <Link
+              href="/vision"
+              className="px-6 py-3 rounded-full bg-white text-slate-950 hover:bg-slate-100 font-black text-xs flex items-center gap-1.5 flex-shrink-0 transition-transform hover:scale-102 shadow-xs"
+            >
+              <span>Read Full 2030 Manifesto</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+            <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+              <span className="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center font-bold text-sm">
+                1
+              </span>
+              <strong className="text-white font-bold text-sm block">Universal Clinical Access</strong>
+              <p className="text-slate-300 text-3xs leading-relaxed font-normal">
+                24/7 instant multilingual AI triage with Dr. Arya in Marathi, Hindi, and English—ensuring no family is left without medical guidance.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+              <span className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-bold text-sm">
+                2
+              </span>
+              <strong className="text-white font-bold text-sm block">80% Generic Savings</strong>
+              <p className="text-slate-300 text-3xs leading-relaxed font-normal">
+                Democratizing medicine prices through PMBJP Jan Aushadhi bioequivalent generic substitution, saving families thousands every month.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+              <span className="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center font-bold text-sm">
+                3
+              </span>
+              <strong className="text-white font-bold text-sm block">Women&apos;s Reproductive Dignity</strong>
+              <p className="text-slate-300 text-3xs leading-relaxed font-normal">
+                From menarche to pregnancy and menopause: 100% toxin-free period care (Sakhi™), maternal roadmaps (MediMom), and free health calculators.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* ── 5. CLEAN MINIMALIST FAQS ── */}
       <section className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
         <div className="text-center max-w-xl mx-auto space-y-2">
