@@ -20,7 +20,9 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [rxScannerOpen, setRxScannerOpen] = useState(false)
   const [medisMomOpen, setMedisMomOpen] = useState(false)
+  const [calcMenuOpen, setCalcMenuOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const calcDropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 15)
@@ -32,6 +34,9 @@ export default function Header() {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setMedisMomOpen(false)
+      }
+      if (calcDropdownRef.current && !calcDropdownRef.current.contains(event.target as Node)) {
+        setCalcMenuOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -161,15 +166,161 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Flo Tracker Direct Nav */}
-              <Link
-                href="/womens-health/tracker"
-                className="px-3 py-1.5 rounded-full hover:text-pink-900 hover:bg-pink-100/70 transition-colors flex items-center gap-1 font-bold text-pink-700 bg-pink-50/80"
+              {/* 🧮 Calculator with Dropdown (10 Flo-Style Tools) */}
+              <div
+                ref={calcDropdownRef}
+                className="relative"
+                onMouseEnter={() => setCalcMenuOpen(true)}
+                onMouseLeave={() => setCalcMenuOpen(false)}
               >
-                <span>🌸</span>
-                <span>Flo Tracker</span>
-                <span className="text-[8px] font-black bg-pink-600 text-white px-1.5 py-0.2 rounded-full ml-0.5">NEW</span>
-              </Link>
+                <Link
+                  href="/tools"
+                  onClick={() => setCalcMenuOpen(false)}
+                  className={`px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 font-bold ${
+                    calcMenuOpen
+                      ? 'bg-rose-50 text-rose-700'
+                      : 'text-rose-700 bg-rose-50/70 hover:bg-rose-100/90 hover:text-rose-900'
+                  }`}
+                  aria-expanded={calcMenuOpen}
+                >
+                  <span>🧮</span>
+                  <span>Calculator</span>
+                  <span className="text-[8px] font-black bg-rose-600 text-white px-1.5 py-0.2 rounded-full ml-0.5">10</span>
+                  <ChevronDown className={`w-3 h-3 transition-transform ${calcMenuOpen ? 'rotate-180 text-rose-600' : 'text-rose-400'}`} />
+                </Link>
+
+                {/* Calculator Mega Dropdown Menu */}
+                {calcMenuOpen && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[480px] p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 space-y-2 animate-fadeIn z-50">
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-100 px-1">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-black text-slate-900">Clinical Health Calculators</span>
+                        <span className="text-[9px] font-bold bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded-md">Flo-Inspired</span>
+                      </div>
+                      <Link
+                        href="/tools"
+                        onClick={() => setCalcMenuOpen(false)}
+                        className="text-3xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-0.5"
+                      >
+                        <span>View All 10</span>
+                        <ArrowRight className="w-2.5 h-2.5" />
+                      </Link>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-1.5">
+                      <Link
+                        href="/tools/ovulation-calculator"
+                        onClick={() => setCalcMenuOpen(false)}
+                        className="p-2 rounded-xl hover:bg-rose-50/80 transition-colors flex items-start gap-2 group"
+                      >
+                        <span className="text-base flex-shrink-0 mt-0.5">🌸</span>
+                        <div>
+                          <strong className="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition-colors block leading-tight">
+                            Ovulation &amp; Fertile Window
+                          </strong>
+                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
+                            Peak conception &amp; fertile days
+                          </span>
+                        </div>
+                      </Link>
+
+                      <Link
+                        href="/tools/due-date-calculator"
+                        onClick={() => setCalcMenuOpen(false)}
+                        className="p-2 rounded-xl hover:bg-amber-50/80 transition-colors flex items-start gap-2 group"
+                      >
+                        <span className="text-base flex-shrink-0 mt-0.5">🤰</span>
+                        <div>
+                          <strong className="text-xs font-bold text-slate-900 group-hover:text-amber-700 transition-colors block leading-tight">
+                            Pregnancy Due Date (EDD)
+                          </strong>
+                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
+                            LMP &amp; conception dating
+                          </span>
+                        </div>
+                      </Link>
+
+                      <Link
+                        href="/tools/hcg-calculator"
+                        onClick={() => setCalcMenuOpen(false)}
+                        className="p-2 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                      >
+                        <span className="text-base flex-shrink-0 mt-0.5">🧪</span>
+                        <div>
+                          <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors block leading-tight">
+                            Beta hCG Doubling Time
+                          </strong>
+                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
+                            Early pregnancy kinetic curves
+                          </span>
+                        </div>
+                      </Link>
+
+                      <Link
+                        href="/tools/ivf-due-date-calculator"
+                        onClick={() => setCalcMenuOpen(false)}
+                        className="p-2 rounded-xl hover:bg-purple-50/80 transition-colors flex items-start gap-2 group"
+                      >
+                        <span className="text-base flex-shrink-0 mt-0.5">🧬</span>
+                        <div>
+                          <strong className="text-xs font-bold text-slate-900 group-hover:text-purple-700 transition-colors block leading-tight">
+                            IVF &amp; FET Due Date
+                          </strong>
+                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
+                            Day-3 &amp; Day-5 blastocyst transfer
+                          </span>
+                        </div>
+                      </Link>
+
+                      <Link
+                        href="/tools/period-calculator"
+                        onClick={() => setCalcMenuOpen(false)}
+                        className="p-2 rounded-xl hover:bg-rose-50/80 transition-colors flex items-start gap-2 group"
+                      >
+                        <span className="text-base flex-shrink-0 mt-0.5">🩸</span>
+                        <div>
+                          <strong className="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition-colors block leading-tight">
+                            Period &amp; PMS Predictor
+                          </strong>
+                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
+                            6-cycle calendar forecast
+                          </span>
+                        </div>
+                      </Link>
+
+                      <Link
+                        href="/tools/due-date-by-ultrasound"
+                        onClick={() => setCalcMenuOpen(false)}
+                        className="p-2 rounded-xl hover:bg-blue-50/80 transition-colors flex items-start gap-2 group"
+                      >
+                        <span className="text-base flex-shrink-0 mt-0.5">🩻</span>
+                        <div>
+                          <strong className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors block leading-tight">
+                            Ultrasound Due Date
+                          </strong>
+                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
+                            CRL biometry sonographic dating
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between bg-slate-50/80 -mx-3 -mb-3 p-2.5 rounded-b-2xl">
+                      <span className="text-[10px] text-slate-500 font-medium">
+                        🔬 Based on ACOG &amp; WHO clinical formulas
+                      </span>
+                      <Link
+                        href="/tools"
+                        onClick={() => setCalcMenuOpen(false)}
+                        className="text-xs font-black text-rose-600 hover:text-rose-700 flex items-center gap-1"
+                      >
+                        <span>Open Calculators Hub</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* Free Tools */}
               <Link
@@ -356,23 +507,23 @@ export default function Header() {
                   <ChevronRight className="w-4 h-4 text-purple-400" />
                 </Link>
 
-                {/* Flo-Style Cycle & Pregnancy Tracker */}
+                {/* 10 Clinical Calculators (Flo-Inspired) */}
                 <Link
-                  href="/womens-health/tracker"
+                  href="/tools"
                   onClick={() => setMobileOpen(false)}
-                  className="p-3 rounded-2xl bg-pink-50/90 border border-pink-200 flex items-center justify-between text-pink-950 font-bold"
+                  className="p-3 rounded-2xl bg-rose-50/90 border border-rose-200 flex items-center justify-between text-rose-950 font-bold"
                 >
                   <div className="flex items-center gap-2.5">
-                    <span>🌸</span>
+                    <span>🧮</span>
                     <div>
                       <div className="flex items-center gap-1.5">
-                        <span>Flo Tracker &amp; Pregnancy Suite</span>
-                        <span className="text-[8px] font-black bg-pink-600 text-white px-1 py-0.2 rounded">NEW</span>
+                        <span>Clinical Calculators</span>
+                        <span className="text-[8px] font-black bg-rose-600 text-white px-1.5 py-0.2 rounded">10 TOOLS</span>
                       </div>
-                      <span className="block text-3xs text-pink-700 font-normal">70+ symptoms, 40-wk fruit visualizer &amp; hormone sync</span>
+                      <span className="block text-3xs text-rose-700 font-normal">Ovulation, EDD Due Date, hCG doubling, IVF &amp; Period</span>
                     </div>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-pink-600" />
+                  <ChevronRight className="w-4 h-4 text-rose-600" />
                 </Link>
 
                 {/* 12 Free Tools */}

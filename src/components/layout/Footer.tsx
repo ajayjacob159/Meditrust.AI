@@ -239,6 +239,15 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/tools" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <span>🧮</span>
+                    <span>10 Flo Clinical Calculators</span>
+                  </span>
+                  <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded font-black">POPULAR</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/womens-health/tools" className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <span>🧰</span>

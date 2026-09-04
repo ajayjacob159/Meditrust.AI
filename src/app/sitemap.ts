@@ -5,12 +5,14 @@ import { WOMENS_HEALTH_MASTER_SEGMENTS } from '@/data/womensHealthMasterSegments
 import { MARKETPLACE_CATEGORIES, ALL_MARKETPLACE_PRODUCTS } from '@/data/marketplaceCatalog'
 import { ALL_1000_FERTILITY_QUESTIONS } from '@/data/fertilityQuestionsData'
 import { blogArticles } from '@/data/blogArticles'
+import { FLO_10_CALCULATORS } from '@/data/floCalculatorsData'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.meditrustai.in'
 
   const staticRoutes = [
     { url: '/', changeFrequency: 'daily' as const, priority: 1.0 },
+    { url: '/tools', changeFrequency: 'daily' as const, priority: 1.0 },
     { url: '/womens-health', changeFrequency: 'daily' as const, priority: 0.98 },
     { url: '/womens-health/tracker', changeFrequency: 'daily' as const, priority: 0.99 },
     { url: '/vision', changeFrequency: 'monthly' as const, priority: 0.95 },
@@ -101,8 +103,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }))
 
+  const floCalculatorRoutes = FLO_10_CALCULATORS.map((calc) => ({
+    url: `/tools/${calc.slug}`,
+    changeFrequency: 'weekly' as const,
+    priority: 0.98,
+  }))
+
   const allRoutes = [
     ...staticRoutes,
+    ...floCalculatorRoutes,
     ...fertilityQuestionRoutes,
     ...marketplaceCategoryRoutes,
     ...marketplaceProductRoutes,
