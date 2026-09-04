@@ -223,31 +223,49 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Col 3: Real-Time AI Tools */}
+          {/* Col 3: Real-Time AI & Clinical Tools */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-4 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-teal-400" /> Real-Time AI Tools
+              <Sparkles className="w-3.5 h-3.5 text-teal-400" /> Women&apos;s Health &amp; Tools
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/womens-marketplace" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center justify-between">
+                <Link href="/womens-health/tools" className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
-                    <ShoppingBag className="w-3.5 h-3.5 text-rose-500" />
-                    <span>Sakhi™ Period Care Store</span>
+                    <span>🧰</span>
+                    <span>12 Free Clinical Tools</span>
                   </span>
-                  <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded font-black">SHOP</span>
+                  <span className="text-3xs bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-black">FREE</span>
                 </Link>
               </li>
               <li>
-                <Link href="/symptom-checker" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <Stethoscope className="w-3.5 h-3.5 text-teal-500" />
-                  <span>Dr. Arya AI Doctor (24/7)</span>
+                <Link href="/womens-health/academy" className="text-purple-400 hover:text-purple-300 font-bold transition-colors flex items-center gap-1.5">
+                  <span>🎓</span>
+                  <span>Women&apos;s Health Academy</span>
                 </Link>
               </li>
               <li>
-                <Link href="/womens-health" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center gap-1.5">
-                  <Heart className="w-3.5 h-3.5 text-rose-500" />
-                  <span>Women&apos;s Health Care Hub 🌸</span>
+                <Link href="/medimom" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center gap-1.5">
+                  <span>🤱</span>
+                  <span>MediMom™ Maternal Care</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/fertility-qa" className="text-teal-400 hover:text-teal-300 font-bold transition-colors flex items-center gap-1.5">
+                  <span>🧬</span>
+                  <span>1,000+ Fertility Q&amp;A Engine</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/womens-health" className="text-slate-300 hover:text-rose-400 font-semibold transition-colors flex items-center gap-1.5">
+                  <span>🌸</span>
+                  <span>Women&apos;s Health Master Hub</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/marketplace" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center gap-1.5">
+                  <ShoppingBag className="w-3.5 h-3.5 text-rose-500" />
+                  <span>Sakhi™ Period Store</span>
                 </Link>
               </li>
               <li>
@@ -257,21 +275,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/medivault" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <LayoutDashboard className="w-3.5 h-3.5 text-blue-500" />
-                  <span>MediVault™ ABHA Locker</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/health-score" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <Activity className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>Health Score &amp; Streaks</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/medication-comparison" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
-                  <Heart className="w-3.5 h-3.5 text-rose-500" />
-                  <span>Jan Aushadhi Generic Match</span>
+                <Link href="/symptom-checker" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-1.5">
+                  <Stethoscope className="w-3.5 h-3.5 text-teal-500" />
+                  <span>Dr. Arya AI Doctor (24/7)</span>
                 </Link>
               </li>
             </ul>
