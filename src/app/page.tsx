@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import LabReportExplainerModal from '@/components/common/LabReportExplainerModal'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
+import FloStyleInteractiveLifecycle from '@/components/home/FloStyleInteractiveLifecycle'
 
 export default function HomePage() {
   const [reportModalOpen, setReportModalOpen] = useState(false)
@@ -301,6 +302,9 @@ export default function HomePage() {
 
         </div>
       </section>
+
+      {/* ── 2.5 FLO-INSPIRED INTERACTIVE LIFECYCLE MODES ── */}
+      <FloStyleInteractiveLifecycle />
 
       {/* ── 3. INTERACTIVE MINIMALIST DEMO WORKBENCH ── */}
       <section className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
