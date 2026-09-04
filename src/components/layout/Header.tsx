@@ -136,9 +136,40 @@ export default function Header() {
                         </span>
                       </div>
                     </Link>
+
+                    <Link
+                      href="/womens-health/tracker"
+                      onClick={() => setMedisMomOpen(false)}
+                      className="p-2.5 rounded-xl hover:bg-pink-50 transition-colors flex items-start gap-2.5 group border-t border-slate-100"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">
+                        🌸
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <strong className="text-xs font-bold text-slate-900 group-hover:text-pink-600 transition-colors block">
+                            Flo Cycle &amp; Pregnancy Suite
+                          </strong>
+                          <span className="text-[8px] font-black bg-pink-600 text-white px-1 py-0.2 rounded">NEW</span>
+                        </div>
+                        <span className="text-3xs text-slate-500 block font-normal">
+                          70+ symptoms, 40-wk fruit visualizer &amp; hormone sync
+                        </span>
+                      </div>
+                    </Link>
                   </div>
                 )}
               </div>
+
+              {/* Flo Tracker Direct Nav */}
+              <Link
+                href="/womens-health/tracker"
+                className="px-3 py-1.5 rounded-full hover:text-pink-900 hover:bg-pink-100/70 transition-colors flex items-center gap-1 font-bold text-pink-700 bg-pink-50/80"
+              >
+                <span>🌸</span>
+                <span>Flo Tracker</span>
+                <span className="text-[8px] font-black bg-pink-600 text-white px-1.5 py-0.2 rounded-full ml-0.5">NEW</span>
+              </Link>
 
               {/* Free Tools */}
               <Link
@@ -323,6 +354,25 @@ export default function Header() {
                     </div>
                   </div>
                   <ChevronRight className="w-4 h-4 text-purple-400" />
+                </Link>
+
+                {/* Flo-Style Cycle & Pregnancy Tracker */}
+                <Link
+                  href="/womens-health/tracker"
+                  onClick={() => setMobileOpen(false)}
+                  className="p-3 rounded-2xl bg-pink-50/90 border border-pink-200 flex items-center justify-between text-pink-950 font-bold"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span>🌸</span>
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span>Flo Tracker &amp; Pregnancy Suite</span>
+                        <span className="text-[8px] font-black bg-pink-600 text-white px-1 py-0.2 rounded">NEW</span>
+                      </div>
+                      <span className="block text-3xs text-pink-700 font-normal">70+ symptoms, 40-wk fruit visualizer &amp; hormone sync</span>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-pink-600" />
                 </Link>
 
                 {/* 12 Free Tools */}
