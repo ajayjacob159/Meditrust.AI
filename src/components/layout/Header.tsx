@@ -145,7 +145,7 @@ export default function Header() {
                 )}
               </div>
 
-              {/* 🧮 Calculator with Dropdown (10 Flo-Style Tools) */}
+              {/* 🧮 Calculator & Free Tools Mega Dropdown (22+ Tools) */}
               <div
                 ref={calcDropdownRef}
                 className="relative"
@@ -164,152 +164,439 @@ export default function Header() {
                 >
                   <span>🧮</span>
                   <span>Calculator</span>
-                  <span className="text-[8px] font-black bg-rose-600 text-white px-1.5 py-0.2 rounded-full ml-0.5">10</span>
+                  <span className="text-[8px] font-black bg-rose-600 text-white px-1.5 py-0.2 rounded-full ml-0.5">22+</span>
                   <ChevronDown className={`w-3 h-3 transition-transform ${calcMenuOpen ? 'rotate-180 text-rose-600' : 'text-rose-400'}`} />
                 </Link>
 
                 {/* Calculator Mega Dropdown Menu */}
                 {calcMenuOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[480px] p-3 bg-white rounded-2xl shadow-2xl border border-slate-200/90 space-y-2 animate-fadeIn z-50">
-                    <div className="flex items-center justify-between pb-2 border-b border-slate-100 px-1">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-black text-slate-900">Clinical Health Calculators</span>
-                        <span className="text-[9px] font-bold bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded-md">Clinical Suite</span>
+                  <div className="absolute top-full left-1/2 -translate-x-[45%] mt-1.5 w-[760px] p-4 bg-white rounded-3xl shadow-2xl border border-slate-200/90 space-y-3 animate-fadeIn z-50">
+                    
+                    {/* Top Header Bar */}
+                    <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 px-1">
+                      <div className="flex items-center gap-2">
+                        <span className="w-7 h-7 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center text-sm font-bold">
+                          🧮
+                        </span>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-black text-slate-900 font-display">Medical Calculators &amp; Free Tools Hub</span>
+                            <span className="text-[9px] font-black bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full">22 FREE CLINICAL TOOLS</span>
+                          </div>
+                          <span className="text-3xs text-slate-500 font-normal">Real-time clinical predictors, fertility algorithms &amp; hospital budget planners</span>
+                        </div>
                       </div>
-                      <Link
-                        href="/tools"
-                        onClick={() => setCalcMenuOpen(false)}
-                        className="text-3xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-0.5"
-                      >
-                        <span>View All 10</span>
-                        <ArrowRight className="w-2.5 h-2.5" />
-                      </Link>
+                      <div className="flex items-center gap-1.5">
+                        <Link
+                          href="/tools"
+                          onClick={() => setCalcMenuOpen(false)}
+                          className="text-3xs font-bold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2 py-1 rounded-lg transition-colors flex items-center gap-1"
+                        >
+                          <span>All Calculators (10)</span>
+                          <ArrowRight className="w-2.5 h-2.5" />
+                        </Link>
+                        <Link
+                          href="/womens-health/tools"
+                          onClick={() => setCalcMenuOpen(false)}
+                          className="text-3xs font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-2 py-1 rounded-lg transition-colors flex items-center gap-1"
+                        >
+                          <span>All Planners (12)</span>
+                          <ArrowRight className="w-2.5 h-2.5" />
+                        </Link>
+                      </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-1.5">
-                      <Link
-                        href="/tools/ovulation-calculator"
-                        onClick={() => setCalcMenuOpen(false)}
-                        className="p-2 rounded-xl hover:bg-rose-50/80 transition-colors flex items-start gap-2 group"
-                      >
-                        <span className="text-base flex-shrink-0 mt-0.5">🌸</span>
-                        <div>
-                          <strong className="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition-colors block leading-tight">
-                            Ovulation &amp; Fertile Window
-                          </strong>
-                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
-                            Peak conception &amp; fertile days
+                    {/* 2-Column Grid */}
+                    <div className="grid grid-cols-2 gap-3">
+                      
+                      {/* Column 1: Clinical Flo Calculators (10 Tools) */}
+                      <div className="space-y-1">
+                        <div className="flex items-center justify-between px-1 pb-1 border-b border-rose-50">
+                          <span className="text-3xs font-black uppercase tracking-wider text-rose-700 flex items-center gap-1">
+                            <span>🌸</span> Clinical Calculators (Flo Suite)
                           </span>
+                          <span className="text-[9px] font-bold text-slate-400">10 Tools</span>
                         </div>
-                      </Link>
 
-                      <Link
-                        href="/tools/due-date-calculator"
-                        onClick={() => setCalcMenuOpen(false)}
-                        className="p-2 rounded-xl hover:bg-amber-50/80 transition-colors flex items-start gap-2 group"
-                      >
-                        <span className="text-base flex-shrink-0 mt-0.5">🤰</span>
-                        <div>
-                          <strong className="text-xs font-bold text-slate-900 group-hover:text-amber-700 transition-colors block leading-tight">
-                            Pregnancy Due Date (EDD)
-                          </strong>
-                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
-                            LMP &amp; conception dating
-                          </span>
-                        </div>
-                      </Link>
+                        <div className="space-y-0.5 max-h-[300px] overflow-y-auto pr-1">
+                          <Link
+                            href="/tools/ovulation-calculator"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-rose-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🌸</span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <strong className="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition-colors truncate">
+                                  Ovulation &amp; Fertile Window
+                                </strong>
+                                <span className="text-[8px] font-bold text-rose-600 bg-rose-50 px-1 rounded">HOT</span>
+                              </div>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                6-day fertile matrix &amp; peak conception days
+                              </span>
+                            </div>
+                          </Link>
 
-                      <Link
-                        href="/tools/hcg-calculator"
-                        onClick={() => setCalcMenuOpen(false)}
-                        className="p-2 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
-                      >
-                        <span className="text-base flex-shrink-0 mt-0.5">🧪</span>
-                        <div>
-                          <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors block leading-tight">
-                            Beta hCG Doubling Time
-                          </strong>
-                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
-                            Early pregnancy kinetic curves
-                          </span>
-                        </div>
-                      </Link>
+                          <Link
+                            href="/tools/due-date-calculator"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-amber-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🤰</span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <strong className="text-xs font-bold text-slate-900 group-hover:text-amber-700 transition-colors truncate">
+                                  Pregnancy Due Date (EDD)
+                                </strong>
+                                <span className="text-[8px] font-bold text-amber-700 bg-amber-50 px-1 rounded">ACOG</span>
+                              </div>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                LMP, conception &amp; antenatal milestones
+                              </span>
+                            </div>
+                          </Link>
 
-                      <Link
-                        href="/tools/ivf-due-date-calculator"
-                        onClick={() => setCalcMenuOpen(false)}
-                        className="p-2 rounded-xl hover:bg-purple-50/80 transition-colors flex items-start gap-2 group"
-                      >
-                        <span className="text-base flex-shrink-0 mt-0.5">🧬</span>
-                        <div>
-                          <strong className="text-xs font-bold text-slate-900 group-hover:text-purple-700 transition-colors block leading-tight">
-                            IVF &amp; FET Due Date
-                          </strong>
-                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
-                            Day-3 &amp; Day-5 blastocyst transfer
-                          </span>
-                        </div>
-                      </Link>
+                          <Link
+                            href="/tools/hcg-calculator"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🧪</span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate">
+                                  Beta hCG Doubling Time
+                                </strong>
+                                <span className="text-[8px] font-bold text-emerald-700 bg-emerald-50 px-1 rounded">KINETIC</span>
+                              </div>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                Kinetic speedometer &amp; viability curve
+                              </span>
+                            </div>
+                          </Link>
 
-                      <Link
-                        href="/tools/period-calculator"
-                        onClick={() => setCalcMenuOpen(false)}
-                        className="p-2 rounded-xl hover:bg-rose-50/80 transition-colors flex items-start gap-2 group"
-                      >
-                        <span className="text-base flex-shrink-0 mt-0.5">🩸</span>
-                        <div>
-                          <strong className="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition-colors block leading-tight">
-                            Period &amp; PMS Predictor
-                          </strong>
-                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
-                            6-cycle calendar forecast
-                          </span>
-                        </div>
-                      </Link>
+                          <Link
+                            href="/tools/ivf-due-date-calculator"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-purple-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🧬</span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <strong className="text-xs font-bold text-slate-900 group-hover:text-purple-700 transition-colors truncate">
+                                  IVF &amp; FET Due Date
+                                </strong>
+                                <span className="text-[8px] font-bold text-purple-700 bg-purple-50 px-1 rounded">2WW</span>
+                              </div>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                Day-3 &amp; Day-5 blastocyst transfer
+                              </span>
+                            </div>
+                          </Link>
 
-                      <Link
-                        href="/tools/due-date-by-ultrasound"
-                        onClick={() => setCalcMenuOpen(false)}
-                        className="p-2 rounded-xl hover:bg-blue-50/80 transition-colors flex items-start gap-2 group"
-                      >
-                        <span className="text-base flex-shrink-0 mt-0.5">🩻</span>
-                        <div>
-                          <strong className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors block leading-tight">
-                            Ultrasound Due Date
-                          </strong>
-                          <span className="text-[10px] text-slate-500 block font-normal leading-tight mt-0.5">
-                            CRL biometry sonographic dating
-                          </span>
+                          <Link
+                            href="/tools/period-calculator"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-rose-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🩸</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition-colors truncate block">
+                                Period &amp; PMS Predictor
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                6-cycle forecast &amp; symptom alerts
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/tools/due-date-by-ultrasound"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-blue-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🩻</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors truncate block">
+                                Ultrasound Dating (ACOG #700)
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                CRL biometry sonographic dating
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/tools/pregnancy-weeks-to-months-calculator"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-teal-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">👶</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-teal-700 transition-colors truncate block">
+                                Gestational Weeks to Months
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                40-week fruit comparison &amp; trimesters
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/tools/implantation-calculator"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-indigo-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🔬</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-indigo-700 transition-colors truncate block">
+                                Implantation Timeline (0–12 DPO)
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                Blastocyst uterine attachment window
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/tools/pregnancy-test-calculator"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-pink-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🧪</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-pink-700 transition-colors truncate block">
+                                Pregnancy Test Viability
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                8–14 DPO sensitivity &amp; testing date
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/tools/menstrual-cycle-calculator"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-fuchsia-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🔄</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-fuchsia-700 transition-colors truncate block">
+                                Menstrual Hormone Matrix
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                Estrogen, Progesterone &amp; LH curves
+                              </span>
+                            </div>
+                          </Link>
                         </div>
-                      </Link>
+                      </div>
+
+                      {/* Column 2: Free Health Planners & Assessments (12 Tools) */}
+                      <div className="space-y-1 border-l border-slate-100 pl-3">
+                        <div className="flex items-center justify-between px-1 pb-1 border-b border-emerald-50">
+                          <span className="text-3xs font-black uppercase tracking-wider text-emerald-700 flex items-center gap-1">
+                            <span>🧰</span> Free Health Planners
+                          </span>
+                          <span className="text-[9px] font-bold text-slate-400">12 Tools</span>
+                        </div>
+
+                        <div className="space-y-0.5 max-h-[300px] overflow-y-auto pr-1">
+                          <Link
+                            href="/womens-health/tools?tool=fertility-readiness"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🎯</span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate">
+                                  Fertility Readiness Score
+                                </strong>
+                                <span className="text-[8px] font-bold text-emerald-700 bg-emerald-50 px-1 rounded">POPULAR</span>
+                              </div>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                Biological readiness &amp; AMH risk score
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/womens-health/tools?tool=ivf-cost-calculator"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">💰</span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate">
+                                  IVF Cost &amp; Savings Calculator
+                                </strong>
+                                <span className="text-[8px] font-bold text-teal-700 bg-teal-50 px-1 rounded">SAVINGS</span>
+                              </div>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                City packages &amp; Jan Aushadhi generic savings
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/womens-health/tools?tool=hospital-delivery-cost"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🏥</span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate">
+                                  Hospital Delivery Cost Planner
+                                </strong>
+                                <span className="text-[8px] font-bold text-amber-700 bg-amber-50 px-1 rounded">BUDGET</span>
+                              </div>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                Normal vs C-Section hospital pricing
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/womens-health/tools?tool=egg-freezing-guide"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">❄️</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate block">
+                                Egg Freezing Decision Guide
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                Oocyte vitrification count by age
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/womens-health/tools?tool=fertility-test-checklist"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">📋</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate block">
+                                Couple Fertility Test Checklist
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                360° male &amp; female diagnostic roadmap
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/womens-health/tools?tool=hospital-bag-checklist"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🧳</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate block">
+                                Maternity Hospital Bag Checklist
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                40-item packing list &amp; WhatsApp export
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/womens-health/tools?tool=pregnancy-nutrition-planner"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🥗</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate block">
+                                Trimester Nutrition Planner
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                Indian diet, Iron, Folate &amp; DHA targets
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/womens-health/tools?tool=pregnancy-planning"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">📅</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate block">
+                                Pregnancy Planning Timeline
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                Conception target dates &amp; pre-conception
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/womens-health/tools?tool=maternity-hospital-comparison"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">⚖️</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate block">
+                                Maternity Hospital Comparison
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                NICU level, packages &amp; emergency readiness
+                              </span>
+                            </div>
+                          </Link>
+
+                          <Link
+                            href="/womens-health/tools?tool=fertility-clinic-comparison"
+                            onClick={() => setCalcMenuOpen(false)}
+                            className="p-1.5 rounded-xl hover:bg-emerald-50/80 transition-colors flex items-start gap-2 group"
+                          >
+                            <span className="text-sm flex-shrink-0 mt-0.5">🔬</span>
+                            <div className="flex-1 min-w-0">
+                              <strong className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate block">
+                                IVF Clinic Comparison Scorecard
+                              </strong>
+                              <span className="text-[10px] text-slate-500 block truncate font-normal">
+                                Lab air purity, success rates &amp; pricing
+                              </span>
+                            </div>
+                          </Link>
+                        </div>
+                      </div>
+
                     </div>
 
-                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between bg-slate-50/80 -mx-3 -mb-3 p-2.5 rounded-b-2xl">
-                      <span className="text-[10px] text-slate-500 font-medium">
-                        🔬 Based on ACOG &amp; WHO clinical formulas
+                    {/* Bottom Bar */}
+                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between bg-slate-50/80 -mx-4 -mb-4 p-2.5 rounded-b-3xl">
+                      <span className="text-[10px] text-slate-500 font-medium flex items-center gap-1">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>100% Free · Evidence-based ACOG, WHO &amp; ICMR formulas · Client-Side Private</span>
                       </span>
-                      <Link
-                        href="/tools"
-                        onClick={() => setCalcMenuOpen(false)}
-                        className="text-xs font-black text-rose-600 hover:text-rose-700 flex items-center gap-1"
-                      >
-                        <span>Open Calculators Hub</span>
-                        <ArrowRight className="w-3 h-3" />
-                      </Link>
+                      <div className="flex items-center gap-2">
+                        <Link
+                          href="/tools"
+                          onClick={() => setCalcMenuOpen(false)}
+                          className="text-xs font-black text-rose-600 hover:text-rose-700 flex items-center gap-1"
+                        >
+                          <span>Explore All 22+ Tools</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      </div>
                     </div>
+
                   </div>
                 )}
               </div>
-
-              {/* Free Tools */}
-              <Link
-                href="/womens-health/tools"
-                className="px-3 py-1.5 rounded-full hover:text-slate-900 hover:bg-slate-50 transition-colors flex items-center gap-1 font-bold text-emerald-700 bg-emerald-50/60"
-              >
-                <span>🧰</span>
-                <span>Free Tools</span>
-                <span className="text-[9px] font-black bg-emerald-600 text-white px-1.5 py-0.2 rounded-full ml-0.5">12</span>
-              </Link>
 
               {/* Education Academy */}
               <Link
@@ -486,40 +773,95 @@ export default function Header() {
                   <ChevronRight className="w-4 h-4 text-purple-400" />
                 </Link>
 
-                {/* 10 Clinical Calculators (Flo-Inspired) */}
-                <Link
-                  href="/tools"
-                  onClick={() => setMobileOpen(false)}
-                  className="p-3 rounded-2xl bg-rose-50/90 border border-rose-200 flex items-center justify-between text-rose-950 font-bold"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span>🧮</span>
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <span>Clinical Calculators</span>
-                        <span className="text-[8px] font-black bg-rose-600 text-white px-1.5 py-0.2 rounded">10 TOOLS</span>
+                {/* 🧮 22+ Medical Calculators & Free Tools Hub */}
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-rose-50/90 via-white to-emerald-50/80 border border-rose-200/80 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-7 h-7 rounded-xl bg-rose-600 text-white flex items-center justify-center text-xs font-black shadow-xs">
+                        🧮
+                      </span>
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-bold text-slate-900 text-xs">Calculators &amp; Free Tools</span>
+                          <span className="text-[8px] font-black bg-rose-600 text-white px-1.5 py-0.2 rounded">22 TOOLS</span>
+                        </div>
+                        <span className="text-3xs text-slate-500 font-normal">Real-time clinical predictors &amp; health planners</span>
                       </div>
-                      <span className="block text-3xs text-rose-700 font-normal">Ovulation, EDD Due Date, hCG doubling, IVF &amp; Period</span>
                     </div>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-rose-600" />
-                </Link>
 
-                {/* 12 Free Tools */}
-                <Link
-                  href="/womens-health/tools"
-                  onClick={() => setMobileOpen(false)}
-                  className="p-3 rounded-2xl bg-emerald-50/80 border border-emerald-200 flex items-center justify-between text-emerald-950 font-bold"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span>🧰</span>
-                    <div>
-                      <span>12 Free Clinical Tools</span>
-                      <span className="block text-3xs text-emerald-700 font-normal">Fertility, Ovulation &amp; IVF Calculators</span>
-                    </div>
+                  <div className="grid grid-cols-2 gap-1.5 pt-1">
+                    <Link
+                      href="/tools"
+                      onClick={() => setMobileOpen(false)}
+                      className="p-2 rounded-xl bg-white border border-rose-200/80 hover:bg-rose-50 text-rose-950 flex items-center justify-between text-xs font-bold transition-colors"
+                    >
+                      <span className="flex items-center gap-1.5 truncate">
+                        <span>🌸</span>
+                        <span className="truncate">10 Calculators</span>
+                      </span>
+                      <ChevronRight className="w-3.5 h-3.5 text-rose-500 flex-shrink-0" />
+                    </Link>
+
+                    <Link
+                      href="/womens-health/tools"
+                      onClick={() => setMobileOpen(false)}
+                      className="p-2 rounded-xl bg-white border border-emerald-200/80 hover:bg-emerald-50 text-emerald-950 flex items-center justify-between text-xs font-bold transition-colors"
+                    >
+                      <span className="flex items-center gap-1.5 truncate">
+                        <span>🧰</span>
+                        <span className="truncate">12 Free Planners</span>
+                      </span>
+                      <ChevronRight className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                    </Link>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-emerald-600" />
-                </Link>
+
+                  {/* Popular Quick Tools Pills */}
+                  <div className="flex flex-wrap gap-1 pt-0.5">
+                    <Link
+                      href="/tools/ovulation-calculator"
+                      onClick={() => setMobileOpen(false)}
+                      className="text-[10px] font-medium bg-rose-100/70 hover:bg-rose-200/70 text-rose-800 px-2 py-0.5 rounded-md"
+                    >
+                      🌸 Ovulation
+                    </Link>
+                    <Link
+                      href="/tools/due-date-calculator"
+                      onClick={() => setMobileOpen(false)}
+                      className="text-[10px] font-medium bg-amber-100/70 hover:bg-amber-200/70 text-amber-900 px-2 py-0.5 rounded-md"
+                    >
+                      🤰 Due Date
+                    </Link>
+                    <Link
+                      href="/tools/hcg-calculator"
+                      onClick={() => setMobileOpen(false)}
+                      className="text-[10px] font-medium bg-emerald-100/70 hover:bg-emerald-200/70 text-emerald-900 px-2 py-0.5 rounded-md"
+                    >
+                      🧪 Beta hCG
+                    </Link>
+                    <Link
+                      href="/womens-health/tools?tool=ivf-cost-calculator"
+                      onClick={() => setMobileOpen(false)}
+                      className="text-[10px] font-medium bg-purple-100/70 hover:bg-purple-200/70 text-purple-900 px-2 py-0.5 rounded-md"
+                    >
+                      💰 IVF Cost
+                    </Link>
+                    <Link
+                      href="/womens-health/tools?tool=fertility-readiness"
+                      onClick={() => setMobileOpen(false)}
+                      className="text-[10px] font-medium bg-teal-100/70 hover:bg-teal-200/70 text-teal-900 px-2 py-0.5 rounded-md"
+                    >
+                      🎯 Fertility Score
+                    </Link>
+                    <Link
+                      href="/womens-health/tools?tool=hospital-delivery-cost"
+                      onClick={() => setMobileOpen(false)}
+                      className="text-[10px] font-medium bg-blue-100/70 hover:bg-blue-200/70 text-blue-900 px-2 py-0.5 rounded-md"
+                    >
+                      🏥 Delivery Cost
+                    </Link>
+                  </div>
+                </div>
 
                 {/* Women's Health Academy */}
                 <Link

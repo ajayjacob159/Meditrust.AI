@@ -628,6 +628,27 @@ Live URL: https://www.meditrustai.in/tools/${activeCalc.slug}`
           {/* Left 4 Cols: Navigation List & Search */}
           <div className="lg:col-span-4 space-y-4">
             
+            {/* 12 Free Health Planners Banner */}
+            <div className="p-4 rounded-3xl bg-gradient-to-br from-emerald-950 via-teal-950 to-slate-950 text-white border border-emerald-800/60 shadow-md space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-3xs font-black uppercase tracking-wider text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded-full">
+                  🧰 12 FREE PLANNERS
+                </span>
+                <span className="text-[10px] text-emerald-300 font-bold">Assessments</span>
+              </div>
+              <h4 className="text-xs font-black text-white">IVF Costs, Fertility Readiness &amp; Hospital Bag</h4>
+              <p className="text-[10px] text-slate-300 leading-tight font-normal">
+                Explore interactive budget estimators, normal vs C-section calculators, and couple fertility checklists.
+              </p>
+              <Link
+                href="/womens-health/tools"
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-400 hover:text-emerald-300 pt-1"
+              >
+                <span>Open 12 Health Planners</span>
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+
             {/* Search and Category Filter */}
             <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-3">
               <div className="relative">

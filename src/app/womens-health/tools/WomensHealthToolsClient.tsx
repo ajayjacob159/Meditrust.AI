@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Sparkles, Search, CheckCircle2, ArrowRight, Share2,
@@ -19,6 +19,37 @@ export default function WomensHealthToolsClient({ tools }: Props) {
   const [activeToolId, setActiveToolId] = useState<string>('fertility-readiness')
   const [searchQuery, setSearchQuery] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string>('All')
+
+  // Listen to URL parameters (e.g. ?tool=egg-freezing-guide or #hospital-delivery-cost)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const syncToolFromUrl = () => {
+        const params = new URLSearchParams(window.location.search)
+        const toolParam = params.get('tool')
+        const hash = window.location.hash.replace('#', '')
+        const target = toolParam || hash
+        if (target) {
+          const match = tools.find(t => t.id === target || t.slug === target)
+          if (match) {
+            setActiveToolId(match.id)
+            const el = document.getElementById('interactive-tool-workspace')
+            if (el) {
+              setTimeout(() => {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }, 100)
+            }
+          }
+        }
+      }
+      syncToolFromUrl()
+      window.addEventListener('hashchange', syncToolFromUrl)
+      window.addEventListener('popstate', syncToolFromUrl)
+      return () => {
+        window.removeEventListener('hashchange', syncToolFromUrl)
+        window.removeEventListener('popstate', syncToolFromUrl)
+      }
+    }
+  }, [tools])
 
   // ──────────────────────────────────────────────────────────
   // TOOL 1 STATE: Fertility Readiness Assessment
@@ -344,6 +375,24 @@ export default function WomensHealthToolsClient({ tools }: Props) {
             </div>
           </div>
 
+          {/* Flo 10 Calculators Cross-Link Banner */}
+          <div className="p-4 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2.5">
+              <span className="text-xl flex-shrink-0">🌸</span>
+              <div>
+                <strong className="text-white font-bold block text-xs sm:text-sm">Looking for Real-Time Clinical Calculators?</strong>
+                <span className="text-slate-300 text-3xs font-normal">Explore 10 Flo-style tools: Ovulation, Due Date (EDD), Beta hCG Doubling, IVF Day-3/5 &amp; Period Forecast.</span>
+              </div>
+            </div>
+            <Link
+              href="/tools"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold text-xs hover:from-rose-600 hover:to-pink-600 transition-all flex items-center gap-1.5 whitespace-nowrap shadow-md flex-shrink-0"
+            >
+              <span>Open 10 Calculators Hub</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
         </div>
       </section>
 
@@ -381,7 +430,7 @@ export default function WomensHealthToolsClient({ tools }: Props) {
             >
               <div className="flex items-center justify-between">
                 <span className="text-xl">{t.icon}</span>
-                <span className="text-[9px] font-black text-rose-600 bg-rose-100/60 px-1.5 py-0.5 rounded">
+                <span className="text-[9px] font-black uppercase tracking-wider text-rose-700 bg-rose-100/80 px-1.5 py-0.5 rounded-md">
                   #{t.toolNumber}
                 </span>
               </div>
@@ -398,7 +447,7 @@ export default function WomensHealthToolsClient({ tools }: Props) {
       </section>
 
       {/* ── ACTIVE INTERACTIVE TOOL WORKSPACE ── */}
-      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <section id="interactive-tool-workspace" className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
         {/* ────────────────────────────────────────────────────────── */}
         {/* TOOL 1: FERTILITY READINESS ASSESSMENT                     */}
