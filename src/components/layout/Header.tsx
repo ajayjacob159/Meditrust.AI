@@ -23,6 +23,32 @@ export default function Header() {
   const [calcMenuOpen, setCalcMenuOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const calcDropdownRef = useRef<HTMLDivElement>(null)
+  const calcTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const momTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleCalcMouseEnter = () => {
+    if (calcTimeoutRef.current) clearTimeout(calcTimeoutRef.current)
+    setCalcMenuOpen(true)
+  }
+
+  const handleCalcMouseLeave = () => {
+    if (calcTimeoutRef.current) clearTimeout(calcTimeoutRef.current)
+    calcTimeoutRef.current = setTimeout(() => {
+      setCalcMenuOpen(false)
+    }, 200)
+  }
+
+  const handleMomMouseEnter = () => {
+    if (momTimeoutRef.current) clearTimeout(momTimeoutRef.current)
+    setMedisMomOpen(true)
+  }
+
+  const handleMomMouseLeave = () => {
+    if (momTimeoutRef.current) clearTimeout(momTimeoutRef.current)
+    momTimeoutRef.current = setTimeout(() => {
+      setMedisMomOpen(false)
+    }, 200)
+  }
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 15)
@@ -85,13 +111,13 @@ export default function Header() {
               <div
                 ref={dropdownRef}
                 className="relative"
-                onMouseEnter={() => setMedisMomOpen(true)}
-                onMouseLeave={() => setMedisMomOpen(false)}
+                onMouseEnter={handleMomMouseEnter}
+                onMouseLeave={handleMomMouseLeave}
               >
                 <button
                   type="button"
                   onClick={() => setMedisMomOpen(!medisMomOpen)}
-                  className={`px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 font-bold ${
+                  className={`px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 font-bold cursor-pointer ${
                     medisMomOpen
                       ? 'bg-rose-50 text-rose-700'
                       : 'hover:text-slate-900 hover:bg-slate-50'
@@ -105,42 +131,48 @@ export default function Header() {
 
                 {/* Dropdown Menu */}
                 {medisMomOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-64 p-2 bg-white rounded-2xl shadow-xl border border-slate-200/90 space-y-1 animate-fadeIn z-50">
-                    <Link
-                      href="/medimom"
-                      onClick={() => setMedisMomOpen(false)}
-                      className="p-2.5 rounded-xl hover:bg-rose-50 transition-colors flex items-start gap-2.5 group"
-                    >
-                      <div className="w-7 h-7 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">
-                        🤱
-                      </div>
-                      <div>
-                        <strong className="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition-colors block">
-                          MediMom™
-                        </strong>
-                        <span className="text-3xs text-slate-500 block font-normal">
-                          Trimester care, labor prep &amp; postpartum healing
-                        </span>
-                      </div>
-                    </Link>
+                  <div
+                    className="absolute top-full left-0 pt-2 w-64 z-50 animate-fadeIn"
+                    onMouseEnter={handleMomMouseEnter}
+                    onMouseLeave={handleMomMouseLeave}
+                  >
+                    <div className="p-2 bg-white rounded-2xl shadow-xl border border-slate-200/90 space-y-1">
+                      <Link
+                        href="/medimom"
+                        onClick={() => setMedisMomOpen(false)}
+                        className="p-2.5 rounded-xl hover:bg-rose-50 transition-colors flex items-start gap-2.5 group"
+                      >
+                        <div className="w-7 h-7 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">
+                          🤱
+                        </div>
+                        <div>
+                          <strong className="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition-colors block">
+                            MediMom™
+                          </strong>
+                          <span className="text-3xs text-slate-500 block font-normal">
+                            Trimester care, labor prep &amp; postpartum healing
+                          </span>
+                        </div>
+                      </Link>
 
-                    <Link
-                      href="/corpo-mom"
-                      onClick={() => setMedisMomOpen(false)}
-                      className="p-2.5 rounded-xl hover:bg-purple-50 transition-colors flex items-start gap-2.5 group"
-                    >
-                      <div className="w-7 h-7 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">
-                        🏢
-                      </div>
-                      <div>
-                        <strong className="text-xs font-bold text-slate-900 group-hover:text-purple-600 transition-colors block">
-                          Corpo Mom™
-                        </strong>
-                        <span className="text-3xs text-slate-500 block font-normal">
-                          Corporate maternity, lactation policy &amp; return-to-work
-                        </span>
-                      </div>
-                    </Link>
+                      <Link
+                        href="/corpo-mom"
+                        onClick={() => setMedisMomOpen(false)}
+                        className="p-2.5 rounded-xl hover:bg-purple-50 transition-colors flex items-start gap-2.5 group"
+                      >
+                        <div className="w-7 h-7 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">
+                          🏢
+                        </div>
+                        <div>
+                          <strong className="text-xs font-bold text-slate-900 group-hover:text-purple-600 transition-colors block">
+                            Corpo Mom™
+                          </strong>
+                          <span className="text-3xs text-slate-500 block font-normal">
+                            Corporate maternity, lactation policy &amp; return-to-work
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
                   </div>
                 )}
               </div>
@@ -149,13 +181,13 @@ export default function Header() {
               <div
                 ref={calcDropdownRef}
                 className="relative"
-                onMouseEnter={() => setCalcMenuOpen(true)}
-                onMouseLeave={() => setCalcMenuOpen(false)}
+                onMouseEnter={handleCalcMouseEnter}
+                onMouseLeave={handleCalcMouseLeave}
               >
-                <Link
-                  href="/tools"
-                  onClick={() => setCalcMenuOpen(false)}
-                  className={`px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 font-bold ${
+                <button
+                  type="button"
+                  onClick={() => setCalcMenuOpen(!calcMenuOpen)}
+                  className={`px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 font-bold cursor-pointer ${
                     calcMenuOpen
                       ? 'bg-rose-50 text-rose-700'
                       : 'text-rose-700 bg-rose-50/70 hover:bg-rose-100/90 hover:text-rose-900'
@@ -166,14 +198,19 @@ export default function Header() {
                   <span>Calculator</span>
                   <span className="text-[8px] font-black bg-rose-600 text-white px-1.5 py-0.2 rounded-full ml-0.5">22+</span>
                   <ChevronDown className={`w-3 h-3 transition-transform ${calcMenuOpen ? 'rotate-180 text-rose-600' : 'text-rose-400'}`} />
-                </Link>
+                </button>
 
                 {/* Calculator Mega Dropdown Menu */}
                 {calcMenuOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-[45%] mt-1.5 w-[760px] p-4 bg-white rounded-3xl shadow-2xl border border-slate-200/90 space-y-3 animate-fadeIn z-50">
-                    
-                    {/* Top Header Bar */}
-                    <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 px-1">
+                  <div
+                    className="absolute top-full left-1/2 -translate-x-[45%] xl:-translate-x-1/2 pt-2 w-[760px] max-w-[92vw] z-50 animate-fadeIn"
+                    onMouseEnter={handleCalcMouseEnter}
+                    onMouseLeave={handleCalcMouseLeave}
+                  >
+                    <div className="p-4 bg-white rounded-3xl shadow-2xl border border-slate-200/90 space-y-3">
+                      
+                      {/* Top Header Bar */}
+                      <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 px-1">
                       <div className="flex items-center gap-2">
                         <span className="w-7 h-7 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center text-sm font-bold">
                           🧮
@@ -593,10 +630,10 @@ export default function Header() {
                         </Link>
                       </div>
                     </div>
-
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+            </div>
 
               {/* Education Academy */}
               <Link
