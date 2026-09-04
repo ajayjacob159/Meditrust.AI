@@ -147,69 +147,69 @@ export default function AdrenalineInteractiveHub() {
         {/* 4 Instant Action Trigger Tiles */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 pt-1 relative z-10 text-xs">
           
-          {/* Action 1: Instant AI Doctor */}
+          {/* Action 1: 12 Free Clinical Tools */}
           <Link
-            href="/symptom-checker"
-            className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-rose-400/60 transition-all space-y-1.5 group"
+            href="/womens-health/tools"
+            className="p-4 rounded-2xl bg-emerald-500/20 border border-emerald-400/50 hover:bg-emerald-500/30 transition-all space-y-1.5 group"
           >
-            <div className="w-8 h-8 rounded-xl bg-rose-500/20 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform">
-              <Stethoscope className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black group-hover:scale-110 transition-transform">
+              🧰
             </div>
-            <strong className="text-white block font-black text-xs group-hover:text-rose-300 transition-colors">
-              Instant 500ms AI Triage
+            <strong className="text-emerald-200 block font-black text-xs group-hover:text-white transition-colors">
+              12 Free Clinical Tools
             </strong>
-            <span className="text-3xs text-slate-400 block font-normal">
-              15+ Specialties in मराठी &amp; हिंदी
+            <span className="text-3xs text-emerald-300/90 block font-normal">
+              Fertility, Ovulation &amp; IVF Calculators
             </span>
           </Link>
 
-          {/* Action 2: Women's Marketplace */}
+          {/* Action 2: MediMom Maternal Care */}
           <Link
-            href="/marketplace"
-            className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-rose-400/60 transition-all space-y-1.5 group"
+            href="/medimom"
+            className="p-4 rounded-2xl bg-rose-500/20 border border-rose-400/50 hover:bg-rose-500/30 transition-all space-y-1.5 group"
           >
-            <div className="w-8 h-8 rounded-xl bg-pink-500/20 flex items-center justify-center text-pink-400 group-hover:scale-110 transition-transform">
-              <ShoppingBag className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-xl bg-rose-500 text-white flex items-center justify-center text-sm group-hover:scale-110 transition-transform">
+              🤱
             </div>
-            <strong className="text-white block font-black text-xs group-hover:text-pink-300 transition-colors">
-              Sakhi™ Period Store
+            <strong className="text-rose-200 block font-black text-xs group-hover:text-white transition-colors">
+              MediMom™ Care
             </strong>
-            <span className="text-3xs text-slate-400 block font-normal">
-              100% Rash-Free &amp; Heat Patches
+            <span className="text-3xs text-rose-300/90 block font-normal">
+              Trimesters, Scans &amp; Postpartum
             </span>
           </Link>
 
-          {/* Action 3: 80% Generic Savings */}
+          {/* Action 3: Corpo Mom Enterprise */}
           <Link
-            href="/medication-comparison"
-            className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-emerald-400/60 transition-all space-y-1.5 group"
+            href="/corpo-mom"
+            className="p-4 rounded-2xl bg-purple-500/20 border border-purple-400/50 hover:bg-purple-500/30 transition-all space-y-1.5 group"
           >
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
-              <TrendingDown className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-xl bg-purple-500 text-white flex items-center justify-center text-sm group-hover:scale-110 transition-transform">
+              🏢
             </div>
-            <strong className="text-white block font-black text-xs group-hover:text-emerald-300 transition-colors">
-              80% Generic Price Drop
+            <strong className="text-purple-200 block font-black text-xs group-hover:text-white transition-colors">
+              Corpo Mom™ Benefits
             </strong>
-            <span className="text-3xs text-slate-400 block font-normal">
-              Jan Aushadhi Bioequivalent Match
+            <span className="text-3xs text-purple-300/90 block font-normal">
+              Corporate Maternity &amp; Lactation
             </span>
           </Link>
 
-          {/* Action 4: 24/7 Red-Flag Emergency */}
-          <a
-            href="tel:108"
-            className="p-4 rounded-2xl bg-rose-600/30 border border-rose-500/60 hover:bg-rose-600/40 transition-all space-y-1.5 group"
+          {/* Action 4: Women's Health Academy */}
+          <Link
+            href="/womens-health/academy"
+            className="p-4 rounded-2xl bg-teal-500/20 border border-teal-400/50 hover:bg-teal-500/30 transition-all space-y-1.5 group"
           >
-            <div className="w-8 h-8 rounded-xl bg-rose-500 flex items-center justify-center text-white group-hover:scale-110 transition-transform shadow-xs">
-              <ShieldAlert className="w-4 h-4 animate-bounce" />
+            <div className="w-8 h-8 rounded-xl bg-teal-500 text-slate-950 flex items-center justify-center text-sm group-hover:scale-110 transition-transform">
+              🎓
             </div>
-            <strong className="text-rose-200 block font-black text-xs">
-              Emergency 108 / 181
+            <strong className="text-teal-200 block font-black text-xs group-hover:text-white transition-colors">
+              Health Academy
             </strong>
-            <span className="text-3xs text-rose-300 block font-normal">
-              1-Click National SOS Helpline
+            <span className="text-3xs text-teal-300/90 block font-normal">
+              6 Certified Doctor Masterclasses
             </span>
-          </a>
+          </Link>
 
         </div>
 
