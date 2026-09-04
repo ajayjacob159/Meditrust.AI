@@ -141,27 +141,6 @@ export default function Header() {
                         </span>
                       </div>
                     </Link>
-
-                    <Link
-                      href="/womens-health/tracker"
-                      onClick={() => setMedisMomOpen(false)}
-                      className="p-2.5 rounded-xl hover:bg-pink-50 transition-colors flex items-start gap-2.5 group border-t border-slate-100"
-                    >
-                      <div className="w-7 h-7 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">
-                        🌸
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-1.5">
-                          <strong className="text-xs font-bold text-slate-900 group-hover:text-pink-600 transition-colors block">
-                            Flo Cycle &amp; Pregnancy Suite
-                          </strong>
-                          <span className="text-[8px] font-black bg-pink-600 text-white px-1 py-0.2 rounded">NEW</span>
-                        </div>
-                        <span className="text-3xs text-slate-500 block font-normal">
-                          70+ symptoms, 40-wk fruit visualizer &amp; hormone sync
-                        </span>
-                      </div>
-                    </Link>
                   </div>
                 )}
               </div>
@@ -195,7 +174,7 @@ export default function Header() {
                     <div className="flex items-center justify-between pb-2 border-b border-slate-100 px-1">
                       <div className="flex items-center gap-1.5">
                         <span className="text-xs font-black text-slate-900">Clinical Health Calculators</span>
-                        <span className="text-[9px] font-bold bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded-md">Flo-Inspired</span>
+                        <span className="text-[9px] font-bold bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded-md">Clinical Suite</span>
                       </div>
                       <Link
                         href="/tools"

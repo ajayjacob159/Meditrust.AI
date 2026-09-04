@@ -5,7 +5,8 @@ import Link from 'next/link'
 import {
   Calculator, Sparkles, Calendar, Heart, Baby, CheckCircle2, ArrowRight,
   ChevronRight, MessageCircle, ShieldCheck, Check, Search, Lock, Share2,
-  Info, Stethoscope, Clock, Zap, Activity, AlertTriangle, FileText, Download
+  Info, Stethoscope, Clock, Zap, Activity, AlertTriangle, FileText, Download,
+  CheckCircle, AlertCircle, HelpCircle, BookOpen, UserCheck
 } from 'lucide-react'
 import { FLO_10_CALCULATORS, FloCalculatorDef } from '@/data/floCalculatorsData'
 
@@ -121,30 +122,26 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
       increase48: increasePercent48.toFixed(1),
       increaseTotal: increaseTotal.toFixed(1),
       assessment,
-      color
+      color,
+      isNormal: doublingTimeHours >= 48 && doublingTimeHours <= 72 && hcg2 > hcg1
     }
   }, [hcg1, hcg2, hcgHours])
 
-  // 3. Pregnancy Test Result
+  // 3. Pregnancy Test Date Result
   const ptResult = useMemo(() => {
     const lmp = new Date(ptLmp)
     if (isNaN(lmp.getTime())) return null
     const ovuDate = new Date(lmp.getTime() + (ptCycle - 14) * 86400000)
-    const earlyTest = new Date(ovuDate.getTime() + 11 * 86400000)
-    const missedPeriod = new Date(lmp.getTime() + ptCycle * 86400000)
-    const bloodTest = new Date(ovuDate.getTime() + 10 * 86400000)
-
-    const today = new Date()
-    const diffMs = today.getTime() - ovuDate.getTime()
-    const currentDpo = Math.floor(diffMs / 86400000)
+    const dpo10Early = new Date(ovuDate.getTime() + 10 * 86400000)
+    const dpo14Missed = new Date(lmp.getTime() + ptCycle * 86400000)
+    const dpo16Blood = new Date(ovuDate.getTime() + 12 * 86400000)
 
     const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 
     return {
-      currentDpo: currentDpo > 0 ? `${currentDpo} DPO` : 'Pre-Ovulation',
-      earlyTestDate: fmt(earlyTest),
-      definitiveTestDate: fmt(missedPeriod),
-      bloodTestDate: fmt(bloodTest)
+      earlyTestDate: fmt(dpo10Early),
+      missedPeriodDate: fmt(dpo14Missed),
+      bloodTestDate: fmt(dpo16Blood)
     }
   }, [ptLmp, ptCycle])
 
@@ -248,17 +245,15 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
     else if (wmWeek <= 17) { month = 4; trimester = 2; stage = 'Facial expressions and hearing' }
     else if (wmWeek <= 21) { month = 5; trimester = 2; stage = 'Quickening flutter kicks' }
     else if (wmWeek <= 26) { month = 6; trimester = 2; stage = 'Viability & eye opening' }
-    else if (wmWeek <= 30) { month = 7; trimester = 3; stage = 'Rapid brain synapse growth' }
-    else if (wmWeek <= 35) { month = 8; trimester = 3; stage = 'Bones hardening & lung surfactants' }
+    else if (wmWeek <= 30) { month = 7; trimester = 3; stage = 'Brain tissue folds & hiccups' }
+    else if (wmWeek <= 35) { month = 8; trimester = 3; stage = 'Surfactant lung maturation' }
     else { month = 9; trimester = 3; stage = 'Full term delivery readiness' }
-
-    const daysLeft = (40 - wmWeek) * 7
 
     return {
       month: `Month ${month} of 9`,
-      trimester: `Trimester ${trimester}`,
+      trimester: `${trimester === 1 ? '1st' : trimester === 2 ? '2nd' : '3rd'} Trimester`,
       stage,
-      daysLeft: Math.max(0, daysLeft)
+      daysLeft: (40 - wmWeek) * 7
     }
   }, [wmWeek])
 
@@ -269,32 +264,30 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
     const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 
     let edd: Date
-    let lmpEquiv: Date
-
     if (ddMethod === 'lmp') {
-      const offset = (280 + (ddCycle - 28)) * 86400000
-      edd = new Date(ref.getTime() + offset)
-      lmpEquiv = ref
+      const offset = (ddCycle - 28) * 86400000
+      edd = new Date(ref.getTime() + 280 * 86400000 + offset)
     } else {
       edd = new Date(ref.getTime() + 266 * 86400000)
-      lmpEquiv = new Date(ref.getTime() - 14 * 86400000)
     }
 
     const today = new Date()
-    const gaDays = Math.floor((today.getTime() - lmpEquiv.getTime()) / 86400000)
+    const lmpBase = ddMethod === 'lmp' ? ref : new Date(ref.getTime() - 14 * 86400000)
+    const gaDays = Math.floor((today.getTime() - lmpBase.getTime()) / 86400000)
     const gaWeeks = Math.floor(gaDays / 7)
     const gaRemDays = gaDays % 7
-    const daysUntilDue = Math.floor((edd.getTime() - today.getTime()) / 86400000)
 
-    let trimester = 1
-    if (gaWeeks >= 14 && gaWeeks <= 27) trimester = 2
-    if (gaWeeks >= 28) trimester = 3
+    const daysUntil = Math.floor((edd.getTime() - today.getTime()) / 86400000)
+
+    let trimester = '1st Trimester'
+    if (gaWeeks >= 14 && gaWeeks <= 26) trimester = '2nd Trimester'
+    else if (gaWeeks >= 27) trimester = '3rd Trimester'
 
     return {
       edd: fmt(edd),
-      gestationalAge: `${gaWeeks} weeks ${gaRemDays} days`,
-      trimester: `Trimester ${trimester}`,
-      daysUntilDue: Math.max(0, daysUntilDue)
+      gestationalAge: `${gaWeeks}w ${gaRemDays}d`,
+      daysUntilDue: Math.max(0, daysUntil),
+      trimester
     }
   }, [ddMethod, ddDate, ddCycle])
 
@@ -371,72 +364,97 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
       </div>
 
       {/* ── HERO BANNER ── */}
-      <section className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="relative rounded-3xl bg-gradient-to-r from-slate-950 via-teal-950 to-slate-900 text-white p-8 sm:p-12 border border-slate-800 shadow-2xl space-y-6 overflow-hidden">
-          
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-300 text-3xs font-black uppercase tracking-wider">
-            <Calculator className="w-3.5 h-3.5 text-teal-400" />
-            <span>10 EVIDENCE-BASED CLINICAL CALCULATORS</span>
-          </div>
+      <section className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8">
+        <div className="bg-gradient-to-br from-rose-50 via-teal-50/40 to-purple-50 rounded-3xl p-8 sm:p-12 border border-rose-100 shadow-sm relative overflow-hidden">
+          <div className="max-w-3xl space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-rose-200 text-rose-700 text-xs font-bold shadow-2xs">
+              <Sparkles className="w-4 h-4 text-rose-500" />
+              <span>10 Clinical Evidence-Based Health Calculators</span>
+            </div>
 
-          <div className="max-w-3xl space-y-3">
-            <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-              Clinical Health Calculators. <br />
-              <span className="text-gradient-chic">Accurate. Evidence-Based. Free.</span>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+              Evidence-Based <span className="text-rose-600">Calculators &amp; Guides</span> for Women
             </h1>
 
-            <p className="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
-              Engineered with ACOG, WHO, and ASRM mathematical guidelines. Compute your exact ovulation window, Beta-hCG doubling velocity, pregnancy test sensitivity, IVF due dates, and sonographic gestational milestones.
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+              Accurate, physician-verified algorithms for ovulation, pregnancy due dates, Beta-hCG doubling times, IVF milestones, and menstrual cycle syncing. Built in accordance with ACOG, WHO, and FIGO standards.
             </p>
-          </div>
 
-          {/* Quick Category Filter Bar */}
-          <div className="flex items-center gap-2 flex-wrap pt-2 text-xs font-bold">
-            {['All', 'Fertility & Ovulation', 'Pregnancy & Due Date', 'Cycle & Period', 'IVF & Clinical'].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setCategoryFilter(cat)}
-                className={`px-4 py-2 rounded-full transition-all ${
-                  categoryFilter === cat
-                    ? 'bg-teal-500 text-slate-950 shadow-md font-black'
-                    : 'bg-white/10 hover:bg-white/20 text-slate-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+            {/* Privacy & Confidentiality Pledge */}
+            <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 pt-2">
+              <span className="flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+                <Lock className="w-3.5 h-3.5 text-emerald-600" />
+                100% Client-Side Private (Zero Data Saved on Servers)
+              </span>
+              <span className="flex items-center gap-1.5 text-teal-700 bg-teal-50 px-3 py-1.5 rounded-xl border border-teal-200">
+                <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
+                ACOG &amp; WHO Clinical Guidelines
+              </span>
+            </div>
           </div>
-
         </div>
       </section>
 
-      {/* ── CALCULATORS MASTER WORKBENCH ── */}
-      <section className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      {/* ── CALCULATOR SUITE MAIN GRID ── */}
+      <section className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
-          {/* Left 4 Cols: Calculator Selection Menu */}
-          <div className="lg:col-span-4 space-y-3">
-            <div className="bg-white rounded-3xl p-4 border border-slate-200 shadow-2xs space-y-2">
-              <span className="text-3xs font-black text-slate-400 uppercase tracking-wider px-2 block">
-                Select Calculator Tool ({filteredCalculators.length})
-              </span>
+          {/* Left 4 Cols: Calculators Navigation List & Search */}
+          <div className="lg:col-span-4 space-y-4">
+            
+            {/* Search and Category Filter */}
+            <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-3">
+              <div className="relative">
+                <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search 10 calculators..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-rose-500"
+                />
+              </div>
 
-              <div className="space-y-1">
+              {/* Category Pills */}
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {['All', 'Fertility & Ovulation', 'Pregnancy & Due Date', 'Cycle & Period', 'IVF & Clinical'].map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setCategoryFilter(cat)}
+                    className={`px-3 py-1 rounded-full text-3xs font-bold transition-colors ${
+                      categoryFilter === cat
+                        ? 'bg-rose-600 text-white shadow-2xs'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Calculators Selector Vertical Menu */}
+            <div className="bg-white rounded-3xl p-3 border border-slate-200 shadow-sm space-y-1">
+              <div className="px-3 py-2 text-3xs font-black text-slate-400 uppercase tracking-wider">
+                Clinical Health Calculators ({filteredCalculators.length})
+              </div>
+
+              <div className="space-y-1 max-h-[500px] overflow-y-auto pr-1">
                 {filteredCalculators.map((calc) => {
                   const isSelected = activeSlug === calc.slug
                   return (
                     <button
                       key={calc.id}
                       onClick={() => setActiveSlug(calc.slug)}
-                      className={`w-full p-3 rounded-2xl text-left transition-all flex items-start gap-3 ${
+                      className={`w-full text-left p-3 rounded-2xl transition-all flex items-center gap-3 ${
                         isSelected
-                          ? 'bg-teal-50 border border-teal-300 shadow-xs text-teal-950 font-bold'
-                          : 'hover:bg-slate-50 text-slate-700 font-medium'
+                          ? 'bg-rose-50 border border-rose-200 text-rose-950 font-bold shadow-2xs'
+                          : 'hover:bg-slate-50 border border-transparent text-slate-700 font-medium'
                       }`}
                     >
-                      <span className="text-xl flex-shrink-0 mt-0.5">{calc.icon}</span>
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-1.5">
+                      <span className="text-xl flex-shrink-0">{calc.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
                           <strong className="text-xs truncate block">{calc.shortTitle}</strong>
                         </div>
                         <span className="text-3xs text-slate-400 truncate block font-normal">{calc.category}</span>
@@ -477,6 +495,19 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
                   <p className="text-xs text-slate-500">{activeCalc.tagline}</p>
                 </div>
               </div>
+
+              {/* ── KEY STATISTICS BENCHMARKS ── */}
+              {activeCalc.keyStatistics && activeCalc.keyStatistics.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {activeCalc.keyStatistics.map((stat, idx) => (
+                    <div key={idx} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-0.5">
+                      <span className="text-3xs text-slate-400 font-bold uppercase block">{stat.label}</span>
+                      <strong className="text-base font-black text-slate-900 block">{stat.value}</strong>
+                      <span className="text-3xs text-slate-500 font-normal leading-tight block">{stat.desc}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* ── DYNAMIC CALCULATOR INPUT FORMS ── */}
 
@@ -598,26 +629,25 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
                           <span className="text-3xs text-slate-400 block">Doubling Velocity:</span>
-                          <strong className="text-xl text-teal-700 block">{hcgResult.doublingHours} Hours</strong>
-                          <span className="text-3xs text-slate-500">Normal is 48–72 hours</span>
+                          <strong className="text-xl text-teal-900 block">{hcgResult.doublingHours} Hours</strong>
+                          <span className="text-3xs text-slate-500">Benchmark: 48 to 72 hours</span>
                         </div>
 
                         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                          <span className="text-3xs text-slate-400 block">Normalized 48h Rise:</span>
-                          <strong className="text-xl text-emerald-700 block">+{hcgResult.increase48}%</strong>
-                          <span className="text-3xs text-slate-500">Target minimum &gt;66%</span>
+                          <span className="text-3xs text-slate-400 block">Estimated 48h Rise:</span>
+                          <strong className="text-xl text-rose-600 block">+{hcgResult.increase48}%</strong>
+                          <span className="text-3xs text-slate-500">Min. healthy: +66%</span>
                         </div>
 
                         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                          <span className="text-3xs text-slate-400 block">Total hCG Increase:</span>
-                          <strong className="text-xl text-purple-700 block">+{hcgResult.increaseTotal}%</strong>
+                          <span className="text-3xs text-slate-400 block">Total Percentage Gain:</span>
+                          <strong className="text-xl text-purple-900 block">+{hcgResult.increaseTotal}%</strong>
                           <span className="text-3xs text-slate-500">Over {hcgHours} hours</span>
                         </div>
                       </div>
 
-                      <div className={`p-4 rounded-2xl border ${hcgResult.color} text-xs font-bold flex items-center gap-2`}>
-                        <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                        <span>{hcgResult.assessment}</span>
+                      <div className={`p-3.5 rounded-2xl border text-xs font-bold ${hcgResult.color}`}>
+                        Assessment: {hcgResult.assessment}
                       </div>
                     </div>
                   )}
@@ -629,7 +659,7 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-3xs font-bold text-slate-700 uppercase">First Day of LMP</label>
+                      <label className="text-3xs font-bold text-slate-700 uppercase">First Day of Last Period</label>
                       <input
                         type="date"
                         value={ptLmp}
@@ -652,31 +682,26 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
                   </div>
 
                   {ptResult && (
-                    <div className="p-6 rounded-3xl bg-gradient-to-r from-blue-50 to-teal-50 border border-blue-200 space-y-4 animate-fadeIn">
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-xs font-black uppercase text-blue-900 tracking-wider">Optimal Testing Milestones:</h4>
-                        <span className="text-3xs font-bold px-2.5 py-1 rounded-full bg-blue-600 text-white">
-                          Status: {ptResult.currentDpo}
-                        </span>
-                      </div>
-
+                    <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border border-teal-200 space-y-4 animate-fadeIn">
+                      <h4 className="text-xs font-black uppercase text-teal-900 tracking-wider">Earliest Testing Dates Matrix:</h4>
+                      
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                        <div className="p-4 rounded-2xl bg-white border border-blue-200">
-                          <span className="text-3xs text-slate-400 block">Early Detection Test (10 mIU):</span>
-                          <strong className="text-sm text-blue-900 block">{ptResult.earlyTestDate}</strong>
-                          <span className="text-3xs text-slate-500">~76% accuracy (11 DPO)</span>
+                        <div className="p-4 rounded-2xl bg-white border border-teal-200">
+                          <span className="text-3xs text-slate-400 block font-bold uppercase">Early Strip (10 mIU)</span>
+                          <strong className="text-base text-teal-900 block">{ptResult.earlyTestDate}</strong>
+                          <span className="text-3xs text-slate-500">10–12 Days Post-Ovulation</span>
                         </div>
 
-                        <div className="p-4 rounded-2xl bg-white border border-blue-200">
-                          <span className="text-3xs text-slate-400 block">Definitive Test (25 mIU):</span>
-                          <strong className="text-sm text-emerald-900 block">{ptResult.definitiveTestDate}</strong>
-                          <span className="text-3xs text-slate-500">&gt;99% accuracy (Missed Period)</span>
+                        <div className="p-4 rounded-2xl bg-white border border-teal-200">
+                          <span className="text-3xs text-slate-400 block font-bold uppercase">Standard Test (25 mIU)</span>
+                          <strong className="text-base text-rose-600 block">{ptResult.missedPeriodDate}</strong>
+                          <span className="text-3xs text-slate-500">&gt;99% Accuracy on Missed Period</span>
                         </div>
 
-                        <div className="p-4 rounded-2xl bg-white border border-blue-200">
-                          <span className="text-3xs text-slate-400 block">Serum Blood hCG Test:</span>
-                          <strong className="text-sm text-purple-900 block">{ptResult.bloodTestDate}</strong>
-                          <span className="text-3xs text-slate-500">100% quantitative accuracy</span>
+                        <div className="p-4 rounded-2xl bg-white border border-teal-200">
+                          <span className="text-3xs text-slate-400 block font-bold uppercase">Blood Serum Test (1 mIU)</span>
+                          <strong className="text-base text-purple-900 block">{ptResult.bloodTestDate}</strong>
+                          <span className="text-3xs text-slate-500">Quantitative Lab Confirmation</span>
                         </div>
                       </div>
                     </div>
@@ -689,7 +714,7 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="space-y-1">
-                      <label className="text-3xs font-bold text-slate-700 uppercase">First Day of LMP</label>
+                      <label className="text-3xs font-bold text-slate-700 uppercase">First Day of Last Period</label>
                       <input
                         type="date"
                         value={mcLmp}
@@ -699,7 +724,7 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-3xs font-bold text-slate-700 uppercase">Cycle Length ({mcCycle} Days)</label>
+                      <label className="text-3xs font-bold text-slate-700 uppercase">Cycle Length ({mcCycle}d)</label>
                       <input
                         type="range"
                         min="21"
@@ -711,10 +736,10 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-3xs font-bold text-slate-700 uppercase">Period Bleeding ({mcPeriod} Days)</label>
+                      <label className="text-3xs font-bold text-slate-700 uppercase">Bleeding Days ({mcPeriod}d)</label>
                       <input
                         type="range"
-                        min="3"
+                        min="2"
                         max="8"
                         value={mcPeriod}
                         onChange={(e) => setMcPeriod(Number(e.target.value))}
@@ -726,44 +751,39 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
                   {mcResult && (
                     <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-4 animate-fadeIn">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="text-2xl">{mcResult.icon}</span>
-                          <h4 className="text-base font-black text-slate-950">You are on Cycle Day {mcResult.cycleDay}</h4>
-                        </div>
-                        <span className={`text-3xs font-bold px-3 py-1 rounded-full ${mcResult.color}`}>
-                          {mcResult.phase}
+                        <h4 className="text-xs font-black uppercase text-slate-900 tracking-wider">Current Cycle Day {mcResult.cycleDay}:</h4>
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${mcResult.color}`}>
+                          {mcResult.icon} {mcResult.phase}
                         </span>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                        <div className="p-3.5 rounded-2xl bg-white border border-slate-200">
+                        <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
                           <span className="text-3xs text-slate-400 block font-bold uppercase">Energy State</span>
-                          <strong className="text-slate-900 block">{mcResult.energy}</strong>
+                          <strong className="text-slate-900 block text-sm">{mcResult.energy}</strong>
                         </div>
-                        <div className="p-3.5 rounded-2xl bg-white border border-slate-200">
-                          <span className="text-3xs text-slate-400 block font-bold uppercase">Optimal Workout</span>
-                          <strong className="text-slate-900 block">{mcResult.workout}</strong>
-                        </div>
-                        <div className="p-3.5 rounded-2xl bg-white border border-slate-200">
-                          <span className="text-3xs text-slate-400 block font-bold uppercase">Nutrition Focus</span>
-                          <strong className="text-slate-900 block">{mcResult.food}</strong>
-                        </div>
-                      </div>
 
-                      <div className="text-3xs text-slate-500 pt-2 border-t border-slate-200">
-                        Days until next period: <strong>{mcResult.daysToNext} days</strong>
+                        <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                          <span className="text-3xs text-slate-400 block font-bold uppercase">Recommended Workout</span>
+                          <strong className="text-slate-900 block text-sm">{mcResult.workout}</strong>
+                        </div>
+
+                        <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                          <span className="text-3xs text-slate-400 block font-bold uppercase">Phase Nutrition</span>
+                          <strong className="text-slate-900 block text-sm">{mcResult.food}</strong>
+                        </div>
                       </div>
                     </div>
                   )}
                 </div>
               )}
 
-              {/* 5. PERIOD CALCULATOR */}
+              {/* 5. PERIOD FORECAST CALCULATOR */}
               {activeSlug === 'period-calculator' && (
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-3xs font-bold text-slate-700 uppercase">First Day of LMP</label>
+                      <label className="text-3xs font-bold text-slate-700 uppercase">First Day of Last Period</label>
                       <input
                         type="date"
                         value={pfLmp}
@@ -786,17 +806,16 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
                   </div>
 
                   <div className="space-y-3">
-                    <h4 className="text-xs font-black uppercase text-slate-900 tracking-wider">Upcoming 6 Projected Cycles:</h4>
+                    <h4 className="text-xs font-black uppercase text-slate-900 tracking-wider">6-Month Menstrual Forecast:</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                       {pfResult.map((c) => (
-                        <div key={c.cycleIndex} className="p-4 rounded-2xl bg-white border border-rose-100 shadow-2xs space-y-2 text-xs">
-                          <div className="flex items-center justify-between border-b border-rose-50 pb-2">
-                            <strong className="text-rose-950 font-black">Cycle #{c.cycleIndex}</strong>
-                            <span className="text-3xs text-rose-600 font-bold bg-rose-50 px-2 py-0.5 rounded">5 Days</span>
+                        <div key={c.cycleIndex} className="p-4 rounded-2xl bg-rose-50/50 border border-rose-100 text-xs space-y-1.5">
+                          <div className="flex items-center justify-between">
+                            <span className="text-3xs font-bold text-rose-600 uppercase">Cycle #{c.cycleIndex}</span>
+                            <span className="text-xs">🩸</span>
                           </div>
-                          <div>
-                            <span className="text-3xs text-slate-400 block">Period Dates:</span>
-                            <strong className="text-slate-900">{c.periodRange}</strong>
+                          <div className="text-sm font-black text-rose-950">
+                            {c.periodRange}
                           </div>
                           <div className="text-3xs text-slate-500 space-y-0.5">
                             <div>PMS Alert: <strong>{c.pmsAlert}</strong></div>
@@ -1080,6 +1099,94 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
                 </div>
               )}
 
+              {/* ── SYMPTOMS & BIOLOGICAL INDICATORS TO WATCH ── */}
+              {activeCalc.symptomsToWatch && activeCalc.symptomsToWatch.length > 0 && (
+                <div className="pt-4 border-t border-slate-100 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-rose-600" />
+                    <h3 className="text-xs font-black uppercase tracking-wider text-slate-900">
+                      Key Biological Symptoms &amp; Clinical Indicators:
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {activeCalc.symptomsToWatch.map((sym, idx) => (
+                      <div key={idx} className="p-3.5 rounded-2xl bg-slate-50/80 border border-slate-200/80 flex items-start gap-3">
+                        <span className="text-2xl flex-shrink-0 mt-0.5">{sym.icon}</span>
+                        <div className="space-y-0.5">
+                          <strong className="text-xs font-bold text-slate-900 block">{sym.name}</strong>
+                          <p className="text-3xs text-slate-600 font-normal leading-relaxed">{sym.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* ── COMPREHENSIVE CLINICAL GUIDE & DEEP DIVE ARTICLE ── */}
+              {activeCalc.clinicalGuide && (
+                <div className="pt-4 border-t border-slate-100 space-y-4">
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="w-4 h-4 text-purple-600" />
+                    <h3 className="text-base font-black text-slate-950">
+                      {activeCalc.clinicalGuide.heading}
+                    </h3>
+                  </div>
+
+                  <div className="space-y-4">
+                    {activeCalc.clinicalGuide.sections.map((sec, idx) => (
+                      <div key={idx} className="p-5 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-2">
+                        <h4 className="text-xs font-bold text-slate-900 flex items-center gap-2">
+                          <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-700 text-3xs font-black flex items-center justify-center">
+                            {idx + 1}
+                          </span>
+                          <span>{sec.subheading}</span>
+                        </h4>
+                        <p className="text-xs text-slate-600 leading-relaxed font-normal pl-7">
+                          {sec.content}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* ── RED FLAGS & WHEN TO SEE A DOCTOR ── */}
+              {activeCalc.whenToSeeDoctor && activeCalc.whenToSeeDoctor.length > 0 && (
+                <div className="p-6 rounded-3xl bg-rose-50/70 border border-rose-200 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-rose-900 font-bold text-xs uppercase">
+                      <AlertTriangle className="w-4 h-4 text-rose-600" />
+                      <span>When to Consult an Obstetrician / Gynecologist (Clinical Triage):</span>
+                    </div>
+                  </div>
+
+                  <ul className="space-y-1.5 text-xs text-rose-950 font-medium">
+                    {activeCalc.whenToSeeDoctor.map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-2">
+                        <AlertCircle className="w-3.5 h-3.5 text-rose-600 flex-shrink-0 mt-0.5" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="pt-3 border-t border-rose-200/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <span className="text-3xs text-rose-800 font-normal">
+                      Need immediate triage? Chat with Dr. Arya AI Medical Council 24/7.
+                    </span>
+                    <a
+                      href="https://wa.me/917028025717?text=Hi%20Dr.%20Arya,%20I%20used%20the%20clinical%20calculator%20and%20need%20healthcare%20guidance"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 rounded-full bg-[#25d366] text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-2xs hover:opacity-90"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" />
+                      <span>WhatsApp Dr. Arya (24/7)</span>
+                    </a>
+                  </div>
+                </div>
+              )}
+
               {/* ── CLINICAL METHOD & FORMULA EXPLANATION ── */}
               <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-3 text-xs">
                 <div className="flex items-center gap-2 text-slate-900 font-bold">
@@ -1090,14 +1197,14 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
                   {activeCalc.formulaExplanation}
                 </p>
 
-                <div className="pt-2 border-t border-slate-200/60 flex items-center justify-between text-3xs text-slate-400">
-                  <span>References: {activeCalc.medicalReferences.join(' · ')}</span>
+                <div className="pt-2 border-t border-slate-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-3xs text-slate-500">
+                  <span><strong>Medical Consensus References:</strong> {activeCalc.medicalReferences.join(' · ')}</span>
                   <button
                     onClick={() => {
                       navigator.clipboard.writeText(`🌸 Meditrust Calculator: ${activeCalc.title} — https://www.meditrustai.in/tools/${activeCalc.slug}`)
                       alert('Calculator link copied to clipboard!')
                     }}
-                    className="text-teal-700 font-bold hover:underline flex items-center gap-1"
+                    className="text-teal-700 font-bold hover:underline flex items-center gap-1 flex-shrink-0"
                   >
                     <Share2 className="w-3 h-3" />
                     <span>Share Tool</span>
@@ -1108,10 +1215,15 @@ export default function FloCalculatorsHubClient({ initialSlug }: Props) {
               {/* ── FREQUENTLY ASKED QUESTIONS ── */}
               {activeCalc.faq && activeCalc.faq.length > 0 && (
                 <div className="space-y-3 pt-2 border-t border-slate-100">
-                  <h4 className="text-xs font-black uppercase text-slate-900 tracking-wider">Clinical FAQs for this Calculator:</h4>
+                  <div className="flex items-center gap-2">
+                    <HelpCircle className="w-4 h-4 text-teal-600" />
+                    <h4 className="text-xs font-black uppercase text-slate-900 tracking-wider">
+                      Frequently Asked Questions ({activeCalc.shortTitle}):
+                    </h4>
+                  </div>
                   <div className="space-y-2">
                     {activeCalc.faq.map((item, idx) => (
-                      <div key={idx} className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200/80 text-xs space-y-1">
+                      <div key={idx} className="p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 text-xs space-y-1">
                         <strong className="text-slate-900 block font-bold">Q: {item.question}</strong>
                         <p className="text-slate-600 font-normal leading-relaxed">A: {item.answer}</p>
                       </div>
