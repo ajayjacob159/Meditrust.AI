@@ -79,20 +79,26 @@ export default function HomePage() {
       <section className="relative max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16 text-center space-y-8">
         
         {/* Subtle pill badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-2xs text-xs font-semibold text-slate-700">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>Clinical AI Doctor · Women&apos;s Health · 80% Generic Savings</span>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 text-white shadow-xs text-xs font-black tracking-wider uppercase">
+          <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+          <span>MEDITRUST AI · THE WOMEN&apos;S HEALTHCARE NAVIGATION PLATFORM</span>
         </div>
 
         {/* Main Clean Headline */}
-        <div className="max-w-3xl mx-auto space-y-4">
-          <h1 className="text-4xl sm:text-6xl font-black text-slate-950 tracking-tight leading-[1.12]">
-            Healthcare, <br className="hidden sm:inline" />
-            <span className="text-gradient-chic">beautifully simplified.</span>
+        <div className="max-w-4xl mx-auto space-y-4">
+          <div className="inline-block">
+            <span className="text-xs sm:text-sm font-black text-rose-600 uppercase tracking-widest bg-rose-50 px-3.5 py-1 rounded-full border border-rose-100">
+              The Women&apos;s Healthcare Navigation Platform
+            </span>
+          </div>
+
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-950 tracking-tight leading-[1.1]">
+            Your Health Journey. <br className="hidden sm:inline" />
+            <span className="text-gradient-chic">One Trusted Platform.</span>
           </h1>
 
           <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto">
-            Instant 24/7 multilingual AI triage with Dr. Arya, transparent PMBJP generic medicine savings, and modern reproductive health for women.
+            Supporting the full spectrum of women&apos;s and family health—from 24/7 AI clinical triage with Dr. Arya to fertility readiness, 40-week pregnancy OS, postpartum recovery, and 80% generic medicine savings.
           </p>
         </div>
 

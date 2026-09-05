@@ -21,11 +21,11 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.meditrustai.in'),
   manifest: '/manifest.json',
   title: {
-    default: 'Meditrust AI — 24/7 AI Doctor & Medicine Price Savings (August 2026)',
+    default: "Meditrust AI — The Women's Healthcare Navigation Platform (2026)",
     template: '%s | Meditrust AI',
   },
   description:
-    'Consult Dr. Arya (24/7 Multilingual AI Doctor in Marathi, Hindi & English). Instant symptom triage across 15+ W.H.O. specialties, plain-English blood report explainer, save 80% with Jan Aushadhi generic substitutes, and 60-min home blood collection across 13+ labs in Pune.',
+    "Your Health Journey. One Trusted Platform. Consult Dr. Arya (24/7 Multilingual AI Doctor in Marathi, Hindi & English), 40-week pregnancy OS, plain-English blood report explainer, save 80% with Jan Aushadhi generics, and 60-min home blood collection in Pune.",
   keywords: [
     'Meditrust AI',
     'Dr Arya AI Doctor',
