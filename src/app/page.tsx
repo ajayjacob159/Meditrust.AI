@@ -12,6 +12,7 @@ import {
 import LabReportExplainerModal from '@/components/common/LabReportExplainerModal'
 import PrescriptionScannerModal from '@/components/common/PrescriptionScannerModal'
 import FloStyleInteractiveLifecycle from '@/components/home/FloStyleInteractiveLifecycle'
+import WomensHealthFullSpectrum from '@/components/home/WomensHealthFullSpectrum'
 
 export default function HomePage() {
   const [reportModalOpen, setReportModalOpen] = useState(false)
@@ -303,8 +304,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 2.5 FLO-INSPIRED INTERACTIVE LIFECYCLE MODES ── */}
-      <FloStyleInteractiveLifecycle />
+      {/* ── 2.5 THE FULL SPECTRUM OF WOMEN'S & FAMILY HEALTH (6 CONTINUOUS LIFECYCLE STAGES) ── */}
+      <WomensHealthFullSpectrum />
 
       {/* ── 3. INTERACTIVE MINIMALIST DEMO WORKBENCH ── */}
       <section className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
