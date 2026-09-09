@@ -87,7 +87,7 @@ export default function FloStyleInteractiveLifecycle() {
       <div className="text-center max-w-2xl mx-auto space-y-2">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100 text-rose-900 text-3xs font-black uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5 text-rose-600" />
-          <span>FLO-INSPIRED LIFECYCLE MODES</span>
+          <span>FULL-SPECTRUM LIFECYCLE MODES</span>
         </div>
         <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
           Your Body. Your Rhythm. <br />

@@ -375,13 +375,13 @@ export default function WomensHealthToolsClient({ tools }: Props) {
             </div>
           </div>
 
-          {/* Flo 10 Calculators Cross-Link Banner */}
+          {/* Clinical 10 Calculators Cross-Link Banner */}
           <div className="p-4 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-2.5">
               <span className="text-xl flex-shrink-0">🌸</span>
               <div>
                 <strong className="text-white font-bold block text-xs sm:text-sm">Looking for Real-Time Clinical Calculators?</strong>
-                <span className="text-slate-300 text-3xs font-normal">Explore 10 Flo-style tools: Ovulation, Due Date (EDD), Beta hCG Doubling, IVF Day-3/5 &amp; Period Forecast.</span>
+                <span className="text-slate-300 text-3xs font-normal">Explore 10 Clinical tools: Ovulation, Due Date (EDD), Beta hCG Doubling, IVF Day-3/5 &amp; Period Forecast.</span>
               </div>
             </div>
             <Link

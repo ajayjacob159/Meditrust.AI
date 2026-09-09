@@ -70,7 +70,7 @@ export default function FloHealthTrackerClient() {
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
           <Link href="/womens-health" className="hover:text-rose-600 transition-colors">Women&apos;s Health</Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-          <span className="text-slate-900 font-bold">Women&apos;s Health Suite™ (Flo-Inspired)</span>
+          <span className="text-slate-900 font-bold">Women&apos;s Health Suite™</span>
         </nav>
       </div>
 
@@ -90,7 +90,7 @@ export default function FloHealthTrackerClient() {
             </h1>
 
             <p className="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
-              Inspired by world-class female health algorithms: Log 70+ daily biomarkers, sync workouts &amp; meals to your 4 cycle phases, visualize 40 weeks of fetal growth, test self-check diagnostic flows, navigate perimenopause, and ask anonymous doctor questions without stigma.
+              Engineered with evidence-based female health algorithms: Log 70+ daily biomarkers, sync workouts &amp; meals to your 4 cycle phases, visualize 40 weeks of fetal growth, test self-check diagnostic flows, navigate perimenopause, and ask anonymous doctor questions without stigma.
             </p>
           </div>
 
@@ -700,7 +700,7 @@ export default function FloHealthTrackerClient() {
           <div className="space-y-1.5 max-w-xl">
             <div className="inline-flex items-center gap-1.5 text-rose-400 font-bold text-3xs uppercase tracking-wider">
               <Lock className="w-3.5 h-3.5" />
-              <span>FLO-STYLE PARTNER SYNC</span>
+              <span>CLINICAL PARTNER SYNC</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-black text-white">
               Share Your Cycle or Pregnancy with Your Partner

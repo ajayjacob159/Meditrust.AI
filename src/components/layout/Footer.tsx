@@ -233,7 +233,7 @@ export default function Footer() {
                 <Link href="/womens-health/tracker" className="text-pink-400 hover:text-pink-300 font-bold transition-colors flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <span>🌸</span>
-                    <span>Flo Cycle &amp; Pregnancy Tracker</span>
+                    <span>Cycle &amp; Pregnancy Tracker</span>
                   </span>
                   <span className="text-3xs bg-pink-500/20 text-pink-300 px-1.5 py-0.5 rounded font-black">NEW</span>
                 </Link>
@@ -242,7 +242,7 @@ export default function Footer() {
                 <Link href="/tools" className="text-rose-400 hover:text-rose-300 font-bold transition-colors flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <span>🧮</span>
-                    <span>10 Flo Clinical Calculators</span>
+                    <span>10 Clinical Calculators</span>
                   </span>
                   <span className="text-3xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded font-black">POPULAR</span>
                 </Link>

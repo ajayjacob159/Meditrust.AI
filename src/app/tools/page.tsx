@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'IVF due date calculator',
     'Menstrual cycle calculator',
     'Implantation calculator',
-    'Flo health tools online'
+    'Women health tools online'
   ],
   openGraph: {
     title: 'Clinical Health Calculators — Meditrust AI',

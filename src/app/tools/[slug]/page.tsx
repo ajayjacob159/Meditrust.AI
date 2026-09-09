@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       calc.title,
       `${calc.shortTitle} online`,
       `${calc.shortTitle} India`,
-      'Flo health calculators',
+      'Women health calculators',
       'Dr Arya clinical calculator'
     ],
     openGraph: {

@@ -472,11 +472,11 @@ export default function Header() {
                     {/* 2-Column Grid */}
                     <div className="grid grid-cols-2 gap-3">
                       
-                      {/* Column 1: Clinical Flo Calculators (10 Tools) */}
+                      {/* Column 1: Clinical Calculators (10 Tools) */}
                       <div className="space-y-1">
                         <div className="flex items-center justify-between px-1 pb-1 border-b border-rose-50">
                           <span className="text-3xs font-black uppercase tracking-wider text-rose-700 flex items-center gap-1">
-                            <span>🌸</span> Clinical Calculators (Flo Suite)
+                            <span>🌸</span> Clinical Calculators &amp; Tools
                           </span>
                           <span className="text-[9px] font-bold text-slate-400">10 Tools</span>
                         </div>

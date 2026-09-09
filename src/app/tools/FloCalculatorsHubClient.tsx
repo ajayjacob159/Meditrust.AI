@@ -588,7 +588,7 @@ Live URL: https://www.meditrustai.in/tools/${activeCalc.slug}`
           <div className="max-w-3xl space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-rose-200 text-rose-700 text-xs font-bold shadow-2xs">
               <Sparkles className="w-4 h-4 text-rose-500" />
-              <span>Real-Time Clinical Tracking Suite (Flo-Inspired)</span>
+              <span>Real-Time Clinical Tracking Suite</span>
             </div>
 
             <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
