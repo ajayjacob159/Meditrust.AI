@@ -21,7 +21,22 @@ export default function Header() {
   const [rxScannerOpen, setRxScannerOpen] = useState(false)
   const [medisMomOpen, setMedisMomOpen] = useState(false)
   const [calcMenuOpen, setCalcMenuOpen] = useState(false)
+  const [specialtiesOpen, setSpecialtiesOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const specialtiesDropdownRef = useRef<HTMLDivElement>(null)
+  const specialtiesTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleSpecialtiesMouseEnter = () => {
+    if (specialtiesTimeoutRef.current) clearTimeout(specialtiesTimeoutRef.current)
+    setSpecialtiesOpen(true)
+  }
+
+  const handleSpecialtiesMouseLeave = () => {
+    if (specialtiesTimeoutRef.current) clearTimeout(specialtiesTimeoutRef.current)
+    specialtiesTimeoutRef.current = setTimeout(() => {
+      setSpecialtiesOpen(false)
+    }, 200)
+  }
   const calcDropdownRef = useRef<HTMLDivElement>(null)
   const calcTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const momTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -63,6 +78,9 @@ export default function Header() {
       }
       if (calcDropdownRef.current && !calcDropdownRef.current.contains(event.target as Node)) {
         setCalcMenuOpen(false)
+      }
+      if (specialtiesDropdownRef.current && !specialtiesDropdownRef.current.contains(event.target as Node)) {
+        setSpecialtiesOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -177,7 +195,215 @@ export default function Header() {
                 )}
               </div>
 
-              {/* 🧮 Calculator & Free Tools Mega Dropdown (22+ Tools) */}
+                            {/* 🌸 7 Clinical Specialties & FemTech Verticals Dropdown */}
+              <div
+                ref={specialtiesDropdownRef}
+                className="relative"
+                onMouseEnter={handleSpecialtiesMouseEnter}
+                onMouseLeave={handleSpecialtiesMouseLeave}
+              >
+                <button
+                  type="button"
+                  onClick={() => setSpecialtiesOpen(!specialtiesOpen)}
+                  className={`px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 font-bold cursor-pointer ${
+                    specialtiesOpen
+                      ? 'bg-purple-50 text-purple-700'
+                      : 'hover:text-slate-900 hover:bg-slate-50'
+                  }`}
+                  aria-expanded={specialtiesOpen}
+                >
+                  <span>🌸</span>
+                  <span>Specialties</span>
+                  <span className="text-[8px] font-black bg-purple-600 text-white px-1.5 py-0.2 rounded-full ml-0.5">7</span>
+                  <ChevronDown className={`w-3 h-3 transition-transform ${specialtiesOpen ? 'rotate-180 text-purple-600' : 'text-slate-400'}`} />
+                </button>
+
+                {/* Specialties Mega Dropdown Menu */}
+                {specialtiesOpen && (
+                  <div
+                    className="absolute top-full left-1/2 -translate-x-[35%] xl:-translate-x-1/2 pt-2 w-[720px] max-w-[92vw] z-50 animate-fadeIn"
+                    onMouseEnter={handleSpecialtiesMouseEnter}
+                    onMouseLeave={handleSpecialtiesMouseLeave}
+                  >
+                    <div className="p-4 bg-white rounded-3xl shadow-2xl border border-slate-200/90 space-y-3">
+                      
+                      {/* Top Header Bar */}
+                      <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 px-1">
+                        <div className="flex items-center gap-2">
+                          <span className="w-7 h-7 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-sm font-bold">
+                            🌸
+                          </span>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs font-black text-slate-950 font-display">Women&apos;s Health Specialties</span>
+                              <span className="text-[9px] font-black bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full">7 CLINICAL VERTICALS</span>
+                            </div>
+                            <span className="text-3xs text-slate-500 font-normal">Full-spectrum reproductive, maternal, oncology, AI &amp; longevity care</span>
+                          </div>
+                        </div>
+                        <Link
+                          href="/womens-health/specialties"
+                          onClick={() => setSpecialtiesOpen(false)}
+                          className="text-3xs font-bold text-purple-700 hover:text-purple-800 bg-purple-50 hover:bg-purple-100 px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1"
+                        >
+                          <span>Explore Full Hub</span>
+                          <ArrowRight className="w-2.5 h-2.5" />
+                        </Link>
+                      </div>
+
+                      {/* 7 Verticals Grid Matching Image Layout */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                        
+                        {/* 1. Reproductive Health */}
+                        <Link
+                          href="/womens-health/specialties#reproductive-health"
+                          onClick={() => setSpecialtiesOpen(false)}
+                          className="p-3 rounded-2xl bg-[#fbf1ee] border border-[#f4d4cb] hover:border-[#e8b5a7] transition-all space-y-1 group"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-base">🐚</span>
+                            <span className="text-[8px] font-black uppercase text-[#8c3b27] bg-white/80 px-1.5 py-0.2 rounded">FERTILITY</span>
+                          </div>
+                          <strong className="text-xs font-black text-slate-950 group-hover:text-[#8c3b27] transition-colors block">
+                            Reproductive Health
+                          </strong>
+                          <p className="text-[10px] text-[#8c3b27] leading-snug line-clamp-2 font-normal">
+                            Fertility technologies, reproductive diagnostics, assisted reproduction innovation.
+                          </p>
+                        </Link>
+
+                        {/* 2. Menopause & Midlife Health */}
+                        <Link
+                          href="/womens-health/specialties#menopause-midlife"
+                          onClick={() => setSpecialtiesOpen(false)}
+                          className="p-3 rounded-2xl bg-[#fef4ed] border border-[#fed7be] hover:border-[#f9b88f] transition-all space-y-1 group"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-base">🌀</span>
+                            <span className="text-[8px] font-black uppercase text-[#93471c] bg-white/80 px-1.5 py-0.2 rounded">MIDLIFE</span>
+                          </div>
+                          <strong className="text-xs font-black text-slate-950 group-hover:text-[#93471c] transition-colors block">
+                            Menopause &amp; Midlife Health
+                          </strong>
+                          <p className="text-[10px] text-[#93471c] leading-snug line-clamp-2 font-normal">
+                            Hormonal health platforms, metabolic solutions, longevity-focused technologies.
+                          </p>
+                        </Link>
+
+                        {/* 3. Maternal Health */}
+                        <Link
+                          href="/womens-health/specialties#maternal-health"
+                          onClick={() => setSpecialtiesOpen(false)}
+                          className="p-3 rounded-2xl bg-[#edf3f8] border border-[#c9dbe9] hover:border-[#a3c4dd] transition-all space-y-1 group"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-base">➕</span>
+                            <span className="text-[8px] font-black uppercase text-[#235377] bg-white/80 px-1.5 py-0.2 rounded">MATERNITY</span>
+                          </div>
+                          <strong className="text-xs font-black text-slate-950 group-hover:text-[#235377] transition-colors block">
+                            Maternal Health
+                          </strong>
+                          <p className="text-[10px] text-[#235377] leading-snug line-clamp-2 font-normal">
+                            Pregnancy monitoring, remote diagnostics, postnatal care innovation.
+                          </p>
+                        </Link>
+
+                        {/* 4. Digital Therapeutics & AI */}
+                        <Link
+                          href="/womens-health/specialties#digital-therapeutics-ai"
+                          onClick={() => setSpecialtiesOpen(false)}
+                          className="p-3 rounded-2xl bg-[#edf7f5] border border-[#c9e8e2] hover:border-[#9fd7cd] transition-all space-y-1 group"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-base">💻</span>
+                            <span className="text-[8px] font-black uppercase text-[#1e6153] bg-white/80 px-1.5 py-0.2 rounded">AI HEALTH</span>
+                          </div>
+                          <strong className="text-xs font-black text-slate-950 group-hover:text-[#1e6153] transition-colors block">
+                            Digital Therapeutics &amp; AI
+                          </strong>
+                          <p className="text-[10px] text-[#1e6153] leading-snug line-clamp-2 font-normal">
+                            Data-driven clinical platforms, AI-enabled care models, precision health.
+                          </p>
+                        </Link>
+
+                        {/* 5. Women's Oncology */}
+                        <Link
+                          href="/womens-health/specialties#womens-oncology"
+                          onClick={() => setSpecialtiesOpen(false)}
+                          className="p-3 rounded-2xl bg-[#f7f2f9] border border-[#e7d7ee] hover:border-[#d4bbe0] transition-all space-y-1 group"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-base">🎗️</span>
+                            <span className="text-[8px] font-black uppercase text-[#5f2e71] bg-white/80 px-1.5 py-0.2 rounded">ONCOLOGY</span>
+                          </div>
+                          <strong className="text-xs font-black text-slate-950 group-hover:text-[#5f2e71] transition-colors block">
+                            Women&apos;s Oncology
+                          </strong>
+                          <p className="text-[10px] text-[#5f2e71] leading-snug line-clamp-2 font-normal">
+                            Gender specific diagnostics, early detection, therapeutic innovation.
+                          </p>
+                        </Link>
+
+                        {/* 6. Mental Health & Neuroendocrine */}
+                        <Link
+                          href="/womens-health/specialties#mental-health-neuroendocrine"
+                          onClick={() => setSpecialtiesOpen(false)}
+                          className="p-3 rounded-2xl bg-[#f0f9f3] border border-[#cfead7] hover:border-[#a8dcb7] transition-all space-y-1 group"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-base">🧠</span>
+                            <span className="text-[8px] font-black uppercase text-[#215d34] bg-white/80 px-1.5 py-0.2 rounded">NEURO</span>
+                          </div>
+                          <strong className="text-xs font-black text-slate-950 group-hover:text-[#215d34] transition-colors block">
+                            Mental Health &amp; Neuro
+                          </strong>
+                          <p className="text-[10px] text-[#215d34] leading-snug line-clamp-2 font-normal">
+                            Perinatal mood, PMDD, neuroendocrine axis, sleep &amp; resilience.
+                          </p>
+                        </Link>
+
+                        {/* 7. Longevity & Healthy Aging */}
+                        <Link
+                          href="/womens-health/specialties#longevity-healthy-aging"
+                          onClick={() => setSpecialtiesOpen(false)}
+                          className="p-3 rounded-2xl bg-[#fdf9e8] border border-[#f9edb6] hover:border-[#f3df88] transition-all space-y-1 group sm:col-span-2 md:col-span-1"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-base">🧬</span>
+                            <span className="text-[8px] font-black uppercase text-[#796013] bg-white/80 px-1.5 py-0.2 rounded">HEALTHSPAN</span>
+                          </div>
+                          <strong className="text-xs font-black text-slate-950 group-hover:text-[#796013] transition-colors block">
+                            Longevity &amp; Healthy Aging
+                          </strong>
+                          <p className="text-[10px] text-[#796013] leading-snug line-clamp-2 font-normal">
+                            Prevention, healthspan optimization, cellular aging biology.
+                          </p>
+                        </Link>
+
+                      </div>
+
+                      {/* Bottom Bar */}
+                      <div className="pt-2 border-t border-slate-100 flex items-center justify-between bg-slate-50/80 -mx-4 -mb-4 p-2.5 rounded-b-3xl">
+                        <span className="text-[10px] text-slate-500 font-medium flex items-center gap-1">
+                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>Connected to 24/7 Dr. Arya AI Doctor &amp; NABL Accredited Diagnostic Networks</span>
+                        </span>
+                        <Link
+                          href="/womens-health/specialties"
+                          onClick={() => setSpecialtiesOpen(false)}
+                          className="text-xs font-black text-purple-700 hover:text-purple-800 flex items-center gap-1"
+                        >
+                          <span>Explore All 7 Verticals</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      </div>
+
+                    </div>
+                  </div>
+                )}
+              </div>
+
+{/* 🧮 Calculator & Free Tools Mega Dropdown (22+ Tools) */}
               <div
                 ref={calcDropdownRef}
                 className="relative"
@@ -810,7 +1036,28 @@ export default function Header() {
                   <ChevronRight className="w-4 h-4 text-purple-400" />
                 </Link>
 
-                {/* 🧮 22+ Medical Calculators & Free Tools Hub */}
+                                {/* 🌸 7 Women's Health Specialties */}
+                <Link
+                  href="/womens-health/specialties"
+                  onClick={() => setMobileOpen(false)}
+                  className="p-3 rounded-2xl bg-gradient-to-r from-purple-50 via-rose-50 to-amber-50 border border-purple-200/80 flex items-center justify-between text-slate-950 font-bold"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-7 h-7 rounded-xl bg-purple-600 text-white flex items-center justify-center text-xs font-black shadow-xs">
+                      🌸
+                    </span>
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-bold text-slate-900">7 Clinical Specialties</span>
+                        <span className="text-[8px] font-black bg-purple-600 text-white px-1.5 py-0.2 rounded">FULL SPECTRUM</span>
+                      </div>
+                      <span className="block text-3xs text-purple-800 font-normal">Fertility, Menopause, Maternity, Oncology &amp; Longevity</span>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-purple-400" />
+                </Link>
+
+{/* 🧮 22+ Medical Calculators & Free Tools Hub */}
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-rose-50/90 via-white to-emerald-50/80 border border-rose-200/80 space-y-2.5">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
